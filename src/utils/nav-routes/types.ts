@@ -1,0 +1,21 @@
+export type RootStackParamList = {
+  splash: undefined;
+  "first-onboarding": undefined;
+  "second-onboarding": undefined;
+  "third-onboarding": undefined;
+  "fourth-onboarding": undefined;
+  "fifth-onboarding": undefined;
+  "sixth-onboarding": undefined;
+  login: undefined;
+  signup: undefined;
+  home: undefined;
+  accessories: undefined;
+  orders: undefined;
+  profile: undefined;
+  gas: undefined;
+  petroleum: undefined;
+  diesel: undefined;
+  electricity: undefined;
+  Main: undefined;
+  settings: undefined;
+};
