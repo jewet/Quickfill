@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Onboarding from '../../../components/Onboarding/Onboarding';
 import OnboardingPic from '../../../../assets/images/onboarding/onboarding-img-1.svg';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -20,12 +20,14 @@ import {
 } from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
+import Modal from '../../../components/Auth/Modal/Modal';
 
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
+    const [showModal, setShowModal] = useState<boolean>(false)
   return (
-    <SafeAreaView style={authStyles.authContainer}>
+    <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={'#FFFFFFF'}
@@ -52,9 +54,12 @@ function ResetPassword({navigation}: Props) {
             secured={true}
             directory={'confirm'}
           />
-          <Button text="Reset password" action={() => navigation.navigate('login')} />
+          <Button text="Reset password" action={() => setShowModal(true)} />
         </View>
       </ScrollView>
+      {showModal && (
+        <Modal />
+      )}
     </SafeAreaView>
   );
 }
