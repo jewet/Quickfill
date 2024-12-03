@@ -1,23 +1,27 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Platform } from "react-native";
 import { primaryColor } from "../../pages/screens/onboarding/splash/splashstyles";
 
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
+const btnHeight= Platform.OS === 'ios' ? 100 : 70
+const btnRadius= Platform.OS === 'ios' ? 80 : 50
+const btnMarginTop= Platform.OS === 'ios' ? -30 : 0
+const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0
 
 const primaryBtnStyles = StyleSheet.create({
     btnContainer: {
         width: '100%',
+        paddingHorizontal: 20
     },
     gradientContainer: {
-        backgroundColor: primaryColor,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: 55,
-        width: '100%',
+        height: btnHeight,
+        width: '110%',
         padding: 16,
-        borderRadius: 50,
+        borderRadius: btnRadius,
         marginTop: 20,
         shadowColor: '#FFB600', 
         shadowOffset: {
@@ -27,13 +31,16 @@ const primaryBtnStyles = StyleSheet.create({
         shadowOpacity: 0.25, 
         shadowRadius: 28, 
         elevation: 10,
+        marginLeft: '-5%'
     },
     btnText: {
         fontFamily: 'Plus Jakarta Sans',
         lineHeight: 20.16,
         fontWeight: 700,
         fontSize: 16,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: btnMarginTop,
+        marginLeft: btnMarginLeft
     },
 })
 

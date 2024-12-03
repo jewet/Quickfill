@@ -1,6 +1,4 @@
 import React from 'react';
-import Onboarding from '../../../components/Onboarding/Onboarding';
-import OnboardingPic from '../../../../assets/images/onboarding/onboarding-img-1.svg';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -36,6 +34,8 @@ function SignUp({navigation}: Props) {
         <AuthTop
           firstText="Get started with Quickrefil!"
           secondText="Sign up for free and r what we have to offer."
+          enableBackArrow={false}
+          hasEmail={false}
         />
         <View style={authStyles.inputCont}>
           <Input
@@ -44,6 +44,7 @@ function SignUp({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
+            keyboardType="default"
           />
           <Input
             label="Email address"
@@ -51,6 +52,7 @@ function SignUp({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
+            keyboardType="default"
           />
           <Input
             label="Phone number"
@@ -58,7 +60,7 @@ function SignUp({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
-            keyboardType='numeric'
+            keyboardType="numeric"
           />
           <Input
             label="Passsword"
@@ -66,6 +68,7 @@ function SignUp({navigation}: Props) {
             value=""
             secured={true}
             directory={null}
+            keyboardType="default"
           />
           <Input
             label="Confirm password"
@@ -73,8 +76,12 @@ function SignUp({navigation}: Props) {
             value=""
             secured={true}
             directory={'confirm'}
+            keyboardType="default"
           />
-          <Button text="Sign Up" action={() => navigation.navigate('login')} />
+          <Button
+            text="Sign Up"
+            action={() => navigation.navigate('email-verification')}
+          />
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
             <Text style={authStyles.orText}>Or</Text>
@@ -88,10 +95,8 @@ function SignUp({navigation}: Props) {
           </TouchableOpacity>
           <View style={authStyles.question}>
             <Text style={authStyles.orText}>Already have an account? </Text>
-            <TouchableOpacity onPress={()=>navigation.navigate('login')}>
-              <Text style={[authStyles.orText, {color: '#FFC533'}]}>
-              Login
-              </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('login')}>
+              <Text style={[authStyles.orText, {color: '#FFC533'}]}>Login</Text>
             </TouchableOpacity>
           </View>
         </View>

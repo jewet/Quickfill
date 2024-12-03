@@ -36,6 +36,8 @@ function ForgotPassword({navigation}: Props) {
         <AuthTop
           firstText="Forgot Password?"
           secondText="Don't worry! It occurs. Please enter the email address linked with your account."
+          enableBackArrow={true}
+          hasEmail={false}
         />
         <View style={authStyles.inputCont}>
           <Input
@@ -44,6 +46,8 @@ function ForgotPassword({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
+            keyboardType='default'
+            // onChangeText={()=>void}
           />
           <Button text="Send Code" action={() => navigation.navigate('reset-password')} />
         </View>

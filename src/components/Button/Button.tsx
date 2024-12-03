@@ -13,7 +13,7 @@ function Button({text, action}: Props) {
     <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={action}>
       <LinearGradient
         colors={['#FFB600', '#FFD366']}
-        start={{x: 0, y: 0}}
+        start={{x: 0, y: 1}}
         end={{x: 1, y: 0}}
         style={primaryBtnStyles.gradientContainer}>
         <Text style={primaryBtnStyles.btnText}>{text}</Text>

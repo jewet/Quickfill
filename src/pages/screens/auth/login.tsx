@@ -36,6 +36,8 @@ function Login({navigation}: Props) {
         <AuthTop
           firstText="Welcome to Quikrefil"
           secondText="Log in to access your account and continue enjoying our services."
+          enableBackArrow={false}
+          hasEmail={false}
         />
         <View style={authStyles.inputCont}>
           <Input
@@ -44,6 +46,7 @@ function Login({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
+            keyboardType='default'
           />
           <Input
             label="Passsword"
@@ -51,6 +54,7 @@ function Login({navigation}: Props) {
             value=""
             secured={true}
             directory={'login-password'}
+            keyboardType='default'
           />
           <Button text="Login" action={() => navigation.navigate('home')} />
           <View style={authStyles.orContainer}>

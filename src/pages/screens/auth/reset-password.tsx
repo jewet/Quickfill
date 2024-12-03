@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Onboarding from '../../../components/Onboarding/Onboarding';
 import OnboardingPic from '../../../../assets/images/onboarding/onboarding-img-1.svg';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -25,7 +25,7 @@ import Modal from '../../../components/Auth/Modal/Modal';
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
-    const [showModal, setShowModal] = useState<boolean>(false)
+  const [showModal, setShowModal] = useState<boolean>(false);
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
@@ -38,6 +38,8 @@ function ResetPassword({navigation}: Props) {
         <AuthTop
           firstText="Create new password"
           secondText="Set up a strong password to protect your account."
+          enableBackArrow={true}
+          hasEmail={false}
         />
         <View style={authStyles.inputCont}>
           <Input
@@ -46,6 +48,7 @@ function ResetPassword({navigation}: Props) {
             value=""
             secured={true}
             directory={null}
+            keyboardType='default'
           />
           <Input
             label="Confirm password"
@@ -53,12 +56,18 @@ function ResetPassword({navigation}: Props) {
             value=""
             secured={true}
             directory={'confirm'}
+            keyboardType='default'
           />
           <Button text="Reset password" action={() => setShowModal(true)} />
         </View>
       </ScrollView>
       {showModal && (
-        <Modal />
+        <Modal
+          topText="Confirmed"
+          bottomText="Your password has been successfully changed"
+          navigateTo={() => navigation.navigate('login')}
+          btnText='Back to login'
+        />
       )}
     </SafeAreaView>
   );

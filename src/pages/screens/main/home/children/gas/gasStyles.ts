@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 import { primaryColor } from "../../../../onboarding/splash/splashstyles";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -7,6 +7,11 @@ const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base w
 const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
+const btnHeight= Platform.OS === 'ios' ? 100 : 70
+const btnWidth= Platform.OS === 'ios' ? '50%' : '60%'
+const btnMarginTop= Platform.OS === 'ios' ? -30 : 0
+const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0
+const btnContMarginLeft= Platform.OS === 'ios' ? 40 : 0
 
 const gasStyles = StyleSheet.create({
   gasContainer: {
@@ -55,7 +60,6 @@ const gasStyles = StyleSheet.create({
     marginTop: verticalScale(15),
   },
   btnContainer: {
-    backgroundColor: primaryColor,
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'center',
@@ -67,11 +71,12 @@ const gasStyles = StyleSheet.create({
     paddingHorizontal: scale(20),
   },
   btnContent: {
-    width: '60%',
+    width: btnWidth,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginRight: btnContMarginLeft
   },
   btnText: {
     fontFamily: 'Plus Jakarta Sans',
@@ -79,6 +84,8 @@ const gasStyles = StyleSheet.create({
     fontWeight: '700',
     fontSize: moderateScale(16),
     textAlign: 'center',
+    marginTop: btnMarginTop,
+    marginLeft: btnMarginLeft
   },
   selectedKgWrapper: {
     borderColor: primaryColor,
