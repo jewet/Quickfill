@@ -15,7 +15,6 @@ interface Props {
   label: string;
   placeholder: string;
   keyboardType?: KeyboardTypeOptions;
-  onChangeText: (text: string | number) => void;
   value: string;
   secured?: boolean;
   directory: string | null;
@@ -25,7 +24,6 @@ function Input({
   label,
   placeholder,
   keyboardType,
-  onChangeText,
   value,
   secured,
   directory,
@@ -42,8 +40,6 @@ function Input({
             <TextInput
               placeholder={placeholder}
               keyboardType={keyboardType}
-              onChangeText={onChangeText}
-            //   value={value}
               style={inputStyles.securedInput}
               secureTextEntry={!showPassword}
             />
@@ -67,8 +63,6 @@ function Input({
         <TextInput
           placeholder={placeholder}
           keyboardType={keyboardType}
-          onChangeText={onChangeText}
-        //   value={value}
           style={inputStyles.input}
         />
       )}

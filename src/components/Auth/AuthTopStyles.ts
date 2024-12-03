@@ -45,6 +45,14 @@ const authTopStyles = StyleSheet.create({
     marginTop: verticalScale(2),
     textAlign: 'center'
   },
+  backArrow: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '65%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginLeft: -20
+  }
 });
 
 export default authTopStyles;

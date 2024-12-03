@@ -4,6 +4,7 @@ import Login from '../screens/auth/login';
 import SignUp from '../screens/auth/signup';
 import ForgotPassword from '../screens/auth/forgot-password';
 import ResetPassword from '../screens/auth/reset-password';
+import Emailverification from '../screens/auth/email-verification';
 
 function AuthStack() {
   const Stack = createStackNavigator();
@@ -37,6 +38,13 @@ function AuthStack() {
           headerShown: false,
         }}
         component={ResetPassword}
+      />
+      <Stack.Screen
+        name="email-verification"
+        options={{
+          headerShown: false,
+        }}
+        component={Emailverification}
       />
     </Stack.Navigator>
   );
