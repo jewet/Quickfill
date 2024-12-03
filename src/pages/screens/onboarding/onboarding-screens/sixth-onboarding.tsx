@@ -12,7 +12,7 @@ function SixthOnboarding({navigation}:Props) {
       img={<OnboardingPic width={340} height={340} fill="none" />}
       boldText="Track Your Order"
       lightText="Keep track of your order every step of the way. We’ll provide real-time information so you can know exactly when your order will arrive, and if there are any changes along the way, we’ll keep you informed. Your convenience and peace of mind are our priority."
-      navigateTo={() => navigation.navigate('home')} 
+      navigateTo={() => navigation.navigate('login')} 
       bgColor='#FFECBE'
       />
   );
