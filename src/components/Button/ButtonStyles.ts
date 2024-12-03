@@ -14,7 +14,7 @@ const primaryBtnStyles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        height: 60,
+        height: 55,
         width: '100%',
         padding: 16,
         borderRadius: 50,
@@ -32,7 +32,7 @@ const primaryBtnStyles = StyleSheet.create({
         fontFamily: 'Plus Jakarta Sans',
         lineHeight: 20.16,
         fontWeight: 700,
-        fontSize: 18,
+        fontSize: 16,
         textAlign: 'center'
     },
 })

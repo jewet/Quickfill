@@ -6,6 +6,10 @@ export type RootStackParamList = {
   "fourth-onboarding": undefined;
   "fifth-onboarding": undefined;
   "sixth-onboarding": undefined;
+  "forgot-password": undefined;
+  "reset-password": undefined;
+  "email-verification": undefined;
+  "otp-verification": undefined;
   login: undefined;
   signup: undefined;
   home: undefined;
