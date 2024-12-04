@@ -1,18 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {createAnimatedPropAdapter} from 'react-native-reanimated';
-import Splash from '../screens/onboarding/splash/splash';
-import FirstOnboarding from '../screens/onboarding/onboarding-screens/first-onboarding';
-import SecondOnboarding from '../screens/onboarding/onboarding-screens/second-onboarding';
-import ThirdOnboarding from '../screens/onboarding/onboarding-screens/third-onboarding';
-import FouthOnboarding from '../screens/onboarding/onboarding-screens/fourth-onboarding';
-import FifthOnboarding from '../screens/onboarding/onboarding-screens/fifth-onboarding';
-import SixthOnboarding from '../screens/onboarding/onboarding-screens/sixth-onboarding';
-import Home from '../screens/main/home/home';
 import Main from '../screens/main/nav';
 import Gas from '../screens/main/home/children/gas/gas';
 import Electricity from '../screens/main/home/children/electricity/electricity';
 import ElectricityProvider from '../screens/main/home/children/electricity/children/electricity-provider/electricity-providers';
+import OrderDetails from '../screens/main/orders/children/order-details/order-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -46,6 +38,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={ElectricityProvider}
+      />
+      <Stack.Screen
+        name="order-details"
+        options={{
+          headerShown: false,
+        }}
+        component={OrderDetails}
       />
     </Stack.Navigator>
   );

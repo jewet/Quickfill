@@ -17,10 +17,11 @@ import Plus from '../../../../assets/images/home/tabler_plus.svg';
 import Bookmark from '../../../../assets/images/home/bookmark.svg';
 import ArrowRight from '../../../../assets/images/home/yellow-right-arrow.svg';
 import {
+  getStatusColor,
   quick_action_data,
   vendors_data,
 } from '../../../../utils/sample-data/home';
-import {order_data} from '../../../../utils/sample-data/orders';
+import {order_data, OrdersProps} from '../../../../utils/sample-data/orders';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 
@@ -34,16 +35,6 @@ function Home({navigation}: Props) {
 
   const [showBalance, setShowBalance] = useState<boolean>(true);
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'completed':
-        return '#2BBD6F';
-      case 'cancelled':
-        return '#DC5513';
-      default:
-        return '#5E5E5E';
-    }
-  };
   const getNavRoute = (actionText: string) => {
     const normalizedText = actionText.replace('\n', ' ').toLowerCase();
     switch (normalizedText) {
@@ -60,6 +51,9 @@ function Home({navigation}: Props) {
     }
   };
   
+  const handleNavigation = (orderDetails: OrdersProps) => {
+    navigation.navigate('order-details', {orderDetails: orderDetails});
+  };
 
   return (
     <SafeAreaView style={homeStyles.homeContainer}>
@@ -166,7 +160,7 @@ function Home({navigation}: Props) {
                     <Text style={homeStyles.idText}>
                       {data.date} • {data.time}
                     </Text>
-                    <TouchableOpacity style={homeStyles.orderDetails}>
+                    <TouchableOpacity style={homeStyles.orderDetails} onPress={()=>handleNavigation(data)}>
                       <Text>Order details</Text>
                       <ArrowRight width={15} height={15} fill="none" />
                     </TouchableOpacity>

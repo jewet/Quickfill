@@ -1,4 +1,4 @@
-interface OrdersProps{
+export interface OrdersProps{
     id: string;
     order_type: any;
     amount: number;
@@ -47,5 +47,18 @@ export const order_data: OrdersProps[] = [
         date: '12th Feb, 2022',
         time: '2:30pm',
         status: 'Cancelled'
+    },
+]
+
+interface OrdersNavProps{
+    nav: string;
+}
+
+export const orders_nav: OrdersNavProps[] = [
+    {
+        nav: 'Ongoing'
+    },
+    {
+        nav: 'Completed'
     },
 ]

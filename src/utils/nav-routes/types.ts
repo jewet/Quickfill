@@ -11,6 +11,7 @@ export type RootStackParamList = {
   "email-verification": undefined;
   "otp-verification": undefined;
   "electricity-provider": undefined;
+  "order-details": any;
   login: undefined;
   signup: undefined;
   home: undefined;
