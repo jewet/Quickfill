@@ -45,19 +45,21 @@ function Home({navigation}: Props) {
     }
   };
   const getNavRoute = (actionText: string) => {
-    switch (actionText.toLowerCase()) {
+    const normalizedText = actionText.replace('\n', ' ').toLowerCase();
+    switch (normalizedText) {
       case 'cooking gas':
         return 'gas';
       case 'petroleum':
-        return 'petroleum';
+        return 'gas';
       case 'diesel':
-        return 'diesel';
+        return 'gas';
       case 'electricity':
         return 'electricity';
       default:
         return 'home';
     }
   };
+  
 
   return (
     <SafeAreaView style={homeStyles.homeContainer}>
@@ -116,7 +118,11 @@ function Home({navigation}: Props) {
             <Text style={homeStyles.quickActionText}>Quick actions</Text>
             <View style={homeStyles.actionContainer}>
               {quick_action_data.map((data, index) => (
-                <TouchableOpacity key={index} style={homeStyles.actionContent} onPress={()=>navigation.navigate('gas')}>
+                <TouchableOpacity key={index} style={homeStyles.actionContent} 
+                onPress={() => {
+                  const route = getNavRoute(data.title);
+                  navigation.navigate(route);  
+                }}>
                   <data.Img width={50} height={50} fill="none" />
                   <Text style={homeStyles.actionText}>{data.title}</Text>
                 </TouchableOpacity>

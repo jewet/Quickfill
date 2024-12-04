@@ -48,6 +48,7 @@ function ForgotPassword({navigation}: Props) {
             directory={null}
             keyboardType='default'
             // onChangeText={()=>void}
+            action={null}
           />
           <Button text="Send Code" action={() => navigation.navigate('reset-password')} />
         </View>

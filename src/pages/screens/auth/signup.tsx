@@ -45,6 +45,7 @@ function SignUp({navigation}: Props) {
             secured={false}
             directory={null}
             keyboardType="default"
+            action={null}
           />
           <Input
             label="Email address"
@@ -53,6 +54,7 @@ function SignUp({navigation}: Props) {
             secured={false}
             directory={null}
             keyboardType="default"
+            action={null}
           />
           <Input
             label="Phone number"
@@ -61,6 +63,7 @@ function SignUp({navigation}: Props) {
             secured={false}
             directory={null}
             keyboardType="numeric"
+            action={null}
           />
           <Input
             label="Passsword"
@@ -69,6 +72,7 @@ function SignUp({navigation}: Props) {
             secured={true}
             directory={null}
             keyboardType="default"
+            action={null}
           />
           <Input
             label="Confirm password"
@@ -77,6 +81,7 @@ function SignUp({navigation}: Props) {
             secured={true}
             directory={'confirm'}
             keyboardType="default"
+            action={null}
           />
           <Button
             text="Sign Up"

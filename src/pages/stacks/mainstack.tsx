@@ -11,6 +11,8 @@ import SixthOnboarding from '../screens/onboarding/onboarding-screens/sixth-onbo
 import Home from '../screens/main/home/home';
 import Main from '../screens/main/nav';
 import Gas from '../screens/main/home/children/gas/gas';
+import Electricity from '../screens/main/home/children/electricity/electricity';
+import ElectricityProvider from '../screens/main/home/children/electricity/children/electricity-provider/electricity-providers';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -30,6 +32,20 @@ function MainStack() {
           headerShown: false,
         }}
         component={Gas}
+      />
+      <Stack.Screen
+        name="electricity"
+        options={{
+          headerShown: false,
+        }}
+        component={Electricity}
+      />
+      <Stack.Screen
+        name="electricity-provider"
+        options={{
+          headerShown: false,
+        }}
+        component={ElectricityProvider}
       />
     </Stack.Navigator>
   );
