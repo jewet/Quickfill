@@ -49,6 +49,7 @@ function ResetPassword({navigation}: Props) {
             secured={true}
             directory={null}
             keyboardType='default'
+            action={null}
           />
           <Input
             label="Confirm password"
@@ -57,6 +58,7 @@ function ResetPassword({navigation}: Props) {
             secured={true}
             directory={'confirm'}
             keyboardType='default'
+            action={null}
           />
           <Button text="Reset password" action={() => setShowModal(true)} />
         </View>

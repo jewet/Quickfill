@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import modalStyles from './ModalScreen';
+import modalStyles from './ModalStyles';
 import Button from '../../Button/Button';
 import { useNavigation } from '@react-navigation/native';
 import SuccessImg from '../../../assets/images/auth/Done Check.svg'

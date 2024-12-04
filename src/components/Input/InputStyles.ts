@@ -15,7 +15,6 @@ const inputStyles = StyleSheet.create({
     alignItems: 'flex-start',
     width: '100%',
     gap: 5,
-    backgroundColor: '#FFFFFF'
   },
   homeTop: {
     display: 'flex',
@@ -45,11 +44,12 @@ const inputStyles = StyleSheet.create({
     marginTop: verticalScale(2),
     borderWidth: 1,
     borderColor: '#A8A8A3',
-    width: '100%',
     borderRadius: 24,
+    width: '100%',
     padding: 10,
     paddingHorizontal: 15,
-    height: 48
+    height: 48,
+    backgroundColor: '#FFFFFF'
   },
   passwordInput: {
     borderWidth: 1,
@@ -72,7 +72,8 @@ const inputStyles = StyleSheet.create({
     width: '80%',
   },
   securedInputWrapper: {
-    width: '100%'
+    width: '100%',
+    backgroundColor: '#FFFFFF'
   },
   forgotPassword: {
     display: 'flex',

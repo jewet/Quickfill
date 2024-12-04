@@ -47,6 +47,7 @@ function Login({navigation}: Props) {
             secured={false}
             directory={null}
             keyboardType='default'
+            action={null}
           />
           <Input
             label="Passsword"
@@ -55,6 +56,7 @@ function Login({navigation}: Props) {
             secured={true}
             directory={'login-password'}
             keyboardType='default'
+            action={() => navigation.navigate('forgot-password')}
           />
           <Button text="Login" action={() => navigation.navigate('home')} />
           <View style={authStyles.orContainer}>

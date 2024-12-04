@@ -10,6 +10,7 @@ export type RootStackParamList = {
   "reset-password": undefined;
   "email-verification": undefined;
   "otp-verification": undefined;
+  "electricity-provider": undefined;
   login: undefined;
   signup: undefined;
   home: undefined;
@@ -19,7 +20,7 @@ export type RootStackParamList = {
   gas: undefined;
   petroleum: undefined;
   diesel: undefined;
-  electricity: undefined;
+  electricity: any;
   Main: undefined;
   settings: undefined;
 };
