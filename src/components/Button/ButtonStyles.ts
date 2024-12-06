@@ -4,7 +4,7 @@ import { primaryColor } from "../../pages/screens/onboarding/splash/splashstyles
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
-const btnHeight= Platform.OS === 'ios' ? 100 : 70
+const btnHeight= Platform.OS === 'ios' ? 90 : 60
 const btnRadius= Platform.OS === 'ios' ? 80 : 50
 const btnMarginTop= Platform.OS === 'ios' ? -30 : 0
 const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0

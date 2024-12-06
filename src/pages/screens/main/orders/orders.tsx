@@ -15,34 +15,55 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 import homeStyles from '../home/home-styles';
 import accessoriesStyles from '../accessories/accessoriesStyles';
+import electricityStyles from '../home/children/electricity/electrictyStyles';
+import orderStyles from './orderStyles';
+import {orders_nav} from '../../../../utils/sample-data/orders';
+import OngoingOrders from './children/ongoing/ongoing';
+import CompletedOrders from './children/completed/completed';
 
 type Props = StackScreenProps<RootStackParamList, 'orders'>;
 
 function Orders({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  const [activeNav, setActiveNav] = useState<number>(0);
+  
+
+
+  const displayActiveComponent = () => {
+    if (activeNav === 0) return <OngoingOrders navigation={navigation} />;
+    if (activeNav === 1) return <CompletedOrders navigation={navigation} />;
+    return null;
+  };
   return (
-    <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
+    <SafeAreaView style={orderStyles.orderContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          gap: 20,
-        }}>
-        <OrdersIcon width={60} height={55} fill="none" />
-        <Text style={[homeStyles.details, {fontSize: 24, paddingTop: 10}]}>
-          Orders yet to be implemented
-        </Text>
+      <View style={orderStyles.ordersHeader}>
+        <Text style={electricityStyles.topText}>Your orders</Text>
       </View>
+
+      <ScrollView style={orderStyles.scrollview} showsVerticalScrollIndicator={false}>
+        <View style={orderStyles.orderNavWrapper}>
+          {orders_nav.map((data, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[
+                orderStyles.orderNavCont,
+                index === activeNav && orderStyles.activeNav,
+              ]}
+              onPress={() => setActiveNav(index)}>
+              <Text>{data.nav}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+        {displayActiveComponent()}
+      </ScrollView>
     </SafeAreaView>
   );
 }

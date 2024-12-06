@@ -52,8 +52,6 @@ const inputStyles = StyleSheet.create({
     backgroundColor: '#FFFFFF'
   },
   passwordInput: {
-    borderWidth: 1,
-    borderColor: '#A8A8A3',
     width: '100%',
     borderRadius: 24,
     paddingHorizontal: 15,
@@ -73,7 +71,11 @@ const inputStyles = StyleSheet.create({
   },
   securedInputWrapper: {
     width: '100%',
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#A8A8A3',
+    borderRadius: 24,
+    height: 48
   },
   forgotPassword: {
     display: 'flex',

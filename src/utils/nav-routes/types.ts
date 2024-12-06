@@ -1,3 +1,5 @@
+import { OrdersProps } from "../sample-data/orders";
+
 export type RootStackParamList = {
   splash: undefined;
   "first-onboarding": undefined;
@@ -11,6 +13,7 @@ export type RootStackParamList = {
   "email-verification": undefined;
   "otp-verification": undefined;
   "electricity-provider": undefined;
+  "order-details": any;
   login: undefined;
   signup: undefined;
   home: undefined;
@@ -20,6 +23,8 @@ export type RootStackParamList = {
   gas: undefined;
   petroleum: undefined;
   diesel: undefined;
+  chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
+  "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   electricity: any;
   Main: undefined;
   settings: undefined;

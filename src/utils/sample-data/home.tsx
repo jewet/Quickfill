@@ -54,3 +54,14 @@ export const vendors_data: VendorProps[] = [
         no_of_orders: 1264
     },
 ]
+
+export   const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return '#2BBD6F';
+      case 'cancelled':
+        return '#DC5513';
+      default:
+        return '#5E5E5E';
+    }
+  };
