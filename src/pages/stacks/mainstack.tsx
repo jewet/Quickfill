@@ -5,6 +5,8 @@ import Gas from '../screens/main/home/children/gas/gas';
 import Electricity from '../screens/main/home/children/electricity/electricity';
 import ElectricityProvider from '../screens/main/home/children/electricity/children/electricity-provider/electricity-providers';
 import OrderDetails from '../screens/main/orders/children/order-details/order-details';
+import Chat from '../screens/main/orders/children/chat/chat';
+import ProfileDetails from '../screens/main/orders/children/chat/children/profile-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -45,6 +47,20 @@ function MainStack() {
           headerShown: false,
         }}
         component={OrderDetails}
+      />
+      <Stack.Screen
+        name="chat"
+        options={{
+          headerShown: false,
+        }}
+        component={Chat}
+      />
+      <Stack.Screen
+        name="profile-details"
+        options={{
+          headerShown: false,
+        }}
+        component={ProfileDetails}
       />
     </Stack.Navigator>
   );

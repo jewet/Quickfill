@@ -11,6 +11,7 @@ import Eye from '../../assets/images/auth/tabler_eye-closed.svg';
 import ConfirmEye from '../../assets/images/auth/tabler_eye.svg';
 import Dropdown from '../../assets/images/electricity/dropdown.svg';
 import {useNavigation} from '@react-navigation/native';
+import SendIcon from '../../assets/images/orders/send.svg'
 
 interface Props {
     label: string;
@@ -74,6 +75,19 @@ function Input({
           />
           <TouchableOpacity >
               <Dropdown width={20} height={20} fill="none" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      ) : directory?.toLowerCase() === 'chat-bot' ? (
+        <View style={inputStyles.securedInputWrapper}>
+        <View style={inputStyles.passwordInput}>
+        <TextInput
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          style={inputStyles.securedInput}
+          />
+          <TouchableOpacity >
+              <SendIcon width={16} height={16} fill="none" />
           </TouchableOpacity>
         </View>
       </View>

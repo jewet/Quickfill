@@ -24,10 +24,12 @@ function ElectricityPayment({action, navigateTo}: Props) {
       <View style={electricityPaymentStyles.modalCont}>
         <View style={electricityPaymentStyles.paymentTopWrapper}>
           <View style={electricityPaymentStyles.paymentTop}>
-            <Text
-              style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
-              Help
-            </Text>
+            <TouchableOpacity>
+              <Text
+                style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
+                Help
+              </Text>
+            </TouchableOpacity>
             <Text style={electricityPaymentStyles.topText}>
               Select payment method
             </Text>
@@ -74,10 +76,7 @@ function ElectricityPayment({action, navigateTo}: Props) {
           ))}
         </View>
         <View style={{width: '100%', paddingHorizontal: 20}}>
-          <Button
-            text="Complete Payment"
-            action={navigateTo}
-          />
+          <Button text="Complete Payment" action={navigateTo} />
         </View>
       </View>
     </SafeAreaView>

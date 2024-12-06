@@ -42,9 +42,9 @@ function OngoingOrders({navigation}: OngoingOrdersProps) {
               </View>
               <View style={homeStyles.orderContent}>
                 <View style={{display: 'flex', gap: 5}}>
-                  {data.order_type.map((type: string, idx: number) => (
+                  {data.order_type.map((type: any, idx: number) => (
                     <Text key={idx} style={homeStyles.orderType}>
-                      {type}
+                      {type?.item}
                     </Text>
                   ))}
                 </View>

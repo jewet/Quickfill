@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet, Platform } from "react-native";
 
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -8,6 +8,8 @@ const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base w
 const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
+const quick_action_margin_top = Platform.OS === 'ios' ? -60 : -5
+const details_content_margin_bottom = Platform.OS === 'ios' ? -25 : 5
 
 const homeStyles = StyleSheet.create({
   homeContainer: {
@@ -20,19 +22,20 @@ const homeStyles = StyleSheet.create({
   },
   homeTop: {
     display: 'flex',
-    paddingVertical: verticalScale(30),
-    paddingHorizontal: scale(10),
+    paddingVertical: verticalScale(15),
+    paddingHorizontal: scale(16),
     backgroundColor: '#FFC533',
-    borderBottomLeftRadius: moderateScale(30),
-    borderBottomRightRadius: moderateScale(30),
+    borderBottomLeftRadius: moderateScale(20),
+    borderBottomRightRadius: moderateScale(20),
     width: '100%',
     justifyContent: 'space-between',
-    gap: verticalScale(20),
+    gap: verticalScale(15),
   },
   detailsContent: {
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
+    marginBottom: details_content_margin_bottom
   },
   balanceContent: {
     display: 'flex',
@@ -57,11 +60,13 @@ const homeStyles = StyleSheet.create({
   mainContent: {
     display: 'flex',
     alignItems: 'center',
+    marginTop: quick_action_margin_top
   },
   quickActionCont: {
     display: 'flex',
     alignItems: 'flex-start',
-    padding: scale(20),
+    paddingVertical: scale(20),
+    paddingHorizontal: scale(7),
   },
   actionContainer: {
     display: 'flex',
@@ -70,6 +75,7 @@ const homeStyles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: scale(15),
     paddingVertical: verticalScale(20),
+    marginTop: -12
   },
   actionContent: {
     display: 'flex',
