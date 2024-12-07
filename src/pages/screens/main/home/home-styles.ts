@@ -1,11 +1,9 @@
 import { Dimensions, StyleSheet, Platform } from "react-native";
 
-// Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-// Scaling utility
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size; 
+const verticalScale = (size: number) => (screenHeight / 812) * size; 
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 const quick_action_margin_top = Platform.OS === 'ios' ? -60 : -5
@@ -187,6 +185,7 @@ const homeStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: scale(28),
     elevation: 10,
+    height: 180
   },
   bookmarkWrapper: {
     display: 'flex',

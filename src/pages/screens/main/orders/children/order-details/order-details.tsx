@@ -11,7 +11,6 @@ import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import homeStyles from '../../../home/home-styles';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {
-  order_data,
   OrdersProps,
 } from '../../../../../../utils/sample-data/orders';
 import {SafeAreaView} from 'react-native-safe-area-context';

@@ -7,6 +7,9 @@ import ElectricityProvider from '../screens/main/home/children/electricity/child
 import OrderDetails from '../screens/main/orders/children/order-details/order-details';
 import Chat from '../screens/main/orders/children/chat/chat';
 import ProfileDetails from '../screens/main/orders/children/chat/children/profile-details';
+import Items from '../screens/main/accessories/children/items/items';
+import ItemsDetails from '../screens/main/accessories/children/items/child/item-details';
+import Cart from '../screens/main/accessories/children/cart/cart';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -61,6 +64,27 @@ function MainStack() {
           headerShown: false,
         }}
         component={ProfileDetails}
+      />
+      <Stack.Screen
+        name="items-page"
+        options={{
+          headerShown: false,
+        }}
+        component={Items}
+      />
+      <Stack.Screen
+        name="item-details"
+        options={{
+          headerShown: false,
+        }}
+        component={ItemsDetails}
+      />
+      <Stack.Screen
+        name="cart"
+        options={{
+          headerShown: false,
+        }}
+        component={Cart}
       />
     </Stack.Navigator>
   );
