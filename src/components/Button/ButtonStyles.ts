@@ -12,7 +12,7 @@ const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0
 const primaryBtnStyles = StyleSheet.create({
     btnContainer: {
         width: '100%',
-        paddingHorizontal: 20
+        paddingHorizontal: 16
     },
     gradientContainer: {
         display: 'flex',

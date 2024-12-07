@@ -27,7 +27,7 @@ function ProfileDetails({navigation}: Props) {
   const ProfilePic = chatPerson.pic;
   const profile_bg_margin_top = Platform.OS === 'ios' ? -80 : -20
   const header_top = Platform.OS === 'ios' ? 0 : 20
-  const profile_pic_margin_bottom = Platform.OS === 'ios' ? 0 : 30
+  const profile_pic_margin_bottom = Platform.OS === 'ios' ? -20 : 30
 
   console.log('target: ', target);
   return (

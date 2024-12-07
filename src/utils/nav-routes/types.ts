@@ -14,6 +14,8 @@ export type RootStackParamList = {
   "otp-verification": undefined;
   "electricity-provider": undefined;
   "order-details": any;
+  "items-page": any;
+  "item-details": any;
   login: undefined;
   signup: undefined;
   home: undefined;
@@ -23,6 +25,7 @@ export type RootStackParamList = {
   gas: undefined;
   petroleum: undefined;
   diesel: undefined;
+  cart: undefined;
   chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   electricity: any;
