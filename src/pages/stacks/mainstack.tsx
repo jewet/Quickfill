@@ -10,6 +10,16 @@ import ProfileDetails from '../screens/main/orders/children/chat/children/profil
 import Items from '../screens/main/accessories/children/items/items';
 import ItemsDetails from '../screens/main/accessories/children/items/child/item-details';
 import Cart from '../screens/main/accessories/children/cart/cart';
+import Favourites from '../screens/main/profile/children/favourites/favourites';
+import UserPayment from '../screens/main/profile/children/user-payment/user-payment';
+import Address from '../screens/main/profile/children/address/address';
+import Contact from '../screens/main/profile/children/contact/contact';
+import Details from '../screens/main/profile/children/details/details';
+import UpdateForm from '../screens/main/profile/children/details/child/update-form/update-form';
+import Referral from '../screens/main/profile/children/referral/referral';
+import Help from '../screens/main/profile/children/help/help';
+import Complaints from '../screens/main/profile/children/help/children/complaints/complaints';
+import ItemSuggestion from '../screens/main/profile/children/help/children/complaints/child/item-suggestion/item-suggestion';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -85,6 +95,76 @@ function MainStack() {
           headerShown: false,
         }}
         component={Cart}
+      />
+      <Stack.Screen
+        name="favourite"
+        options={{
+          headerShown: false,
+        }}
+        component={Favourites}
+      />
+      <Stack.Screen
+        name="user-address"
+        options={{
+          headerShown: false,
+        }}
+        component={Address}
+      />
+      <Stack.Screen
+        name="user-payment"
+        options={{
+          headerShown: false,
+        }}
+        component={UserPayment}
+      />
+      <Stack.Screen
+        name="contact"
+        options={{
+          headerShown: false,
+        }}
+        component={Contact}
+      />
+      <Stack.Screen
+        name="user-details"
+        options={{
+          headerShown: false,
+        }}
+        component={Details}
+      />
+      <Stack.Screen
+        name="update-form"
+        options={{
+          headerShown: false,
+        }}
+        component={UpdateForm}
+      />
+      <Stack.Screen
+        name="referral"
+        options={{
+          headerShown: false,
+        }}
+        component={Referral}
+      />
+      <Stack.Screen
+        name="help"
+        options={{
+          headerShown: false,
+        }}
+        component={Help}
+      />
+      <Stack.Screen
+        name="complaints"
+        options={{
+          headerShown: false,
+        }}
+        component={Complaints}
+      />
+      <Stack.Screen
+        name="item-suggestion"
+        options={{
+          headerShown: false,
+        }}
+        component={ItemSuggestion}
       />
     </Stack.Navigator>
   );
