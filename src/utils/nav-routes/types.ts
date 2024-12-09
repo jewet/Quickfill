@@ -1,4 +1,5 @@
 import { OrdersProps } from "../sample-data/orders";
+import { ProfileProps } from "../sample-data/profile";
 
 export type RootStackParamList = {
   splash: undefined;
@@ -26,8 +27,19 @@ export type RootStackParamList = {
   petroleum: undefined;
   diesel: undefined;
   cart: undefined;
+  complaints: undefined;
+  referral: any;
+  "user-wallet": any;
+  "user-details": any;
+  favourite: any;
+  "user-address": any;
+  "user-payment": any;
+  "item-suggestion": any;
+  help: any;
+  contact: any;
   chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
+  "update-form": { profileDetails: ProfileProps; target: 'name' | 'username' | 'birthday' };
   electricity: any;
   Main: undefined;
   settings: undefined;
