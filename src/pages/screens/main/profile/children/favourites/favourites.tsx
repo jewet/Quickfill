@@ -47,6 +47,7 @@ function Favourites({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
+        directory=''
       />
       <ScrollView showsVerticalScrollIndicator={false} style={favouritesStyles.scrollview}>
       <View style={{width: '100%', paddingHorizontal: 16}}>

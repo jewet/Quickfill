@@ -39,6 +39,7 @@ function UpdateForm({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={`Update ${target}`}
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

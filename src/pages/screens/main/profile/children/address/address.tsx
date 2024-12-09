@@ -41,6 +41,7 @@ function Address({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Addresses"
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

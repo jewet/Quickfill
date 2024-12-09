@@ -20,6 +20,10 @@ import Referral from '../screens/main/profile/children/referral/referral';
 import Help from '../screens/main/profile/children/help/help';
 import Complaints from '../screens/main/profile/children/help/children/complaints/complaints';
 import ItemSuggestion from '../screens/main/profile/children/help/children/complaints/child/item-suggestion/item-suggestion';
+import Wallet from '../screens/main/profile/children/wallet/wallet';
+import PaymentResult from '../screens/main/profile/children/wallet/children/fund-wallet/children/payment-result/payment-result';
+import Transfer from '../screens/main/profile/children/wallet/children/fund-wallet/children/transfer/transfer';
+import Card from '../screens/main/profile/children/wallet/children/fund-wallet/children/card/card';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -165,6 +169,34 @@ function MainStack() {
           headerShown: false,
         }}
         component={ItemSuggestion}
+      />
+      <Stack.Screen
+        name="user-wallet"
+        options={{
+          headerShown: false,
+        }}
+        component={Wallet}
+      />
+      <Stack.Screen
+        name="payment-result"
+        options={{
+          headerShown: false,
+        }}
+        component={PaymentResult}
+      />
+      <Stack.Screen
+        name="transfer"
+        options={{
+          headerShown: false,
+        }}
+        component={Transfer}
+      />
+      <Stack.Screen
+        name="card"
+        options={{
+          headerShown: false,
+        }}
+        component={Card}
       />
     </Stack.Navigator>
   );

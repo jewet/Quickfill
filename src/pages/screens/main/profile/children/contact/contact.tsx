@@ -44,6 +44,7 @@ function Contact({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Contact support"
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
