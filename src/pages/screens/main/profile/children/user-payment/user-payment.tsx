@@ -39,6 +39,7 @@ function UserPayment({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

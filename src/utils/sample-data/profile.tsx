@@ -19,6 +19,8 @@ import Referral from '../../assets/images/profile/referral.svg';
 import MailUs from '../../assets/images/profile/mail_us.svg';
 import WhatsAppUs from '../../assets/images/profile/whatsapp_us.svg';
 import CallUs from '../../assets/images/profile/call_us.svg';
+import FailedArrow from '../../assets/images/payment/failed_arrow.svg';
+import SuccessArrow from '../../assets/images/payment/success_arrow.svg';
 
 export interface ProfileProps {
   icon: any;
@@ -36,6 +38,32 @@ export const profile_data: ProfileProps[] = [
     icon: WalletIcon,
     profile: {
       type: 'My Wallet',
+      details: [
+        {
+          icon: FailedArrow,
+          amt: 19500,
+          des: 'Order payment by mohgas wallet ',
+          date: '05 Aug 24',
+        },
+        {
+          icon: SuccessArrow,
+          amt: 9500,
+          des: 'WallWallet funded via card',
+          date: '09 Aug 24',
+        },
+        {
+          icon: FailedArrow,
+          amt: 22500,
+          des: 'Order payment by  flutter wave  ',
+          date: '20 Jul 24',
+        },
+        {
+          icon: FailedArrow,
+          amt: 5500,
+          des: 'Order payment by card',
+          date: '10 Jun 24',
+        },
+      ],
     },
   },
   {

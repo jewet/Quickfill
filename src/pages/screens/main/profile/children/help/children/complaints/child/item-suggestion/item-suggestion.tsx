@@ -21,6 +21,7 @@ function ItemSuggestion({navigation}:Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Item suggestions"
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

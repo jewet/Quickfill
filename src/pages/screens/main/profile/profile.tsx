@@ -80,6 +80,7 @@ function Profile({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={true}
         title="Profile settings"
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
