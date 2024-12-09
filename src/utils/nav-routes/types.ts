@@ -37,6 +37,8 @@ export type RootStackParamList = {
   "item-suggestion": any;
   help: any;
   contact: any;
+  "diesel-details": any;
+  "gas-details": any;
   chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "update-form": { profileDetails: ProfileProps; target: 'name' | 'username' | 'birthday' };

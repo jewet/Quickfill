@@ -24,6 +24,9 @@ import Wallet from '../screens/main/profile/children/wallet/wallet';
 import PaymentResult from '../screens/main/profile/children/wallet/children/fund-wallet/children/payment-result/payment-result';
 import Transfer from '../screens/main/profile/children/wallet/children/fund-wallet/children/transfer/transfer';
 import Card from '../screens/main/profile/children/wallet/children/fund-wallet/children/card/card';
+import Diesel from '../screens/main/home/children/diesel/diesel';
+import DieselDetails from '../screens/main/home/children/diesel/children/diesel-details/diesel-details';
+import GasDetails from '../screens/main/home/children/gas/children/gas-details/gas-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -197,6 +200,27 @@ function MainStack() {
           headerShown: false,
         }}
         component={Card}
+      />
+      <Stack.Screen
+        name="diesel"
+        options={{
+          headerShown: false,
+        }}
+        component={Diesel}
+      />
+      <Stack.Screen
+        name="diesel-details"
+        options={{
+          headerShown: false,
+        }}
+        component={DieselDetails}
+      />
+      <Stack.Screen
+        name="gas-details"
+        options={{
+          headerShown: false,
+        }}
+        component={GasDetails}
       />
     </Stack.Navigator>
   );
