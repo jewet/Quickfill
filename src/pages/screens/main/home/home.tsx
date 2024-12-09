@@ -42,7 +42,7 @@ function Home({navigation}: Props) {
       case 'petroleum':
         return 'gas';
       case 'diesel':
-        return 'gas';
+        return 'diesel';
       case 'electricity':
         return 'electricity';
       default:
