@@ -17,6 +17,7 @@ const homeStyles = StyleSheet.create({
   },
   scrollview: {
     width: '100%',
+    position: 'relative'
   },
   homeTop: {
     display: 'flex',

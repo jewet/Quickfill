@@ -33,8 +33,6 @@ function Help({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'help'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-  console.log('details: ', profileDetails);
-
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -45,6 +43,7 @@ function Help({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -72,7 +71,7 @@ function Help({navigation}: Props) {
               key={index}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <View>
-                  <Text style={addressStyles.location}>{data.name}</Text>
+                  <Text style={addressStyles.location}>{data?.name}</Text>
                 </View>
               </View>
               <TouchableOpacity

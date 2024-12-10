@@ -82,7 +82,7 @@ function Diesel({navigation}: Props) {
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
-          <View style={{width: '100%', display: 'flex', alignItems: 'center'}}>
+          <TouchableOpacity style={{width: '100%', display: 'flex', alignItems: 'center', zIndex: 2000}} onPress={()=>navigation.navigate('change-address')}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 1}}
@@ -91,11 +91,9 @@ function Diesel({navigation}: Props) {
                 profileStyles.profileTopBtn,
                 {width: '80%', borderRadius: 50},
               ]}>
-              <TouchableOpacity>
-                <Text>Change delivery address</Text>
-              </TouchableOpacity>
+                <Text onPress={()=>navigation.navigate('change-address')}>Change delivery address</Text>
             </LinearGradient>
-          </View>
+          </TouchableOpacity>
           <PricePin
             width={322}
             height={324}

@@ -23,6 +23,7 @@ import {
 import {order_data, OrdersProps} from '../../../../utils/sample-data/orders';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
+import AddressModal from '../../../../components/AddressModal/AddressModal';
 
 type Props = StackScreenProps<RootStackParamList, 'home'>;
 
@@ -33,6 +34,7 @@ function Home({navigation}: Props) {
   };
 
   const [showBalance, setShowBalance] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const getNavRoute = (actionText: string) => {
     const normalizedText = actionText.replace('\n', ' ').toLowerCase();
@@ -40,7 +42,7 @@ function Home({navigation}: Props) {
       case 'cooking gas':
         return 'gas';
       case 'petroleum':
-        return 'gas';
+        return 'diesel';
       case 'diesel':
         return 'diesel';
       case 'electricity':
@@ -55,8 +57,7 @@ function Home({navigation}: Props) {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
+    <SafeAreaView
       style={homeStyles.scrollview}>
       <SafeAreaView style={homeStyles.homeTop}>
         <View style={homeStyles.detailsContent}>
@@ -66,7 +67,7 @@ function Home({navigation}: Props) {
               8-26 Ango Abdullahi St, Gwarinpa, 900108...
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=>setShowModal(true)}>
             <DropDown width={60} height={55} fill="none" />
           </TouchableOpacity>
         </View>
@@ -145,7 +146,7 @@ function Home({navigation}: Props) {
                 <Text style={[homeStyles.quickActionText, {marginTop: 0}]}>
                   Recent orders
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('orders')}>
                   <Text style={homeStyles.viewText}>View all</Text>
                 </TouchableOpacity>
               </View>
@@ -214,7 +215,17 @@ function Home({navigation}: Props) {
           </View>
         </View>
       </SafeAreaView>
-    </ScrollView>
+      {showModal && (
+        <AddressModal
+          action={() => setShowModal(false)}
+          navigateTo={() => {
+            setShowModal(false);
+            navigation.goBack();
+          }}
+          navigateToAddress={()=>navigation.navigate('change-address')}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 

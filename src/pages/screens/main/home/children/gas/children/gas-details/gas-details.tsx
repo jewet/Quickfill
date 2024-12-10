@@ -190,7 +190,7 @@ function GasDetails({navigation}: Props) {
               cost will be shown on the next page.
             </Text>
           </View>
-          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>setShowModal(true)}>
+          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>navigation.navigate('gas-checkout')}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}

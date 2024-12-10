@@ -30,7 +30,6 @@ const dieselStyles = StyleSheet.create({
     // backgroundColor: 'blue',
     // position: 'absolute',
     bottom: 0,
-    zIndex: 1000,
     display: 'flex',
     
   },
@@ -39,6 +38,7 @@ const dieselStyles = StyleSheet.create({
     // paddingBottom: verticalScale(100),
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
+    zIndex: 1000,
     padding: 16
   },
   mapTop: {

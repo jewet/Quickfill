@@ -1,4 +1,3 @@
-import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
 import {
   SafeAreaView,
@@ -8,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../accessories/accessoriesStyles';
@@ -17,9 +17,12 @@ import {
 } from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../components/Profile/Header';
 import favouritesStyles from '../../../favourites/favouritesStyles';
-import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
 import Button from '../../../../../../../../components/Button/Button';
 import Input from '../../../../../../../../components/Input/AuthInput';
+import inputStyles from '../../../../../../../../components/Input/InputStyles';
+import SendIcon from '../../../../../../../../assets/images/profile/tabler_send.svg';
+import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
+import { height } from '../../../../../home/children/diesel/dieselStyles';
 
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
 
@@ -27,25 +30,13 @@ function UpdateForm({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
 
-  const margin_top = target === 'name' ? 300 : 400
+  const margin_top = 300
 
-  return (
-    <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Header
-        goBackAction={() => navigation.goBack()}
-        isFirstPage={false}
-        title={`Update ${target}`}
-        directory=''
-      />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
-        {target === 'name' ? (
-          <View style={{width: '100%'}}>
+  const renderInputs = () => {
+    switch (target) {
+      case 'name':
+        return (
+          <>
             <Input
               label="Enter your first name"
               placeholder=""
@@ -64,9 +55,11 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={null}
             />
-          </View>
-        ) : target === 'username' ? (
-          <View style={{width: '100%'}}>
+          </>
+        );
+      case 'username':
+        return (
+          <>
             <Input
               label="Choose username"
               placeholder=""
@@ -76,11 +69,20 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={null}
             />
-          </View>
-        ) : (
-          <View style={{width: '100%'}}>
+            <Text
+              style={[
+                inputStyles.label,
+                {textAlign: 'left', color: '#DC5513', marginTop: 5},
+              ]}>
+              This user already exists. Try logging in instead.
+            </Text>
+          </>
+        );
+      case 'email':
+        return (
+          <>
             <Input
-              label="Month of birth"
+              label="Your email address"
               placeholder=""
               value=""
               secured={false}
@@ -88,8 +90,67 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={null}
             />
-          </View>
-        )}
+            <Text
+              style={[
+                inputStyles.label,
+                {textAlign: 'left', color: '#DC5513', marginTop: 5},
+              ]}>
+              This is has not yet been verified, check email to complete
+              verification
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: '100%',
+                borderRadius: 30,
+                height: 48,
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 15,
+                borderWidth: 1,
+                borderColor: primaryColor,
+                marginTop: 20
+              }}>
+              <SendIcon width={24} height={24} fill="none" />
+              <Text>Resend verification email</Text>
+            </TouchableOpacity>
+          </>
+        );
+      case 'birthday':
+        return (
+          <Input
+            label="Month of birth"
+            placeholder=""
+            value=""
+            secured={false}
+            directory={null}
+            keyboardType="default"
+            action={null}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
+      <Header
+        goBackAction={() => navigation.goBack()}
+        isFirstPage={false}
+        title={`Update ${target}`}
+        directory=""
+      />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={[favouritesStyles.scrollview, {paddingHorizontal: 16, height: height}]}>
+       <View style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 100}}>
+       {renderInputs()}
         <View
           style={{
             marginTop: margin_top,
@@ -99,6 +160,7 @@ function UpdateForm({navigation}: Props) {
           }}>
           <Button text="Save changes" action={() => console.log('pressed')} />
         </View>
+       </View>
       </ScrollView>
     </SafeAreaView>
   );

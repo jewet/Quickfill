@@ -77,7 +77,7 @@ function Diesel({navigation}: Props) {
                 profileStyles.profileTopBtn,
                 {width: '80%', borderRadius: 50},
               ]}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate('change-address')}>
                 <Text>Change delivery address</Text>
               </TouchableOpacity>
             </LinearGradient>

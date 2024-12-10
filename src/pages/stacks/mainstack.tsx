@@ -27,6 +27,8 @@ import Card from '../screens/main/profile/children/wallet/children/fund-wallet/c
 import Diesel from '../screens/main/home/children/diesel/diesel';
 import DieselDetails from '../screens/main/home/children/diesel/children/diesel-details/diesel-details';
 import GasDetails from '../screens/main/home/children/gas/children/gas-details/gas-details';
+import GasCheckout from '../screens/main/home/children/gas/children/gas-details/child/checkout/checkout';
+import ChangeAddress from '../screens/main/profile/children/address/children/change-address/change-address';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -221,6 +223,20 @@ function MainStack() {
           headerShown: false,
         }}
         component={GasDetails}
+      />
+      <Stack.Screen
+        name="gas-checkout"
+        options={{
+          headerShown: false,
+        }}
+        component={GasCheckout}
+      />
+      <Stack.Screen
+        name="change-address"
+        options={{
+          headerShown: false,
+        }}
+        component={ChangeAddress}
       />
     </Stack.Navigator>
   );

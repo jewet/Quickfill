@@ -21,6 +21,7 @@ function Complaints({navigation}:Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Complaints & feedback"
+        directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

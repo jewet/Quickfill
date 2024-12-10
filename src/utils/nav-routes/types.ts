@@ -35,13 +35,15 @@ export type RootStackParamList = {
   "user-address": any;
   "user-payment": any;
   "item-suggestion": any;
+  "gas-checkout": any;
   help: any;
   contact: any;
   "diesel-details": any;
   "gas-details": any;
+  "change-address": any;
   chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
-  "update-form": { profileDetails: ProfileProps; target: 'name' | 'username' | 'birthday' };
+  "update-form": { profileDetails: ProfileProps; target: 'name' | 'username' | 'birthday' | 'email' };
   "payment-result": { result: 'successful' | 'unsuccessful' };
   transfer: { amount: number };
   card: { amount: number };

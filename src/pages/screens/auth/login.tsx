@@ -46,7 +46,7 @@ function Login({navigation}: Props) {
             value=""
             secured={false}
             directory={null}
-            keyboardType='default'
+            keyboardType="default"
             action={null}
           />
           <Input
@@ -55,10 +55,12 @@ function Login({navigation}: Props) {
             value=""
             secured={true}
             directory={'login-password'}
-            keyboardType='default'
+            keyboardType="default"
             action={() => navigation.navigate('forgot-password')}
           />
-          <Button text="Login" action={() => navigation.navigate('home')} />
+          <View style={{marginTop: 10, width: '100%'}}>
+            <Button text="Login" action={() => navigation.navigate('home')} />
+          </View>
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
             <Text style={authStyles.orText}>Or</Text>
@@ -72,7 +74,7 @@ function Login({navigation}: Props) {
           </TouchableOpacity>
           <View style={authStyles.question}>
             <Text style={authStyles.orText}>Don’t have an account? </Text>
-            <TouchableOpacity onPress={()=>navigation.navigate('signup')}>
+            <TouchableOpacity onPress={() => navigation.navigate('signup')}>
               <Text style={[authStyles.orText, {color: '#FFC533'}]}>
                 Register
               </Text>
