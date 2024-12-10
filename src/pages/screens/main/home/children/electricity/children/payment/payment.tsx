@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 import SuccessImg from '../../../assets/images/auth/Done Check.svg';
 import electricityPaymentStyles from './paymentStyles';
 import CloseIcon from '../../../../../../../../assets/images/electricity/close_btn.svg';
-import {payment_type} from '../../../../../../../../utils/sample-data/payement';
+import {payment_type} from '../../../../../../../../utils/sample-data/payment';
 import electricityProviderStyles from '../electricity-provider/electricityProviderStyles';
 import SelectedIcon from '../../../../../../../../assets/images/electricity/selected-bill.svg';
 import UnSelectedIcon from '../../../../../../../../assets/images/electricity/unselected-bill.svg';

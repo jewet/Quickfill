@@ -36,6 +36,7 @@ import ChatIcon from '../../../../../../assets/images/orders/msg.svg';
 import CallIcon from '../../../../../../assets/images/orders/call.svg';
 import TransitIcon from '../../../../../../assets/images/orders/rider.svg';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
+import TimelineModal from '../../../../../../components/TimelineModal/TimelineModal';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
@@ -57,6 +58,7 @@ function OrderDetails({navigation}: Props) {
   const handleNavigation = (orderDetails: OrdersProps, target: 'rider' | 'vendor') => {
     navigation.navigate('chat', { orderDetails, target });
   };
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -101,7 +103,7 @@ function OrderDetails({navigation}: Props) {
                 <Text style={homeStyles.title}>Delivery status</Text>
                 <Text style={homeStyles.details}>Delivery in 20-30mins</Text>
               </View>
-              <TouchableOpacity style={orderDetailsStyles.viewTimeline}>
+              <TouchableOpacity style={orderDetailsStyles.viewTimeline} onPress={()=>setShowModal(true)}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -367,6 +369,18 @@ function OrderDetails({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      {showModal && (
+        <TimelineModal
+        action={() => setShowModal(false)}
+        navigateTo={() => {
+          setShowModal(false);
+          navigation.goBack();
+        }}
+        navigateToContact={()=>navigation.navigate('contact')}
+        subTotal={subtotal}
+        deliveryFee={orderDetails?.delivery?.fee}
+      />
+      )}
     </SafeAreaView>
   );
 }

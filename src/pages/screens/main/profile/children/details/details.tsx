@@ -32,7 +32,7 @@ function Details({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-  const handleNavigation = (profileDetails: ProfileProps, target: 'name' | 'username' | 'birthday') => {
+  const handleNavigation = (profileDetails: ProfileProps, target: 'name' | 'username' | 'birthday' | 'email') => {
     navigation.navigate('update-form', { profileDetails, target });
   };
 
@@ -82,7 +82,7 @@ function Details({navigation}: Props) {
               </TouchableOpacity>
               )}
               {data.email && (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>handleNavigation(profileDetails!, 'email')}>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>
               )}

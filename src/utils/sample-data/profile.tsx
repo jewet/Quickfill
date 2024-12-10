@@ -22,6 +22,15 @@ import CallUs from '../../assets/images/profile/call_us.svg';
 import FailedArrow from '../../assets/images/payment/failed_arrow.svg';
 import SuccessArrow from '../../assets/images/payment/success_arrow.svg';
 
+interface PersonalDetails {
+  title?: string;
+  phone_number?: string;
+  email?: string;
+  username?: string;
+  gender?: string;
+  dob?: string;
+}
+
 export interface ProfileProps {
   icon: any;
   profile: any;
@@ -74,7 +83,7 @@ export const profile_data: ProfileProps[] = [
         {icon: Name, name: 'Ministar Samuel', title: 'Name'},
         {
           icon: Phone,
-          phone_number: '+2348 8498 849 3949',
+          phone_number: '+234 806 968 4739',
           title: 'Phone number',
         },
         {icon: Email, email: 'ministar@email.com', title: 'Email'},

@@ -1,35 +1,43 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
-import { primaryColor } from "../../../../../../onboarding/splash/splashstyles";
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {primaryColor} from '../../../../../../../../onboarding/splash/splashstyles';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const scale = (size: number) => (screenWidth / 375) * size;
 const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
-const btnHeight= Platform.OS === 'ios' ? 100 : 70
-const btnWidth= Platform.OS === 'ios' ? '50%' : '60%'
-const btnMarginTop= Platform.OS === 'ios' ? -30 : 0
-const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0
-const btnContMarginLeft= Platform.OS === 'ios' ? 40 : 0
+const btnHeight = Platform.OS === 'ios' ? 100 : 70;
+const btnWidth = Platform.OS === 'ios' ? '50%' : '60%';
+const btnMarginTop = Platform.OS === 'ios' ? -30 : 0;
+const btnMarginLeft = Platform.OS === 'ios' ? -10 : 0;
+const btnContMarginLeft = Platform.OS === 'ios' ? 40 : 0;
 
-const gasStyles = StyleSheet.create({
-  gasContainer: {
+const checkoutStyles = StyleSheet.create({
+  checkoutContainer: {
     backgroundColor: '#FAFAFA',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
   },
+  flexCont: {
+    borderTopWidth: 0.5,
+    borderColor: '#E5E5EA',
+    paddingVertical: 15,
+    paddingHorizontal: 16,
+    backgroundColor: '#FFFFFF',
+  },
   scrollview: {
     width: '100%',
     paddingBottom: verticalScale(100),
   },
-  gasTop: {
-    backgroundColor: '#F7F6F2',
-    borderRadius: moderateScale(20),
-    padding: scale(20),
-    marginTop: verticalScale(10),
+  paymentText: {
+    marginLeft: 16,
+    color: '#5E5E5E',
+    fontWeight: 700,
+    fontSize: 17,
+    marginTop: 30,
   },
   heading: {
     fontFamily: 'Plus Jakarta Sans',
@@ -76,7 +84,7 @@ const gasStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginRight: btnContMarginLeft
+    marginRight: btnContMarginLeft,
   },
   btnText: {
     fontFamily: 'Plus Jakarta Sans',
@@ -85,7 +93,7 @@ const gasStyles = StyleSheet.create({
     fontSize: moderateScale(16),
     textAlign: 'center',
     marginTop: btnMarginTop,
-    marginLeft: btnMarginLeft
+    marginLeft: btnMarginLeft,
   },
   selectedKgWrapper: {
     borderColor: primaryColor,
@@ -121,4 +129,4 @@ const gasStyles = StyleSheet.create({
   },
 });
 
-export default gasStyles;
+export default checkoutStyles;
