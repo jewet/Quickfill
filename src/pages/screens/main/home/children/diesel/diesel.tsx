@@ -35,11 +35,15 @@ import orderDetailsStyles from '../../../orders/children/order-details/orderDeta
 import vendorStyles from '../../../profile/children/favourites/children/vendors/vendorsStyles';
 import Offline from '../../../../../../assets/images/profile/offline.svg'
 import Star from '../../../../../../assets/images/accessories/tabler_star-filled.svg'
-import { quick_action_data } from '../../../../../../utils/sample-data/home';
+import { quick_action_data, QuickActionProps } from '../../../../../../utils/sample-data/home';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
 type Props = StackScreenProps<RootStackParamList, 'diesel'>;
 
 function Diesel({navigation}: Props) {
+  const route = useRoute<RouteProp<RootStackParamList, 'diesel'>>();
+  const {actionDetails}: {actionDetails?: QuickActionProps} = route.params || {};
+  console.log('actiondetails: ', actionDetails);
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,

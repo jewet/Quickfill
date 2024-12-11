@@ -37,6 +37,9 @@ import CallIcon from '../../../../../../assets/images/orders/call.svg';
 import TransitIcon from '../../../../../../assets/images/orders/rider.svg';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 import TimelineModal from '../../../../../../components/TimelineModal/TimelineModal';
+import FullProgressBar from '../../../../../../assets/images/orders/full_progress_bar.svg';
+import HalfProgressBar from '../../../../../../assets/images/orders/half_progress_bar.svg';
+import BlankProgressBar from '../../../../../../assets/images/orders/blank_progress_bar.svg';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
@@ -112,6 +115,21 @@ function OrderDetails({navigation}: Props) {
                   View timeline
                 </Text>
               </TouchableOpacity>
+            </View>
+            <View style={orderStyles.progressBarWrapper}>
+              {orderDetails?.delivery_timeline?.map(
+                (data: any, index: number) => (
+                  <View key={index}>
+                    {data?.itsTurn === true && data?.pending === false ? (
+                      <FullProgressBar />
+                    ) : data?.itsTurn === true && data?.pending === true ? (
+                      <HalfProgressBar />
+                    ) : (
+                      <BlankProgressBar />
+                    )}
+                  </View>
+                ),
+              )}
             </View>
             <View style={orderDetailsStyles.flexContainer}>
               <NoteIcon width={20} height={20} fill="none" />
@@ -379,6 +397,7 @@ function OrderDetails({navigation}: Props) {
         navigateToContact={()=>navigation.navigate('contact')}
         subTotal={subtotal}
         deliveryFee={orderDetails?.delivery?.fee}
+        timeline_data={orderDetails?.delivery_timeline}
       />
       )}
     </SafeAreaView>

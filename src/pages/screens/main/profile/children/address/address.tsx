@@ -28,9 +28,6 @@ function Address({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-address'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-  const handleNavigation = (itemDetails: ItemsProps) => {
-    navigation.navigate('item-details', {itemDetails});
-  };
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
