@@ -7,53 +7,84 @@ const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is t
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
-const orderStyles = StyleSheet.create({
-  orderContainer: {
+const orderDetailsStyles = StyleSheet.create({
+  orderDetailsContainer: {
     backgroundColor: '#FFFFFF',
     display: 'flex',
     alignItems: 'center',
-    width: '100%',
+    width: screenWidth,
     flex: 1,
   },
   scrollview: {
     width: '100%',
-    padding: scale(20),
     paddingBottom: verticalScale(100),
     backgroundColor: '#FAFAFA',
     display: 'flex',
+    gap: 10,
   },
-  ordersHeader: {
+  orderDetailsCont: {
     paddingVertical: scale(20),
+    paddingHorizontal: scale(20),
     backgroundColor: '#FFFFFF',
     width: '100%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'flex-start',
+    gap: 10,
   },
-  progressBarWrapper: {
+  oderDetailsDeliveryStatus: {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
     flexDirection: 'row',
-    paddingVertical: 10
+    justifyContent: 'space-between'
   },
-  orderNavWrapper: {
+  flexContainer: {
     width: '100%',
-    paddingHorizontal: scale(2),
-    marginTop: verticalScale(10),
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 10, 
+  },
+  viewTimeline: {
+    padding: scale(10),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#F7F6F2',
+    borderRadius: 16
+  },
+  orderType: {
+    padding: scale(10),
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 30,
-    height: 48
+    borderRadius: 16,
+    width: '90%',
+    alignSelf: 'flex-end',
   },
   orderNavCont: {
     width: '50%',
     display: 'flex',
     alignItems: 'center',
     paddingVertical: scale(10),
+  },
+  totalWrapper: {
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    paddingVertical: scale(20),
+    paddingHorizontal: scale(20),
+    backgroundColor: '#FFFFFF',
+    borderWidth: 0.5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    marginTop: 20,
+    borderBottomWidth: 0,
+    paddingBottom: 100,
+    gap: 10,
+    borderColor: '#5E5E5E'
   },
   activeNav: {
     backgroundColor: '#FFC533',
@@ -69,4 +100,4 @@ const orderStyles = StyleSheet.create({
   },
 });
 
-export default orderStyles;
+export default orderDetailsStyles;

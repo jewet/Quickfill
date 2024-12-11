@@ -46,8 +46,11 @@ type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
-  const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
-  const [isSelected, setIsSelected] = useState<number | null>();
+  const {gasDetails, selectedCylinder} = route.params;
+  console.log('gasDetails:', gasDetails);
+  console.log('selectedCylinder:', selectedCylinder);
+  
+  const [isSelected, setIsSelected] = useState<number | null>(0);
   const addressDetails = profile_data
     .filter(item => item.profile.type === 'Saved Addresses')
     .map(item => item.profile.location);
@@ -72,7 +75,7 @@ function GasCheckout({navigation}: Props) {
         navigation.navigate('payment-result', {result: 'successful'});
         break;
       case 'delivery':
-        navigation.navigate('payment-result', {result: 'unsuccessful'});
+        navigation.navigate('gas-order-details', {gasDetails: gasDetails, selectedCylinder: selectedCylinder});
         break;
       default:
         console.warn('Navigation route not defined for this item.');
@@ -82,12 +85,16 @@ function GasCheckout({navigation}: Props) {
 
   const handleContinue = () => {
     if (isSelected === null) {
-      console.warn('No payment type selected');
+      console.log('No payment type selected');
       return;
     }
     const selectedPaymentType = payment_opt[isSelected].type;
     navigateToPaymentResult(selectedPaymentType);
   };
+
+  const item_amt = Number(selectedCylinder?.amount)
+  const delivery_fee = Number(gasDetails?.delivery_fee)
+  const total = item_amt + delivery_fee
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -111,7 +118,7 @@ function GasCheckout({navigation}: Props) {
               electricityPaymentStyles.topText,
               {color: '#919191', marginTop: -5},
             ]}>
-            12kg Gas Refill
+            {selectedCylinder?.kg}kg Gas Refill
           </Text>
         </View>
 
@@ -243,7 +250,7 @@ function GasCheckout({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(18000)}
+              ₦{Intl.NumberFormat().format(Number(selectedCylinder?.amount))}
             </Text>
           </View>
           <View
@@ -263,7 +270,7 @@ function GasCheckout({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(1500)}
+              ₦{Intl.NumberFormat().format(Number(gasDetails?.delivery_fee))}
             </Text>
           </View>
           <View
@@ -273,7 +280,7 @@ function GasCheckout({navigation}: Props) {
             ]}>
             <Text style={homeStyles.details}>Amount paid</Text>
             <Text style={homeStyles.details}>
-              ₦{Intl.NumberFormat().format(Number(19500))}
+              ₦{Intl.NumberFormat().format(Number(total))}
             </Text>
           </View>
         <View style={{marginTop: 10, paddingHorizontal: 16, width: '100%'}}>

@@ -35,15 +35,21 @@ import orderDetailsStyles from '../../../orders/children/order-details/orderDeta
 import vendorStyles from '../../../profile/children/favourites/children/vendors/vendorsStyles';
 import Offline from '../../../../../../assets/images/profile/offline.svg';
 import Star from '../../../../../../assets/images/accessories/tabler_star-filled.svg';
-import {quick_action_data} from '../../../../../../utils/sample-data/home';
+import {quick_action_data, QuickActionProps, DetailsProps} from '../../../../../../utils/sample-data/home';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 
-type Props = StackScreenProps<RootStackParamList, 'diesel'>;
+type Props = StackScreenProps<RootStackParamList, 'gas'>;
 
-function Diesel({navigation}: Props) {
+function Gas({navigation}: Props) {
+  const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
+  const {actionDetails}: {actionDetails?: QuickActionProps} = route.params || {};
+  
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [marginTop, setMarginTop] = useState(500); 
   const [prevScrollY, setPrevScrollY] = useState(0);
 
@@ -78,7 +84,7 @@ function Diesel({navigation}: Props) {
                 8-26 Ango Abdullahi St, Gwarinpa, 900108...
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>setShowModal(true)}>
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
@@ -126,14 +132,14 @@ function Diesel({navigation}: Props) {
               <PopUp width={34} height={6} fill="none" />
             </TouchableOpacity>
             <View style={{width: '100%'}}>
-              {quick_action_data[0].details.map((data: any, index: number) => (
+              {actionDetails?.details?.map((data: any, index: number) => (
                 <TouchableOpacity
                   key={index}
                   style={[
                     orderDetailsStyles.flexContainer,
                     vendorStyles.vendorCont,
                   ]}
-                  onPress={() => navigation.navigate('gas-details')}>
+                  onPress={() => navigation.navigate('gas-details', {gasDetails: actionDetails?.details[index]})}>
                   <View
                     style={[
                       orderDetailsStyles.flexContainer,
@@ -182,9 +188,19 @@ function Diesel({navigation}: Props) {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </View> 
+      {showModal && (
+        <AddressModal
+          action={() => setShowModal(false)}
+          navigateTo={() => {
+            setShowModal(false);
+            navigation.goBack();
+          }}
+          navigateToAddress={()=>navigation.navigate('change-address')}
+        />
+      )}
     </SafeAreaView>
   );
 }
 
-export default Diesel;
+export default Gas;

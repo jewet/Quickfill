@@ -1,3 +1,5 @@
+import { GasProps } from "../sample-data/gas";
+import { DetailsProps } from "../sample-data/home";
 import { OrdersProps } from "../sample-data/orders";
 import { ProfileProps } from "../sample-data/profile";
 
@@ -15,6 +17,7 @@ export type RootStackParamList = {
   "otp-verification": undefined;
   "electricity-provider": undefined;
   "order-details": any;
+  "gas-order-details": {gasDetails: DetailsProps; selectedCylinder: GasProps};
   "items-page": any;
   "item-details": any;
   login: undefined;
@@ -23,9 +26,9 @@ export type RootStackParamList = {
   accessories: undefined;
   orders: undefined;
   profile: undefined;
-  gas: undefined;
-  petroleum: undefined;
-  diesel: undefined;
+  gas: any;
+  petroleum: any;
+  diesel: any;
   cart: undefined;
   complaints: undefined;
   referral: any;
@@ -35,7 +38,7 @@ export type RootStackParamList = {
   "user-address": any;
   "user-payment": any;
   "item-suggestion": any;
-  "gas-checkout": any;
+  "gas-checkout": {gasDetails: DetailsProps; selectedCylinder: GasProps};
   help: any;
   contact: any;
   "diesel-details": any;

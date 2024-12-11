@@ -4,7 +4,7 @@ import ThirdGas from '../../assets/images/gas/12kg.svg'
 import FourthGas from '../../assets/images/gas/25kg.svg'
 
 
-interface GasProps{
+export interface GasProps{
     img: any;
     kg: string;
     amount: number;

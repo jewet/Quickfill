@@ -28,6 +28,7 @@ interface Props {
   navigateToContact: () => void;
   subTotal: number;
   deliveryFee: number;
+  timeline_data: any;
 }
 
 function TimelineModal({
@@ -36,6 +37,7 @@ function TimelineModal({
   navigateToContact,
   subTotal,
   deliveryFee,
+  timeline_data,
 }: Props) {
   const [isSelected, setIsSelected] = useState<number | null>();
   return (
@@ -59,7 +61,8 @@ function TimelineModal({
                 <Text style={homeStyles.title}>Delivery status</Text>
                 <Text style={homeStyles.details}>Waiting for vendor</Text>
               </View>
-              <TouchableOpacity style={orderDetailsStyles.viewTimeline}>
+              <TouchableOpacity
+                style={orderDetailsStyles.viewTimeline}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -72,84 +75,42 @@ function TimelineModal({
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false} style={{height: 280}}>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', paddingHorizontal: 16},
-            ]}>
-            <View style={[orderDetailsStyles.flexContainer, {width: '65%'}]}>
-              <View style={timelineModalStyles.progressWrapper}>
-                <HalfProgressDot width={24} height={24} fill="none" />
-                <BlankProgressLine width={56} fill="none" />
+          {timeline_data?.map((data: any, index: number) => (
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', paddingHorizontal: 16},
+              ]}
+              key={index}>
+              <View style={[orderDetailsStyles.flexContainer, {width: '65%'}]}>
+                <View>
+                  {data?.itsTurn === true && data?.pending === false ? (
+                    <View style={timelineModalStyles.progressWrapper}>
+                      <FullProgressDot width={24} height={24} fill="none" />
+                      <FullProgressLine width={56} fill="none" />
+                    </View>
+                  ) : data?.itsTurn === true && data?.pending === true ? (
+                    <View style={timelineModalStyles.progressWrapper}>
+                      <HalfProgressDot width={24} height={24} fill="none" />
+                      <BlankProgressLine width={56} fill="none" />
+                    </View>
+                  ) : (
+                    <View style={timelineModalStyles.progressWrapper}>
+                      <BlankProgressDot width={24} height={24} fill="none" />
+                      <BlankProgressLine width={56} fill="none" />
+                    </View>
+                  )}
+                </View>
+                <View>
+                  <Text style={addressStyles.location}>{data?.status}</Text>
+                  <Text style={addressStyles.locationBottom}>{data?.des}</Text>
+                </View>
               </View>
-              <View>
-                <Text style={addressStyles.location}>Order received</Text>
-                <Text style={addressStyles.locationBottom}>
-                  Waiting for vendor to accept your order
-                </Text>
-              </View>
+              <Text style={addressStyles.rightText}>
+                {data?.pending === true ? 'Pending' : 'Done'}
+              </Text>
             </View>
-            <Text style={addressStyles.rightText}>Pending</Text>
-          </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', paddingHorizontal: 16},
-            ]}>
-            <View style={[orderDetailsStyles.flexContainer, {width: '65%'}]}>
-              <View style={timelineModalStyles.progressWrapper}>
-                <BlankProgressDot width={24} height={24} fill="none" />
-                <BlankProgressLine width={56} fill="none" />
-              </View>
-              <View>
-                <Text style={addressStyles.location}>Order accepted </Text>
-                <Text style={addressStyles.locationBottom}>
-                  Vendor on his way to pick your cylinder
-                </Text>
-              </View>
-            </View>
-            <Text style={addressStyles.rightText}>Pending</Text>
-          </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', paddingHorizontal: 16},
-            ]}>
-            <View style={[orderDetailsStyles.flexContainer, {width: '65%'}]}>
-              <View style={timelineModalStyles.progressWrapper}>
-                <BlankProgressDot width={24} height={24} fill="none" />
-                <BlankProgressLine width={56} fill="none" />
-              </View>
-              <View>
-                <Text style={addressStyles.location}>
-                  Refilling your cylinder
-                </Text>
-                <Text style={addressStyles.locationBottom}>
-                  Your cylinder is being refilled
-                </Text>
-              </View>
-            </View>
-            <Text style={addressStyles.rightText}>Pending</Text>
-          </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', paddingHorizontal: 16},
-            ]}>
-            <View style={[orderDetailsStyles.flexContainer, {width: '65%'}]}>
-              <View style={timelineModalStyles.progressWrapper}>
-                <BlankProgressDot width={24} height={24} fill="none" />
-                <BlankProgressLine width={56} fill="none" />
-              </View>
-              <View>
-                <Text style={addressStyles.location}>In transit</Text>
-                <Text style={addressStyles.locationBottom}>
-                  Your order it’s on the way and will arrive soon.
-                </Text>
-              </View>
-            </View>
-            <Text style={addressStyles.rightText}>Pending</Text>
-          </View>
+          ))}
         </ScrollView>
         <View style={[orderDetailsStyles.totalWrapper, {paddingBottom: 0}]}>
           <View

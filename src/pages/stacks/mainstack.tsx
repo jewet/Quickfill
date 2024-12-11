@@ -29,6 +29,7 @@ import DieselDetails from '../screens/main/home/children/diesel/children/diesel-
 import GasDetails from '../screens/main/home/children/gas/children/gas-details/gas-details';
 import GasCheckout from '../screens/main/home/children/gas/children/gas-details/child/checkout/checkout';
 import ChangeAddress from '../screens/main/profile/children/address/children/change-address/change-address';
+import GasOrderDetails from '../screens/main/home/children/gas/children/gas-details/child/checkout/child/order-details/order-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -237,6 +238,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={ChangeAddress}
+      />
+      <Stack.Screen
+        name="gas-order-details"
+        options={{
+          headerShown: false,
+        }}
+        component={GasOrderDetails}
       />
     </Stack.Navigator>
   );

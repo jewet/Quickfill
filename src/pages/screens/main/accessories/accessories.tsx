@@ -22,6 +22,7 @@ import SearchIcon from '../../../../assets/images/accessories/tabler_search.svg'
 import {accessories_data} from '../../../../utils/sample-data/accessories';
 import ArrowRight from '../../../../assets/images/accessories/tabler_chevron-right.svg';
 import orderDetailsStyles from '../orders/children/order-details/orderDetailsStyles';
+import AddressModal from '../../../../components/AddressModal/AddressModal';
 
 type Props = StackScreenProps<RootStackParamList, 'accessories'>;
 
@@ -32,6 +33,7 @@ function Accessories({navigation}: Props) {
   };
 
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -65,7 +67,7 @@ function Accessories({navigation}: Props) {
                 8-26 Ango Abdullahi St, Gwarinpa, 900108...
               </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>setShowModal(true)}>
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
@@ -119,6 +121,16 @@ function Accessories({navigation}: Props) {
           </View>
         </ScrollView>
       </View>
+      {showModal && (
+        <AddressModal
+          action={() => setShowModal(false)}
+          navigateTo={() => {
+            setShowModal(false);
+            navigation.goBack();
+          }}
+          navigateToAddress={()=>navigation.navigate('change-address')}
+        />
+      )}
     </SafeAreaView>
   );
 }

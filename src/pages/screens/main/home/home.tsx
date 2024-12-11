@@ -18,6 +18,7 @@ import ArrowRight from '../../../../assets/images/home/yellow-right-arrow.svg';
 import {
   getStatusColor,
   quick_action_data,
+  QuickActionProps,
   vendors_data,
 } from '../../../../utils/sample-data/home';
 import {order_data, OrdersProps} from '../../../../utils/sample-data/orders';
@@ -36,19 +37,28 @@ function Home({navigation}: Props) {
   const [showBalance, setShowBalance] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const getNavRoute = (actionText: string) => {
-    const normalizedText = actionText.replace('\n', ' ').toLowerCase();
+  const navigateToProfileSection = (
+    actionName: string,
+    navigation: any,
+    data: QuickActionProps
+  ) => {
+    const normalizedText = actionName.replace('\n', ' ').toLowerCase();
     switch (normalizedText) {
       case 'cooking gas':
-        return 'gas';
+        navigation.navigate('gas', { actionDetails: data });
+        break;
       case 'petroleum':
-        return 'diesel';
+        navigation.navigate('diesel', { actionDetails: data });
+        break;
       case 'diesel':
-        return 'diesel';
+        navigation.navigate('diesel', { actionDetails: data });
+        break;
       case 'electricity':
-        return 'electricity';
-      default:
-        return 'home';
+        navigation.navigate('electricity', { actionDetails: data });
+        break;
+        default:
+        console.warn('Navigation route not defined for this item.');
+        break;
     }
   };
 
@@ -57,7 +67,8 @@ function Home({navigation}: Props) {
   };
 
   return (
-    <SafeAreaView
+   <SafeAreaView>
+     <ScrollView
       style={homeStyles.scrollview}>
       <SafeAreaView style={homeStyles.homeTop}>
         <View style={homeStyles.detailsContent}>
@@ -122,7 +133,7 @@ function Home({navigation}: Props) {
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={'#F6F6F6'}
         />
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={homeStyles.mainContent}>
             <View style={homeStyles.quickActionCont}>
               <Text style={homeStyles.quickActionText}>Quick actions</Text>
@@ -132,8 +143,7 @@ function Home({navigation}: Props) {
                     key={index}
                     style={homeStyles.actionContent}
                     onPress={() => {
-                      const route = getNavRoute(data.title);
-                      navigation.navigate(route);
+                      navigateToProfileSection(data.title, navigation, data);
                     }}>
                     <data.Img width={50} height={50} fill="none" />
                     <Text style={homeStyles.actionText}>{data.title}</Text>
@@ -213,8 +223,9 @@ function Home({navigation}: Props) {
               ))}
             </ScrollView>
           </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
+    </ScrollView>
       {showModal && (
         <AddressModal
           action={() => setShowModal(false)}
@@ -225,7 +236,7 @@ function Home({navigation}: Props) {
           navigateToAddress={()=>navigation.navigate('change-address')}
         />
       )}
-    </SafeAreaView>
+   </SafeAreaView>
   );
 }
 

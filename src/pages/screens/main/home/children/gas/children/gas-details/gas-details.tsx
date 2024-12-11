@@ -25,10 +25,16 @@ import homeStyles from '../../../../home-styles';
 import { gas_data } from '../../../../../../../../utils/sample-data/gas';
 import primaryBtnStyles from '../../../../../../../../components/Button/ButtonStyles';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { DetailsProps, QuickActionProps } from '../../../../../../../../utils/sample-data/home';
+import Offline from '../../../../../../../../assets/images/orders/offline.svg'
 
 type Props = StackScreenProps<RootStackParamList, 'gas-details'>;
 
 function GasDetails({navigation}: Props) {
+  const route = useRoute<RouteProp<RootStackParamList, 'gas-details'>>();
+  const {gasDetails}: {gasDetails?: DetailsProps} = route.params || {};
+  
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
@@ -74,20 +80,26 @@ function GasDetails({navigation}: Props) {
                   alignItems: 'center',
                   gap: 5,
                 }}>
-                <Text style={homeStyles.idText}>Status - Online</Text>
-                <Online width={10} height={10} fill="none" />
+                <Text style={homeStyles.idText}>Status - {gasDetails?.status}</Text>
+                {gasDetails?.status.toLowerCase()=== 'online' ? (
+                  <Online width={10} height={10} fill="none" />
+                )
+              :
+              (
+                <Offline width={10} height={10} fill="none" />
+              )}
               </View>
-              <Text style={homeStyles.idText}>Status - Online</Text>
+              <Text style={homeStyles.idText}>Price per kg</Text>
             </View>
             <View style={[homeStyles.orderContent, {marginTop: 10}]}>
-              <Text style={homeStyles.orderType}>Details Hub</Text>
+              <Text style={homeStyles.orderType}>{gasDetails?.name}</Text>
               <Text style={homeStyles.orderAmt}>
-                ₦{Intl.NumberFormat().format(1500)}
+                ₦{Intl.NumberFormat().format(Number(gasDetails?.delivery_fee))}
               </Text>
             </View>
             <View style={[homeStyles.orderContent, {marginVertical: 5}]}>
               <Text style={[homeStyles.orderType, {fontSize: 16}]}>
-                Estimated delivery time: 20-30mins
+                Estimated delivery time: {gasDetails?.delivery_time}
               </Text>
               <View
                 style={{
@@ -97,7 +109,7 @@ function GasDetails({navigation}: Props) {
                   gap: 2,
                 }}>
                 <Rating width={20} height={20} fill="none" />
-                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>4.2</Text>
+                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>{gasDetails?.rating}</Text>
               </View>
             </View>
             <Text style={homeStyles.idText}>
@@ -143,7 +155,7 @@ function GasDetails({navigation}: Props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             style={{marginTop: 20}}>
-            {gas_data.map((data, index) => (
+            {gasDetails?.available_gas_cylinders?.map((data: any, index: any) => (
               <TouchableOpacity
                 key={index}
                 style={[
@@ -190,7 +202,7 @@ function GasDetails({navigation}: Props) {
               cost will be shown on the next page.
             </Text>
           </View>
-          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>navigation.navigate('gas-checkout')}>
+          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>navigation.navigate('gas-checkout', {gasDetails: gasDetails, selectedCylinder: gasDetails?.available_gas_cylinders[selectedKg]})}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}
@@ -206,7 +218,7 @@ function GasDetails({navigation}: Props) {
               <View style={gasStyles.btnContent}>
                 <Text style={gasStyles.btnText}>Continue</Text>
                 <Text style={gasStyles.btnText}>
-                  ₦{Intl.NumberFormat().format(gas_data[selectedKg].amount)}
+                  ₦{Intl.NumberFormat().format(gasDetails?.available_gas_cylinders[selectedKg].amount)}
                 </Text>
               </View>
             </LinearGradient>

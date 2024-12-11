@@ -19,7 +19,23 @@ function Header({goBackAction, title, isFirstPage, directory}: Props) {
         headerStyles.headerWrapper,
         isFirstPage ? headerStyles.singleContent : headerStyles.multipleContent,
       ]}>
-      {!isFirstPage && directory.toLowerCase() === 'payment' || 'transfer' || 'card' ? (
+        {
+          isFirstPage === true ? (
+            <View></View>
+          ):
+          !isFirstPage && directory.toLowerCase() === 'payment' || 'transfer' || 'card' ?(
+            <TouchableOpacity onPress={goBackAction}>
+          <GoBack width={24} height={24} fill="none" />
+        </TouchableOpacity>
+          )
+          :
+          (
+            <TouchableOpacity onPress={goBackAction}>
+            <CloseIcon width={24} height={24} fill="none" />
+          </TouchableOpacity>
+          )
+        }
+      {/* {!isFirstPage && directory.toLowerCase() === 'payment' || 'transfer' || 'card' ? (
         <TouchableOpacity onPress={goBackAction}>
           <GoBack width={24} height={24} fill="none" />
         </TouchableOpacity>
@@ -29,12 +45,12 @@ function Header({goBackAction, title, isFirstPage, directory}: Props) {
             <CloseIcon width={24} height={24} fill="none" />
           </TouchableOpacity>
         )
-      )}
+      )} */}
       <Text style={headerStyles.title}>{title}</Text>
-      {directory.toLowerCase() === 'transfer' || 'card' ? (
+      {isFirstPage && directory.toLowerCase() === 'transfer' || 'card' ? (
         <TouchableOpacity>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
-            Help
+            {isFirstPage === true ? '' : 'Help'}
           </Text>
         </TouchableOpacity>
       ) : (

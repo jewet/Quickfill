@@ -31,6 +31,9 @@ function Contact({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'contact'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
+  console.log('profileDetails: ', profileDetails);
+  
+
   const handleNavigation = (itemDetails: ItemsProps) => {
     navigation.navigate('item-details', {itemDetails});
   };
