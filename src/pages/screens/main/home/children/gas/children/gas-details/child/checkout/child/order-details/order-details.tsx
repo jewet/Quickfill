@@ -51,17 +51,9 @@ function GasOrderDetails({navigation}: Props) {
   const delivery_fee = Number(gasDetails?.delivery_fee);
   const total = item_amt + delivery_fee;
 
-  const profileDetails = profile_data.filter(
-    item => item.profile.type === 'Contact/support',
-  );
-  console.log('support: ', profileDetails);
+  const customerSupport = profile_data
+  .find(item => item.profile.type === 'Contact/support');
 
-  const handleNavigation = (
-    orderDetails: OrdersProps,
-    target: 'rider' | 'vendor',
-  ) => {
-    navigation.navigate('chat', {orderDetails, target});
-  };
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
@@ -306,7 +298,7 @@ function GasOrderDetails({navigation}: Props) {
             navigation.goBack();
           }}
           navigateToContact={() =>
-            navigation.navigate('contact', {profileDetails})
+            navigation.navigate('contact', {profileDetails: customerSupport})
           }
           subTotal={item_amt}
           deliveryFee={delivery_fee}

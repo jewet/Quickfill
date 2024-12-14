@@ -39,7 +39,7 @@ function TimelineModal({
   deliveryFee,
   timeline_data,
 }: Props) {
-  const [isSelected, setIsSelected] = useState<number | null>();
+ 
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
@@ -62,7 +62,7 @@ function TimelineModal({
                 <Text style={homeStyles.details}>Waiting for vendor</Text>
               </View>
               <TouchableOpacity
-                style={orderDetailsStyles.viewTimeline}>
+                style={orderDetailsStyles.viewTimeline} onPress={navigateToContact}>
                 <Text
                   style={[
                     homeStyles.title,

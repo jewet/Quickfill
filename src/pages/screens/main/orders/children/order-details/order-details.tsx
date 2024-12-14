@@ -10,9 +10,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import homeStyles from '../../../home/home-styles';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {
-  OrdersProps,
-} from '../../../../../../utils/sample-data/orders';
+import {OrdersProps} from '../../../../../../utils/sample-data/orders';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import orderStyles from '../../orderStyles';
 import {
@@ -40,6 +38,7 @@ import TimelineModal from '../../../../../../components/TimelineModal/TimelineMo
 import FullProgressBar from '../../../../../../assets/images/orders/full_progress_bar.svg';
 import HalfProgressBar from '../../../../../../assets/images/orders/half_progress_bar.svg';
 import BlankProgressBar from '../../../../../../assets/images/orders/blank_progress_bar.svg';
+import {profile_data} from '../../../../../../utils/sample-data/profile';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
@@ -56,12 +55,18 @@ function OrderDetails({navigation}: Props) {
     );
   };
 
-  const subtotal = calculateSubtotal();  
-    
-  const handleNavigation = (orderDetails: OrdersProps, target: 'rider' | 'vendor') => {
-    navigation.navigate('chat', { orderDetails, target });
+  const subtotal = calculateSubtotal();
+
+  const handleNavigation = (
+    orderDetails: OrdersProps,
+    target: 'rider' | 'vendor',
+  ) => {
+    navigation.navigate('chat', {orderDetails, target});
   };
   const [showModal, setShowModal] = useState<boolean>(false);
+  const customerSupport = profile_data.find(
+    item => item.profile.type === 'Contact/support',
+  );
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -106,7 +111,9 @@ function OrderDetails({navigation}: Props) {
                 <Text style={homeStyles.title}>Delivery status</Text>
                 <Text style={homeStyles.details}>Delivery in 20-30mins</Text>
               </View>
-              <TouchableOpacity style={orderDetailsStyles.viewTimeline} onPress={()=>setShowModal(true)}>
+              <TouchableOpacity
+                style={orderDetailsStyles.viewTimeline}
+                onPress={() => setShowModal(true)}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -279,10 +286,12 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 20, width: 'auto'},
                 ]}>
-                <TouchableOpacity onPress={()=>handleNavigation(orderDetails!, 'vendor')}>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'vendor')}>
                   <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>handleNavigation(orderDetails!, 'vendor')}>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'vendor')}>
                   <ChatIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -324,81 +333,85 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 20, width: 'auto'},
                 ]}>
-                <TouchableOpacity onPress={()=>handleNavigation(orderDetails!, 'rider')}>
-                <CallIcon width={48} height={48} fill="none" />
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
+                  <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>handleNavigation(orderDetails!, 'rider')}>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
                   <ChatIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
               </View>
             </View>
           </View>
           <View style={orderDetailsStyles.totalWrapper}>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', width: '100%'},
-            ]}>
-            <Text
+            <View
               style={[
-                homeStyles.title,
-                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%'},
               ]}>
-              Subtotal
-            </Text>
-            <Text
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                Subtotal
+              </Text>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                ₦{Intl.NumberFormat().format(subtotal)}
+              </Text>
+            </View>
+            <View
               style={[
-                homeStyles.title,
-                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%'},
               ]}>
-              ₦{Intl.NumberFormat().format(subtotal)}
-            </Text>
-          </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', width: '100%'},
-            ]}>
-            <Text
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                Delivery fee
+              </Text>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                ₦{Intl.NumberFormat().format(orderDetails?.delivery?.fee)}
+              </Text>
+            </View>
+            <View
               style={[
-                homeStyles.title,
-                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%', marginTop: 5},
               ]}>
-              Delivery fee
-            </Text>
-            <Text
-              style={[
-                homeStyles.title,
-                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
-              ]}>
-              ₦{Intl.NumberFormat().format(orderDetails?.delivery?.fee)}
-            </Text>
-          </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between', width: '100%', marginTop: 5},
-            ]}>
-            <Text style={homeStyles.details}>Amount paid</Text>
-            <Text style={homeStyles.details}>
-              ₦{Intl.NumberFormat().format(Number(orderDetails?.amount))}
-            </Text>
-          </View>
+              <Text style={homeStyles.details}>Amount paid</Text>
+              <Text style={homeStyles.details}>
+                ₦{Intl.NumberFormat().format(Number(orderDetails?.amount))}
+              </Text>
+            </View>
           </View>
         </View>
       </ScrollView>
       {showModal && (
         <TimelineModal
-        action={() => setShowModal(false)}
-        navigateTo={() => {
-          setShowModal(false);
-          navigation.goBack();
-        }}
-        navigateToContact={()=>navigation.navigate('contact')}
-        subTotal={subtotal}
-        deliveryFee={orderDetails?.delivery?.fee}
-        timeline_data={orderDetails?.delivery_timeline}
-      />
+          action={() => setShowModal(false)}
+          navigateTo={() => {
+            setShowModal(false);
+            navigation.goBack();
+          }}
+          navigateToContact={() =>
+            navigation.navigate('contact', {profileDetails: customerSupport})
+          }
+          subTotal={subtotal}
+          deliveryFee={orderDetails?.delivery?.fee}
+          timeline_data={orderDetails?.delivery_timeline}
+        />
       )}
     </SafeAreaView>
   );
