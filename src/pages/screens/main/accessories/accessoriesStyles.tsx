@@ -22,13 +22,14 @@ const accessoriesStyles = StyleSheet.create({
     scrollview: {
         width: '100%',
         backgroundColor: '#F6F6F6',
-        paddingBottom: 50,
+        paddingBottom: 100,
     },
     accessoriesItemsWrapper: {
         display: 'flex',
         gap: 15,
         marginTop: 20,
-        width: '100%'
+        width: '100%',
+        paddingBottom: 300
     },
     accessoriesItems: {
         backgroundColor: '#FFFFFF',

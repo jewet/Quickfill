@@ -32,8 +32,11 @@ function Details({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-  const handleNavigation = (profileDetails: ProfileProps, target: 'name' | 'username' | 'birthday' | 'email') => {
-    navigation.navigate('update-form', { profileDetails, target });
+  const handleNavigation = (
+    profileDetails: ProfileProps,
+    target: 'name' | 'username' | 'birthday' | 'email',
+  ) => {
+    navigation.navigate('update-form', {profileDetails, target});
   };
 
   return (
@@ -46,7 +49,7 @@ function Details({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
-        directory=''
+        directory=""
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -67,29 +70,54 @@ function Details({navigation}: Props) {
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <data.icon width={24} height={24} fill="none" />
                 <View>
-                  <Text style={addressStyles.location}>{data.name || data.phone_number || data.username || data.email || data.gender || data.dob }</Text>
+                  <Text style={addressStyles.location}>
+                    {data.name ||
+                      data.phone_number ||
+                      data.username ||
+                      data.email ||
+                      data.gender ||
+                      data.dob}
+                  </Text>
                   <Text style={addressStyles.locationBottom}>{data.title}</Text>
                 </View>
               </View>
+              {data.email && (
+                <View
+                  style={{
+                    backgroundColor: '#DC5513',
+                    borderRadius: 20,
+                    paddingVertical: 3,
+                    paddingHorizontal: 8,
+                  }}>
+                  <Text
+                    style={{color: '#FFFFFF', fontWeight: 600, fontSize: 10}}>
+                    Unverified
+                  </Text>
+                </View>
+              )}
               {data.name && (
-              <TouchableOpacity onPress={()=>handleNavigation(profileDetails!, 'name')}>
-                <EditIcon width={24} height={24} fill="none" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(profileDetails!, 'name')}>
+                  <EditIcon width={24} height={24} fill="none" />
+                </TouchableOpacity>
               )}
               {data.username && (
-              <TouchableOpacity onPress={()=>handleNavigation(profileDetails!, 'username')}>
-                <EditIcon width={24} height={24} fill="none" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(profileDetails!, 'username')}>
+                  <EditIcon width={24} height={24} fill="none" />
+                </TouchableOpacity>
               )}
               {data.email && (
-              <TouchableOpacity onPress={()=>handleNavigation(profileDetails!, 'email')}>
-                <ArrowRight width={24} height={24} fill="none" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(profileDetails!, 'email')}>
+                  <ArrowRight width={24} height={24} fill="none" />
+                </TouchableOpacity>
               )}
               {data.dob && (
-              <TouchableOpacity onPress={()=>handleNavigation(profileDetails!, 'birthday')}>
-                <EditIcon width={24} height={24} fill="none" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(profileDetails!, 'birthday')}>
+                  <EditIcon width={24} height={24} fill="none" />
+                </TouchableOpacity>
               )}
             </View>
           ))}

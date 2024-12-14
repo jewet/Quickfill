@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Platform,
   ScrollView,
   StatusBar,
   Text,
@@ -35,35 +36,42 @@ import orderDetailsStyles from '../../../orders/children/order-details/orderDeta
 import vendorStyles from '../../../profile/children/favourites/children/vendors/vendorsStyles';
 import Offline from '../../../../../../assets/images/profile/offline.svg';
 import Star from '../../../../../../assets/images/accessories/tabler_star-filled.svg';
-import {quick_action_data, QuickActionProps, DetailsProps} from '../../../../../../utils/sample-data/home';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {
+  quick_action_data,
+  QuickActionProps,
+  DetailsProps,
+} from '../../../../../../utils/sample-data/home';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
 
 function Gas({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
-  const {actionDetails}: {actionDetails?: QuickActionProps} = route.params || {};
-  
+  const {actionDetails}: {actionDetails?: QuickActionProps} =
+    route.params || {};
+
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [marginTop, setMarginTop] = useState(500); 
+  const [marginTop, setMarginTop] = useState<any>('100%');
   const [prevScrollY, setPrevScrollY] = useState(0);
 
   const handleScroll = (event: any) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
 
-    if (currentScrollY < prevScrollY && marginTop > 0) {
+    if (currentScrollY > prevScrollY && marginTop !== 0) {
       setMarginTop(0);
-    } else if (currentScrollY > prevScrollY && marginTop === 0) {
-      setMarginTop(500);
     }
 
-    setPrevScrollY(currentScrollY); 
+    setPrevScrollY(currentScrollY);
   };
+  const margin_top = Platform.OS === 'ios' ? '-12%' : 0
+  const margin_left = Platform.OS === 'ios' ? '-12%' : 0
+  const border_radius = Platform.OS === 'ios' ? 80 : 50
+  const change_address_height = Platform.OS === 'ios' ? 80 : 50
   return (
     <SafeAreaView style={dieselStyles.dieselContainer}>
       <StatusBar
@@ -74,7 +82,7 @@ function Gas({navigation}: Props) {
         <Map
           width={width}
           height={1022}
-          style={{position: 'absolute', left: -205, right: 0}}
+          style={{position: 'absolute', left: -200, right: 0}}
         />
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>
@@ -84,20 +92,29 @@ function Gas({navigation}: Props) {
                 8-26 Ango Abdullahi St, Gwarinpa, 900108...
               </Text>
             </View>
-            <TouchableOpacity onPress={()=>setShowModal(true)}>
+            <TouchableOpacity onPress={() => setShowModal(true)}>
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={{width: '100%', display: 'flex', alignItems: 'center', zIndex: 2000}} onPress={()=>navigation.navigate('change-address')}>
+          <TouchableOpacity
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              zIndex: 2000,
+            }}
+            onPress={() => navigation.navigate('change-address')}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
               style={[
                 profileStyles.profileTopBtn,
-                {width: '80%', borderRadius: 50},
+                {width: '80%', borderRadius: border_radius, height: change_address_height,},
               ]}>
-                <Text onPress={()=>navigation.navigate('change-address')}>Change delivery address</Text>
+              <Text onPress={() => navigation.navigate('change-address')} style={{marginTop: margin_top, marginLeft: margin_left}}>
+                Change delivery address
+              </Text>
             </LinearGradient>
           </TouchableOpacity>
           <PricePin
@@ -118,9 +135,8 @@ function Gas({navigation}: Props) {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={[dieselStyles.scrollview, {marginTop}]}
-          // onScroll={handleScroll}
-          // scrollEventThrottle={16}
-          >
+          onScroll={handleScroll}
+          scrollEventThrottle={16}>
           <View
             style={{
               display: 'flex',
@@ -128,9 +144,23 @@ function Gas({navigation}: Props) {
               gap: 10,
               width: '100%',
             }}>
-            <TouchableOpacity>
-              <PopUp width={34} height={6} fill="none" />
-            </TouchableOpacity>
+            {marginTop === 0 ? (
+              <View
+                style={{
+                  display: 'flex',
+                  width: '100%',
+                  marginVertical: 20,
+                  marginLeft: 16,
+                }}>
+                <TouchableOpacity onPress={() => setMarginTop(500)}>
+                  <CloseIcon width={24} height={24} fill="none" />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity>
+                <PopUp width={34} height={6} fill="none" />
+              </TouchableOpacity>
+            )}
             <View style={{width: '100%'}}>
               {actionDetails?.details?.map((data: any, index: number) => (
                 <TouchableOpacity
@@ -139,7 +169,11 @@ function Gas({navigation}: Props) {
                     orderDetailsStyles.flexContainer,
                     vendorStyles.vendorCont,
                   ]}
-                  onPress={() => navigation.navigate('gas-details', {gasDetails: actionDetails?.details[index]})}>
+                  onPress={() =>
+                    navigation.navigate('gas-details', {
+                      gasDetails: actionDetails?.details[index],
+                    })
+                  }>
                   <View
                     style={[
                       orderDetailsStyles.flexContainer,
@@ -188,7 +222,7 @@ function Gas({navigation}: Props) {
             </View>
           </View>
         </ScrollView>
-      </View> 
+      </View>
       {showModal && (
         <AddressModal
           action={() => setShowModal(false)}
@@ -196,7 +230,7 @@ function Gas({navigation}: Props) {
             setShowModal(false);
             navigation.goBack();
           }}
-          navigateToAddress={()=>navigation.navigate('change-address')}
+          navigateToAddress={() => navigation.navigate('change-address')}
         />
       )}
     </SafeAreaView>

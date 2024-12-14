@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
+  Platform,
   ScrollView,
   StatusBar,
   Text,
@@ -23,7 +24,10 @@ import Edit from '../../../../assets/images/profile/edit.svg';
 import Referral from '../../../../assets/images/profile/referral.svg';
 import ArrowRight from '../../../../assets/images/profile/tabler_chevron-right.svg';
 import orderDetailsStyles from '../orders/children/order-details/orderDetailsStyles';
-import {profile_data, ProfileProps} from '../../../../utils/sample-data/profile';
+import {
+  profile_data,
+  ProfileProps,
+} from '../../../../utils/sample-data/profile';
 
 type Props = StackScreenProps<RootStackParamList, 'profile'>;
 
@@ -36,39 +40,44 @@ function Profile({navigation}: Props) {
   const navigateToProfileSection = (
     profileName: string,
     navigation: any,
-    data: ProfileProps
+    data: ProfileProps,
   ) => {
     switch (profileName) {
       case 'Referral code':
-        navigation.navigate('referral', { profileDetails: data });
+        navigation.navigate('referral', {profileDetails: data});
         break;
       case 'My Wallet':
-        navigation.navigate('user-wallet', { profileDetails: data });
+        navigation.navigate('user-wallet', {profileDetails: data});
         break;
       case 'My Details':
-        navigation.navigate('user-details', { profileDetails: data });
+        navigation.navigate('user-details', {profileDetails: data});
         break;
       case 'My Favourites':
-        navigation.navigate('favourite', { profileDetails: data });
+        navigation.navigate('favourite', {profileDetails: data});
         break;
       case 'Saved Addresses':
-        navigation.navigate('user-address', { profileDetails: data });
+        navigation.navigate('user-address', {profileDetails: data});
         break;
       case 'Payment':
-        navigation.navigate('user-payment', { profileDetails: data });
+        navigation.navigate('user-payment', {profileDetails: data});
         break;
       case 'Help/feedback':
-        navigation.navigate('help', { profileDetails: data });
+        navigation.navigate('help', {profileDetails: data});
         break;
       case 'Contact/support':
-        navigation.navigate('contact', { profileDetails: data });
+        navigation.navigate('contact', {profileDetails: data});
         break;
       default:
         console.warn('Navigation route not defined for this item.');
         break;
     }
   };
-  
+
+  const personalDetails = profile_data
+    .find(item => item.profile.type === 'My Details');
+
+  const linear_height = Platform.OS === 'ios' ? 110 : 'auto';
+  const padding_horizontal = Platform.OS === 'ios' ? 20 : 10;
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -80,9 +89,10 @@ function Profile({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={true}
         title="Profile settings"
-        directory=''
+        directory=""
       />
       <ScrollView
+        scrollEnabled
         showsVerticalScrollIndicator={false}
         style={profileStyles.scrollview}>
         <View style={profileStyles.profileTop}>
@@ -94,7 +104,12 @@ function Profile({navigation}: Props) {
             <View
               style={[
                 orderDetailsStyles.flexContainer,
-                {justifyContent: 'space-between', alignItems: 'flex-start'},
+                {
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  height: linear_height,
+                  paddingRight: padding_horizontal,
+                },
               ]}>
               <View style={{display: 'flex', gap: 5}}>
                 <Text style={profileStyles.name}>Samuel Ministar</Text>
@@ -103,7 +118,7 @@ function Profile({navigation}: Props) {
                   Main wallet: <Text style={profileStyles.amt}>₦96,484.09</Text>
                 </Text>
               </View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate('user-details', {profileDetails: personalDetails})}>
                 <Edit width={50} height={50} fill="none" />
               </TouchableOpacity>
             </View>
@@ -125,18 +140,31 @@ function Profile({navigation}: Props) {
                 profileStyles.referralWrapper,
               ]}
               key={index}
-              onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}
-              >
+              onPress={() =>
+                navigateToProfileSection(data.profile.type, navigation, data)
+              }>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <Referral width={40} height={40} fill="none" />
-                <TouchableOpacity onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
-                  <Text style={profileStyles.referralCode}>{data.profile.type}</Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigateToProfileSection(
+                      data.profile.type,
+                      navigation,
+                      data,
+                    )
+                  }>
+                  <Text style={profileStyles.referralCode}>
+                    {data.profile.type}
+                  </Text>
                   <Text style={profileStyles.referralText}>
                     Refer friends & earn!
                   </Text>
                 </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigateToProfileSection(data.profile.type, navigation, data)
+                }>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>
             </TouchableOpacity>
@@ -148,6 +176,7 @@ function Profile({navigation}: Props) {
               alignItems: 'center',
               gap: 20,
               marginTop: 10,
+              paddingBottom: 200,
             }}>
             {profile_data.slice(1, profile_data.length).map((data, index) => (
               <TouchableOpacity
@@ -156,17 +185,54 @@ function Profile({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {justifyContent: 'space-between'},
                 ]}
-                onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
+                onPress={() =>
+                  navigateToProfileSection(data.profile.type, navigation, data)
+                }>
                 <TouchableOpacity
-                  style={[orderDetailsStyles.flexContainer, {width: 'auto'}]} onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
-                  <TouchableOpacity onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
+                  style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}
+                  onPress={() =>
+                    navigateToProfileSection(
+                      data.profile.type,
+                      navigation,
+                      data,
+                    )
+                  }>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigateToProfileSection(
+                        data.profile.type,
+                        navigation,
+                        data,
+                      )
+                    }>
                     <data.icon width={40} height={40} fill="none" />
                   </TouchableOpacity>
                   <Text style={profileStyles.referralCode}>
                     {data.profile.type}
                   </Text>
+                {data.profile.type.toLowerCase() === 'my details' && (
+                  <View
+                    style={{
+                      backgroundColor: '#F04545',
+                      borderRadius: 20,
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                    }}>
+                    <Text
+                      style={{color: '#FFFFFF', fontWeight: 700, fontSize: 12}}>
+                      Verify email
+                    </Text>
+                  </View>
+                )}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigateToProfileSection(data.profile.type, navigation, data)}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigateToProfileSection(
+                      data.profile.type,
+                      navigation,
+                      data,
+                    )
+                  }>
                   <ArrowRight width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </TouchableOpacity>

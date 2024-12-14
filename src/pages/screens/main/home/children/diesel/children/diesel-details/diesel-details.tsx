@@ -107,7 +107,7 @@ function DieselDetails({navigation}: Props) {
             <DieselPump width={273} height={350} fill="none" />
         </View>
         <View style={gasStyles.gasBottom}>
-          <Text style={gasStyles.heading}>Enter refill size (optional)</Text>
+          <Text style={gasStyles.heading}>Enter amount</Text>
           <TextInput style={gasStyles.input} />
           <View style={gasStyles.noteWrapper}>
             <View

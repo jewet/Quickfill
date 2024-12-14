@@ -46,9 +46,12 @@ const dieselStyles = StyleSheet.create({
     marginTop: verticalScale(10),
     position: 'absolute',
     zIndex: 100,
-    left: -205,
+    left: -200,
     width: '100%',
-    top: 0
+    top: 0,
+    right: 0,
+    display: 'flex',
+    alignItems: 'center',
   },
   address: {
     backgroundColor: '#FFFFFF',
@@ -58,7 +61,7 @@ const dieselStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#5E5E5E',
     alignItems: 'center',
-    height: 60
+    height: 60,
   },
   heading: {
     fontFamily: 'Plus Jakarta Sans',

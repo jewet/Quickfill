@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../assets/images/electricity/close_btn.svg';
 import SelectedIcon from '../../assets/images/electricity/selected-bill.svg';
@@ -26,7 +26,7 @@ function AddressModal({action, navigateTo, navigateToAddress}: Props) {
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
-      <View style={electricityPaymentStyles.modalCont}>
+      <View style={[electricityPaymentStyles.modalCont, {height: '60%'}]}>
         <View style={electricityPaymentStyles.paymentTopWrapper}>
           <View style={electricityPaymentStyles.paymentTop}>
             <Text
@@ -46,6 +46,7 @@ function AddressModal({action, navigateTo, navigateToAddress}: Props) {
             </TouchableOpacity>
           </View>
         </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{width: '100%'}}>
           <TouchableOpacity
             style={[
@@ -134,6 +135,7 @@ function AddressModal({action, navigateTo, navigateToAddress}: Props) {
         <View style={{width: '100%', paddingHorizontal: 20}}>
           <Button text="Save changes" action={action} />
         </View>
+      </ScrollView>
       </View>
     </SafeAreaView>
   );

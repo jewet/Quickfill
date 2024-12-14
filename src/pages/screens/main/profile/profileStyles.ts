@@ -28,7 +28,7 @@ const profileStyles = StyleSheet.create({
   profileTop: {
     width: '100%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   referralWrapper: {
     justifyContent: 'space-between', 

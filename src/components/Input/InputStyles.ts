@@ -88,6 +88,26 @@ const inputStyles = StyleSheet.create({
     fontWeight: '400',
     color: '#FFB600',
     marginTop: 5
+  },
+  dateText:{
+    fontSize: moderateScale(14),
+    fontFamily: 'Plus Jakarta Sans',
+    lineHeight: moderateScale(17.64),
+    fontWeight: '400',
+    color: '#2C2C2C',
+  },
+  dateWrapper: {
+    width: '100%',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#A8A8A3',
+    borderRadius: 24,
+    height: 48,
+    marginTop: 10,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingHorizontal: 16
   }
 });
 

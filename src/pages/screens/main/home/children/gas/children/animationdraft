@@ -1,0 +1,198 @@
+// import React, { useState, useRef } from 'react';
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   Animated,
+//   Dimensions,
+//   FlatList,
+//   TouchableOpacity,
+// } from 'react-native';
+
+// const screenWidth = Dimensions.get('window').width;
+
+// const GasSelection = () => {
+//   const cylinderSizes = [
+//     { size: 3, price: 4500 },
+//     { size: 6, price: 9000 },
+//     { size: 12, price: 18000 },
+//     { size: 25, price: 45000 },
+//   ];
+
+//   const [selectedIndex, setSelectedIndex] = useState(2); // Default selection
+//   const scrollX = useRef(new Animated.Value(0)).current;
+//   const flatListRef = useRef<FlatList>(null); // Ref for FlatList
+
+//   // Handle scroll to bring the clicked item to the center
+//   const scrollToIndex = (index: number) => {
+//     setSelectedIndex(index); // Update selected index
+//     flatListRef.current?.scrollToIndex({
+//       index,
+//       animated: true, // Smooth scrolling
+//       viewPosition: 0.5, // Center the item in the viewport
+//     });
+//   };
+
+//   const handleScroll = (event: any) => {
+//     // Calculate the selected index based on scroll position
+//     const contentOffsetX = event.nativeEvent.contentOffset.x;
+//     const index = Math.round(contentOffsetX / (screenWidth * 0.6)); // Item width
+//     setSelectedIndex(index);
+//   };
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.infoTitle}>Gas Hub</Text>
+//       <Text style={styles.infoDetails}>
+//         Selected: {cylinderSizes[selectedIndex].size}kg
+//       </Text>
+
+//       {/* Cylinder Carousel */}
+//       <Animated.FlatList
+//         ref={flatListRef} // Attach the FlatList reference
+//         data={cylinderSizes}
+//         horizontal
+//         keyExtractor={(item, index) => `${index}`}
+//         showsHorizontalScrollIndicator={false}
+//         contentContainerStyle={styles.flatListContainer}
+//         snapToInterval={screenWidth * 0.6} // Snap items to center
+//         decelerationRate="fast"
+//         onScroll={Animated.event(
+//           [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+//           { useNativeDriver: true }
+//         )}
+//         onMomentumScrollEnd={handleScroll}
+//         renderItem={({ item, index }) => {
+//           const scale = scrollX.interpolate({
+//             inputRange: [
+//               (index - 1) * (screenWidth * 0.6),
+//               index * (screenWidth * 0.6),
+//               (index + 1) * (screenWidth * 0.6),
+//             ],
+//             outputRange: [0.8, 1, 0.8], // Scale smaller for adjacent items
+//             extrapolate: 'clamp',
+//           });
+
+//           const opacity = scrollX.interpolate({
+//             inputRange: [
+//               (index - 1) * (screenWidth * 0.6),
+//               index * (screenWidth * 0.6),
+//               (index + 1) * (screenWidth * 0.6),
+//             ],
+//             outputRange: [0.5, 1, 0.5], // Fade out adjacent items
+//             extrapolate: 'clamp',
+//           });
+
+//           return (
+//             <Animated.View
+//               style={[
+//                 styles.itemContainer,
+//                 {
+//                   transform: [{ scale }],
+//                   opacity,
+//                 },
+//               ]}>
+//               <Text
+//                 style={[
+//                   styles.cylinderText,
+//                   selectedIndex === index && styles.selectedCylinderText,
+//                 ]}>
+//                 {item.size}kg
+//               </Text>
+//               <Text style={styles.cylinderPrice}>
+//                 ₦{item.price.toLocaleString()}
+//               </Text>
+//             </Animated.View>
+//           );
+//         }}
+//       />
+
+//       {/* Cylinder Selection Buttons */}
+//       <View style={styles.buttonsContainer}>
+//         {cylinderSizes.map((item, index) => (
+//           <TouchableOpacity
+//             key={index}
+//             style={[
+//               styles.button,
+//               selectedIndex === index && styles.selectedButton,
+//             ]}
+//             onPress={() => scrollToIndex(index)} // Scroll to selected item on press
+//           >
+//             <Text style={styles.buttonText}>
+//               {item.size}kg - ₦{item.price.toLocaleString()}
+//             </Text>
+//           </TouchableOpacity>
+//         ))}
+//       </View>
+//     </View>
+//   );
+// };
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     paddingVertical: 16,
+//   },
+//   infoTitle: {
+//     fontSize: 20,
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//     marginBottom: 10,
+//   },
+//   infoDetails: {
+//     fontSize: 16,
+//     color: '#555',
+//     textAlign: 'center',
+//     marginBottom: 20,
+//   },
+//   flatListContainer: {
+//     alignItems: 'center',
+//   },
+//   itemContainer: {
+//     width: screenWidth * 0.6, // Each item takes 60% of screen width
+//     height: 200,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginHorizontal: 10,
+//   },
+//   cylinderText: {
+//     fontSize: 18,
+//     fontWeight: '400',
+//     color: '#555',
+//   },
+//   selectedCylinderText: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     color: '#333',
+//   },
+//   cylinderPrice: {
+//     fontSize: 14,
+//     color: '#777',
+//     marginTop: 5,
+//   },
+//   buttonsContainer: {
+//     marginTop: 20,
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'space-around',
+//   },
+//   button: {
+//     padding: 12,
+//     borderWidth: 1,
+//     borderColor: '#ccc',
+//     borderRadius: 8,
+//     marginVertical: 8,
+//     width: '45%',
+//     alignItems: 'center',
+//   },
+//   selectedButton: {
+//     borderColor: '#f90',
+//     backgroundColor: '#ffe5b4',
+//   },
+//   buttonText: {
+//     fontSize: 16,
+//   },
+// });
+
+// export default GasSelection;

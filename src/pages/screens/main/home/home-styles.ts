@@ -6,8 +6,8 @@ const scale = (size: number) => (screenWidth / 375) * size;
 const verticalScale = (size: number) => (screenHeight / 812) * size; 
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
-const quick_action_margin_top = Platform.OS === 'ios' ? -60 : -5
-const details_content_margin_bottom = Platform.OS === 'ios' ? -25 : 5
+const quick_action_margin_top = Platform.OS === 'ios' ? -20 : -5
+const details_content_margin_bottom = Platform.OS === 'ios' ? 5 : 5
 
 const homeStyles = StyleSheet.create({
   homeContainer: {
@@ -34,7 +34,7 @@ const homeStyles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    marginBottom: details_content_margin_bottom
+    marginBottom: details_content_margin_bottom,
   },
   balanceContent: {
     display: 'flex',
@@ -42,14 +42,14 @@ const homeStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   title: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(11),
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: moderateScale(15.12),
     fontWeight: '500',
     color: '#919191',
   },
   details: {
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(13),
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: moderateScale(17.64),
     fontWeight: '600',
@@ -74,7 +74,7 @@ const homeStyles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: scale(15),
     paddingVertical: verticalScale(20),
-    marginTop: -12
+    marginTop: -8
   },
   actionContent: {
     display: 'flex',

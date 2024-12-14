@@ -1,6 +1,8 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {
+  Dimensions,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -44,7 +46,10 @@ function Wallet({navigation}: Props) {
   const [showreferText, setShowreferText] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
 
- 
+  const linear_height = Platform.OS === 'ios' ? 110 : 'auto';
+  const margin_top = Platform.OS === 'ios' ? 40 : 0;
+  const {width, height} = Dimensions.get('window');
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -58,8 +63,8 @@ function Wallet({navigation}: Props) {
           colors={['#A8A8A3', '#5E5E5E']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 1}}
-          style={walletStyles.linearBg}>
-          <View style={{width: '100%'}}>
+          style={[walletStyles.linearBg]}>
+          <View style={{width: width}}>
             {showreferText && (
               <View
                 style={[
@@ -76,16 +81,20 @@ function Wallet({navigation}: Props) {
                 </TouchableOpacity>
               </View>
             )}
-            <View style={profileStyles.profileTop}>
+            <View style={[profileStyles.profileTop]}>
               <LinearGradient
                 colors={['#FFD366', '#FFB600']}
                 start={{x: 0, y: 1}}
                 end={{x: 1, y: 0}}
-                style={[profileStyles.profileTopBtn, {width: '100%'}]}>
+                style={[profileStyles.profileTopBtn, {width: '90%'}]}>
                 <View
                   style={[
                     orderDetailsStyles.flexContainer,
-                    {justifyContent: 'space-between', alignItems: 'flex-start'},
+                    {
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      height: linear_height,
+                    },
                   ]}>
                   <View style={{display: 'flex', gap: 5}}>
                     <Text
@@ -130,7 +139,9 @@ function Wallet({navigation}: Props) {
                   marginTop: 20,
                 },
               ]}>
-              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}} onPress={() => setShowModal(true)}>
+              <TouchableOpacity
+                style={{display: 'flex', alignItems: 'center'}}
+                onPress={() => setShowModal(true)}>
                 <TopUp width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Top up</Text>
               </TouchableOpacity>

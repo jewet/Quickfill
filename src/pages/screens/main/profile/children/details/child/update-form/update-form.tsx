@@ -22,15 +22,24 @@ import Input from '../../../../../../../../components/Input/AuthInput';
 import inputStyles from '../../../../../../../../components/Input/InputStyles';
 import SendIcon from '../../../../../../../../assets/images/profile/tabler_send.svg';
 import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
-import { height } from '../../../../../home/children/diesel/dieselStyles';
+import {height} from '../../../../../home/children/diesel/dieselStyles';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
 
 function UpdateForm({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
+  const [date, setDate] = React.useState(new Date()); // State to hold selected date
+  const [showPicker, setShowPicker] = React.useState(false); // State to show/hide picker
 
-  const margin_top = 300
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowPicker(false); // Close the picker
+    if (selectedDate) {
+      setDate(selectedDate); // Update the date state
+    }
+  };
+  const margin_top = 300;
 
   const renderInputs = () => {
     switch (target) {
@@ -110,7 +119,7 @@ function UpdateForm({navigation}: Props) {
                 gap: 15,
                 borderWidth: 1,
                 borderColor: primaryColor,
-                marginTop: 20
+                marginTop: 20,
               }}>
               <SendIcon width={24} height={24} fill="none" />
               <Text>Resend verification email</Text>
@@ -119,15 +128,30 @@ function UpdateForm({navigation}: Props) {
         );
       case 'birthday':
         return (
-          <Input
-            label="Month of birth"
-            placeholder=""
-            value=""
-            secured={false}
-            directory={null}
-            keyboardType="default"
-            action={null}
-          />
+          <View style={{width: '100%'}}>
+            <Text style={[inputStyles.label, {textAlign: 'left'}]}>
+              Select your date of birth
+            </Text>
+            <TouchableOpacity
+              style={inputStyles.dateWrapper}
+              onPress={() => setShowPicker(true)}>
+              <Text style={inputStyles.dateText}>
+                {date.toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </Text>
+            </TouchableOpacity>
+            {showPicker && (
+              <DateTimePicker
+                value={date}
+                mode="date"
+                display="spinner"
+                onChange={handleDateChange}
+                textColor={'#2C2C2C'}
+              />
+            )}
+          </View>
         );
       default:
         return null;
@@ -148,19 +172,29 @@ function UpdateForm({navigation}: Props) {
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={[favouritesStyles.scrollview, {paddingHorizontal: 16, height: height}]}>
-       <View style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 100}}>
-       {renderInputs()}
+        style={[
+          favouritesStyles.scrollview,
+          {paddingHorizontal: 16, height: height},
+        ]}>
         <View
           style={{
-            marginTop: margin_top,
+            height: '100%',
             display: 'flex',
-            flexDirection: 'row',
-            alignSelf: 'flex-end',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingBottom: 100,
           }}>
-          <Button text="Save changes" action={() => console.log('pressed')} />
+          {renderInputs()}
+          <View
+            style={{
+              marginTop: margin_top,
+              display: 'flex',
+              flexDirection: 'row',
+              alignSelf: 'flex-end',
+            }}>
+            <Button text="Save changes" action={() => console.log('pressed')} />
+          </View>
         </View>
-       </View>
       </ScrollView>
     </SafeAreaView>
   );

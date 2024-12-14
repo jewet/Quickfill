@@ -32,11 +32,8 @@ type Props = StackScreenProps<RootStackParamList, 'change-address'>;
 function ChangeAddress({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'change-address'>>();
   const [selectedType, setSelectedType] = useState<string>('Home');
-  const [selectedAddressType, setSelectedAddressType] = useState('');
-  const addressTypeOptions = [
-    { label: 'Home', value: 'home' },
-    { label: 'Work', value: 'work' },
-  ];
+  const [showAddressDropDown, setShowAddressDropDown] = useState(false);
+  const addressTypeOptions = [{type: 'Home'}, {type: 'Work'}];
   return (
     <SafeAreaView
       style={[accessoriesStyles.accessoriesContainer, {position: 'relative'}]}>
@@ -63,22 +60,46 @@ function ChangeAddress({navigation}: Props) {
           <View
             style={{
               width: '35%',
+              position: 'relative',
             }}>
             <Text
               style={[inputStyles.label, {textAlign: 'left', marginBottom: 5}]}>
               Address street{' '}
             </Text>
             <View style={inputStyles.securedInputWrapper}>
-              <View style={inputStyles.passwordInput}>
-                <TextInput
-                  placeholder="Home"
-                  keyboardType="default"
-                  style={inputStyles.securedInput}
-                />
-                <TouchableOpacity>
+              <TouchableOpacity onPress={() => setShowAddressDropDown(true)} style={inputStyles.passwordInput}>
+                <Text style={inputStyles.securedInput} onPress={() => setShowAddressDropDown(true)}>{selectedType}</Text>
+                <TouchableOpacity onPress={() => setShowAddressDropDown(true)}>
                   <DropDown width={20} height={20} fill="none" />
                 </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
+              {showAddressDropDown && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    backgroundColor: '#FFFFFF',
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    paddingVertical: 10,
+                    borderRadius: 10,
+                    top: 40,
+                    zIndex: 111,
+                  }}>
+                  {addressTypeOptions.map((data, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      style={{paddingVertical: 10}}
+                      onPress={() => {
+                        setSelectedType(data.type);
+                        setShowAddressDropDown(false);
+                      }}>
+                      <Text style={inputStyles.securedInput}>{data.type}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
             </View>
           </View>
           <Input

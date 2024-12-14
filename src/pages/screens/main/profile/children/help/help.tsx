@@ -43,7 +43,7 @@ function Help({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
-        directory=''
+        directory=""
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -57,7 +57,7 @@ function Help({navigation}: Props) {
         </View>
         <View>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
-            <View
+            <TouchableOpacity
               style={[
                 orderDetailsStyles.flexContainer,
                 {
@@ -75,10 +75,14 @@ function Help({navigation}: Props) {
                 </View>
               </View>
               <TouchableOpacity
-                onPress={() => navigation.navigate('complaints')}>
+                onPress={() =>
+                  data.name === 'Complaints & feedback'
+                    ? navigation.navigate('complaints')
+                    : null
+                }>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>

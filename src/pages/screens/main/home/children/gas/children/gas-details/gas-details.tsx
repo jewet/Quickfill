@@ -1,7 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
+  Animated,
+  Dimensions,
+  FlatList,
   ScrollView,
   StatusBar,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -19,28 +23,66 @@ import BigGas from '../../../../../../../../assets/images/gas/big-gas.svg';
 import BiggerGas from '../../../../../../../../assets/images/gas/bigger-gas.svg';
 import BiggestGas from '../../../../../../../../assets/images/gas/biggest-gas.svg';
 import LinearGradient from 'react-native-linear-gradient';
-import { RootStackParamList } from '../../../../../../../../utils/nav-routes/types';
+import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import gasStyles from './gasStyles';
 import homeStyles from '../../../../home-styles';
-import { gas_data } from '../../../../../../../../utils/sample-data/gas';
+import {gas_data} from '../../../../../../../../utils/sample-data/gas';
 import primaryBtnStyles from '../../../../../../../../components/Button/ButtonStyles';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { DetailsProps, QuickActionProps } from '../../../../../../../../utils/sample-data/home';
-import Offline from '../../../../../../../../assets/images/orders/offline.svg'
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {
+  DetailsProps,
+  QuickActionProps,
+} from '../../../../../../../../utils/sample-data/home';
+import Offline from '../../../../../../../../assets/images/orders/offline.svg';
+import Carousel from 'react-native-reanimated-carousel';
+
+const screenWidth = Dimensions.get('window').width;
 
 type Props = StackScreenProps<RootStackParamList, 'gas-details'>;
 
 function GasDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-details'>>();
   const {gasDetails}: {gasDetails?: DetailsProps} = route.params || {};
-  
+
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedKg, setSelectedKg] = useState<number>(0);
+  const cylinderSizes = [
+    {size: 3, price: 4500},
+    {size: 6, price: 9000},
+    {size: 12, price: 18000},
+    {size: 25, price: 45000},
+  ];
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef<FlatList>(null);
+
+  const scrollToIndex = (index: number) => {
+    setSelectedIndex(index);
+    flatListRef.current?.scrollToIndex({
+      index,
+      animated: true,
+      viewPosition: 0.5,
+    });
+  };
+
+  const handleScroll = (event: any) => {
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
+    const index = Math.round(contentOffsetX / (screenWidth * 0.6));
+    setSelectedIndex(index);
+  };
+
+  const handleButtonPress = (index: number) => {
+    setSelectedIndex(index);
+    scrollToIndex(index);
+  };
+  
+
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
       <StatusBar
@@ -80,14 +122,14 @@ function GasDetails({navigation}: Props) {
                   alignItems: 'center',
                   gap: 5,
                 }}>
-                <Text style={homeStyles.idText}>Status - {gasDetails?.status}</Text>
-                {gasDetails?.status.toLowerCase()=== 'online' ? (
+                <Text style={homeStyles.idText}>
+                  Status - {gasDetails?.status}
+                </Text>
+                {gasDetails?.status.toLowerCase() === 'online' ? (
                   <Online width={10} height={10} fill="none" />
-                )
-              :
-              (
-                <Offline width={10} height={10} fill="none" />
-              )}
+                ) : (
+                  <Offline width={10} height={10} fill="none" />
+                )}
               </View>
               <Text style={homeStyles.idText}>Price per kg</Text>
             </View>
@@ -109,7 +151,9 @@ function GasDetails({navigation}: Props) {
                   gap: 2,
                 }}>
                 <Rating width={20} height={20} fill="none" />
-                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>{gasDetails?.rating}</Text>
+                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>
+                  {gasDetails?.rating}
+                </Text>
               </View>
             </View>
             <Text style={homeStyles.idText}>
@@ -117,33 +161,69 @@ function GasDetails({navigation}: Props) {
             </Text>
           </View>
         </View>
+        <View style={{width: '100%', display: 'flex', alignItems: 'flex-start'}}>
+        <View style={gasStyles.selectedKgWrapper}>
+          <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
+            {gas_data[selectedIndex].kg}kg
+          </Text>
+        </View>
+        <View>
+        </View>
+          <Animated.FlatList
+            ref={flatListRef}
+            data={gasDetails?.available_gas_cylinders}
+            horizontal
+            keyExtractor={(item, index) => `${index}`}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.flatListContainer}
+            snapToInterval={screenWidth * 0.6}
+            decelerationRate="fast"
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: true},
+            )}
+            onMomentumScrollEnd={handleScroll}
+            renderItem={({item, index}) => {
+              const scale = scrollX.interpolate({
+                inputRange: [
+                  (index - 1) * (screenWidth * 0.6),
+                  index * (screenWidth * 0.6),
+                  (index + 1) * (screenWidth * 0.6),
+                ],
+                outputRange: [0.8, 1, 0.8],
+                extrapolate: 'clamp',
+              });
+
+              const opacity = scrollX.interpolate({
+                inputRange: [
+                  (index - 1) * (screenWidth * 0.6),
+                  index * (screenWidth * 0.6),
+                  (index + 1) * (screenWidth * 0.6),
+                ],
+                outputRange: [0.5, 1, 0.5],
+                extrapolate: 'clamp',
+              });
+
+              return (
+                <Animated.View
+                  style={[
+                    styles.itemContainer,
+                    {
+                      transform: [{scale}],
+                      // opacity,
+                    },
+                  ]}>
+                  <BiggestGas
+                    width={index === selectedIndex ? 165 : 115}
+                    height={index === selectedIndex ? 240 : 150}
+                    fill="none"
+                  />
+                </Animated.View>
+              );
+            }}
+          />
+        </View>
         <View style={{width: '100%'}}>
-          <View style={gasStyles.selectedKgWrapper}>
-            <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
-              {gas_data[selectedKg].kg}kg
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'flex-end',
-            }}>
-            <BigGas
-              width={115}
-              height={150}
-              fill="none"
-              style={{marginLeft: -25}}
-            />
-            <BiggestGas width={165} height={240} fill="none" />
-            <BiggerGas
-              width={115}
-              height={160}
-              fill="none"
-              style={{marginRight: -25}}
-            />
-          </View>
           <Text
             style={[
               gasStyles.heading,
@@ -155,35 +235,41 @@ function GasDetails({navigation}: Props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             style={{marginTop: 20}}>
-            {gasDetails?.available_gas_cylinders?.map((data: any, index: any) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  gasStyles.gasSelectionWrapper,
-                  {borderColor: index === selectedKg ? '#FFB600' : '#5E5E5E'},
-                ]}
-                onPress={() => setSelectedKg(index)}>
-                <View style={gasStyles.gasCylinder}>
-                  <data.img fill="none" />
-                </View>
-                <Text
+            {gasDetails?.available_gas_cylinders?.map(
+              (data: any, index: any) => (
+                <TouchableOpacity
+                  key={index}
                   style={[
-                    homeStyles.orderType,
-                    gasStyles.selectedKg,
-                    {marginBottom: 10},
-                  ]}>
-                  {data.kg}kg
-                </Text>
-                <Text style={homeStyles.orderType}>
-                  ₦{Intl.NumberFormat().format(data.amount)}
-                </Text>
-              </TouchableOpacity>
-            ))}
+                    gasStyles.gasSelectionWrapper,
+                    {
+                      borderColor:
+                        index === selectedIndex ? '#FFB600' : '#5E5E5E',
+                    },
+                  ]}
+                  // onPress={() => setSelectedKg(index)}
+                  onPress={() => handleButtonPress(index)}>
+                  <View style={gasStyles.gasCylinder}>
+                    <data.img fill="none" />
+                  </View>
+                  <Text
+                    style={[
+                      homeStyles.orderType,
+                      gasStyles.selectedKg,
+                      {marginBottom: 10},
+                    ]}>
+                    {data.kg}kg
+                  </Text>
+                  <Text style={homeStyles.orderType}>
+                    ₦{Intl.NumberFormat().format(data.amount)}
+                  </Text>
+                </TouchableOpacity>
+              ),
+            )}
           </ScrollView>
         </View>
         <View style={gasStyles.gasBottom}>
           <Text style={gasStyles.heading}>Enter refill size (optional)</Text>
-          <TextInput style={gasStyles.input} />
+          <TextInput style={gasStyles.input} value={`${gasDetails?.available_gas_cylinders[selectedIndex].kg}kg`} />
           <View style={gasStyles.noteWrapper}>
             <View
               style={{
@@ -202,7 +288,15 @@ function GasDetails({navigation}: Props) {
               cost will be shown on the next page.
             </Text>
           </View>
-          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>navigation.navigate('gas-checkout', {gasDetails: gasDetails, selectedCylinder: gasDetails?.available_gas_cylinders[selectedKg]})}>
+          <TouchableOpacity
+            style={primaryBtnStyles.btnContainer}
+            onPress={() =>
+              navigation.navigate('gas-checkout', {
+                gasDetails: gasDetails,
+                selectedCylinder:
+                  gasDetails?.available_gas_cylinders[selectedIndex],
+              })
+            }>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}
@@ -218,7 +312,10 @@ function GasDetails({navigation}: Props) {
               <View style={gasStyles.btnContent}>
                 <Text style={gasStyles.btnText}>Continue</Text>
                 <Text style={gasStyles.btnText}>
-                  ₦{Intl.NumberFormat().format(gasDetails?.available_gas_cylinders[selectedKg].amount)}
+                  ₦
+                  {Intl.NumberFormat().format(
+                    gasDetails?.available_gas_cylinders[selectedIndex].amount,
+                  )}
                 </Text>
               </View>
             </LinearGradient>
@@ -235,4 +332,24 @@ function GasDetails({navigation}: Props) {
   );
 }
 
-export default GasDetails
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingVertical: 16,
+  },
+  itemContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: screenWidth * 0.6,
+    marginHorizontal: 10,
+  },
+  selectedItemContainer: {
+    backgroundColor: '#ffe5b4',
+  },
+  flatListContainer: {
+    alignItems: 'flex-end',
+  },
+});
+
+export default GasDetails;

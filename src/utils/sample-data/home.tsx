@@ -14,20 +14,21 @@ import VendorTwo from '../../assets/images/diesel/vendor_img2.svg';
 import VendorThree from '../../assets/images/diesel/vendor_img3.svg';
 import VendorFour from '../../assets/images/diesel/vendor_img4.svg';
 import DieselPump from '../../assets/images/diesel/diesel-pump.svg';
+import DisplayGas from '../../assets/images/gas/biggest-gas.svg';
 
-export interface DetailsProps{
-    img: any;
-    name: string;
-    price: number;
-    status: string;
-    rating: string;
-    delivery_time: string;
-    delivery_timeline: any;
-    delivery_fee: number;
-    order_no: number;
-    delivery_code: number;
-    pump?: any;
-    available_gas_cylinders?: any;
+export interface DetailsProps {
+  img: any;
+  name: string;
+  price: number;
+  status: string;
+  rating: string;
+  delivery_time: string;
+  delivery_timeline: any;
+  delivery_fee: number;
+  order_no: number;
+  delivery_code: number;
+  pump?: any;
+  available_gas_cylinders?: any;
 }
 
 export interface QuickActionProps {
@@ -80,26 +81,30 @@ export const quick_action_data: QuickActionProps[] = [
         delivery_code: 1234,
         available_gas_cylinders: [
           {
-        img: FirstGas,
-        kg: '3',
-        amount: 4500
-    },
-    {
-        img: SecondGas,
-        kg: '6',
-        amount: 9000
-    },
-    {
-        img: ThirdGas,
-        kg: '12',
-        amount: 18000
-    },
-    {
-        img: FourthGas,
-        kg: '25',
-        amount: 36000
-    },
-        ]
+            img: FirstGas,
+            kg: '3',
+            amount: 4500,
+            displayGas: DisplayGas,
+          },
+          {
+            img: SecondGas,
+            kg: '6',
+            amount: 9000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: ThirdGas,
+            kg: '12',
+            amount: 18000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: FourthGas,
+            kg: '25',
+            amount: 36000,
+            displayGas: DisplayGas,
+          },
+        ],
       },
       {
         img: VendorTwo,
@@ -139,26 +144,30 @@ export const quick_action_data: QuickActionProps[] = [
         delivery_code: 7676,
         available_gas_cylinders: [
           {
-        img: FirstGas,
-        kg: '3',
-        amount: 4500
-    },
-    {
-        img: SecondGas,
-        kg: '6',
-        amount: 9000
-    },
-    {
-        img: ThirdGas,
-        kg: '12',
-        amount: 18000
-    },
-    {
-        img: FourthGas,
-        kg: '25',
-        amount: 36000
-    },
-        ]
+            img: FirstGas,
+            kg: '3',
+            amount: 4500,
+            displayGas: DisplayGas,
+          },
+          {
+            img: SecondGas,
+            kg: '6',
+            amount: 9000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: ThirdGas,
+            kg: '12',
+            amount: 18000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: FourthGas,
+            kg: '25',
+            amount: 36000,
+            displayGas: DisplayGas,
+          },
+        ],
       },
       {
         img: VendorThree,
@@ -198,26 +207,30 @@ export const quick_action_data: QuickActionProps[] = [
         delivery_code: 2343,
         available_gas_cylinders: [
           {
-        img: FirstGas,
-        kg: '3',
-        amount: 4500
-    },
-    {
-        img: SecondGas,
-        kg: '6',
-        amount: 9000
-    },
-    {
-        img: ThirdGas,
-        kg: '12',
-        amount: 18000
-    },
-    {
-        img: FourthGas,
-        kg: '25',
-        amount: 36000
-    },
-        ]
+            img: FirstGas,
+            kg: '3',
+            amount: 4500,
+            displayGas: DisplayGas,
+          },
+          {
+            img: SecondGas,
+            kg: '6',
+            amount: 9000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: ThirdGas,
+            kg: '12',
+            amount: 18000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: FourthGas,
+            kg: '25',
+            amount: 36000,
+            displayGas: DisplayGas,
+          },
+        ],
       },
       {
         img: VendorFour,
@@ -257,26 +270,30 @@ export const quick_action_data: QuickActionProps[] = [
         delivery_code: 1021,
         available_gas_cylinders: [
           {
-        img: FirstGas,
-        kg: '3',
-        amount: 4500
-    },
-    {
-        img: SecondGas,
-        kg: '6',
-        amount: 9000
-    },
-    {
-        img: ThirdGas,
-        kg: '12',
-        amount: 18000
-    },
-    {
-        img: FourthGas,
-        kg: '25',
-        amount: 36000
-    },
-        ]
+            img: FirstGas,
+            kg: '3',
+            amount: 4500,
+            displayGas: DisplayGas,
+          },
+          {
+            img: SecondGas,
+            kg: '6',
+            amount: 9000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: ThirdGas,
+            kg: '12',
+            amount: 18000,
+            displayGas: DisplayGas,
+          },
+          {
+            img: FourthGas,
+            kg: '25',
+            amount: 36000,
+            displayGas: DisplayGas,
+          },
+        ],
       },
     ],
   },
