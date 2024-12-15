@@ -343,6 +343,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: screenWidth * 0.6,
     marginHorizontal: 10,
+    
   },
   selectedItemContainer: {
     backgroundColor: '#ffe5b4',

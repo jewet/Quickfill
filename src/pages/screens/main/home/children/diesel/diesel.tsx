@@ -61,6 +61,7 @@ function Diesel({navigation}: Props) {
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
   const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
   const border_radius = Platform.OS === 'ios' ? 80 : 50;
+  const change_address_height = Platform.OS === 'ios' ? 80 : 51
   return (
     <SafeAreaView style={dieselStyles.dieselContainer}>
       <StatusBar
@@ -71,7 +72,7 @@ function Diesel({navigation}: Props) {
         <Map
           width={width}
           height={1022}
-          style={{position: 'absolute', left: -200, right: 0}}
+          style={{position: 'absolute', left: -202, right: 0}}
         />
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>
@@ -92,7 +93,7 @@ function Diesel({navigation}: Props) {
               end={{x: 1, y: 0}}
               style={[
                 profileStyles.profileTopBtn,
-                {width: '80%', borderRadius: border_radius, height: 80},
+                {width: '80%', borderRadius: border_radius, height: change_address_height},
               ]}>
               <Text
                 onPress={() => navigation.navigate('change-address')}
