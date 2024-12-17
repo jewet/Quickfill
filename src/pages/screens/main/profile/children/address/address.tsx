@@ -11,7 +11,6 @@ import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../utils/sample-data/accessories';
 import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import SelectedIcon from '../../../../../../assets/images/electricity/selected-bill.svg';
@@ -22,9 +21,11 @@ import AddressIcon from '../../../../../../assets/images/profile/tabler_map-pin.
 import addressStyles from './addressStyles';
 import Button from '../../../../../../components/Button/Button';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-address'>;
 
 function Address({navigation}: Props) {
+  // Access route parameters to fetch profile details if passed
   const route = useRoute<RouteProp<RootStackParamList, 'user-address'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
@@ -38,11 +39,13 @@ function Address({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Addresses"
-        directory=''
+        directory=""
       />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
+        {/* Section for current location */}
         <View
           style={[
             orderDetailsStyles.flexContainer,
@@ -64,8 +67,11 @@ function Address({navigation}: Props) {
           </View>
           <SelectedIcon width={24} height={24} fill="none" />
         </View>
+
         <View style={{width: '100%', marginTop: 25, display: 'flex', gap: 30}}>
           <Text style={addressStyles.savedAddress}>Saved addresses</Text>
+
+          {/* Home address option */}
           <View
             style={[
               orderDetailsStyles.flexContainer,
@@ -77,6 +83,8 @@ function Address({navigation}: Props) {
             </View>
             <Text style={addressStyles.rightText}>Add address</Text>
           </View>
+
+          {/* Work address option */}
           <View
             style={[
               orderDetailsStyles.flexContainer,
@@ -88,6 +96,8 @@ function Address({navigation}: Props) {
             </View>
             <Text style={addressStyles.rightText}>Add address</Text>
           </View>
+
+          {/* Custom saved address */}
           <View
             style={[
               orderDetailsStyles.flexContainer,
@@ -102,6 +112,8 @@ function Address({navigation}: Props) {
             <Text style={addressStyles.rightText}>Add address</Text>
           </View>
         </View>
+
+        {/* Button to add new addresses */}
         <View style={{marginTop: 80}}>
           <Button
             text="Add new address"

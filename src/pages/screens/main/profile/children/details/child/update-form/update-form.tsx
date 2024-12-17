@@ -25,22 +25,29 @@ import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
 import {height} from '../../../../../home/children/diesel/dieselStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
 
 function UpdateForm({navigation}: Props) {
+  // Retrieve route parameters, specifically `profileDetails` and `target`
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
+
   const [date, setDate] = React.useState(new Date()); // State to hold selected date
   const [showPicker, setShowPicker] = React.useState(false); // State to show/hide picker
 
+  // Handler for when date is changed in DateTimePicker
   const handleDateChange = (event: any, selectedDate?: Date) => {
     setShowPicker(false); // Close the picker
     if (selectedDate) {
       setDate(selectedDate); // Update the date state
     }
   };
+
+  // Margin for the save button positioning
   const margin_top = 300;
 
+  // Function to render different input fields based on the `target` type
   const renderInputs = () => {
     switch (target) {
       case 'name':
@@ -184,7 +191,8 @@ function UpdateForm({navigation}: Props) {
             justifyContent: 'space-between',
             paddingBottom: 100,
           }}>
-          {renderInputs()}
+          {renderInputs()} 
+          {/* Render the appropriate inputs based on the target */}
           <View
             style={{
               marginTop: margin_top,

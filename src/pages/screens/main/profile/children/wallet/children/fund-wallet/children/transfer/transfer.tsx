@@ -10,24 +10,19 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
-import {ProfileProps} from '../../../../../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../../../../../utils/sample-data/accessories';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
 import {
   backgroundStyle,
   isDarkMode,
 } from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
-import favouritesStyles from '../../../../../favourites/favouritesStyles';
-import contactStyles from '../../../../../contact/contactStyles';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
-import addressStyles from '../../../../../address/addressStyles';
 import Reload from '../../../../../../../../../../assets/images/payment/tabler_reload.svg';
 import Copy from '../../../../../../../../../../assets/images/payment/copy.svg';
-import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
 import paymentResultStyles from '../payment-result/paymentResultStyles';
 import transferStyles from './transferStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'transfer'>;
 
 function Transfer({navigation}: Props) {
@@ -116,7 +111,9 @@ function Transfer({navigation}: Props) {
         <View style={{width: '100%', marginTop: 30}}>
           <TouchableOpacity
             style={paymentResultStyles.btnWrapper}
-            onPress={() => navigation.navigate('payment-result', {result: 'successful'})}>
+            onPress={() =>
+              navigation.navigate('payment-result', {result: 'successful'})
+            }>
             <Text style={paymentResultStyles.btnText}>I’ve sent the money</Text>
           </TouchableOpacity>
           <TouchableOpacity

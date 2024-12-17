@@ -10,10 +10,7 @@ import {
 } from 'react-native';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
+import {backgroundStyle, isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Profile/Header';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
@@ -29,6 +26,7 @@ type Props = StackScreenProps<RootStackParamList, 'user-payment'>;
 function UserPayment({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-payment'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -38,19 +36,13 @@ function UserPayment({navigation}: Props) {
       <Header
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
-        title={profileDetails?.profile?.type}
+        title={profileDetails?.profile?.type} 
         directory=''
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={favouritesStyles.scrollview}>
-        <Text
-          style={{
-            marginLeft: 16,
-            color: '#5E5E5E',
-            fontWeight: 700,
-            fontSize: 17,
-          }}>
+        <Text style={{marginLeft: 16, color: '#5E5E5E', fontWeight: '700', fontSize: 17}}>
           Payment methods
         </Text>
         <TouchableOpacity
@@ -68,36 +60,19 @@ function UserPayment({navigation}: Props) {
           <TouchableOpacity>
             <PlusIcon width={24} height={24} fill="none" />
           </TouchableOpacity>
-          <Text
-            style={{
-              color: '#FFB600',
-              fontWeight: 700,
-              fontSize: 14,
-            }}>
-            Add bank card
-          </Text>
+          <Text style={{color: '#FFB600', fontWeight: '700', fontSize: 14}}>Add bank card</Text>
         </TouchableOpacity>
         <View style={[orderDetailsStyles.flexContainer, {marginTop: 20, justifyContent: 'space-between', paddingHorizontal: 16}]}>
-            <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+          <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
             <TouchableOpacity>
-            <MasterCard width={21} height={16} fill="none" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: '#2C2C2C',
-              fontWeight: 600,
-              fontSize: 14,
-            }}>
-            **** 4729
-          </Text>
-            </View>
-            <SelectedIcon width={24} height={24} fill="none" />
+              <MasterCard width={21} height={16} fill="none" />
+            </TouchableOpacity>
+            <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 14}}>**** 4729</Text>
+          </View>
+          <SelectedIcon width={24} height={24} fill="none" />
         </View>
         <View style={{marginTop: 120, paddingHorizontal: 16}}>
-          <Button
-            text="Save as default payment"
-            action={() => console.log('pressed')}
-          />
+          <Button text="Save as default payment" action={() => console.log('pressed')} />
         </View>
       </ScrollView>
     </SafeAreaView>

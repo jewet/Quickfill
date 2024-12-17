@@ -24,20 +24,22 @@ import itemsStyles from '../items/itemsStyles';
 import homeStyles from '../../../home/home-styles';
 import Button from '../../../../../../components/Button/Button';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'cart'>;
 
 function Cart({navigation}: Props) {
-  const [itemCount, setItemCount] = useState<number>(1);
   const [itemCounts, setItemCounts] = useState<number[]>(
     items_data.slice(0, 4).map(() => 1),
   );
 
+  // Increase the item count for a specific item in the cart
   const increaseCount = (index: number) => {
     setItemCounts(prevCounts =>
       prevCounts.map((count, i) => (i === index ? count + 1 : count)),
     );
   };
 
+  // Decrease the item count for a specific item in the cart, ensuring it doesn't go below 1
   const decreaseCount = (index: number) => {
     setItemCounts(prevCounts =>
       prevCounts.map((count, i) =>
@@ -45,6 +47,7 @@ function Cart({navigation}: Props) {
       ),
     );
   };
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -144,6 +147,7 @@ function Cart({navigation}: Props) {
               ₦{Intl.NumberFormat().format(Number(19500))}
             </Text>
           </View>
+          {/* Complete order button */}
           <Button text="Complete order" action={() => console.log('pressed')} />
         </View>
       </ScrollView>

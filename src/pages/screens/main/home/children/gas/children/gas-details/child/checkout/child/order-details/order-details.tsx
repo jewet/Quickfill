@@ -18,13 +18,7 @@ import ArrowRightIcon from '../../../../../../../../../../../../assets/images/or
 import ArrowUp from '../../../../../../../../../../../../assets/images/orders/arrow-up.svg';
 import ArrowDown from '../../../../../../../../../../../../assets/images/orders/arrow0down.svg';
 import PasswordIcon from '../../../../../../../../../../../../assets/images/orders/tabler_lock-password.svg';
-import OnlineIcon from '../../../../../../../../../../../../assets/images/orders/on_line.svg';
-import OfflineIcon from '../../../../../../../../../../../../assets/images/orders/offline.svg';
-import ChatIcon from '../../../../../../../../../../../../assets/images/orders/msg.svg';
-import CallIcon from '../../../../../../../../../../../../assets/images/orders/call.svg';
-import TransitIcon from '../../../../../../../../../../../../assets/images/orders/rider.svg';
 import {RootStackParamList} from '../../../../../../../../../../../../utils/nav-routes/types';
-import {OrdersProps} from '../../../../../../../../../../../../utils/sample-data/orders';
 import {
   backgroundStyle,
   isDarkMode,
@@ -40,6 +34,7 @@ import FullProgressBar from '../../../../../../../../../../../../assets/images/o
 import HalfProgressBar from '../../../../../../../../../../../../assets/images/orders/half_progress_bar.svg';
 import BlankProgressBar from '../../../../../../../../../../../../assets/images/orders/blank_progress_bar.svg';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 
 function GasOrderDetails({navigation}: Props) {
@@ -51,8 +46,9 @@ function GasOrderDetails({navigation}: Props) {
   const delivery_fee = Number(gasDetails?.delivery_fee);
   const total = item_amt + delivery_fee;
 
-  const customerSupport = profile_data
-  .find(item => item.profile.type === 'Contact/support');
+  const customerSupport = profile_data.find(
+    item => item.profile.type === 'Contact/support',
+  );
 
   const [showModal, setShowModal] = useState<boolean>(false);
 

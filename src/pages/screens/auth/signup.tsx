@@ -12,13 +12,11 @@ import {
   View,
 } from 'react-native';
 import authStyles from './styles/authStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../utils/status-bar-styles/status-bar-styles';
+import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {

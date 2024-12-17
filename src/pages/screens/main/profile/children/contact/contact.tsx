@@ -17,7 +17,6 @@ import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../utils/sample-data/accessories';
 import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import TopImg from '../../../../../../assets/images/profile/top_img.svg';
@@ -25,30 +24,28 @@ import ArrowRight from '../../../../../../assets/images/profile/tabler_chevron-r
 import addressStyles from '../address/addressStyles';
 import contactStyles from './contactStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'contact'>;
 
 function Contact({navigation}: Props) {
+  // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'contact'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-  console.log('profileDetails: ', profileDetails);
-  
-
-  const handleNavigation = (itemDetails: ItemsProps) => {
-    navigation.navigate('item-details', {itemDetails});
-  };
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
       <Header
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title="Contact support"
-        directory=''
+        directory=""
       />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
@@ -56,9 +53,12 @@ function Contact({navigation}: Props) {
           <TopImg width={128} height={128} fill="none" />
           <Text style={contactStyles.topText}>Got a problem? Let’s fix it</Text>
         </View>
+
+        {/* Render list of contact support options dynamically */}
         <View>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
             <View
+              key={index}
               style={[
                 orderDetailsStyles.flexContainer,
                 {
@@ -67,8 +67,7 @@ function Contact({navigation}: Props) {
                   borderColor: '#E5E5EA',
                   paddingVertical: 25,
                 },
-              ]}
-              key={index}>
+              ]}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <data.icon width={40} height={40} fill="none" />
                 <View>
@@ -76,6 +75,7 @@ function Contact({navigation}: Props) {
                   <Text style={addressStyles.locationBottom}>{data.more}</Text>
                 </View>
               </View>
+
               <TouchableOpacity>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>

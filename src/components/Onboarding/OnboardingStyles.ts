@@ -8,8 +8,8 @@ const onboardingStyles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: width * 0.05, // 5% of screen width
-    paddingVertical: height * 0.05, // 5% of screen height
+    paddingHorizontal: width * 0.05,
+    paddingVertical: height * 0.05,  
   },
   onboardingContent: {
     flex: 1,
@@ -18,14 +18,13 @@ const onboardingStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textContainer: {
-    // paddingHorizontal: '10%', // Add space for text responsiveness
     width: '100%',
   },
   boldText: {
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: 30,
     fontWeight: '700',
-    fontSize: width * 0.06, // Dynamic font size based on width
+    fontSize: width * 0.055, 
     textAlign: 'center',
     marginTop: 20,
   },
@@ -33,7 +32,7 @@ const onboardingStyles = StyleSheet.create({
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: 20.16,
     fontWeight: '400',
-    fontSize: width * 0.040, // Dynamic font size
+    fontSize: width * 0.035, 
     textAlign: 'center',
     marginTop: 10,
   },

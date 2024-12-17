@@ -21,7 +21,7 @@ const itemsStyles = StyleSheet.create({
     },
     topScrollView: {
         width: '100%',
-        paddingVertical: 10,
+        paddingBottom: 20,
         paddingHorizontal: 16,
     },
     topScrollViewCont: {

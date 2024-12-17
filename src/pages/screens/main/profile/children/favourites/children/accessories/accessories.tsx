@@ -1,7 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {
-  items_data,
   ItemsProps,
 } from '../../../../../../../../utils/sample-data/accessories';
 import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
@@ -11,15 +10,17 @@ import Heart from '../../../../../../../../assets/images/profile/heart.svg';
 import homeStyles from '../../../../../home/home-styles';
 import Button from '../../../../../../../../components/Button/Button';
 
+// TypeScript interface defining the props for the `Accessories` component
 interface Props {
-  navigation: (item: ItemsProps) => void;
-  data: ItemsProps[];
-  profile_data: any;
+  navigation: (item: ItemsProps) => void; // Function to navigate to item details
+  data: ItemsProps[]; // Array of accessory items
+  profile_data: any; // Profile data containing accessories
 }
 
 function Accessories({navigation, data, profile_data}: Props) {
   return (
     <View style={{width: '100%', paddingTop: 50}}>
+      {/* Check if there are accessories in the profile data */}
       {profile_data?.profile?.accessories?.length > 0 ? (
         profile_data?.profile?.accessories?.map((data: any, index: number) => (
           <TouchableOpacity
@@ -73,6 +74,7 @@ function Accessories({navigation, data, profile_data}: Props) {
             height: 450,
             gap: 10,
           }}>
+          {/* Message displayed when no accessories are found */}
           <Text style={[homeStyles.details, {color: '#8E8E93'}]}>
             Nothing here yet
           </Text>
@@ -82,6 +84,7 @@ function Accessories({navigation, data, profile_data}: Props) {
           <Heart width={120} height={120} fill="none" />
           <View style={{width: '100%', paddingHorizontal: 16}}>
             <View style={{marginTop: 80, width: '100%'}}>
+              {/* Button to navigate to browse vendors */}
               <Button
                 text="Browse vendors nearby"
                 action={() => console.log('pressed')}

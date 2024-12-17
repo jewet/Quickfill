@@ -1,13 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {SafeAreaView, ScrollView, StatusBar, Text, View} from 'react-native';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
 import {
@@ -19,8 +12,6 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
 import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
-import PlusIcon from '../../../../../../assets/images/profile/tabler_plus.svg';
-import MasterCard from '../../../../../../assets/images/profile/logos_mastercard.svg';
 import BlurBox from '../../../../../../assets/images/profile/blur_box.svg';
 import ShareIcon from '../../../../../../assets/images/profile/tabler_share-3.svg';
 import CopyIcon from '../../../../../../assets/images/profile/tabler_copy.svg';
@@ -29,11 +20,13 @@ import Friends from '../../../../../../assets/images/profile/friends.svg';
 import Coin from '../../../../../../assets/images/profile/coin.svg';
 import referralStyles from './referralStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'referral'>;
 
 function Referral({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'referral'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -44,17 +37,12 @@ function Referral({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
-        directory=''
+        directory=""
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
-        <Text
-          style={{
-            color: '#2C2C2C',
-            fontWeight: 600,
-            fontSize: 16,
-          }}>
+        <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
           Share your referral code with friends and earn points!
         </Text>
         <View style={referralStyles.firstBox}>
@@ -70,12 +58,7 @@ function Referral({navigation}: Props) {
               bottom: 20,
             }}>
             <View style={{width: '100%'}}>
-              <Text
-                style={{
-                  color: '#2C2C2C',
-                  fontWeight: 600,
-                  fontSize: 14,
-                }}>
+              <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 14}}>
                 Your invite code
               </Text>
             </View>
@@ -84,12 +67,7 @@ function Referral({navigation}: Props) {
                 orderDetailsStyles.flexContainer,
                 referralStyles.referralLink,
               ]}>
-              <Text
-                style={{
-                  color: '#5E5E5E',
-                  fontWeight: 600,
-                  fontSize: 14,
-                }}>
+              <Text style={{color: '#5E5E5E', fontWeight: '600', fontSize: 14}}>
                 Gkj378rG032i1
               </Text>
               <View>
@@ -103,12 +81,7 @@ function Referral({navigation}: Props) {
           </View>
         </View>
         <View style={{width: '100%', marginTop: 30}}>
-          <Text
-            style={{
-              color: '#2C2C2C',
-              fontWeight: 600,
-              fontSize: 16,
-            }}>
+          <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
             How it works?
           </Text>
           <View style={referralStyles.secondBox}>
@@ -140,12 +113,7 @@ function Referral({navigation}: Props) {
           </View>
         </View>
         <View style={{width: '100%', marginTop: 30}}>
-          <Text
-            style={{
-              color: '#2C2C2C',
-              fontWeight: 600,
-              fontSize: 16,
-            }}>
+          <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
             Rewards
           </Text>
           <View

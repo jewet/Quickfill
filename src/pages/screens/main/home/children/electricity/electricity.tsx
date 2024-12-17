@@ -35,6 +35,7 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {ElectricityProps} from '../../../../../../utils/sample-data/electricity';
 import ElectricityPayment from './children/payment/payment';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'electricity'>;
 
 function Electricity({navigation}: Props) {
@@ -44,6 +45,17 @@ function Electricity({navigation}: Props) {
     route.params || {};
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  // Handle navigation back to the previous screen
+  const handleBack = () => {
+    navigation.goBack();
+  };
+
+  // Trigger the ElectricityPayment modal
+  const handleContinue = () => {
+    setShowModal(true);
+  };
+
+  // Render the Electricity screen
   return (
     <SafeAreaView
       style={[electricityStyles.electricityContainer, {position: 'relative'}]}>
@@ -53,7 +65,7 @@ function Electricity({navigation}: Props) {
       />
       <View style={{width: '100%', display: 'flex'}}>
         <View style={electricityStyles.electricityTop}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={handleBack}>
             <BackArrow width={26} height={26} fill="none" />
           </TouchableOpacity>
           <Text style={electricityStyles.topText}>Electricity</Text>
@@ -99,7 +111,7 @@ function Electricity({navigation}: Props) {
           action={null}
         />
         <View style={{width: '100%', marginTop: 20}}>
-          <Button text="Continue" action={() => setShowModal(true)} />
+          <Button text="Continue" action={handleContinue} />
         </View>
       </ScrollView>
       {showModal && (

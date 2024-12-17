@@ -21,6 +21,7 @@ import UnSelectedIcon from '../../../../../../../../assets/images/electricity/un
 import electricityProviderStyles from './electricityProviderStyles';
 import {electricity_data, ElectricityProps} from '../../../../../../../../utils/sample-data/electricity';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'electricity-provider'>;
 
 function ElectricityProvider({navigation}: Props) {

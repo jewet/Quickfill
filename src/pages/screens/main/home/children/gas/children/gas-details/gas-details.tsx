@@ -30,15 +30,13 @@ import {gas_data} from '../../../../../../../../utils/sample-data/gas';
 import primaryBtnStyles from '../../../../../../../../components/Button/ButtonStyles';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {
-  DetailsProps,
-  QuickActionProps,
-} from '../../../../../../../../utils/sample-data/home';
+import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
 import Offline from '../../../../../../../../assets/images/orders/offline.svg';
 import Carousel from 'react-native-reanimated-carousel';
 
 const screenWidth = Dimensions.get('window').width;
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-details'>;
 
 function GasDetails({navigation}: Props) {
@@ -81,7 +79,6 @@ function GasDetails({navigation}: Props) {
     setSelectedIndex(index);
     scrollToIndex(index);
   };
-  
 
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
@@ -161,14 +158,14 @@ function GasDetails({navigation}: Props) {
             </Text>
           </View>
         </View>
-        <View style={{width: '100%', display: 'flex', alignItems: 'flex-start'}}>
-        <View style={gasStyles.selectedKgWrapper}>
-          <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
-            {gas_data[selectedIndex].kg}kg
-          </Text>
-        </View>
-        <View>
-        </View>
+        <View
+          style={{width: '100%', display: 'flex', alignItems: 'flex-start'}}>
+          <View style={gasStyles.selectedKgWrapper}>
+            <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
+              {gas_data[selectedIndex].kg}kg
+            </Text>
+          </View>
+          <View></View>
           <Animated.FlatList
             ref={flatListRef}
             data={gasDetails?.available_gas_cylinders}
@@ -269,7 +266,10 @@ function GasDetails({navigation}: Props) {
         </View>
         <View style={gasStyles.gasBottom}>
           <Text style={gasStyles.heading}>Enter refill size (optional)</Text>
-          <TextInput style={gasStyles.input} value={`${gasDetails?.available_gas_cylinders[selectedIndex].kg}kg`} />
+          <TextInput
+            style={gasStyles.input}
+            value={`${gasDetails?.available_gas_cylinders[selectedIndex].kg}kg`}
+          />
           <View style={gasStyles.noteWrapper}>
             <View
               style={{
@@ -343,7 +343,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: screenWidth * 0.6,
     marginHorizontal: 10,
-    
   },
   selectedItemContainer: {
     backgroundColor: '#ffe5b4',

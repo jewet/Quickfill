@@ -27,19 +27,26 @@ import {chat_data} from '../../../../../../utils/sample-data/chat';
 import SendIcon from '../../../../../../assets/images/orders/send.svg';
 import inputStyles from '../../../../../../components/Input/InputStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
 
 function Chat({navigation}: Props) {
+  // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'chat'>>();
   const {orderDetails, target} = route.params;
 
+  // Determine the chat participant (either rider or vendor)
   const chatPerson =
     target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
 
+  // Profile picture of the chat participant
   const ProfilePic = chatPerson.pic;
 
+  // State to manage chat messages and input value
   const [messages, setMessages] = useState(chat_data);
   const [currentMessage, setCurrentMessage] = useState('');
+
+  // Navigate to the profile details screen
   const handleNavigation = (
     orderDetails: OrdersProps,
     target: 'rider' | 'vendor',
@@ -47,6 +54,7 @@ function Chat({navigation}: Props) {
     navigation.navigate('profile-details', {orderDetails, target});
   };
 
+  // Send a new message and update the chat state
   const sendMessage = () => {
     if (currentMessage.trim()) {
       const newMessage = {
@@ -58,8 +66,8 @@ function Chat({navigation}: Props) {
           minute: '2-digit',
         }),
       };
-      setMessages([...messages, newMessage]);
-      setCurrentMessage('');
+      setMessages([...messages, newMessage]); // Append the new message
+      setCurrentMessage(''); // Clear the input field
     }
   };
 
@@ -88,6 +96,8 @@ function Chat({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
+      {/* Chat header with navigation and participant info */}
       <View
         style={[
           orderStyles.ordersHeader,
@@ -105,7 +115,8 @@ function Chat({navigation}: Props) {
             style={[
               orderDetailsStyles.flexContainer,
               {width: 'auto', marginLeft: 10},
-            ]} onPress={()=>handleNavigation(orderDetails!, target)}>
+            ]}
+            onPress={() => handleNavigation(orderDetails!, target)}>
             <ProfilePic width={44} height={44} fill="none" />
             <View>
               <Text style={homeStyles.details}>{chatPerson?.name}</Text>
@@ -117,6 +128,8 @@ function Chat({navigation}: Props) {
           <MoreIcon width={44} height={44} fill="none" />
         </TouchableOpacity>
       </View>
+
+      {/* Chat messages list and input field */}
       <View style={ChatStyles.container}>
         <FlatList
           data={messages}

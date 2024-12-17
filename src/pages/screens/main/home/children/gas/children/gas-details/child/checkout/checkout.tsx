@@ -42,6 +42,7 @@ import electricityProviderStyles from '../../../../../electricity/children/elect
 import {payment_opt} from '../../../../../../../../../../utils/sample-data/payment';
 import homeStyles from '../../../../../../home-styles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {

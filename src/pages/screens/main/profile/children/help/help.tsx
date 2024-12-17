@@ -17,21 +17,57 @@ import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../utils/sample-data/accessories';
 import favouritesStyles from '../favourites/favouritesStyles';
-// import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import TopImg from '../../../../../../assets/images/profile/big_logo.svg';
 import ArrowRight from '../../../../../../assets/images/profile/tabler_chevron-right.svg';
-// import addressStyles from '../address/addressStyles';
 import contactStyles from '../contact/contactStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import addressStyles from '../address/addressStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'help'>;
 
 function Help({navigation}: Props) {
+  // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'help'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
+
+  // Function to navigate to specific help sections
+  const navigateToHelpSection = (
+    target: string,
+    navigation: any,
+    data: ProfileProps,
+  ) => {
+    switch (target) {
+      case 'FAQ’s':
+        navigation.navigate('help-options', {
+          profileDetails: data,
+          target: 'faq',
+        });
+        break;
+      case 'User policy':
+        navigation.navigate('help-options', {
+          profileDetails: data,
+          target: 'user-policy',
+        });
+        break;
+      case 'Rate us on the store':
+        navigation.navigate('help-options', {
+          profileDetails: data,
+          target: 'rating',
+        });
+        break;
+      case 'Share this app with friends':
+        navigation.navigate('help-options', {
+          profileDetails: data,
+          target: 'share',
+        });
+        break;
+      default:
+        console.warn('Navigation route not defined for this item.');
+        break;
+    }
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -39,12 +75,15 @@ function Help({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
       <Header
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
         directory=""
       />
+
+      {/* Main content scrollable area */}
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[favouritesStyles.scrollview]}>
@@ -55,9 +94,12 @@ function Help({navigation}: Props) {
             Version 2.0.02
           </Text>
         </View>
+
+        {/* List of help options */}
         <View>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
             <TouchableOpacity
+              key={index}
               style={[
                 orderDetailsStyles.flexContainer,
                 {
@@ -67,18 +109,19 @@ function Help({navigation}: Props) {
                   paddingVertical: 25,
                   paddingHorizontal: 16,
                 },
-              ]}
-              key={index}>
+              ]}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <View>
                   <Text style={addressStyles.location}>{data?.name}</Text>
                 </View>
               </View>
+
+              {/* Navigation to specific help sections based on the item's name */}
               <TouchableOpacity
                 onPress={() =>
                   data.name === 'Complaints & feedback'
                     ? navigation.navigate('complaints')
-                    : null
+                    : navigateToHelpSection(data?.name, navigation, data)
                 }>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>

@@ -16,20 +16,14 @@ import {
   backgroundStyle,
   isDarkMode,
 } from '../../../../../../utils/status-bar-styles/status-bar-styles';
-import Header from '../../../../../../components/Profile/Header';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
-import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
-import PlusIcon from '../../../../../../assets/images/profile/tabler_plus.svg';
-import MasterCard from '../../../../../../assets/images/profile/logos_mastercard.svg';
-import SelectedIcon from '../../../../../../assets/images/electricity/selected-bill.svg';
 import Close from '../../../../../../assets/images/payment/tabler_square-rounded-chevron-down.svg';
 import Eyes from '../../../../../../assets/images/payment/tabler_eye-closed.svg';
 import TopUp from '../../../../../../assets/images/payment/top_up.svg';
 import History from '../../../../../../assets/images/payment/history.svg';
 import Voucher from '../../../../../../assets/images/payment/voucher.svg';
-import Button from '../../../../../../components/Button/Button';
 import profileStyles from '../../profileStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import homeStyles from '../../../home/home-styles';
@@ -37,18 +31,18 @@ import walletStyles from './walletStyles';
 import addressStyles from '../address/addressStyles';
 import FundWallet from './children/fund-wallet/fund-wallet';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-wallet'>;
 
 function Wallet({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-wallet'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
-  const [showBalance, setShowBalance] = useState<boolean>(true);
-  const [showreferText, setShowreferText] = useState<boolean>(true);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showBalance, setShowBalance] = useState<boolean>(true); // State to toggle wallet balance visibility
+  const [showreferText, setShowreferText] = useState<boolean>(true); // State to toggle referral text visibility
+  const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the fund wallet modal
 
-  const linear_height = Platform.OS === 'ios' ? 110 : 'auto';
-  const margin_top = Platform.OS === 'ios' ? 40 : 0;
-  const {width, height} = Dimensions.get('window');
+  const linear_height = Platform.OS === 'ios' ? 110 : 'auto'; // Dynamic height for iOS
+  const {width} = Dimensions.get('window'); // Get window dimensions
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

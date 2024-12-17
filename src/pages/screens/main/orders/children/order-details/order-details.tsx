@@ -286,8 +286,7 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 20, width: 'auto'},
                 ]}>
-                <TouchableOpacity
-                  onPress={() => handleNavigation(orderDetails!, 'vendor')}>
+                <TouchableOpacity>
                   <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -333,8 +332,7 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 20, width: 'auto'},
                 ]}>
-                <TouchableOpacity
-                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
+                <TouchableOpacity>
                   <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
                 <TouchableOpacity
