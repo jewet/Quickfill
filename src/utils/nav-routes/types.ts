@@ -47,6 +47,7 @@ export type RootStackParamList = {
   chat: { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "profile-details": { orderDetails: OrdersProps; target: 'rider' | 'vendor' };
   "update-form": { profileDetails: ProfileProps; target: 'name' | 'username' | 'birthday' | 'email' };
+  "help-options": { profileDetails: ProfileProps; target: 'faq' | 'user-policy' | 'rating' | 'share' };
   "payment-result": { result: 'successful' | 'unsuccessful' };
   transfer: { amount: number };
   card: { amount: number };

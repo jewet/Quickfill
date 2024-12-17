@@ -24,15 +24,20 @@ import ArrowRight from '../../../../assets/images/accessories/tabler_chevron-rig
 import orderDetailsStyles from '../orders/children/order-details/orderDetailsStyles';
 import AddressModal from '../../../../components/AddressModal/AddressModal';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'accessories'>;
 
 function Accessories({navigation}: Props) {
+  // Determine if the app is in dark mode
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
 
+  // State to track the favourite status of an item
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
+
+  // State to control the visibility of the address modal
   const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
@@ -41,6 +46,7 @@ function Accessories({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      {/* Header component */}
       <Header
         goBackAction={() => navigation.goBack()}
         title="Categories"
@@ -57,35 +63,38 @@ function Accessories({navigation}: Props) {
           width: '100%',
           gap: 20,
           backgroundColor: '#F6F6F6',
-          paddingHorizontal: 16, 
-          paddingTop: 20
+          paddingHorizontal: 16,
+          paddingTop: 20,
         }}>
-          <View style={homeStyles.detailsContent}>
-            <View style={{width: '90%'}}>
-              <Text style={homeStyles.title}>Deliver ASAP to</Text>
-              <Text style={[homeStyles.details]}>
-                8-26 Ango Abdullahi St, Gwarinpa, 900108...
-              </Text>
-            </View>
-            <TouchableOpacity onPress={()=>setShowModal(true)}>
-              <DropDown width={60} height={55} fill="none" />
-            </TouchableOpacity>
+        {/* Delivery location details */}
+        <View style={homeStyles.detailsContent}>
+          <View style={{width: '90%'}}>
+            <Text style={homeStyles.title}>Deliver ASAP to</Text>
+            <Text style={[homeStyles.details]}>
+              8-26 Ango Abdullahi St, Gwarinpa, 900108...
+            </Text>
           </View>
-          <View
-            style={[
-              electricityProviderStyles.electricityTop,
-              {width: '100%', marginTop: 10},
-            ]}>
-            <SearchIcon width={24} height={24} fill="none" />
-            <TextInput
-              placeholder="Start typing to filter..."
-              placeholderTextColor="#999999"
-              returnKeyType="done"
-              // value={searchQuery}
-              // onChangeText={handleSearch}
-              style={electricityProviderStyles.searchInput}
-            />
-          </View>
+          <TouchableOpacity onPress={() => setShowModal(true)}>
+            <DropDown width={60} height={55} fill="none" />
+          </TouchableOpacity>
+        </View>
+        {/* Search input for filtering accessories */}
+        <View
+          style={[
+            electricityProviderStyles.electricityTop,
+            {width: '100%', marginTop: 10},
+          ]}>
+          <SearchIcon width={24} height={24} fill="none" />
+          <TextInput
+            placeholder="Start typing to filter..."
+            placeholderTextColor="#999999"
+            returnKeyType="done"
+            // value={searchQuery}
+            // onChangeText={handleSearch}
+            style={electricityProviderStyles.searchInput}
+          />
+        </View>
+        {/* Scrollable list of accessories */}
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={accessoriesStyles.scrollview}>
@@ -100,7 +109,8 @@ function Accessories({navigation}: Props) {
                 style={[
                   orderDetailsStyles.flexContainer,
                   accessoriesStyles.accessoriesItems,
-                ]} onPress={()=>navigation.navigate('items-page')}>
+                ]}
+                onPress={() => navigation.navigate('items-page')}>
                 <View
                   style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                   <data.img width={56} height={56} fill="none" />
@@ -113,7 +123,8 @@ function Accessories({navigation}: Props) {
                     </Text>
                   </View>
                 </View>
-                <TouchableOpacity onPress={()=>navigation.navigate('items-page')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('items-page')}>
                   <ArrowRight width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </TouchableOpacity>
@@ -121,6 +132,7 @@ function Accessories({navigation}: Props) {
           </View>
         </ScrollView>
       </View>
+      {/* Address modal */}
       {showModal && (
         <AddressModal
           action={() => setShowModal(false)}
@@ -128,7 +140,7 @@ function Accessories({navigation}: Props) {
             setShowModal(false);
             navigation.goBack();
           }}
-          navigateToAddress={()=>navigation.navigate('change-address')}
+          navigateToAddress={() => navigation.navigate('change-address')}
         />
       )}
     </SafeAreaView>

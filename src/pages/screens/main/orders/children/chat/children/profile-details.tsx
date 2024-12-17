@@ -15,21 +15,26 @@ import Star from '../../../../../../../assets/images/orders/star.svg';
 import homeStyles from '../../../../home/home-styles';
 import {achievements_data} from '../../../../../../../utils/sample-data/orders';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'profile-details'>;
 
 function ProfileDetails({navigation}: Props) {
+  // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'profile-details'>>();
   const {orderDetails, target} = route.params;
 
+  // Determine the chat participant (either rider or vendor)
   const chatPerson =
     target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
 
+  // Profile picture of the chat participant
   const ProfilePic = chatPerson.pic;
-  const profile_bg_margin_top = Platform.OS === 'ios' ? -80 : -20
-  const header_top = Platform.OS === 'ios' ? 0 : 20
-  const profile_pic_margin_bottom = Platform.OS === 'ios' ? -20 : 30
 
-  console.log('target: ', target);
+  // Dynamic styles for iOS and Android adjustments
+  const profile_bg_margin_top = Platform.OS === 'ios' ? -80 : -20;
+  const header_top = Platform.OS === 'ios' ? 0 : 20;
+  const profile_pic_margin_bottom = Platform.OS === 'ios' ? -20 : 30;
+
   return (
     <SafeAreaView style={profileDetailsStyles.profileDetailsContainer}>
       <View style={{width: '100%', height: 250}}>
@@ -40,16 +45,19 @@ function ProfileDetails({navigation}: Props) {
               justifyContent: 'space-between',
               paddingHorizontal: 16,
               zIndex: 11,
-              marginTop: header_top
+              marginTop: header_top,
             },
           ]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <GoBackArrow width={44} height={44} fill="none" />
           </TouchableOpacity>
+
           <TouchableOpacity>
             <MoreIcon width={44} height={44} fill="none" />
           </TouchableOpacity>
         </View>
+
+        {/* Profile background image */}
         <ProfileBg
           width={'100%'}
           height={'100%'}
@@ -57,15 +65,21 @@ function ProfileDetails({navigation}: Props) {
           style={{position: 'absolute', top: profile_bg_margin_top}}
         />
       </View>
+
       <ProfilePic
         width={120}
         height={120}
         fill="none"
-        style={{position: 'absolute', top: 150, }}
+        style={{position: 'absolute', top: 150}}
       />
+
       <ScrollView
-        style={[profileDetailsStyles.scrollview, {marginTop: profile_pic_margin_bottom}]}
+        style={[
+          profileDetailsStyles.scrollview,
+          {marginTop: profile_pic_margin_bottom},
+        ]}
         showsVerticalScrollIndicator={false}>
+        {/* Profile Name */}
         <Text
           style={[
             homeStyles.details,
@@ -73,6 +87,8 @@ function ProfileDetails({navigation}: Props) {
           ]}>
           {chatPerson?.name}
         </Text>
+
+        {/* Awards and verification badges */}
         <View
           style={[
             orderDetailsStyles.flexContainer,
@@ -87,6 +103,7 @@ function ProfileDetails({navigation}: Props) {
             Quick to delivery vendor award
           </Text>
         </View>
+
         <View
           style={[
             orderDetailsStyles.flexContainer,
@@ -101,6 +118,8 @@ function ProfileDetails({navigation}: Props) {
             Has passed a multi-step verification process
           </Text>
         </View>
+
+        {/* Ratings and achievements summary */}
         <View style={[profileDetailsStyles.ratingsWrapper]}>
           <View
             style={[
@@ -124,6 +143,8 @@ function ProfileDetails({navigation}: Props) {
             </View>
           </View>
         </View>
+
+        {/* Achievements section */}
         <View style={{paddingHorizontal: 16, marginTop: 25}}>
           <Text
             style={[
@@ -132,14 +153,19 @@ function ProfileDetails({navigation}: Props) {
             ]}>
             Achievements
           </Text>
-            <ScrollView horizontal style={profileDetailsStyles.achievementWrapper}>
-              {achievements_data.map((data, index) => (
-                <View key={index} style={profileDetailsStyles.achievementCont}>
-                  <data.img width={72} height={72} fill="none" />
-                  <Text style={profileDetailsStyles.achievementText}>{data.reward}</Text>
-                </View>
-              ))}
-            </ScrollView>
+          {/* Horizontal scroll of achievements */}
+          <ScrollView
+            horizontal
+            style={profileDetailsStyles.achievementWrapper}>
+            {achievements_data.map((data, index) => (
+              <View key={index} style={profileDetailsStyles.achievementCont}>
+                <data.img width={72} height={72} fill="none" />
+                <Text style={profileDetailsStyles.achievementText}>
+                  {data.reward}
+                </Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
       </ScrollView>
     </SafeAreaView>

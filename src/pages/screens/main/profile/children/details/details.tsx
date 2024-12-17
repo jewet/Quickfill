@@ -17,21 +17,21 @@ import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../utils/sample-data/accessories';
 import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
-import TopImg from '../../../../../../assets/images/profile/top_img.svg';
 import ArrowRight from '../../../../../../assets/images/profile/black_tabler_chevron-right.svg';
 import EditIcon from '../../../../../../assets/images/profile/tabler_edit.svg';
 import addressStyles from '../address/addressStyles';
-import contactStyles from '../contact/contactStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-details'>;
 
 function Details({navigation}: Props) {
+  // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
+  // Function to navigate to the update form screen with the target data (name, username, birthday, email)
   const handleNavigation = (
     profileDetails: ProfileProps,
     target: 'name' | 'username' | 'birthday' | 'email',
@@ -45,18 +45,22 @@ function Details({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
       <Header
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={profileDetails?.profile?.type}
         directory=""
       />
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
-        <View>
+        {/* Render list of user details dynamically */}
+        <View style={{paddingBottom: 100}}>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
             <View
+              key={index}
               style={[
                 orderDetailsStyles.flexContainer,
                 {
@@ -65,11 +69,11 @@ function Details({navigation}: Props) {
                   borderColor: '#E5E5EA',
                   paddingVertical: 25,
                 },
-              ]}
-              key={index}>
+              ]}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <data.icon width={24} height={24} fill="none" />
                 <View>
+                  {/* Display user details dynamically */}
                   <Text style={addressStyles.location}>
                     {data.name ||
                       data.phone_number ||
@@ -81,6 +85,8 @@ function Details({navigation}: Props) {
                   <Text style={addressStyles.locationBottom}>{data.title}</Text>
                 </View>
               </View>
+
+              {/* Verification indicator for email */}
               {data.email && (
                 <View
                   style={{
@@ -95,6 +101,8 @@ function Details({navigation}: Props) {
                   </Text>
                 </View>
               )}
+
+              {/* Editable or navigational icons */}
               {data.name && (
                 <TouchableOpacity
                   onPress={() => handleNavigation(profileDetails!, 'name')}>

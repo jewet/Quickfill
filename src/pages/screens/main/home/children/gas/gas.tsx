@@ -4,27 +4,16 @@ import {
   ScrollView,
   StatusBar,
   Text,
-  TextInput,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import CloseIcon from '../../../../../../assets/images/gas/close-icon.svg';
 import Online from '../../../../../../assets/images/gas/online.svg';
-import Rating from '../../../../../../assets/images/gas/tabler_star-filled.svg';
-import Note from '../../../../../../assets/images/gas/note.svg';
-import BigGas from '../../../../../../assets/images/gas/big-gas.svg';
-import BiggerGas from '../../../../../../assets/images/gas/bigger-gas.svg';
-import BiggestGas from '../../../../../../assets/images/gas/biggest-gas.svg';
 import homeStyles from '../../home-styles';
-import {gas_data} from '../../../../../../utils/sample-data/gas';
 import LinearGradient from 'react-native-linear-gradient';
-import primaryBtnStyles from '../../../../../../components/Button/ButtonStyles';
-import gasStyles from '../gas/gasStyles';
 import Map from '../../../../../../assets/images/diesel/figmap.svg';
 import MapPointer from '../../../../../../assets/images/diesel/map-pointer.svg';
 import PricePin from '../../../../../../assets/images/diesel/price-pins.svg';
@@ -36,25 +25,18 @@ import orderDetailsStyles from '../../../orders/children/order-details/orderDeta
 import vendorStyles from '../../../profile/children/favourites/children/vendors/vendorsStyles';
 import Offline from '../../../../../../assets/images/profile/offline.svg';
 import Star from '../../../../../../assets/images/accessories/tabler_star-filled.svg';
-import {
-  quick_action_data,
-  QuickActionProps,
-  DetailsProps,
-} from '../../../../../../utils/sample-data/home';
+import {QuickActionProps} from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
+import {isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
 
 function Gas({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
   const {actionDetails}: {actionDetails?: QuickActionProps} =
     route.params || {};
-
-  const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
-  };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [marginTop, setMarginTop] = useState<any>('100%');
   const [prevScrollY, setPrevScrollY] = useState(0);
@@ -68,10 +50,10 @@ function Gas({navigation}: Props) {
 
     setPrevScrollY(currentScrollY);
   };
-  const margin_top = Platform.OS === 'ios' ? '-12%' : 0
-  const margin_left = Platform.OS === 'ios' ? '-12%' : 0
-  const border_radius = Platform.OS === 'ios' ? 80 : 50
-  const change_address_height = Platform.OS === 'ios' ? 80 : 51
+  const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
+  const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
+  const border_radius = Platform.OS === 'ios' ? 80 : 50;
+  const change_address_height = Platform.OS === 'ios' ? 80 : 51;
   return (
     <SafeAreaView style={dieselStyles.dieselContainer}>
       <StatusBar
@@ -110,9 +92,15 @@ function Gas({navigation}: Props) {
               end={{x: 1, y: 0}}
               style={[
                 profileStyles.profileTopBtn,
-                {width: '80%', borderRadius: border_radius, height: change_address_height,},
+                {
+                  width: '80%',
+                  borderRadius: border_radius,
+                  height: change_address_height,
+                },
               ]}>
-              <Text onPress={() => navigation.navigate('change-address')} style={{marginTop: margin_top, marginLeft: margin_left}}>
+              <Text
+                onPress={() => navigation.navigate('change-address')}
+                style={{marginTop: margin_top, marginLeft: margin_left}}>
                 Change delivery address
               </Text>
             </LinearGradient>

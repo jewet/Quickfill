@@ -24,6 +24,7 @@ import primaryBtnStyles from '../../../../../../../../components/Button/ButtonSt
 import { gas_data } from '../../../../../../../../utils/sample-data/gas';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
 
 function DieselDetails({navigation}: Props) {

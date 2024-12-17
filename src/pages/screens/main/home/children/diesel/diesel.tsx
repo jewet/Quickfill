@@ -34,6 +34,7 @@ import {
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel'>;
 
 function Diesel({navigation}: Props) {

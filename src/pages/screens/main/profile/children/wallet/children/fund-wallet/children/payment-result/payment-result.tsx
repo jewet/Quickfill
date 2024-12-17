@@ -10,22 +10,17 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
-import {ProfileProps} from '../../../../../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../../../../../utils/sample-data/accessories';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
 import {
   backgroundStyle,
   isDarkMode,
 } from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
-import favouritesStyles from '../../../../../favourites/favouritesStyles';
-import contactStyles from '../../../../../contact/contactStyles';
-import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
-import addressStyles from '../../../../../address/addressStyles';
 import paymentResultStyles from './paymentResultStyles';
 import SuccessImg from '../../../../../../../../../../assets/images/payment/successful.svg';
 import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'payment-result'>;
 
 function PaymentResult({navigation}: Props) {
@@ -49,37 +44,41 @@ function PaymentResult({navigation}: Props) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[paymentResultStyles.scrollview, {paddingHorizontal: 16}]}>
-      {result === "successful" ? (
+        {result === 'successful' ? (
           <View style={paymentResultStyles.paymentResultContainer}>
-          <View>
-            <Text style={paymentResultStyles.firstText}>Payment</Text>
-            <Text style={paymentResultStyles.secondText}>Successful </Text>
+            <View>
+              <Text style={paymentResultStyles.firstText}>Payment</Text>
+              <Text style={paymentResultStyles.secondText}>Successful </Text>
+            </View>
+            <SuccessImg width={118} height={118} />
+            <Text style={paymentResultStyles.thirdText}>
+              More information on payment made, if needed.{' '}
+            </Text>
+            <TouchableOpacity
+              style={paymentResultStyles.btnWrapper}
+              onPress={() => navigation.navigate('home')}>
+              <Text style={paymentResultStyles.btnText}>Next</Text>
+            </TouchableOpacity>
           </View>
-          <SuccessImg width={118} height={118} />
-          <Text style={paymentResultStyles.thirdText}>
-            More information on payment made, if needed.{' '}
-          </Text>
-          <TouchableOpacity style={paymentResultStyles.btnWrapper} onPress={()=>navigation.navigate('orders')}>
-            <Text style={paymentResultStyles.btnText}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      )
-    :
-    (
-        <View style={paymentResultStyles.paymentResultContainer}>
-        <View>
-          <Text style={paymentResultStyles.firstText}>Payment</Text>
-          <Text style={paymentResultStyles.secondText}>Unsuccessful </Text>
-        </View>
-        <UnsuccessfulImg width={118} height={118} />
-        <Text style={paymentResultStyles.thirdText}>
-          More information on payment made, if needed.{' '}
-        </Text>
-        <TouchableOpacity style={paymentResultStyles.btnWrapper} onPress={()=>navigation.goBack()}>
-          <Text style={paymentResultStyles.btnText}>Retry a difference payment method</Text>
-        </TouchableOpacity>
-      </View>
-    )}
+        ) : (
+          <View style={paymentResultStyles.paymentResultContainer}>
+            <View>
+              <Text style={paymentResultStyles.firstText}>Payment</Text>
+              <Text style={paymentResultStyles.secondText}>Unsuccessful </Text>
+            </View>
+            <UnsuccessfulImg width={118} height={118} />
+            <Text style={paymentResultStyles.thirdText}>
+              More information on payment made, if needed.{' '}
+            </Text>
+            <TouchableOpacity
+              style={paymentResultStyles.btnWrapper}
+              onPress={() => navigation.goBack()}>
+              <Text style={paymentResultStyles.btnText}>
+                Retry a difference payment method
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

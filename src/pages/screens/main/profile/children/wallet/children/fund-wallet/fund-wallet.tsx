@@ -23,6 +23,7 @@ function FundWallet({action, navigation}: Props) {
   const [isSelected, setIsSelected] = useState<number | null>();
   const [amount, setAmount] = useState<string>('');
 
+  //defined navigation links
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':

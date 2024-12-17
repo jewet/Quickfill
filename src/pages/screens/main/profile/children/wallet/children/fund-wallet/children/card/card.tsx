@@ -1,36 +1,23 @@
 import React from 'react';
-import {
-  ScrollView,
-  StatusBar,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StatusBar, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
-import {ProfileProps} from '../../../../../../../../../../utils/sample-data/profile';
-import {ItemsProps} from '../../../../../../../../../../utils/sample-data/accessories';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
 import {
   backgroundStyle,
   isDarkMode,
 } from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
-import favouritesStyles from '../../../../../favourites/favouritesStyles';
-import contactStyles from '../../../../../contact/contactStyles';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
-import addressStyles from '../../../../../address/addressStyles';
-import Reload from '../../../../../../../../../../assets/images/payment/tabler_reload.svg';
 import Lock from '../../../../../../../../../../assets/images/payment/lucide_lock.svg';
-import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
-import paymentResultStyles from '../payment-result/paymentResultStyles';
 import transferStyles from '../transfer/transferStyles';
 import Input from '../../../../../../../../../../components/Input/AuthInput';
 import Button from '../../../../../../../../../../components/Button/Button';
 import cardStyles from './cardStyles';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'card'>;
 
 function Card({navigation}: Props) {
@@ -116,19 +103,29 @@ function Card({navigation}: Props) {
             </View>
           </View>
           <View style={{width: '100%', marginTop: 10}}>
-            <Button text="Next" action={() => navigation.navigate('payment-result', {result: 'unsuccessful'})} />
+            <Button
+              text="Next"
+              action={() =>
+                navigation.navigate('payment-result', {result: 'unsuccessful'})
+              }
+            />
           </View>
         </View>
         <View style={cardStyles.moreCont}>
-        <View>
+          <View>
             <Text style={cardStyles.knowText}>Did you know?</Text>
-            <Text style={cardStyles.des}>Many credit cards don’t support crypto purchases. Debit cards usually work best.</Text>
-        </View>
-        <Text style={cardStyles.learnText}>Learn More</Text>
+            <Text style={cardStyles.des}>
+              Many credit cards don’t support crypto purchases. Debit cards
+              usually work best.
+            </Text>
+          </View>
+          <Text style={cardStyles.learnText}>Learn More</Text>
         </View>
         <View style={orderDetailsStyles.flexContainer}>
-            <Lock width={14} height={14} />
-            <Text style={cardStyles.des}>Privacy protected with 256-Bit SSL encryption</Text>
+          <Lock width={14} height={14} />
+          <Text style={cardStyles.des}>
+            Privacy protected with 256-Bit SSL encryption
+          </Text>
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -30,6 +30,7 @@ import GasDetails from '../screens/main/home/children/gas/children/gas-details/g
 import GasCheckout from '../screens/main/home/children/gas/children/gas-details/child/checkout/checkout';
 import ChangeAddress from '../screens/main/profile/children/address/children/change-address/change-address';
 import GasOrderDetails from '../screens/main/home/children/gas/children/gas-details/child/checkout/child/order-details/order-details';
+import HelpOptions from '../screens/main/profile/children/help/children/help-options/help-options';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -245,6 +246,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={GasOrderDetails}
+      />
+      <Stack.Screen
+        name="help-options"
+        options={{
+          headerShown: false,
+        }}
+        component={HelpOptions}
       />
     </Stack.Navigator>
   );

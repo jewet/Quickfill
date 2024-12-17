@@ -30,6 +30,7 @@ import primaryBtnStyles from '../../../../../../../components/Button/ButtonStyle
 import LinearGradient from 'react-native-linear-gradient';
 import AddToCart from '../../../../../../../assets/images/accessories/tabler_shopping-cart-plus.svg';
 
+// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'item-details'>;
 
 function ItemsDetails({navigation}: Props) {
@@ -40,6 +41,7 @@ function ItemsDetails({navigation}: Props) {
   const DisplayImg = itemDetails?.img;
   const btnMarginTop = Platform.OS === 'ios' ? -30 : 0;
 
+  // Function to get a random subset of items from the items_data array
   const getRandomItems = (data: typeof items_data, count: number) => {
     const shuffledItems = data.sort(() => Math.random() - 0.5);
     return shuffledItems.slice(0, count);
@@ -51,6 +53,7 @@ function ItemsDetails({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+      {/* Header component */}
       <Header
         goBackAction={() => navigation.goBack()}
         title="Item details"
@@ -106,8 +109,7 @@ function ItemsDetails({navigation}: Props) {
               </View>
             </View>
           </View>
-          <TouchableOpacity
-            style={[primaryBtnStyles.btnContainer]}>
+          <TouchableOpacity style={[primaryBtnStyles.btnContainer]}>
             <LinearGradient
               colors={['#FFD366', '#FFB600']}
               start={{x: 0, y: 1}}
@@ -126,7 +128,10 @@ function ItemsDetails({navigation}: Props) {
         </View>
         <View>
           <Text style={itemDetailsStyles.similarProduct}>Similar products</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{paddingBottom: 50}}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={{paddingBottom: 50}}>
             {getRandomItems(items_data, 3).map((data, index) => (
               <View key={index} style={itemDetailsStyles.otherIems}>
                 <data.img width={117} height={117} fill="none" />
@@ -135,7 +140,11 @@ function ItemsDetails({navigation}: Props) {
                     {data.item.name.split(' ')[0]}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[orderDetailsStyles.flexContainer, itemDetailsStyles.addToCartBtn]}>
+                <TouchableOpacity
+                  style={[
+                    orderDetailsStyles.flexContainer,
+                    itemDetailsStyles.addToCartBtn,
+                  ]}>
                   <AddToCart width={24} height={24} fill="none" />
                   <Text style={itemDetailsStyles.btnText}>
                     ₦{Intl.NumberFormat().format(data.item.price)}
