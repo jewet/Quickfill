@@ -72,7 +72,7 @@ function UserPayment({navigation}: Props) {
           <SelectedIcon width={24} height={24} fill="none" />
         </View>
         <View style={{marginTop: 120, paddingHorizontal: 16}}>
-          <Button text="Save as default payment" action={() => console.log('pressed')} />
+          <Button text="Save as default payment" action={() => navigation.navigate('default-card', {result: 'successful'})} />
         </View>
       </ScrollView>
     </SafeAreaView>

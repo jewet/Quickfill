@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../../../../../../utils/nav-routes/types';
@@ -14,6 +14,8 @@ import UserCheck from '../../../../../../../assets/images/orders/tabler_user-che
 import Star from '../../../../../../../assets/images/orders/star.svg';
 import homeStyles from '../../../../home/home-styles';
 import {achievements_data} from '../../../../../../../utils/sample-data/orders';
+import {primaryColor} from '../../../../../onboarding/splash/splashstyles';
+import ChatStyles from '../chatStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'profile-details'>;
@@ -22,6 +24,7 @@ function ProfileDetails({navigation}: Props) {
   // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'profile-details'>>();
   const {orderDetails, target} = route.params;
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
 
   // Determine the chat participant (either rider or vendor)
   const chatPerson =
@@ -34,6 +37,14 @@ function ProfileDetails({navigation}: Props) {
   const profile_bg_margin_top = Platform.OS === 'ios' ? -80 : -20;
   const header_top = Platform.OS === 'ios' ? 0 : 20;
   const profile_pic_margin_bottom = Platform.OS === 'ios' ? -20 : 30;
+
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
+  const reviewsToShow = showAllReviews
+    ? orderDetails?.customer_review
+    : orderDetails?.customer_review?.slice(0, 3);
+
+  const toggleReviews = () => setShowAllReviews(!showAllReviews);
 
   return (
     <SafeAreaView style={profileDetailsStyles.profileDetailsContainer}>
@@ -52,10 +63,26 @@ function ProfileDetails({navigation}: Props) {
             <GoBackArrow width={44} height={44} fill="none" />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowMoreInfo(!showMoreInfo)}>
             <MoreIcon width={44} height={44} fill="none" />
           </TouchableOpacity>
         </View>
+        {showMoreInfo && (
+        <View style={ChatStyles.hiddenCont}>
+          <TouchableOpacity
+            onPress={() => {
+              setShowMoreInfo(false);
+              navigation.navigate('report', {orderDetails, target});
+            }}>
+            <Text style={ChatStyles.infoOptText}>Report</Text>
+          </TouchableOpacity>
+          <Text
+            style={[ChatStyles.infoOptText, {color: '#DC5513'}]}
+            onPress={() => setShowMoreInfo(false)}>
+            Block
+          </Text>
+        </View>
+      )}
 
         {/* Profile background image */}
         <ProfileBg
@@ -167,6 +194,68 @@ function ProfileDetails({navigation}: Props) {
             ))}
           </ScrollView>
         </View>
+        {/* Customer Review Section */}
+        <View style={{paddingHorizontal: 16, marginTop: 25, width: '100%'}}>
+          <Text
+            style={[
+              homeStyles.title,
+              {color: '#2C2C2C', fontSize: 17, fontWeight: 600},
+            ]}>
+            Customer reviews{' '}
+            <Text style={{color: primaryColor}}>
+              ({orderDetails?.customer_review?.length})
+            </Text>
+          </Text>
+          <View
+            style={{
+              width: '100%',
+              display: 'flex',
+              gap: 10,
+              paddingVertical: 20,
+            }}>
+            {reviewsToShow?.map((data: any, index: number) => (
+              <View key={index} style={profileDetailsStyles.reviewCont}>
+                <View
+                  style={[
+                    orderDetailsStyles.flexContainer,
+                    {
+                      width: '90%',
+                      justifyContent: 'flex-start',
+                      gap: 0,
+                      alignItems: 'center',
+                    },
+                  ]}>
+                  <Text style={profileDetailsStyles.name}>{data?.name}</Text>
+                  <Text style={profileDetailsStyles.time}>
+                    {' '}
+                    • {data?.timeStamp} ago
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 5,
+                  }}>
+                  {[...Array(data?.rating)].map((_, starIndex) => (
+                    <Star
+                      key={starIndex}
+                      width={18}
+                      height={18}
+                      style={{marginRight: 4}}
+                    />
+                  ))}
+                </View>
+                <Text style={profileDetailsStyles.review}>{data?.review}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+        <TouchableOpacity style={{paddingBottom: 50}} onPress={toggleReviews}>
+          <Text style={profileDetailsStyles.seeMore}>
+            {showAllReviews ? 'See less' : 'See more'}
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

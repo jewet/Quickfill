@@ -25,6 +25,7 @@ import {order_data, OrdersProps} from '../../../../utils/sample-data/orders';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 import AddressModal from '../../../../components/AddressModal/AddressModal';
+import { profile_data } from '../../../../utils/sample-data/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'home'>;
@@ -63,6 +64,10 @@ function Home({navigation}: Props) {
         break;
     }
   };
+
+  const wallet = profile_data.find(
+    item => item.profile.type === 'My Wallet',
+  );
 
   // Handle navigation to the order details page
   const handleNavigation = (orderDetails: OrdersProps) => {
@@ -125,7 +130,7 @@ function Home({navigation}: Props) {
                 <Text style={homeStyles.details}>10</Text>
                 <Text style={homeStyles.title}>Number of orders</Text>
               </View>
-              <TouchableOpacity style={homeStyles.plusWrapper}>
+              <TouchableOpacity style={homeStyles.plusWrapper} onPress={()=>navigation.navigate('user-wallet', {profileDetails: wallet})}>
                 <Plus width={35} height={35} fill="none" />
               </TouchableOpacity>
             </View>

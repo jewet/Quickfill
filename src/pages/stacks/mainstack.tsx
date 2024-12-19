@@ -31,6 +31,10 @@ import GasCheckout from '../screens/main/home/children/gas/children/gas-details/
 import ChangeAddress from '../screens/main/profile/children/address/children/change-address/change-address';
 import GasOrderDetails from '../screens/main/home/children/gas/children/gas-details/child/checkout/child/order-details/order-details';
 import HelpOptions from '../screens/main/profile/children/help/children/help-options/help-options';
+import DefaultCard from '../screens/main/profile/children/user-payment/children/default-card/default-card';
+import Report from '../screens/main/orders/children/chat/children/report/report';
+import ReportResult from '../screens/main/orders/children/chat/children/report/child/report-result/report-result';
+import Delivery from '../screens/main/orders/children/order-details/child/delivery/delivery';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -253,6 +257,34 @@ function MainStack() {
           headerShown: false,
         }}
         component={HelpOptions}
+      />
+      <Stack.Screen
+        name="default-card"
+        options={{
+          headerShown: false,
+        }}
+        component={DefaultCard}
+      />
+      <Stack.Screen
+        name="report"
+        options={{
+          headerShown: false,
+        }}
+        component={Report}
+      />
+      <Stack.Screen
+        name="report-result"
+        options={{
+          headerShown: false,
+        }}
+        component={ReportResult}
+      />
+      <Stack.Screen
+        name="delivery"
+        options={{
+          headerShown: false,
+        }}
+        component={Delivery}
       />
     </Stack.Navigator>
   );

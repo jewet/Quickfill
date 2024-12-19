@@ -34,9 +34,9 @@ function Orders({navigation}: Props) {
 
   // Function to render the active component based on the selected navigation tab
   const displayActiveComponent = () => {
-    if (activeNav === 0) return <OngoingOrders navigation={navigation} />; // Display ongoing orders
-    if (activeNav === 1) return <CompletedOrders navigation={navigation} />; // Display completed orders
-    return null; // Return null if no tab matches
+    if (activeNav === 0) return <OngoingOrders navigation={navigation} />; 
+    if (activeNav === 1) return <CompletedOrders navigation={navigation} />; 
+    return null;
   };
 
   return (
@@ -63,7 +63,7 @@ function Orders({navigation}: Props) {
                 orderStyles.orderNavCont, 
                 index === activeNav && orderStyles.activeNav,
               ]}
-              onPress={() => setActiveNav(index)}> {/* Set active tab on press */}
+              onPress={() => setActiveNav(index)}> 
               <Text>{data.nav}</Text>
             </TouchableOpacity>
           ))}

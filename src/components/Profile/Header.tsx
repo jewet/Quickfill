@@ -12,7 +12,10 @@ interface Props {
   directory: string;
 }
 
+
+
 function Header({goBackAction, title, isFirstPage, directory}: Props) {
+  console.log('dir: ', directory);
   return (
     <View
       style={[
@@ -47,14 +50,15 @@ function Header({goBackAction, title, isFirstPage, directory}: Props) {
         )
       )} */}
       <Text style={headerStyles.title}>{title}</Text>
-      {isFirstPage && directory.toLowerCase() === 'transfer' || 'card' ? (
+      {directory.toLowerCase() !== 'transfer' || 'card' ? (
+        <View></View>
+        
+      ) : (
         <TouchableOpacity>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
-            {isFirstPage === true ? '' : 'Help'}
+             Help
           </Text>
         </TouchableOpacity>
-      ) : (
-        <View></View>
       )}
     </View>
   );

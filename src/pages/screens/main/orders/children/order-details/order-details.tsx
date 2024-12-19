@@ -32,6 +32,7 @@ import OnlineIcon from '../../../../../../assets/images/orders/on_line.svg';
 import OfflineIcon from '../../../../../../assets/images/orders/offline.svg';
 import ChatIcon from '../../../../../../assets/images/orders/msg.svg';
 import CallIcon from '../../../../../../assets/images/orders/call.svg';
+import Deliver from '../../../../../../assets/images/profile/Deliver.svg';
 import TransitIcon from '../../../../../../assets/images/orders/rider.svg';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 import TimelineModal from '../../../../../../components/TimelineModal/TimelineModal';
@@ -209,7 +210,7 @@ function OrderDetails({navigation}: Props) {
                 </Text>
               </View>
               <TouchableOpacity>
-                <ArrowRightIcon width={20} height={20} fill="none" />
+              <ArrowRightIcon width={20} height={20} fill="none" />
               </TouchableOpacity>
             </View>
           </View>
@@ -284,7 +285,7 @@ function OrderDetails({navigation}: Props) {
               <View
                 style={[
                   orderDetailsStyles.flexContainer,
-                  {gap: 20, width: 'auto'},
+                  {gap: 15, width: 'auto'},
                 ]}>
                 <TouchableOpacity>
                   <CallIcon width={48} height={48} fill="none" />
@@ -330,8 +331,11 @@ function OrderDetails({navigation}: Props) {
               <View
                 style={[
                   orderDetailsStyles.flexContainer,
-                  {gap: 20, width: 'auto'},
+                  {gap: 15, width: 'auto'},
                 ]}>
+                <TouchableOpacity style={{backgroundColor: 'black', borderRadius: 100}} onPress={() => navigation.navigate('delivery', {orderDetails})}>
+                  <Deliver width={48} height={48} fill="none" />
+                </TouchableOpacity>
                 <TouchableOpacity>
                   <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
