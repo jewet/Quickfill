@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -21,7 +21,9 @@ import favouritesStyles from '../favourites/favouritesStyles';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import ArrowRight from '../../../../../../assets/images/profile/black_tabler_chevron-right.svg';
 import EditIcon from '../../../../../../assets/images/profile/tabler_edit.svg';
+import DeleteIcon from '../../../../../../assets/images/profile/tabler_trash.svg';
 import addressStyles from '../address/addressStyles';
+import DeleteProfileModal from '../../../../../../components/Profile/Modal/Modal';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-details'>;
@@ -30,6 +32,7 @@ function Details({navigation}: Props) {
   // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   // Function to navigate to the update form screen with the target data (name, username, birthday, email)
   const handleNavigation = (
@@ -129,8 +132,31 @@ function Details({navigation}: Props) {
               )}
             </View>
           ))}
+          <TouchableOpacity
+            style={{
+              width: '100%',
+              borderRadius: 30,
+              height: 48,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 10,
+              marginTop: 50,
+              backgroundColor: '#DC5513',
+            }}
+            onPress={() => setShowModal(true)}>
+            <Text style={{color: '#FFFFFF'}}>Delete profile</Text>
+            <DeleteIcon width={20} height={20} fill="none" />
+          </TouchableOpacity>
         </View>
       </ScrollView>
+      {showModal && (
+        <DeleteProfileModal
+          navigateToConfirm={() => navigation.navigate('login')}
+          closeModal={() => setShowModal(false)}
+        />
+      )}
     </SafeAreaView>
   );
 }

@@ -1,4 +1,5 @@
 import { Dimensions, Platform, StyleSheet } from "react-native";
+import { primaryColor } from "../../../../onboarding/splash/splashstyles";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -114,9 +115,21 @@ const ChatStyles = StyleSheet.create({
     padding: 10,
     display: 'flex',
   },
+  hiddenCont: {
+    marginVertical: 5,
+    borderRadius: 10,
+    padding: 20,
+    display: 'flex',
+    position: 'absolute',
+    backgroundColor: '#FFFFFF',
+    right: 20,
+    top: 50,
+    zIndex: 111,
+    gap: 10
+  },
   senderMessage: {
     alignSelf: 'flex-end',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: primaryColor,
     borderRadius: 20,
     borderWidth: 0.5, 
     borderColor: '#D9D9D9'
@@ -134,7 +147,7 @@ const ChatStyles = StyleSheet.create({
   },
   senderTimestamp: {
     fontSize: 12,
-    color: '#BFBFBF',
+    color: '#5E5E5E',
     textAlign: 'right',
     marginTop: 5,
   },
@@ -143,6 +156,11 @@ const ChatStyles = StyleSheet.create({
     color: '#BFBFBF',
     textAlign: 'left',
     marginTop: 5,
+  },
+  infoOptText: {
+    fontSize: 14,
+    color: '#2C2C2C',
+    fontWeight: 400
   },
   inputContainer: {
     width: '100%',

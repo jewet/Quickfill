@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {createAnimatedPropAdapter} from 'react-native-reanimated';
 import Splash from '../screens/onboarding/splash/splash';
 import FirstOnboarding from '../screens/onboarding/onboarding-screens/first-onboarding';
 import SecondOnboarding from '../screens/onboarding/onboarding-screens/second-onboarding';
@@ -13,7 +12,7 @@ function OnboardingStack() {
   const Stack = createStackNavigator();
 
   return (
-    <Stack.Navigator initialRouteName="first-onboarding">
+    <Stack.Navigator initialRouteName="second-onboarding">
       {/* <Stack.Screen
         name="splash"
         options={{

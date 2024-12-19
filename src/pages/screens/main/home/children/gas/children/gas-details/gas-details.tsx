@@ -44,17 +44,7 @@ function GasDetails({navigation}: Props) {
   const {gasDetails}: {gasDetails?: DetailsProps} = route.params || {};
 
   const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
-  };
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedKg, setSelectedKg] = useState<number>(0);
-  const cylinderSizes = [
-    {size: 3, price: 4500},
-    {size: 6, price: 9000},
-    {size: 12, price: 18000},
-    {size: 25, price: 45000},
-  ];
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;

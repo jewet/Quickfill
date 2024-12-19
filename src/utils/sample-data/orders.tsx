@@ -13,6 +13,7 @@ export interface OrdersProps {
   rider: any;
   delivery: any;
   delivery_timeline: any;
+  customer_review: any;
 }
 
 export const order_data: OrdersProps[] = [
@@ -63,6 +64,47 @@ export const order_data: OrdersProps[] = [
         des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: false,
+      },
+    ],
+    customer_review: [
+      {
+        name: 'John Johnson',
+        timeStamp: '5h',
+        review:
+          'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+        rating: 5,
+      },
+      {
+        name: 'Emeka Nnaemeka',
+        timeStamp: '10h',
+        review:
+          'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+        rating: 4,
+      },
+      {
+        name: 'Yemi Adeyemi',
+        timeStamp: '15h',
+        review:
+          "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+        rating: 4,
+      },
+      {
+        name: 'Chibuzor Ekene',
+        timeStamp: '20h',
+        review: 'Great work',
+        rating: 2,
+      },
+      {
+        name: 'John Daniel',
+        timeStamp: '1 day',
+        review: 'Keep it up',
+        rating: 3,
+      },
+      {
+        name: 'Dinma Gabriel',
+        timeStamp: '3 days',
+        review: 'Excellent',
+        rating: 1,
       },
     ],
   },
@@ -118,6 +160,47 @@ export const order_data: OrdersProps[] = [
         itsTurn: false,
       },
     ],
+    customer_review: [
+      {
+        name: 'John Johnson',
+        timeStamp: '5h',
+        review:
+          'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+        rating: 5,
+      },
+      {
+        name: 'Emeka Nnaemeka',
+        timeStamp: '10h',
+        review:
+          'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+        rating: 4,
+      },
+      {
+        name: 'Yemi Adeyemi',
+        timeStamp: '15h',
+        review:
+          "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+        rating: 4,
+      },
+      {
+        name: 'Chibuzor Ekene',
+        timeStamp: '20h',
+        review: 'Great work',
+        rating: 2,
+      },
+      {
+        name: 'John Daniel',
+        timeStamp: '1 day',
+        review: 'Keep it up',
+        rating: 3,
+      },
+      {
+        name: 'Dinma Gabriel',
+        timeStamp: '3 days',
+        review: 'Excellent',
+        rating: 1,
+      },
+    ],
   },
   {
     id: '#MGJHG387HK',
@@ -171,6 +254,47 @@ export const order_data: OrdersProps[] = [
         itsTurn: false,
       },
     ],
+    customer_review: [
+      {
+        name: 'John Johnson',
+        timeStamp: '5h',
+        review:
+          'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+        rating: 5,
+      },
+      {
+        name: 'Emeka Nnaemeka',
+        timeStamp: '10h',
+        review:
+          'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+        rating: 4,
+      },
+      {
+        name: 'Yemi Adeyemi',
+        timeStamp: '15h',
+        review:
+          "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+        rating: 4,
+      },
+      {
+        name: 'Chibuzor Ekene',
+        timeStamp: '20h',
+        review: 'Great work',
+        rating: 2,
+      },
+      {
+        name: 'John Daniel',
+        timeStamp: '1 day',
+        review: 'Keep it up',
+        rating: 3,
+      },
+      {
+        name: 'Dinma Gabriel',
+        timeStamp: '3 days',
+        review: 'Excellent',
+        rating: 1,
+      },
+    ],
   },
   {
     id: '#SHG324HJF',
@@ -219,6 +343,47 @@ export const order_data: OrdersProps[] = [
         des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: false,
+      },
+    ],
+    customer_review: [
+      {
+        name: 'John Johnson',
+        timeStamp: '5h',
+        review:
+          'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+        rating: 5,
+      },
+      {
+        name: 'Emeka Nnaemeka',
+        timeStamp: '10h',
+        review:
+          'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+        rating: 4,
+      },
+      {
+        name: 'Yemi Adeyemi',
+        timeStamp: '15h',
+        review:
+          "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+        rating: 4,
+      },
+      {
+        name: 'Chibuzor Ekene',
+        timeStamp: '20h',
+        review: 'Great work',
+        rating: 2,
+      },
+      {
+        name: 'John Daniel',
+        timeStamp: '1 day',
+        review: 'Keep it up',
+        rating: 3,
+      },
+      {
+        name: 'Dinma Gabriel',
+        timeStamp: '3 days',
+        review: 'Excellent',
+        rating: 1,
       },
     ],
   },
@@ -274,6 +439,47 @@ export const order_data: OrdersProps[] = [
         itsTurn: false,
       },
     ],
+    customer_review: [
+      {
+        name: 'John Johnson',
+        timeStamp: '5h',
+        review:
+          'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+        rating: 5,
+      },
+      {
+        name: 'Emeka Nnaemeka',
+        timeStamp: '10h',
+        review:
+          'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+        rating: 4,
+      },
+      {
+        name: 'Yemi Adeyemi',
+        timeStamp: '15h',
+        review:
+          "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+        rating: 4,
+      },
+      {
+        name: 'Chibuzor Ekene',
+        timeStamp: '20h',
+        review: 'Great work',
+        rating: 2,
+      },
+      {
+        name: 'John Daniel',
+        timeStamp: '1 day',
+        review: 'Keep it up',
+        rating: 3,
+      },
+      {
+        name: 'Dinma Gabriel',
+        timeStamp: '3 days',
+        review: 'Excellent',
+        rating: 1,
+      },
+    ],
   },
 ];
 
@@ -311,5 +517,27 @@ export const achievements_data: AchievementsProps[] = [
   {
     img: AchievementIcon,
     reward: 'Outstanding\nVendor',
+  },
+];
+
+interface ReportProps {
+  reason: string;
+}
+
+export const report_data: ReportProps[] = [
+  {
+    reason: 'Rude behavior',
+  },
+  {
+    reason: 'Mishandling package',
+  },
+  {
+    reason: 'Late delivery',
+  },
+  {
+    reason: 'Unsafe driving',
+  },
+  {
+    reason: 'Other',
   },
 ];

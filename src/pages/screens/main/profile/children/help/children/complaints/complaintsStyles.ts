@@ -51,7 +51,8 @@ const complaintsStyles = StyleSheet.create({
     alignSelf: 'flex-start',
     flexDirection: 'row',
     padding: 16,
-    width: '100%'
+    width: '100%',
+    textAlignVertical: 'top', 
   },
   btn: {
     marginTop: 20,

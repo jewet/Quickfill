@@ -45,6 +45,7 @@ function Chat({navigation}: Props) {
   // State to manage chat messages and input value
   const [messages, setMessages] = useState(chat_data);
   const [currentMessage, setCurrentMessage] = useState('');
+  const [showMoreInfo, setShowMoreInfo] = useState(false);
 
   // Navigate to the profile details screen
   const handleNavigation = (
@@ -66,8 +67,8 @@ function Chat({navigation}: Props) {
           minute: '2-digit',
         }),
       };
-      setMessages([...messages, newMessage]); // Append the new message
-      setCurrentMessage(''); // Clear the input field
+      setMessages([...messages, newMessage]);
+      setCurrentMessage('');
     }
   };
 
@@ -124,10 +125,26 @@ function Chat({navigation}: Props) {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setShowMoreInfo(!showMoreInfo)}>
           <MoreIcon width={44} height={44} fill="none" />
         </TouchableOpacity>
       </View>
+      {showMoreInfo && (
+        <View style={ChatStyles.hiddenCont}>
+          <TouchableOpacity
+            onPress={() => {
+              setShowMoreInfo(false);
+              navigation.navigate('report', {orderDetails, target});
+            }}>
+            <Text style={ChatStyles.infoOptText}>Report</Text>
+          </TouchableOpacity>
+          <Text
+            style={[ChatStyles.infoOptText, {color: '#DC5513'}]}
+            onPress={() => setShowMoreInfo(false)}>
+            Block
+          </Text>
+        </View>
+      )}
 
       {/* Chat messages list and input field */}
       <View style={ChatStyles.container}>
