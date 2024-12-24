@@ -19,6 +19,7 @@ import Header from '../../../../../../../../../../components/Profile/Header';
 import paymentResultStyles from './paymentResultStyles';
 import SuccessImg from '../../../../../../../../../../assets/images/payment/successful.svg';
 import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
+import { profile_data } from '../../../../../../../../../../utils/sample-data/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'payment-result'>;
@@ -26,6 +27,10 @@ type Props = StackScreenProps<RootStackParamList, 'payment-result'>;
 function PaymentResult({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'payment-result'>>();
   const {result} = route.params;
+
+    const wallet = profile_data.find(
+      item => item.profile.type === 'My Wallet',
+    );
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -56,7 +61,7 @@ function PaymentResult({navigation}: Props) {
             </Text>
             <TouchableOpacity
               style={paymentResultStyles.btnWrapper}
-              onPress={() => navigation.navigate('home')}>
+              onPress={() => navigation.navigate('user-wallet', {profileDetails: wallet})}>
               <Text style={paymentResultStyles.btnText}>Next</Text>
             </TouchableOpacity>
           </View>

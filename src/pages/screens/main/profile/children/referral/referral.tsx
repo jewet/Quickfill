@@ -1,6 +1,15 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+  Share,
+  Alert,
+} from 'react-native';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
 import {
@@ -19,6 +28,7 @@ import Badge from '../../../../../../assets/images/profile/badge.svg';
 import Friends from '../../../../../../assets/images/profile/friends.svg';
 import Coin from '../../../../../../assets/images/profile/coin.svg';
 import referralStyles from './referralStyles';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'referral'>;
@@ -26,6 +36,25 @@ type Props = StackScreenProps<RootStackParamList, 'referral'>;
 function Referral({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'referral'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
+
+  const referralCode = 'Gkj378rG032i1';
+
+  // Function to copy referral code to clipboard
+  const copyToClipboard = (code: string) => {
+    Clipboard.setString(code);
+    Alert.alert('Copied!', 'Referral code copied to clipboard.');
+  };
+
+  // Function to share referral code
+  const shareReferralCode = async (code: string) => {
+    try {
+      await Share.share({
+        message: `Use my referral code "${code}" to join!`,
+      });
+    } catch (error) {
+      Alert.alert('Error', 'Unable to share the referral code.');
+    }
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -68,13 +97,19 @@ function Referral({navigation}: Props) {
                 referralStyles.referralLink,
               ]}>
               <Text style={{color: '#5E5E5E', fontWeight: '600', fontSize: 14}}>
-                Gkj378rG032i1
+                {referralCode}
               </Text>
               <View>
                 <View
                   style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-                  <ShareIcon width={20} height={20} fill="none" />
-                  <CopyIcon width={20} height={20} fill="none" />
+                  <TouchableOpacity
+                    onPress={() => shareReferralCode(referralCode)}>
+                    <ShareIcon width={20} height={20} fill="none" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => copyToClipboard(referralCode)}>
+                    <CopyIcon width={20} height={20} fill="none" />
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

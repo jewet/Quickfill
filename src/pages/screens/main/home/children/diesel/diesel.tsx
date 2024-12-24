@@ -73,7 +73,6 @@ function Diesel({navigation}: Props) {
         <Map
           width={width}
           height={1022}
-          style={{position: 'absolute', left: -202, right: 0}}
         />
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>

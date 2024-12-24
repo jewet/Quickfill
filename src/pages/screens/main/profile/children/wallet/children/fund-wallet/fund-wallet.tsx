@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Alert, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Button from '../../../../../../../../components/Button/Button';
 import {useNavigation} from '@react-navigation/native';
@@ -20,17 +20,17 @@ interface Props {
 }
 
 function FundWallet({action, navigation}: Props) {
-  const [isSelected, setIsSelected] = useState<number | null>();
+  const [isSelected, setIsSelected] = useState<number>(0);
   const [amount, setAmount] = useState<string>('');
 
   //defined navigation links
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.navigate('transfer', {amount: 20000});
+        navigation.navigate('transfer', {amount: amount});
         break;
       case 'card':
-        navigation.navigate('card', {amount: 20000});
+        navigation.navigate('card', {amount: amount});
         break;
       case 'wallet':
         navigation.navigate('payment-result', {result: 'successful'});
@@ -44,13 +44,22 @@ function FundWallet({action, navigation}: Props) {
     }
   };
 
+  const handleAmountChange = (text: string) => {
+    const numericValue = text.replace(/[^0-9]/g, '');
+    setAmount(numericValue);
+  };
+
+  const formattedAmount = amount
+    ? Intl.NumberFormat().format(Number(amount))
+    : '';
+
   const handleContinue = () => {
     if (isSelected === null) {
-      console.warn('No payment type selected');
+      Alert.alert('No payment type selected');
       return;
     }
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      console.warn('Please enter a valid amount');
+      Alert.alert('Please enter a valid amount');
       return;
     }
     const selectedPaymentType = payment_type[isSelected].type;
@@ -96,8 +105,8 @@ function FundWallet({action, navigation}: Props) {
               <TextInput
                 placeholder="Enter amount"
                 style={fundWalletStyles.input}
-                value={amount}
-                onChangeText={setAmount}
+                value={formattedAmount}
+                onChangeText={handleAmountChange}
                 keyboardType="numeric"
               />
             </View>
