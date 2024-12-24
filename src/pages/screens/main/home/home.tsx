@@ -32,9 +32,6 @@ type Props = StackScreenProps<RootStackParamList, 'home'>;
 
 function Home({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
-  };
 
   const [showBalance, setShowBalance] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);

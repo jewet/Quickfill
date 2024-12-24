@@ -91,7 +91,7 @@ const gasStyles = StyleSheet.create({
     borderColor: primaryColor,
     borderWidth: 2,
     borderRadius: moderateScale(50),
-    paddingVertical: scale(10),
+    paddingVertical: scale(8),
     paddingHorizontal: scale(16),
     marginLeft: scale(20),
     marginTop: verticalScale(20),
@@ -99,6 +99,10 @@ const gasStyles = StyleSheet.create({
   selectedKg: {
     fontSize: moderateScale(18),
     paddingTop: verticalScale(10),
+    fontFamily: 'Plus Jakarta Sans',
+    lineHeight: moderateScale(14),
+    fontWeight: '600',
+    color: '#2C2C2C',
   },
   gasSelectionWrapper: {
     position: 'relative',
@@ -110,10 +114,9 @@ const gasStyles = StyleSheet.create({
     width: scale(90),
     padding: scale(10),
     borderRadius: moderateScale(15),
-    height: verticalScale(100),
+    height: verticalScale(110),
     paddingTop: verticalScale(50),
     marginTop: verticalScale(50),
-    borderWidth: 2,
   },
   gasCylinder: {
     position: 'absolute',

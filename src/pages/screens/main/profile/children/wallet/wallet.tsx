@@ -70,7 +70,7 @@ function Wallet({navigation}: Props) {
                   },
                 ]}>
                 <Text style={walletStyles.referText}>Refer friends for ₦ </Text>
-                <TouchableOpacity onPress={() => setShowreferText(false)}>
+                <TouchableOpacity onPress={() => navigation.navigate('home')}>
                   <Close width={62} height={62} />
                 </TouchableOpacity>
               </View>
@@ -139,14 +139,14 @@ function Wallet({navigation}: Props) {
                 <TopUp width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Top up</Text>
               </TouchableOpacity>
-              <View style={{display: 'flex', alignItems: 'center'}}>
+              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}}>
                 <History width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>History</Text>
-              </View>
-              <View style={{display: 'flex', alignItems: 'center'}}>
+              </TouchableOpacity>
+              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}}>
                 <Voucher width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Apply voucher</Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         </LinearGradient>

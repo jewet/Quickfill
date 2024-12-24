@@ -32,7 +32,6 @@ import FundWallet from '../../../../../profile/children/wallet/children/fund-wal
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
 import Offline from '../../../../../../../../assets/images/orders/offline.svg';
-import Carousel from 'react-native-reanimated-carousel';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -68,6 +67,29 @@ function GasDetails({navigation}: Props) {
   const handleButtonPress = (index: number) => {
     setSelectedIndex(index);
     scrollToIndex(index);
+  };
+
+  const getCurrentKgWidth = (index: number) => {
+    if (index === 0) {
+      return 120;
+    } else if (index === 1) {
+      return 140;
+    } else if (index === 2) {
+      return 165;
+    } else if (index === 3) {
+      return 200;
+    }
+  };
+  const getCurrentKgHeight = (index: number) => {
+    if (index === 3) {
+      return 220;
+    } else if (index === 6) {
+      return 230;
+    } else if (index === 12) {
+      return 240;
+    } else if (index === 25) {
+      return 250;
+    }
   };
 
   return (
@@ -181,27 +203,16 @@ function GasDetails({navigation}: Props) {
                 extrapolate: 'clamp',
               });
 
-              const opacity = scrollX.interpolate({
-                inputRange: [
-                  (index - 1) * (screenWidth * 0.6),
-                  index * (screenWidth * 0.6),
-                  (index + 1) * (screenWidth * 0.6),
-                ],
-                outputRange: [0.5, 1, 0.5],
-                extrapolate: 'clamp',
-              });
-
               return (
                 <Animated.View
                   style={[
                     styles.itemContainer,
                     {
                       transform: [{scale}],
-                      // opacity,
                     },
                   ]}>
                   <BiggestGas
-                    width={index === selectedIndex ? 165 : 115}
+                    width={index === selectedIndex ? getCurrentKgWidth(index) : 115}
                     height={index === selectedIndex ? 240 : 150}
                     fill="none"
                   />
@@ -231,19 +242,14 @@ function GasDetails({navigation}: Props) {
                     {
                       borderColor:
                         index === selectedIndex ? '#FFB600' : '#5E5E5E',
+                      borderWidth: index === selectedIndex ? 3 : 1,
                     },
                   ]}
-                  // onPress={() => setSelectedKg(index)}
                   onPress={() => handleButtonPress(index)}>
                   <View style={gasStyles.gasCylinder}>
                     <data.img fill="none" />
                   </View>
-                  <Text
-                    style={[
-                      homeStyles.orderType,
-                      gasStyles.selectedKg,
-                      {marginBottom: 10},
-                    ]}>
+                  <Text style={[gasStyles.selectedKg, {marginBottom: 10}]}>
                     {data.kg}kg
                   </Text>
                   <Text style={homeStyles.orderType}>

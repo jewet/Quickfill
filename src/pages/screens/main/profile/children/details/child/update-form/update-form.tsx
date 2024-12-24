@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  FlatList,
+  Modal,
   SafeAreaView,
   ScrollView,
   StatusBar,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -24,6 +27,7 @@ import SendIcon from '../../../../../../../../assets/images/profile/tabler_send.
 import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
 import {height} from '../../../../../home/children/diesel/dieselStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
@@ -33,14 +37,46 @@ function UpdateForm({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
 
-  const [date, setDate] = React.useState(new Date()); // State to hold selected date
-  const [showPicker, setShowPicker] = React.useState(false); // State to show/hide picker
+  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [showMonthPicker, setShowMonthPicker] = useState(false);
+  const [showDayPicker, setShowDayPicker] = useState(false);
 
-  // Handler for when date is changed in DateTimePicker
-  const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowPicker(false); // Close the picker
-    if (selectedDate) {
-      setDate(selectedDate); // Update the date state
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  const getDaysInMonth = (month: string | null): string[] => {
+    if (!month) return [];
+    const monthIndex = months.indexOf(month);
+    const year = new Date().getFullYear();
+    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+    return Array.from({length: daysInMonth}, (_, i) => (i + 1).toString());
+  };
+
+  const days = getDaysInMonth(selectedMonth);
+
+  const handleMonthSelect = (month: string) => {
+    setSelectedMonth(month);
+    setSelectedDay(null); // Reset selected day when month changes
+    setShowMonthPicker(false);
+  };
+
+  const handleDaySelect = (day: string) => {
+    if (selectedMonth) {
+      setSelectedDay(day);
+      setShowDayPicker(false);
     }
   };
 
@@ -111,7 +147,7 @@ function UpdateForm({navigation}: Props) {
                 inputStyles.label,
                 {textAlign: 'left', color: '#DC5513', marginTop: 5},
               ]}>
-              This is has not yet been verified, check email to complete
+              This has not yet been verified, check email to complete
               verification
             </Text>
             <TouchableOpacity
@@ -135,29 +171,115 @@ function UpdateForm({navigation}: Props) {
         );
       case 'birthday':
         return (
-          <View style={{width: '100%'}}>
-            <Text style={[inputStyles.label, {textAlign: 'left'}]}>
-              Select your date of birth
-            </Text>
-            <TouchableOpacity
-              style={inputStyles.dateWrapper}
-              onPress={() => setShowPicker(true)}>
-              <Text style={inputStyles.dateText}>
-                {date.toLocaleDateString('en-US', {
-                  month: 'long',
-                  day: 'numeric',
-                })}
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              justifyContent: 'flex-start',
+              gap: '5%',
+            }}>
+            <View style={{width: '45%'}}>
+              <Text style={[inputStyles.label, {textAlign: 'left'}]}>
+                Month of birth
               </Text>
-            </TouchableOpacity>
-            {showPicker && (
-              <DateTimePicker
-                value={date}
-                mode="date"
-                display="spinner"
-                onChange={handleDateChange}
-                textColor={'#2C2C2C'}
-              />
-            )}
+              <View
+                style={[
+                  inputStyles.securedInputWrapper,
+                  {width: '100%', marginTop: 10},
+                ]}>
+                <TouchableOpacity
+                  onPress={() => setShowMonthPicker(true)}
+                  style={inputStyles.passwordInput}>
+                  <Text
+                    style={inputStyles.securedInput}
+                    onPress={() => setShowMonthPicker(true)}>
+                    {selectedMonth || 'Select a month'}
+                  </Text>
+                  <TouchableOpacity onPress={() => setShowMonthPicker(true)}>
+                    <DropDown width={20} height={20} fill="none" />
+                  </TouchableOpacity>
+                </TouchableOpacity>
+
+                {/* Dropdown menu for selecting month */}
+                {showMonthPicker && (
+                  <Modal transparent={true} animationType="slide">
+                    <View style={styles.modalOverlay}>
+                      <View style={styles.pickerContainer}>
+                        <FlatList
+                          data={months}
+                          keyExtractor={item => item}
+                          renderItem={({item}) => (
+                            <TouchableOpacity
+                              style={styles.monthItem}
+                              onPress={() => handleMonthSelect(item)}>
+                              <Text style={styles.monthText}>{item}</Text>
+                            </TouchableOpacity>
+                          )}
+                        />
+                        <TouchableOpacity
+                          onPress={() => setShowMonthPicker(false)}>
+                          <Text style={styles.closeButton}>Close</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+                )}
+              </View>
+            </View>
+            <View style={{width: '40%'}}>
+              <Text style={[inputStyles.label, {textAlign: 'left'}]}>Day</Text>
+              <View
+                style={[
+                  inputStyles.securedInputWrapper,
+                  {width: '100%', marginTop: 10},
+                ]}>
+                <TouchableOpacity
+                  onPress={() => selectedMonth && setShowDayPicker(true)}
+                  style={[
+                    inputStyles.passwordInput,
+                    {opacity: selectedMonth ? 1 : 0.5},
+                  ]}
+                  disabled={!selectedMonth}>
+                  <Text
+                    style={inputStyles.securedInput}
+                    onPress={() => setShowDayPicker(true)}>
+                    {selectedDay || 'Select a day'}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Dropdown menu for selecting month */}
+                {showDayPicker && (
+                  <Modal transparent={true} animationType="slide">
+                    <View style={styles.modalOverlay}>
+                      <View style={styles.pickerContainer}>
+                        <FlatList
+                          data={days}
+                          keyExtractor={item => item}
+                          renderItem={({item}) => (
+                            <TouchableOpacity
+                              style={styles.monthItem}
+                              onPress={() => handleDaySelect(item)}>
+                              <Text style={styles.monthText}>{item}</Text>
+                            </TouchableOpacity>
+                          )}
+                        />
+                        {!selectedMonth && (
+                          <Text
+                            style={[inputStyles.label]}>
+                            Pick a month first
+                          </Text>
+                        )}
+                        <TouchableOpacity
+                          onPress={() => setShowDayPicker(false)}>
+                          <Text style={styles.closeButton}>Close</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+                )}
+              </View>
+            </View>
           </View>
         );
       default:
@@ -191,7 +313,7 @@ function UpdateForm({navigation}: Props) {
             justifyContent: 'space-between',
             paddingBottom: 100,
           }}>
-          {renderInputs()} 
+          {renderInputs()}
           {/* Render the appropriate inputs based on the target */}
           <View
             style={{
@@ -200,12 +322,43 @@ function UpdateForm({navigation}: Props) {
               flexDirection: 'row',
               alignSelf: 'flex-end',
             }}>
-            <Button text="Save changes" action={() => console.log('pressed')} />
+            <Button text="Save changes" action={() => navigation.goBack()} />
           </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  label: {fontSize: 16, marginBottom: 10},
+  dateWrapper: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  dateText: {fontSize: 16},
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  pickerContainer: {
+    backgroundColor: '#fff',
+    width: '80%',
+    padding: 20,
+    borderRadius: 10,
+  },
+  monthItem: {padding: 15, borderBottomWidth: 1, borderBottomColor: '#ddd'},
+  monthText: {fontSize: 16},
+  closeButton: {
+    textAlign: 'center',
+    marginTop: 10,
+    fontSize: 16,
+    color: primaryColor,
+  },
+});
 
 export default UpdateForm;

@@ -62,7 +62,7 @@ function Details({navigation}: Props) {
         {/* Render list of user details dynamically */}
         <View style={{paddingBottom: 100}}>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
-            <View
+            <TouchableOpacity
               key={index}
               style={[
                 orderDetailsStyles.flexContainer,
@@ -72,7 +72,15 @@ function Details({navigation}: Props) {
                   borderColor: '#E5E5EA',
                   paddingVertical: 25,
                 },
-              ]}>
+              ]}
+              disabled={!!data.phone_number || !!data.gender}  
+              onPress={() => {
+                if (data.name) handleNavigation(profileDetails!, 'name');
+                if (data.username)
+                  handleNavigation(profileDetails!, 'username');
+                if (data.email) handleNavigation(profileDetails!, 'email');
+                if (data.dob) handleNavigation(profileDetails!, 'birthday');
+              }}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <data.icon width={24} height={24} fill="none" />
                 <View>
@@ -130,7 +138,7 @@ function Details({navigation}: Props) {
                   <EditIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               )}
-            </View>
+            </TouchableOpacity>
           ))}
           <TouchableOpacity
             style={{

@@ -26,12 +26,11 @@ const dieselStyles = StyleSheet.create({
     position: 'relative'
   },
   scrollviewWrapper: {
+    position: 'absolute',
+    zIndex: 1000,
     width: '100%',
-    // backgroundColor: 'blue',
-    // position: 'absolute',
-    bottom: 0,
     display: 'flex',
-    
+    alignItems: 'center',
   },
   scrollview: {
     width: '100%',
@@ -46,7 +45,6 @@ const dieselStyles = StyleSheet.create({
     marginTop: verticalScale(10),
     position: 'absolute',
     zIndex: 100,
-    left: -200,
     width: '100%',
     top: 0,
     right: 0,
