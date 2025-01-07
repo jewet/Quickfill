@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -20,6 +20,11 @@ import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -39,47 +44,58 @@ function SignUp({navigation}: Props) {
           <Input
             label="Full name"
             placeholder="E.g. John Doe"
-            value=""
+            value={fullName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
+            validate="fullname"
+            onChange={text => setFullName(text)}
           />
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value=""
+            value={email}
             secured={false}
             directory={null}
             keyboardType="default"
-            action={null}
+            action={() => console.log('Action triggered')}
+            validate="email"
+            onChange={text => setEmail(text)}
           />
           <Input
             label="Phone number"
-            placeholder="E.g. 081234567890"
-            value=""
+            placeholder="81234567890"
+            value={phoneNumber}
             secured={false}
             directory={null}
-            keyboardType="numeric"
-            action={null}
+            keyboardType="default"
+            action={() => console.log('Action triggered')}
+            validate="phone"
+            onChange={text => setPhoneNumber(text)}
           />
           <Input
             label="Passsword"
             placeholder="*********"
-            value=""
+            value={password}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
+            onChange={text => setPassword(text)}
+            validate='password'
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            value=""
+            value={confirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
+            onChange={text => setConfirmPassword(text)}
+            validate='confirm-password'
+            password={password}
           />
           <Button
             text="Sign Up"

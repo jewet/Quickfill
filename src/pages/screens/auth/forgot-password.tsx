@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -13,6 +13,7 @@ import Button from '../../../components/Button/Button';
 type Props = StackScreenProps<RootStackParamList, 'forgot-password'>;
 
 function ForgotPassword({navigation}: Props) {
+  const [email, setEmail] = useState('');
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -32,12 +33,13 @@ function ForgotPassword({navigation}: Props) {
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value=""
+            value={email}
             secured={false}
             directory={null}
             keyboardType="default"
-            // onChangeText={()=>void}
-            action={null}
+            validate="email"
+            action={() => console.log('Action triggered')}
+            onChange={text => setEmail(text)}
           />
           <Button
             text="Send Code"

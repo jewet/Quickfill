@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { height, width } = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 const onboardingStyles = StyleSheet.create({
   onboardingContainer: {
@@ -9,7 +9,7 @@ const onboardingStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: width * 0.05,
-    paddingVertical: height * 0.05,  
+    paddingVertical: height * 0.05,
   },
   onboardingContent: {
     flex: 1,
@@ -22,17 +22,17 @@ const onboardingStyles = StyleSheet.create({
   },
   boldText: {
     fontFamily: 'Plus Jakarta Sans',
-    lineHeight: 30,
     fontWeight: '700',
-    fontSize: width * 0.055, 
+    fontSize: width * 0.055,
+    lineHeight: width * 0.055 * 1.3,
     textAlign: 'center',
     marginTop: 20,
   },
   lightText: {
     fontFamily: 'Plus Jakarta Sans',
-    lineHeight: 20.16,
+    lineHeight: width * 0.035 * 1.5,
     fontWeight: '400',
-    fontSize: width * 0.035, 
+    fontSize: width * 0.035,
     textAlign: 'center',
     marginTop: 10,
   },

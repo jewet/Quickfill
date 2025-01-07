@@ -46,6 +46,7 @@ export type RootStackParamList = {
   'diesel-details': any;
   'gas-details': any;
   'change-address': any;
+  'delivery-instructions': any;
   'default-card': {result: 'successful' | 'unsuccessful'};
   'report-result': {
     orderDetails: OrdersProps;
