@@ -105,7 +105,13 @@ function Home({navigation}: Props) {
                     homeStyles.details,
                     {fontSize: 22, paddingTop: 10, fontWeight: 700},
                   ]}>
-                  {showBalance ? '₦96,484.09' : '******'}
+                  {showBalance ? `₦${Intl.NumberFormat().format(
+                                wallet?.profile?.bal
+                                  ? parseFloat(
+                                      wallet.profile.bal.toString(),
+                                    ) || 0
+                                  : 0,
+                              )}` : '******'}
                 </Text>
               </View>
               <TouchableOpacity

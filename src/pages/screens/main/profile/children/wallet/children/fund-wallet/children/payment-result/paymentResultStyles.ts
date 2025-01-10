@@ -1,5 +1,5 @@
 import {Dimensions, Platform, StyleSheet} from 'react-native';
-import { primaryColor } from '../../../../../../../../onboarding/splash/splashstyles';
+import {primaryColor} from '../../../../../../../../onboarding/splash/splashstyles';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
@@ -17,7 +17,7 @@ const paymentResultStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: height,
-    gap: 20
+    gap: 20,
   },
   nairaWrapper: {
     display: 'flex',
@@ -50,14 +50,14 @@ const paymentResultStyles = StyleSheet.create({
     fontSize: moderateScale(16),
     fontWeight: '500',
     color: '#2C2C2C',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   secondText: {
     fontFamily: 'Plus Jakarta Sans',
     fontSize: moderateScale(24),
     fontWeight: '600',
     color: '#2C2C2C',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   thirdText: {
     fontFamily: 'Plus Jakarta Sans',
@@ -65,7 +65,7 @@ const paymentResultStyles = StyleSheet.create({
     fontWeight: '500',
     color: '#5E5E5E',
     textAlign: 'center',
-    width: 196
+    width: 196,
   },
   btnWrapper: {
     width: '100%',
@@ -76,14 +76,38 @@ const paymentResultStyles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   btnText: {
     fontFamily: 'Plus Jakarta Sans',
     fontSize: moderateScale(14),
     fontWeight: '600',
     color: '#2C2C2C',
-    textAlign: 'center'
+    textAlign: 'center',
+  },
+  unitTokenWrapper: {
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderStyle: 'dashed',
+    borderColor: primaryColor,
+    borderWidth: 1,
+    padding: 20,
+    borderRadius: 30,
+    width: '100%'
+  },
+  tokenText: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(20),
+    fontWeight: '700',
+    color: primaryColor,
+    textAlign: 'center',
+  },
+  unitText: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(14),
+    fontWeight: '500',
+    color: '#5E5E5E',
+    textAlign: 'center',
   },
 });
 

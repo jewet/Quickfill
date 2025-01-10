@@ -39,6 +39,21 @@ function Accessories({navigation}: Props) {
 
   // State to control the visibility of the address modal
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredData, setFilteredData] = useState(accessories_data);
+
+  // Function to filter accessories
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim() === '') {
+      setFilteredData(accessories_data);
+    } else {
+      const filtered = accessories_data.filter(item =>
+        item.item.title.toLowerCase().includes(query.toLowerCase()),
+      );
+      setFilteredData(filtered);
+    }
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -89,8 +104,8 @@ function Accessories({navigation}: Props) {
             placeholder="Start typing to filter..."
             placeholderTextColor="#999999"
             returnKeyType="done"
-            // value={searchQuery}
-            // onChangeText={handleSearch}
+            value={searchQuery}
+            onChangeText={handleSearch}
             style={electricityProviderStyles.searchInput}
           />
         </View>
@@ -98,38 +113,50 @@ function Accessories({navigation}: Props) {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={accessoriesStyles.scrollview}>
-          <Text style={accessoriesStyles.accessoriesText}>Accessories</Text>
-          <Text style={[homeStyles.details, {fontWeight: 500, fontSize: 14}]}>
-            Find all you need to get your kitchen going
-          </Text>
-          <View style={accessoriesStyles.accessoriesItemsWrapper}>
-            {accessories_data.map((data, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  orderDetailsStyles.flexContainer,
-                  accessoriesStyles.accessoriesItems,
-                ]}
-                onPress={() => navigation.navigate('items-page')}>
-                <View
-                  style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-                  <data.img width={56} height={56} fill="none" />
-                  <View>
-                    <Text style={accessoriesStyles.topText}>
-                      {data.item.title}
-                    </Text>
-                    <Text style={accessoriesStyles.bottomText}>
-                      {data.item.number}
-                    </Text>
-                  </View>
-                </View>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('items-page')}>
-                  <ArrowRight width={24} height={24} fill="none" />
-                </TouchableOpacity>
-              </TouchableOpacity>
-            ))}
-          </View>
+          {filteredData.length > 0 ? (
+            <>
+              <Text style={accessoriesStyles.accessoriesText}>Accessories</Text>
+              <Text
+                style={[homeStyles.details, {fontWeight: 500, fontSize: 14}]}>
+                Find all you need to get your kitchen going
+              </Text>
+              <View style={accessoriesStyles.accessoriesItemsWrapper}>
+                {filteredData.map((data, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      orderDetailsStyles.flexContainer,
+                      accessoriesStyles.accessoriesItems,
+                    ]}
+                    onPress={() => navigation.navigate('items-page')}>
+                    <View
+                      style={[
+                        orderDetailsStyles.flexContainer,
+                        {width: 'auto'},
+                      ]}>
+                      <data.img width={56} height={56} fill="none" />
+                      <View>
+                        <Text style={accessoriesStyles.topText}>
+                          {data.item.title}
+                        </Text>
+                        <Text style={accessoriesStyles.bottomText}>
+                          {data.item.number}
+                        </Text>
+                      </View>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('items-page')}>
+                      <ArrowRight width={24} height={24} fill="none" />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          ) : (
+            <Text style={{textAlign: 'center', marginTop: 20, color: '#999'}}>
+              No results found
+            </Text>
+          )}
         </ScrollView>
       </View>
       {/* Address modal */}

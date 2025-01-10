@@ -64,7 +64,7 @@ function Orders({navigation}: Props) {
                 index === activeNav && orderStyles.activeNav,
               ]}
               onPress={() => setActiveNav(index)}> 
-              <Text>{data.nav}</Text>
+              <Text style={orderStyles.ordersNav}>{data.nav}</Text>
             </TouchableOpacity>
           ))}
         </View>

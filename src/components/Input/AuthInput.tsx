@@ -67,7 +67,11 @@ function Input({
     }else if (validate?.toLowerCase() === 'phone') {
       const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
       setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null);
+    }else if (validate?.toLowerCase() === 'meter-number') {
+      const meterRegex = /^[0-9]{1,10}$/;
+      setError(!meterRegex.test(text) ? 'Meter number must be 10 digits' : null);
     }
+    
   };
 
   return (
@@ -166,11 +170,25 @@ function Input({
                 validateInput(text);
               }
             }}
-            maxLength={12}
+            maxLength={11}
           />
         </View>
       )
-    : (
+    : validate?.toLowerCase()==='meter-number' ? (
+       (
+        <TextInput
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          style={inputStyles.input}
+          value={value}
+          onChangeText={(text) => {
+            onChange(text);
+            validateInput(text);
+          }}
+          maxLength={10}
+        />
+      )
+    ): (
       <TextInput
         placeholder={placeholder}
         keyboardType={keyboardType}

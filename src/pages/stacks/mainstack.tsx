@@ -36,6 +36,9 @@ import ReportResult from '../screens/main/orders/children/chat/children/report/c
 import Delivery from '../screens/main/orders/children/order-details/child/delivery/delivery';
 import GasCheckout from '../screens/main/home/children/gas/children/gas-details/children/checkout/checkout';
 import DeliveryInstructions from '../screens/main/home/children/gas/children/gas-details/children/delivery-instructions/delivery-instructions';
+import ElectricityPurchaseSummary from '../screens/main/home/children/electricity/children/electricity-purchase-summary/electricity-purchase-summary';
+import ElectricityHistory from '../screens/main/home/children/electricity/children/electricity-history/electricity-history';
+import HistoryDetails from '../screens/main/home/children/electricity/children/electricity-history/history-details/history-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -69,6 +72,27 @@ function MainStack() {
           headerShown: false,
         }}
         component={ElectricityProvider}
+      />
+      <Stack.Screen
+        name="electricity-history"
+        options={{
+          headerShown: false,
+        }}
+        component={ElectricityHistory}
+      />
+      <Stack.Screen
+        name="electricity-purchase-summary"
+        options={{
+          headerShown: false,
+        }}
+        component={ElectricityPurchaseSummary}
+      />
+      <Stack.Screen
+        name="electricity-history-details"
+        options={{
+          headerShown: false,
+        }}
+        component={HistoryDetails}
       />
       <Stack.Screen
         name="order-details"

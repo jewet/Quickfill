@@ -50,6 +50,7 @@ const gasStyles = StyleSheet.create({
     borderRadius: moderateScale(50),
     marginTop: verticalScale(10),
     padding: scale(10),
+    color: '#2C2C2C'
   },
   noteWrapper: {
     borderColor: '#DC5513',

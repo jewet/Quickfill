@@ -73,6 +73,7 @@ export const profile_data: ProfileProps[] = [
           date: '10 Jun 24',
         },
       ],
+      bal: 96484.09
     },
   },
   {

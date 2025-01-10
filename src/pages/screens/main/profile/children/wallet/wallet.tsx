@@ -109,7 +109,13 @@ function Wallet({navigation}: Props) {
                             {fontSize: 22, paddingTop: 10, fontWeight: 700},
                           ]}>
                           {showBalance
-                            ? `₦${Intl.NumberFormat().format(96484.09)}`
+                            ? `₦${Intl.NumberFormat().format(
+                                profileDetails?.profile?.bal
+                                  ? parseFloat(
+                                      profileDetails.profile.bal.toString(),
+                                    ) || 0
+                                  : 0,
+                              )}`
                             : '******'}
                         </Text>
                       </View>

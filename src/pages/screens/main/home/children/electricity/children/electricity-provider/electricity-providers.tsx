@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -19,53 +19,52 @@ import ElectricIcon from '../../../../../../../../assets/images/electricity/mtn-
 import SelectedIcon from '../../../../../../../../assets/images/electricity/selected-bill.svg';
 import UnSelectedIcon from '../../../../../../../../assets/images/electricity/unselected-bill.svg';
 import electricityProviderStyles from './electricityProviderStyles';
-import {electricity_data, ElectricityProps} from '../../../../../../../../utils/sample-data/electricity';
+import {ElectricityProps} from '../../../../../../../../utils/sample-data/electricity';
+import {height} from '../../../diesel/dieselStyles';
+import Header from '../../../../../../../../components/Electricity/Header/Header';
+import { backgroundStyle } from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 
 // Type definition for the navigation prop passed to the component
-type Props = StackScreenProps<RootStackParamList, 'electricity-provider'>;
+interface ElectricityProviderProps {
+  navigateBack: () => void;
+  isSelected: number | null;
+  setIsSelected: (value: number | null) => void;
+  searchQuery: string;
+  filteredData: any;
+  handleSearch: (value: string) => void;
+  handleSelectProvider: (value: number) => void;
+  setSelectedProvider: (provider: ElectricityProps) => void;
+}
 
-function ElectricityProvider({navigation}: Props) {
+function ElectricityProvider({
+  navigateBack,
+  isSelected,
+  setIsSelected,
+  searchQuery,
+  filteredData,
+  handleSearch,
+  handleSelectProvider,
+  setSelectedProvider,
+}: ElectricityProviderProps) {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [isSelected, setIsSelected] = useState<number | null>();
-  const [searchQuery, setSearchQuery] = useState<string>(''); 
-  const [filteredData, setFilteredData] = useState(electricity_data); 
-
-  const handleSearch = (text: string) => {
-    setSearchQuery(text);
-    const filtered = electricity_data.filter((item) =>
-      item.electricity.toLowerCase().includes(text.toLowerCase())
-    );
-    setFilteredData(filtered);
-  };
-
-  const handleSelectProvider = (index: number) => {
-    setIsSelected(index); 
-    setSearchQuery(electricity_data[index].electricity); 
-  };
   useEffect(() => {
-    if (searchQuery.length === 0) {
-      setIsSelected(null); 
+    if (filteredData.length === 0) {
+      setIsSelected(null);
     }
-  }, [searchQuery]);
+  }, [filteredData]);
 
-  const navigateToElectricityPage = async (electricityProvider: ElectricityProps) => {
-    navigation.navigate('electricity', { electricityProvider: electricityProvider });    
-  };
   return (
-    <SafeAreaView style={electricityStyles.electricityContainer}>
+    <SafeAreaView
+      style={[
+        electricityStyles.electricityContainer,
+        {position: 'absolute', top: 0, height: height},
+      ]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FAFAFA'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
-      <View style={{width: '100%', display: 'flex'}}>
-        <View style={[electricityStyles.electricityTop, {width: '75%'}]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <BackArrow width={26} height={26} fill="none" />
-          </TouchableOpacity>
-          <Text style={electricityStyles.topText}>Choose an option below</Text>
-        </View>
-      </View>
+      <Header handleGoBack={navigateBack} title="Choose an option below" />
       <View style={electricityProviderStyles.electricityTop}>
         <SearchIcon width={20} height={20} fill="none" />
         <TextInput
@@ -82,11 +81,11 @@ function ElectricityProvider({navigation}: Props) {
         style={electricityStyles.scrollview}>
         <View style={electricityProviderStyles.electricityDataWrapper}>
           {filteredData.length > 0 ? (
-            filteredData.map((data, index) => (
+            filteredData.map((data: any, index: any) => (
               <TouchableOpacity
                 key={index}
                 style={electricityProviderStyles.electricityData}
-                onPress={()=>handleSelectProvider(index)}>
+                onPress={() => handleSelectProvider(index)}>
                 <ElectricIcon width={47} height={47} fill="none" />
                 <View style={electricityProviderStyles.electricityTextWrapper}>
                   <Text style={electricityProviderStyles.electricityText}>
@@ -113,7 +112,8 @@ function ElectricityProvider({navigation}: Props) {
             text="Continue"
             action={() => {
               if (isSelected !== null) {
-                navigateToElectricityPage(electricity_data[isSelected]);
+                setSelectedProvider(filteredData[isSelected]);
+                navigateBack();
               }
             }}
           />

@@ -3,6 +3,7 @@ import {
   Platform,
   ScrollView,
   StatusBar,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -29,6 +30,7 @@ import {QuickActionProps} from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 import {isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
@@ -60,12 +62,18 @@ function Gas({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={'#FAFAFA'}
       />
-      <View>
-        <Map
-          width={width}
-          height={1022}
-          // style={{position: 'absolute', left: -202, right: 0}}
+       <MapView
+          // provider={PROVIDER_GOOGLE}
+          style={{...StyleSheet.absoluteFillObject}}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
         />
+      {/* <View>
+       
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>
             <View style={{width: '90%'}}>
@@ -109,13 +117,13 @@ function Gas({navigation}: Props) {
             width={322}
             height={324}
             fill="none"
-            style={{marginTop: 10}}
+            style={{marginTop: '8%'}}
           />
           <MapPointer
             width={24}
             height={24}
             fill="none"
-            style={{marginTop: -120, marginLeft: 180}}
+            style={{marginTop: '-40%', marginLeft: 180}}
           />
         </View>
       </View>
@@ -210,7 +218,7 @@ function Gas({navigation}: Props) {
             </View>
           </View>
         </ScrollView>
-      </View>
+      </View> */}
       {showModal && (
         <AddressModal
           action={() => setShowModal(false)}
