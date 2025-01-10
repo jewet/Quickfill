@@ -43,7 +43,7 @@ function ForgotPassword({navigation}: Props) {
           />
           <Button
             text="Send Code"
-            action={() => navigation.navigate('reset-password')}
+            action={() => navigation.navigate('otp-verification')}
           />
         </View>
       </ScrollView>

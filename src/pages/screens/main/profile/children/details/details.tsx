@@ -37,7 +37,7 @@ function Details({navigation}: Props) {
   // Function to navigate to the update form screen with the target data (name, username, birthday, email)
   const handleNavigation = (
     profileDetails: ProfileProps,
-    target: 'name' | 'username' | 'birthday' | 'email',
+    target: 'name' | 'username' | 'birthday' | 'email' | 'phone number',
   ) => {
     navigation.navigate('update-form', {profileDetails, target});
   };
@@ -73,12 +73,13 @@ function Details({navigation}: Props) {
                   paddingVertical: 25,
                 },
               ]}
-              disabled={!!data.phone_number || !!data.gender}  
+              disabled={ !!data.gender}  
               onPress={() => {
                 if (data.name) handleNavigation(profileDetails!, 'name');
                 if (data.username)
                   handleNavigation(profileDetails!, 'username');
                 if (data.email) handleNavigation(profileDetails!, 'email');
+                if (data.phone_number) handleNavigation(profileDetails!, 'phone number');
                 if (data.dob) handleNavigation(profileDetails!, 'birthday');
               }}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
@@ -161,7 +162,7 @@ function Details({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <DeleteProfileModal
-          navigateToConfirm={() => navigation.navigate('login')}
+          navigateToConfirm={() => navigation.navigate('acct-deleted')}
           closeModal={() => setShowModal(false)}
         />
       )}

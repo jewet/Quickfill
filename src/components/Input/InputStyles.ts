@@ -98,12 +98,13 @@ const inputStyles = StyleSheet.create({
     height: 48,
     flexDirection: 'row',
     gap: 3,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   phoneInput: {
     width: '60%',
-    paddingRight: 10,
+    paddingRight: verticalScale(10),
     height: '100%',
+    marginLeft: verticalScale(-5)
   },
   forgotPassword: {
     display: 'flex',
@@ -123,6 +124,12 @@ const inputStyles = StyleSheet.create({
     lineHeight: moderateScale(17.64),
     fontWeight: '400',
     color: '#2C2C2C',
+  },
+  country: {
+    fontSize: moderateScale(12),
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: '400',
+    color: '#101010',
   },
   dateWrapper: {
     width: '100%',
@@ -146,11 +153,49 @@ const inputStyles = StyleSheet.create({
     height: '100%',
     borderTopLeftRadius: 24,
     borderBottomLeftRadius: 24,
-    gap: 2
+    gap: 2,
   },
   flag: {
     fontSize: 18,
     marginRight: 5,
+  },
+  countryDropdown: {
+    width: '100%',
+    position: 'absolute',
+    zIndex: 100,
+    top: 60,
+    paddingVertical: verticalScale(10),
+    borderWidth: 0.5,
+    borderColor: '#D9D9D9',
+    backgroundColor: '#FFFFFF',
+  },
+  countrySearch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    paddingHorizontal: verticalScale(16),
+    borderBottomWidth: 0.5,
+    borderColor: '#D9D9D9',
+  },
+  countriesWrapper: {
+    width: '98%',
+    height: verticalScale(200),
+    paddingHorizontal: verticalScale(16)
+  },
+  countries: {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: verticalScale(10)
+  },
+  countriesLeft: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: verticalScale(10),
+    gap: 5
   },
 });
 

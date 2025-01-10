@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Modal,
@@ -29,6 +29,7 @@ import {height} from '../../../../../home/children/diesel/dieselStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
 import historyDetailsStyles from '../../../../../home/children/electricity/children/electricity-history/history-details/historyDetailsStyles';
+import authTopStyles from '../../../../../../../../components/Auth/AuthTopStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
@@ -42,6 +43,44 @@ function UpdateForm({navigation}: Props) {
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
   const [showMonthPicker, setShowMonthPicker] = useState(false);
   const [showDayPicker, setShowDayPicker] = useState(false);
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [countdown, setCountdown] = useState(60);
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
+
+  // Format countdown as MM:SS
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, '0'); // Ensures two digits (e.g., "01")
+    const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
+    return `${mins}:${secs}`;
+  };
+
+  // Start countdown timer
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setIsResendEnabled(true);
+    }
+  }, [countdown]);
+
+  // Resend OTP
+  const handleResendOTP = () => {
+    if (isResendEnabled) {
+      setCountdown(60);
+      setIsResendEnabled(false);
+      // Call function to resend OTP (API request or mock logic)
+      console.log('Resending OTP...');
+    }
+  };
 
   const months = [
     'January',
@@ -93,20 +132,24 @@ function UpdateForm({navigation}: Props) {
             <Input
               label="Enter your first name"
               placeholder=""
-              value=""
+              value={firstname}
               secured={false}
               directory={null}
               keyboardType="default"
               action={null}
+              validate="firstname"
+              onChange={text => setFirstname(text)}
             />
             <Input
               label="Enter your last name"
               placeholder=""
-              value=""
+              value={lastname}
               secured={false}
               directory={null}
               keyboardType="default"
               action={null}
+              validate="lastname"
+              onChange={text => setLastname(text)}
             />
           </>
         );
@@ -114,13 +157,15 @@ function UpdateForm({navigation}: Props) {
         return (
           <>
             <Input
-              label="Choose username"
+              label="Enter your username"
               placeholder=""
-              value=""
+              value={lastname}
               secured={false}
               directory={null}
               keyboardType="default"
               action={null}
+              validate="username"
+              onChange={text => setUsername(text)}
             />
             <Text
               style={[
@@ -135,13 +180,15 @@ function UpdateForm({navigation}: Props) {
         return (
           <>
             <Input
-              label="Your email address"
-              placeholder=""
-              value=""
+              label="Email address"
+              placeholder="E.g. johndoe@gmail.com"
+              value={email}
               secured={false}
               directory={null}
               keyboardType="default"
-              action={null}
+              action={() => console.log('Action triggered')}
+              validate="email"
+              onChange={text => setEmail(text)}
             />
             <Text
               style={[
@@ -151,12 +198,70 @@ function UpdateForm({navigation}: Props) {
               This has not yet been verified, check email to complete
               verification
             </Text>
-            <TouchableOpacity style={historyDetailsStyles.transparentBtn}>
+            <TouchableOpacity
+              style={[
+                historyDetailsStyles.transparentBtn,
+                {backgroundColor: '#FFFFFF'},
+              ]}>
               <SendIcon width={24} height={24} fill="none" />
               <Text style={historyDetailsStyles.btn}>
                 Resend verification email
               </Text>
             </TouchableOpacity>
+          </>
+        );
+      case 'phone number':
+        return (
+          <>
+            <Input
+              label="Phone number"
+              placeholder=""
+              value={phoneNumber}
+              secured={false}
+              directory={null}
+              keyboardType="default"
+              action={() => console.log('Action triggered')}
+              validate="phone"
+              onChange={text => setPhoneNumber(text)}
+            />
+            <Text
+              style={[
+                inputStyles.label,
+                {textAlign: 'left', color: '#DC5513', marginTop: 5},
+              ]}>
+              This is has not yet been verified, check your SMS message to
+              complete verification
+            </Text>
+            <TouchableOpacity
+              style={[
+                historyDetailsStyles.transparentBtn,
+                {backgroundColor: '#FFFFFF'},
+              ]}>
+              <SendIcon width={24} height={24} fill="none" />
+              <Text style={historyDetailsStyles.btn}>
+                Get verification code
+              </Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: '10%',
+              }}>
+              <Text style={authTopStyles.secondText}>
+                Did not receive any code?{' '}
+              </Text>
+              {isResendEnabled ? (
+                <TouchableOpacity onPress={handleResendOTP}>
+                  <Text style={{color: primaryColor}}>Resend OTP</Text>
+                </TouchableOpacity>
+              ) : (
+                <Text style={{color: primaryColor}}>
+                  Resend in {formatTime(countdown)}
+                </Text>
+              )}
+            </View>
           </>
         );
       case 'birthday':
@@ -285,10 +390,10 @@ function UpdateForm({navigation}: Props) {
       <Header
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
-        title={`Update ${target}`}
+        title={`${target === 'phone number' ? 'Verify' : 'Update'} ${target}`}
         directory=""
       />
-      <ScrollView
+          <ScrollView
         showsVerticalScrollIndicator={false}
         style={[
           favouritesStyles.scrollview,
