@@ -65,7 +65,7 @@ function SignUp({navigation}: Props) {
           />
           <Input
             label="Phone number"
-            placeholder="81234567890"
+            placeholder=""
             value={phoneNumber}
             secured={false}
             directory={null}

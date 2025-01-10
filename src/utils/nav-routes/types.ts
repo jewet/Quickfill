@@ -66,7 +66,7 @@ export type RootStackParamList = {
   report: {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
   'update-form': {
     profileDetails: ProfileProps;
-    target: 'name' | 'username' | 'birthday' | 'email';
+    target: 'name' | 'username' | 'birthday' | 'email' | 'phone number';
   };
   'help-options': {
     profileDetails: ProfileProps;
@@ -76,6 +76,7 @@ export type RootStackParamList = {
   transfer: {amount: number; directory?: string};
   card: {amount: number};
   electricity: any;
+  "acct-deleted": undefined;
   "electricity-history": undefined;
   "electricity-history-details": any;
   Main: undefined;

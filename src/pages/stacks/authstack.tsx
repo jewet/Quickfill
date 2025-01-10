@@ -5,6 +5,7 @@ import SignUp from '../screens/auth/signup';
 import ForgotPassword from '../screens/auth/forgot-password';
 import ResetPassword from '../screens/auth/reset-password';
 import Emailverification from '../screens/auth/email-verification';
+import Otpverification from '../screens/auth/otp-verification';
 
 function AuthStack() {
   const Stack = createStackNavigator();
@@ -45,6 +46,13 @@ function AuthStack() {
           headerShown: false,
         }}
         component={Emailverification}
+      />
+      <Stack.Screen
+        name="otp-verification"
+        options={{
+          headerShown: false,
+        }}
+        component={Otpverification}
       />
     </Stack.Navigator>
   );

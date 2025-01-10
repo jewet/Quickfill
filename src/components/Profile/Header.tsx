@@ -6,7 +6,7 @@ import GoBack from '../../assets/images/payment/tabler_arrow-right.svg';
 import electricityPaymentStyles from '../../pages/screens/main/home/children/electricity/children/payment/paymentStyles';
 
 interface Props {
-  goBackAction: () => void;
+  goBackAction?: () => void;
   title: string;
   isFirstPage: boolean;
   directory: string;
@@ -23,7 +23,7 @@ function Header({goBackAction, title, isFirstPage, directory}: Props) {
         isFirstPage ? headerStyles.singleContent : headerStyles.multipleContent,
       ]}>
         {
-          isFirstPage === true ? (
+          isFirstPage === true  || title.toLowerCase() === 'account deleted successfully' ? (
             <View></View>
           ):
           !isFirstPage && directory.toLowerCase() === 'payment' || 'transfer' || 'card' ?(

@@ -39,6 +39,7 @@ import DeliveryInstructions from '../screens/main/home/children/gas/children/gas
 import ElectricityPurchaseSummary from '../screens/main/home/children/electricity/children/electricity-purchase-summary/electricity-purchase-summary';
 import ElectricityHistory from '../screens/main/home/children/electricity/children/electricity-history/electricity-history';
 import HistoryDetails from '../screens/main/home/children/electricity/children/electricity-history/history-details/history-details';
+import AcctDeleted from '../screens/main/profile/children/details/child/acct-deleted/acct-deleted';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -170,6 +171,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={Details}
+      />
+      <Stack.Screen
+        name="acct-deleted"
+        options={{
+          headerShown: false,
+        }}
+        component={AcctDeleted}
       />
       <Stack.Screen
         name="update-form"

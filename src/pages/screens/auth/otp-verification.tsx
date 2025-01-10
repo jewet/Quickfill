@@ -18,11 +18,11 @@ import authTopStyles from '../../../components/Auth/AuthTopStyles';
 import {primaryColor} from '../onboarding/splash/splashstyles';
 
 // Type definition for the navigation prop passed to the component
-type Props = StackScreenProps<RootStackParamList, 'email-verification'>;
+type Props = StackScreenProps<RootStackParamList, 'otp-verification'>;
 
-function Emailverification({navigation}: Props) {
+function Otpverification({navigation}: Props) {
   const [showModal, setShowModal] = useState(false);
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [otp, setOtp] = useState(['', '', '', '']);
   const inputRefs = useRef<Array<TextInput | null>>([]);
   const [countdown, setCountdown] = useState(60);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
@@ -84,10 +84,10 @@ function Emailverification({navigation}: Props) {
         showsVerticalScrollIndicator={false}
         style={authStyles.scrollview}>
         <AuthTop
-          firstText="Verify Your Email."
-          secondText="Enter the verification code we sent to"
+          firstText="OTP Verification"
+          secondText="Enter the verification code we sent to your email address."
           enableBackArrow={true}
-          hasEmail={true}
+          hasEmail={false}
         />
         <View style={authStyles.inputCont}>
           <View style={authStyles.otpContainer}>
@@ -135,16 +135,16 @@ function Emailverification({navigation}: Props) {
       {showModal && (
         <Modal
           topText="Verified!"
-          bottomText="Your email verification was successful."
+          bottomText="Your otp verification was successful."
           navigateTo={() => {
             navigation.navigate('reset-password');
             setShowModal(false);
           }}
-          btnText="Login"
+          btnText="Proceed"
         />
       )}
     </SafeAreaView>
   );
 }
 
-export default Emailverification;
+export default Otpverification;
