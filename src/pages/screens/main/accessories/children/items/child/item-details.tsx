@@ -80,10 +80,12 @@ function ItemsDetails({navigation}: Props) {
           <Text style={itemDetailsStyles.titleText}>
             {itemDetails?.item?.name}
           </Text>
+          <View style={{width: '100%'}}>
           <View style={itemDetailsStyles.priceTextWrapper}>
             <Text style={itemDetailsStyles.priceText}>
               ₦{Intl.NumberFormat().format(itemDetails?.item?.price)}
             </Text>
+          </View>
           </View>
           <Text style={itemDetailsStyles.specText}>
             {itemDetails?.item?.spec}

@@ -16,22 +16,24 @@ import Online from '../../../../../../../../assets/images/gas/online.svg';
 import Rating from '../../../../../../../../assets/images/gas/tabler_star-filled.svg';
 import Note from '../../../../../../../../assets/images/gas/note.svg';
 import LinearGradient from 'react-native-linear-gradient';
-import DieselPump from '../../../../../../../../assets/images/diesel/diesel-pump.svg'
-import { RootStackParamList } from '../../../../../../../../utils/nav-routes/types';
+import DieselPump from '../../../../../../../../assets/images/diesel/diesel-pump.svg';
+import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import gasStyles from '../../../gas/gasStyles';
 import homeStyles from '../../../../home-styles';
 import primaryBtnStyles from '../../../../../../../../components/Button/ButtonStyles';
-import { gas_data } from '../../../../../../../../utils/sample-data/gas';
+import {gas_data} from '../../../../../../../../utils/sample-data/gas';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
 
 function DieselDetails({navigation}: Props) {
+  const route = useRoute<RouteProp<RootStackParamList, 'diesel-details'>>();
+  const {diesielDetails}: {diesielDetails?: DetailsProps} = route.params || {};
+  console.log('desielDetails: ', diesielDetails);
   const isDarkMode = useColorScheme() === 'dark';
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
-  };
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedKg, setSelectedKg] = useState<number>(0);
   return (
@@ -73,20 +75,24 @@ function DieselDetails({navigation}: Props) {
                   alignItems: 'center',
                   gap: 5,
                 }}>
-                <Text style={homeStyles.idText}>Status - Online</Text>
+                <Text style={homeStyles.idText}>
+                  Status - {diesielDetails?.status}
+                </Text>
                 <Online width={10} height={10} fill="none" />
               </View>
-              <Text style={homeStyles.idText}>Status - Online</Text>
+              <Text style={homeStyles.idText}>
+                Status - {diesielDetails?.status}
+              </Text>
             </View>
             <View style={[homeStyles.orderContent, {marginTop: 10}]}>
-              <Text style={homeStyles.orderType}>Gas Hub</Text>
+              <Text style={homeStyles.orderType}>{diesielDetails?.name}</Text>
               <Text style={homeStyles.orderAmt}>
-                ₦{Intl.NumberFormat().format(1500)}
+                ₦{Intl.NumberFormat().format(diesielDetails?.price)}
               </Text>
             </View>
             <View style={[homeStyles.orderContent, {marginVertical: 5}]}>
               <Text style={[homeStyles.orderType, {fontSize: 16}]}>
-                Estimated delivery time: 20-30mins
+                Estimated delivery time: {diesielDetails?.delivery_time}
               </Text>
               <View
                 style={{
@@ -96,7 +102,9 @@ function DieselDetails({navigation}: Props) {
                   gap: 2,
                 }}>
                 <Rating width={20} height={20} fill="none" />
-                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>4.2</Text>
+                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>
+                  {diesielDetails?.rating}
+                </Text>
               </View>
             </View>
             <Text style={homeStyles.idText}>
@@ -105,7 +113,7 @@ function DieselDetails({navigation}: Props) {
           </View>
         </View>
         <View style={{display: 'flex', alignItems: 'center', width: '100%'}}>
-            <DieselPump width={273} height={350} fill="none" />
+          <DieselPump width={273} height={350} fill="none" />
         </View>
         <View style={gasStyles.gasBottom}>
           <Text style={gasStyles.heading}>Enter amount</Text>
@@ -128,7 +136,9 @@ function DieselDetails({navigation}: Props) {
               cost will be shown on the next page.
             </Text>
           </View>
-          <TouchableOpacity style={primaryBtnStyles.btnContainer} onPress={()=>setShowModal(true)}>
+          <TouchableOpacity
+            style={primaryBtnStyles.btnContainer}
+            onPress={() => setShowModal(true)}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}
@@ -144,7 +154,7 @@ function DieselDetails({navigation}: Props) {
               <View style={gasStyles.btnContent}>
                 <Text style={gasStyles.btnText}>Continue</Text>
                 <Text style={gasStyles.btnText}>
-                  ₦{Intl.NumberFormat().format(gas_data[selectedKg].amount)}
+                  ₦{Intl.NumberFormat().format(Number(diesielDetails?.price))}
                 </Text>
               </View>
             </LinearGradient>

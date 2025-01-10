@@ -67,6 +67,13 @@ const orderStyles = StyleSheet.create({
     fontWeight: '700',
     color: '#2C2C2C',
   },
+  ordersNav: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(14),
+    lineHeight: moderateScale(17.64),
+    fontWeight: '700',
+    color: '#2C2C2C',
+  },
 });
 
 export default orderStyles;

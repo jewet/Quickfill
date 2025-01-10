@@ -1,6 +1,5 @@
 import TransferIcon from '../../assets/images/electricity/tabler_device-mobile.svg'
 import CardIcon from '../../assets/images/electricity/tabler_credit-card.svg'
-import WalletIcon from '../../assets/images/electricity/tabler_wallet.svg'
 import FlutterwaveIcon from '../../assets/images/electricity/flutterwave.svg'
 import MasterCard from '../../assets/images/gas/logos_mastercard.svg'
 import Delivery from '../../assets/images/gas/tabler_truck-delivery.svg'

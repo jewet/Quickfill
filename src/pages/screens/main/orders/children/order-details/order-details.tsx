@@ -210,7 +210,7 @@ function OrderDetails({navigation}: Props) {
                 </Text>
               </View>
               <TouchableOpacity>
-              <ArrowRightIcon width={20} height={20} fill="none" />
+                <ArrowRightIcon width={20} height={20} fill="none" />
               </TouchableOpacity>
             </View>
           </View>
@@ -333,9 +333,6 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 15, width: 'auto'},
                 ]}>
-                <TouchableOpacity style={{backgroundColor: 'black', borderRadius: 100}} onPress={() => navigation.navigate('delivery', {orderDetails})}>
-                  <Deliver width={48} height={48} fill="none" />
-                </TouchableOpacity>
                 <TouchableOpacity>
                   <CallIcon width={48} height={48} fill="none" />
                 </TouchableOpacity>
@@ -403,9 +400,9 @@ function OrderDetails({navigation}: Props) {
       {showModal && (
         <TimelineModal
           action={() => setShowModal(false)}
-          navigateTo={() => {
+          navigateToDeliveryTracking={() => {
             setShowModal(false);
-            navigation.goBack();
+            navigation.navigate('delivery', {orderDetails});
           }}
           navigateToContact={() =>
             navigation.navigate('contact', {profileDetails: customerSupport})

@@ -13,11 +13,11 @@ import UnSelectedIcon from '../../../../../../../../assets/images/electricity/un
 
 interface Props {
   action: () => void;
-  navigateTo: () => void;
+  navigateTo: (paymentType: string) => void;
 }
 
 function ElectricityPayment({action, navigateTo}: Props) {
-  const [isSelected, setIsSelected] = useState<number | null>();
+  const [isSelected, setIsSelected] = useState<number>(0);
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
@@ -76,7 +76,16 @@ function ElectricityPayment({action, navigateTo}: Props) {
           ))}
         </View>
         <View style={{width: '100%', paddingHorizontal: 20}}>
-          <Button text="Complete Payment" action={navigateTo} />
+          <Button
+            text="Complete Payment"
+            action={() => {
+              if (isSelected !== null && payment_type[isSelected]) {
+                navigateTo(payment_type[isSelected].type);
+              } else {
+                console.warn("No payment method selected.");
+              }
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>

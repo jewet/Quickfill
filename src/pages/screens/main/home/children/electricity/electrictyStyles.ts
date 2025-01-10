@@ -9,12 +9,13 @@ const moderateScale = (size: number, factor = 0.5) =>
 
 const electricityStyles = StyleSheet.create({
   electricityContainer: {
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#FFFFFF',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    flex: 1
+    flex: 1,
+    position: 'relative'
   },
   scrollview: {
     width: '100%',
@@ -24,7 +25,7 @@ const electricityStyles = StyleSheet.create({
     display: 'flex',
   },
   electricityTop: {
-    width: '65%',
+    width: '100%',
     paddingVertical: scale(10),
     paddingHorizontal: scale(20),
     marginTop: verticalScale(10),
@@ -35,9 +36,9 @@ const electricityStyles = StyleSheet.create({
   },
   topText: {
     fontFamily: 'Plus Jakarta Sans',
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(16),
     lineHeight: moderateScale(17.64),
-    fontWeight: '700',
+    fontWeight: '600',
     color: '#2C2C2C',
   },
 });

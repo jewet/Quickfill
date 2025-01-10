@@ -158,14 +158,14 @@ function GasCheckout({navigation}: Props) {
           ]}>
           <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
             <NoteIcon width={24} height={24} fill="none" />
-            <View>
+            <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
               <Text style={[addressStyles.location, {color: primaryColor}]}>
                 Add extra delivery note e.g. estate pass
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity>
-            <ArrowRight width={24} height={24} fill="none" />
+          <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
+          <ArrowRight width={24} height={24} fill="none" />
           </TouchableOpacity>
         </View>
         <Text style={checkoutStyles.paymentText}>Payment</Text>

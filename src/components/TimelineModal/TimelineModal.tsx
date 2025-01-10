@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../assets/images/electricity/close_btn.svg';
+import TrackIcon from '../../assets/images/orders/tabler_navigation.svg';
 import SelectedIcon from '../../assets/images/electricity/selected-bill.svg';
 import UnSelectedIcon from '../../assets/images/electricity/unselected-bill.svg';
 import electricityPaymentStyles from '../../pages/screens/main/home/children/electricity/children/payment/paymentStyles';
@@ -24,7 +25,7 @@ import timelineModalStyles from './TimelineModalStyles';
 
 interface Props {
   action: () => void;
-  navigateTo: () => void;
+  navigateToDeliveryTracking: () => void;
   navigateToContact: () => void;
   subTotal: number;
   deliveryFee: number;
@@ -33,7 +34,7 @@ interface Props {
 
 function TimelineModal({
   action,
-  navigateTo,
+  navigateToDeliveryTracking,
   navigateToContact,
   subTotal,
   deliveryFee,
@@ -56,10 +57,10 @@ function TimelineModal({
             />
           </TouchableOpacity>
           <View>
-            <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
+            <View style={[orderDetailsStyles.oderDetailsDeliveryStatus, {borderBottomWidth: 1, paddingBottom: 20, borderBottomColor: '#A8A8A3'}]}>
               <View>
-                <Text style={homeStyles.title}>Delivery status</Text>
-                <Text style={homeStyles.details}>Waiting for vendor</Text>
+                <Text style={homeStyles.title}>Order status</Text>
+                <Text style={homeStyles.details}>Waiting for Rider</Text>
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline} onPress={navigateToContact}>
@@ -73,8 +74,15 @@ function TimelineModal({
               </TouchableOpacity>
             </View>
           </View>
+
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{height: 280}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{height: 300, width: '100%'}}>
+          <View style={{width: '100%', paddingHorizontal: 16}}>
+          <TouchableOpacity onPress={navigateToDeliveryTracking} style={timelineModalStyles.trackWrapper}>
+            <TrackIcon width={18} height={18} />
+              <Text style={timelineModalStyles.trackText}>Track order</Text>
+            </TouchableOpacity>
+          </View>
           {timeline_data?.map((data: any, index: number) => (
             <View
               style={[

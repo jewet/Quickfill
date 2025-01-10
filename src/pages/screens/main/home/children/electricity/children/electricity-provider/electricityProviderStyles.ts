@@ -10,7 +10,6 @@ const moderateScale = (size: number, factor = 0.5) =>
 const electricityProviderStyles = StyleSheet.create({
   electricityTop: {
     width: '90%',
-    marginTop: verticalScale(10),
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -67,7 +66,7 @@ const electricityProviderStyles = StyleSheet.create({
     width: '100%'
   },
   noResultText: {
-    fontSize: 16,
+    fontSize: moderateScale(16),
     color: '#999999',
     fontFamily: 'Plus Jakarta Sans',
     fontStyle: 'italic',

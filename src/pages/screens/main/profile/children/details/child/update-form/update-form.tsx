@@ -28,6 +28,7 @@ import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
 import {height} from '../../../../../home/children/diesel/dieselStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
+import historyDetailsStyles from '../../../../../home/children/electricity/children/electricity-history/history-details/historyDetailsStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
@@ -150,22 +151,11 @@ function UpdateForm({navigation}: Props) {
               This has not yet been verified, check email to complete
               verification
             </Text>
-            <TouchableOpacity
-              style={{
-                width: '100%',
-                borderRadius: 30,
-                height: 48,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 15,
-                borderWidth: 1,
-                borderColor: primaryColor,
-                marginTop: 20,
-              }}>
+            <TouchableOpacity style={historyDetailsStyles.transparentBtn}>
               <SendIcon width={24} height={24} fill="none" />
-              <Text>Resend verification email</Text>
+              <Text style={historyDetailsStyles.btn}>
+                Resend verification email
+              </Text>
             </TouchableOpacity>
           </>
         );
@@ -265,8 +255,7 @@ function UpdateForm({navigation}: Props) {
                           )}
                         />
                         {!selectedMonth && (
-                          <Text
-                            style={[inputStyles.label]}>
+                          <Text style={[inputStyles.label]}>
                             Pick a month first
                           </Text>
                         )}

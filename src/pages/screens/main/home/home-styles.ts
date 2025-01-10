@@ -42,14 +42,14 @@ const homeStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   title: {
-    fontSize: moderateScale(11),
+    fontSize: moderateScale(10),
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: moderateScale(15.12),
     fontWeight: '500',
     color: '#919191',
   },
   details: {
-    fontSize: moderateScale(13),
+    fontSize: moderateScale(12),
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: moderateScale(17.64),
     fontWeight: '600',
@@ -186,7 +186,6 @@ const homeStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: scale(28),
     elevation: 10,
-    height: 180
   },
   bookmarkWrapper: {
     display: 'flex',

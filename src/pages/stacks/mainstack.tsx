@@ -27,14 +27,18 @@ import Card from '../screens/main/profile/children/wallet/children/fund-wallet/c
 import Diesel from '../screens/main/home/children/diesel/diesel';
 import DieselDetails from '../screens/main/home/children/diesel/children/diesel-details/diesel-details';
 import GasDetails from '../screens/main/home/children/gas/children/gas-details/gas-details';
-import GasCheckout from '../screens/main/home/children/gas/children/gas-details/child/checkout/checkout';
 import ChangeAddress from '../screens/main/profile/children/address/children/change-address/change-address';
-import GasOrderDetails from '../screens/main/home/children/gas/children/gas-details/child/checkout/child/order-details/order-details';
+import GasOrderDetails from '../screens/main/home/children/gas/children/gas-details/children/checkout/child/order-details/order-details';
 import HelpOptions from '../screens/main/profile/children/help/children/help-options/help-options';
 import DefaultCard from '../screens/main/profile/children/user-payment/children/default-card/default-card';
 import Report from '../screens/main/orders/children/chat/children/report/report';
 import ReportResult from '../screens/main/orders/children/chat/children/report/child/report-result/report-result';
 import Delivery from '../screens/main/orders/children/order-details/child/delivery/delivery';
+import GasCheckout from '../screens/main/home/children/gas/children/gas-details/children/checkout/checkout';
+import DeliveryInstructions from '../screens/main/home/children/gas/children/gas-details/children/delivery-instructions/delivery-instructions';
+import ElectricityPurchaseSummary from '../screens/main/home/children/electricity/children/electricity-purchase-summary/electricity-purchase-summary';
+import ElectricityHistory from '../screens/main/home/children/electricity/children/electricity-history/electricity-history';
+import HistoryDetails from '../screens/main/home/children/electricity/children/electricity-history/history-details/history-details';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -68,6 +72,27 @@ function MainStack() {
           headerShown: false,
         }}
         component={ElectricityProvider}
+      />
+      <Stack.Screen
+        name="electricity-history"
+        options={{
+          headerShown: false,
+        }}
+        component={ElectricityHistory}
+      />
+      <Stack.Screen
+        name="electricity-purchase-summary"
+        options={{
+          headerShown: false,
+        }}
+        component={ElectricityPurchaseSummary}
+      />
+      <Stack.Screen
+        name="electricity-history-details"
+        options={{
+          headerShown: false,
+        }}
+        component={HistoryDetails}
       />
       <Stack.Screen
         name="order-details"
@@ -285,6 +310,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={Delivery}
+      />
+      <Stack.Screen
+        name="delivery-instructions"
+        options={{
+          headerShown: false,
+        }}
+        component={DeliveryInstructions}
       />
     </Stack.Navigator>
   );

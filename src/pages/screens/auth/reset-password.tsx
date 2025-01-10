@@ -15,6 +15,8 @@ type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
@@ -32,22 +34,27 @@ function ResetPassword({navigation}: Props) {
         />
         <View style={authStyles.inputCont}>
           <Input
-            label="New Passsword"
+            label="Passsword"
             placeholder="*********"
-            value=""
+            value={password}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
+            onChange={text => setPassword(text)}
+            validate="password"
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            value=""
+            value={confirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
+            onChange={text => setConfirmPassword(text)}
+            validate="confirm-password"
+            password={password}
           />
           <Button text="Reset password" action={() => setShowModal(true)} />
         </View>

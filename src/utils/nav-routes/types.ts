@@ -1,3 +1,4 @@
+import {ElectricityProps} from '../sample-data/electricity';
 import {GasProps} from '../sample-data/gas';
 import {DetailsProps} from '../sample-data/home';
 import {OrdersProps} from '../sample-data/orders';
@@ -43,9 +44,17 @@ export type RootStackParamList = {
   'gas-checkout': {gasDetails: DetailsProps; selectedCylinder: GasProps};
   help: any;
   contact: any;
-  'diesel-details': any;
+  'diesel-details': {diesielDetails: DetailsProps;};
   'gas-details': any;
   'change-address': any;
+  'delivery-instructions': any;
+  'electricity-purchase-summary': {
+    selectedProvider: ElectricityProps;
+    amount: string;
+    meterNumber: string;
+    meterName: string;
+    address: string;
+  };
   'default-card': {result: 'successful' | 'unsuccessful'};
   'report-result': {
     orderDetails: OrdersProps;
@@ -63,10 +72,12 @@ export type RootStackParamList = {
     profileDetails: ProfileProps;
     target: 'faq' | 'user-policy' | 'rating' | 'share';
   };
-  'payment-result': {result: 'successful' | 'unsuccessful'};
-  transfer: {amount: number};
+  'payment-result': {result: 'successful' | 'unsuccessful'; directory?: string};
+  transfer: {amount: number; directory?: string};
   card: {amount: number};
   electricity: any;
+  "electricity-history": undefined;
+  "electricity-history-details": any;
   Main: undefined;
   settings: undefined;
 };

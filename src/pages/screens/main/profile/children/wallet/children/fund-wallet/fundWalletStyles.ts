@@ -48,12 +48,14 @@ const fundWalletStyles = StyleSheet.create({
     fontSize: moderateScale(18),
     fontWeight: '600',
     color: '#919191',
+    lineHeight: moderateScale(24),
   },
   input: {
     fontFamily: 'Plus Jakarta Sans',
     fontSize: moderateScale(18),
     fontWeight: '600',
     color: '#2C2C2C',
+    lineHeight: moderateScale(24),
   },
 });
 

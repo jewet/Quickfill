@@ -33,6 +33,10 @@ function ChangeAddress({navigation}: Props) {
   // State for selected address type dropdown
   const [selectedType, setSelectedType] = useState<string>('Home');
   const [showAddressDropDown, setShowAddressDropDown] = useState(false);
+  const [address, setAddress] = useState('');
+  const [apartmentNumber, setApartmentNumber] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [landmark, setLandmark] = useState('');
 
   // Predefined options for address types
   const addressTypeOptions = [{type: 'Home'}, {type: 'Work'}];
@@ -118,11 +122,12 @@ function ChangeAddress({navigation}: Props) {
           <Input
             label="Address street"
             placeholder=""
-            value=""
+            value={address}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
+            onChange={text => setAddress(text)}
           />
 
           <View
@@ -137,11 +142,12 @@ function ChangeAddress({navigation}: Props) {
               <Input
                 label="Apartment number"
                 placeholder="E.g. No 12"
-                value=""
+                value={apartmentNumber}
                 secured={false}
                 directory={null}
                 keyboardType="numeric"
                 action={null}
+                onChange={text => setApartmentNumber(text)}
               />
             </View>
 
@@ -149,11 +155,12 @@ function ChangeAddress({navigation}: Props) {
               <Input
                 label="Postal code"
                 placeholder="E.g. 904101"
-                value=""
+                value={postalCode}
                 secured={false}
                 directory={null}
                 keyboardType="numeric"
                 action={null}
+                onChange={text => setPostalCode(text)}
               />
             </View>
           </View>
@@ -161,11 +168,12 @@ function ChangeAddress({navigation}: Props) {
           <Input
             label="Nearby landmark"
             placeholder="E.g. Opposite ABC supermarkets."
-            value=""
+            value={landmark}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
+            onChange={text => setLandmark(text)}
           />
 
           {/* Save button to submit the address */}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -20,6 +20,9 @@ import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -39,20 +42,23 @@ function Login({navigation}: Props) {
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value=""
+            value={email}
             secured={false}
             directory={null}
             keyboardType="default"
-            action={null}
+            validate="email"
+            action={() => console.log('Action triggered')}
+            onChange={text => setEmail(text)}
           />
           <Input
             label="Passsword"
             placeholder="*********"
-            value=""
+            value={password}
             secured={true}
             directory={'login-password'}
             keyboardType="default"
             action={() => navigation.navigate('forgot-password')}
+            onChange={text => setPassword(text)}
           />
           <View style={{marginTop: 10, width: '100%'}}>
             <Button text="Login" action={() => navigation.navigate('home')} />

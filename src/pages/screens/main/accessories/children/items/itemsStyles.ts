@@ -28,7 +28,8 @@ const itemsStyles = StyleSheet.create({
         width: '100%',
         display: 'flex',
         gap: 10,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingRight: 50,
     },
     scrollview: {
         width: '100%',

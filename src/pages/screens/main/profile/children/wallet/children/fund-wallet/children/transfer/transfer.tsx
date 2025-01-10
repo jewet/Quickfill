@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   ScrollView,
   StatusBar,
   Text,
@@ -21,13 +22,19 @@ import Reload from '../../../../../../../../../../assets/images/payment/tabler_r
 import Copy from '../../../../../../../../../../assets/images/payment/copy.svg';
 import paymentResultStyles from '../payment-result/paymentResultStyles';
 import transferStyles from './transferStyles';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'transfer'>;
 
 function Transfer({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'transfer'>>();
-  const {amount} = route.params;
+  const {amount, directory} = route.params;
+
+  const copyToClipboard = (value: string) => {
+    Clipboard.setString(value);
+    Alert.alert('Copied!', `${value} copied to clipboard.`);
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -75,19 +82,22 @@ function Transfer({navigation}: Props) {
               <Text>Refresh</Text>
             </TouchableOpacity>
           </View>
-          <View
-            style={[
-              orderDetailsStyles.flexContainer,
-              {justifyContent: 'space-between'},
-            ]}>
-            <View>
-              <Text style={transferStyles.firstText}>MohGas Limited NG</Text>
-              <Text style={transferStyles.secondText}>Vendor</Text>
+          {directory !== 'electricity' && (
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between'},
+              ]}>
+              <View>
+                <Text style={transferStyles.firstText}>MohGas Limited NG</Text>
+                <Text style={transferStyles.secondText}>Vendor</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => copyToClipboard('MohGas Limited NG')}>
+                <Copy width={24} height={24} fill="none" />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity>
-              <Copy width={24} height={24} fill="none" />
-            </TouchableOpacity>
-          </View>
+          )}
           <View
             style={[
               orderDetailsStyles.flexContainer,
@@ -100,7 +110,8 @@ function Transfer({navigation}: Props) {
               </Text>
               <Text style={transferStyles.secondText}>Amount </Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => copyToClipboard(amount.toString())}>
               <Copy width={24} height={24} fill="none" />
             </TouchableOpacity>
           </View>
@@ -112,7 +123,10 @@ function Transfer({navigation}: Props) {
           <TouchableOpacity
             style={paymentResultStyles.btnWrapper}
             onPress={() =>
-              navigation.navigate('payment-result', {result: 'successful'})
+              navigation.navigate('payment-result', {
+                result: 'successful',
+                directory: directory,
+              })
             }>
             <Text style={paymentResultStyles.btnText}>I’ve sent the money</Text>
           </TouchableOpacity>

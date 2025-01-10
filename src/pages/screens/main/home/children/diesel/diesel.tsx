@@ -62,7 +62,7 @@ function Diesel({navigation}: Props) {
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
   const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
   const border_radius = Platform.OS === 'ios' ? 80 : 50;
-  const change_address_height = Platform.OS === 'ios' ? 80 : 51
+  const change_address_height = Platform.OS === 'ios' ? 80 : 51;
   return (
     <SafeAreaView style={dieselStyles.dieselContainer}>
       <StatusBar
@@ -70,10 +70,7 @@ function Diesel({navigation}: Props) {
         backgroundColor={'#FAFAFA'}
       />
       <View>
-        <Map
-          width={width}
-          height={1022}
-        />
+        <Map width={width} height={1022} />
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>
             <View style={{width: '90%'}}>
@@ -86,14 +83,25 @@ function Diesel({navigation}: Props) {
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
-          <View style={{width: '100%', display: 'flex', alignItems: 'center'}}>
+          <TouchableOpacity
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              zIndex: 2000,
+            }}
+            onPress={() => navigation.navigate('change-address')}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 1}}
               end={{x: 1, y: 0}}
               style={[
                 profileStyles.profileTopBtn,
-                {width: '80%', borderRadius: border_radius, height: change_address_height},
+                {
+                  width: '80%',
+                  borderRadius: border_radius,
+                  height: change_address_height,
+                },
               ]}>
               <Text
                 onPress={() => navigation.navigate('change-address')}
@@ -101,7 +109,7 @@ function Diesel({navigation}: Props) {
                 Change delivery address
               </Text>
             </LinearGradient>
-          </View>
+          </TouchableOpacity>
           <PricePin
             width={322}
             height={324}
@@ -147,59 +155,66 @@ function Diesel({navigation}: Props) {
               </TouchableOpacity>
             )}
             <View style={{width: '100%'}}>
-              {quick_action_data[2].details.map((data: any, index: number) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    orderDetailsStyles.flexContainer,
-                    vendorStyles.vendorCont,
-                  ]}
-                  onPress={() => navigation.navigate('diesel-details')}>
-                  <View
+              {quick_action_data[2]?.details?.map(
+                (data: any, index: number) => (
+                  <TouchableOpacity
+                    key={index}
                     style={[
                       orderDetailsStyles.flexContainer,
-                      {width: 'auto', alignItems: 'center'},
-                    ]}>
-                    <data.img width={64} height={64} fill="none" />
-                    <View>
+                      vendorStyles.vendorCont,
+                    ]}
+                    onPress={() =>
+                      navigation.navigate('diesel-details', {
+                        diesielDetails: quick_action_data[2]?.details[index],
+                      })
+                    }>
+                    <View
+                      style={[
+                        orderDetailsStyles.flexContainer,
+                        {width: 'auto', alignItems: 'center'},
+                      ]}>
+                      <data.img width={64} height={64} fill="none" />
+                      <View>
+                        <View
+                          style={[
+                            orderDetailsStyles.flexContainer,
+                            {width: 'auto', gap: 3},
+                          ]}>
+                          <Text style={vendorStyles.status}>
+                            Status - {data.status || 'Unknown'}
+                          </Text>
+                          {data.status?.toString().toLowerCase() ===
+                          'online' ? (
+                            <Online width={7} height={7} fill="none" />
+                          ) : (
+                            <Offline width={7} height={7} fill="none" />
+                          )}
+                        </View>
+                        <Text style={vendorStyles.name}>{data.name}</Text>
+                        <Text style={vendorStyles.time}>
+                          Estimated delivery time: {data.delivery_time}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{display: 'flex', alignItems: 'flex-end'}}>
+                      <Text style={vendorStyles.time}>Price per kg</Text>
+                      <Text style={vendorStyles.name}>
+                        ₦{Intl.NumberFormat().format(data.price)}
+                      </Text>
                       <View
                         style={[
                           orderDetailsStyles.flexContainer,
                           {width: 'auto', gap: 3},
                         ]}>
-                        <Text style={vendorStyles.status}>
-                          Status - {data.status || 'Unknown'}
+                        <Star width={12} height={12} fill="none" />
+                        <Text style={[vendorStyles.name, {fontSize: 12}]}>
+                          {data.rating}
                         </Text>
-                        {data.status?.toString().toLowerCase() === 'online' ? (
-                          <Online width={7} height={7} fill="none" />
-                        ) : (
-                          <Offline width={7} height={7} fill="none" />
-                        )}
                       </View>
-                      <Text style={vendorStyles.name}>{data.name}</Text>
-                      <Text style={vendorStyles.time}>
-                        Estimated delivery time: {data.delivery_time}
-                      </Text>
                     </View>
-                  </View>
-                  <View style={{display: 'flex', alignItems: 'flex-end'}}>
-                    <Text style={vendorStyles.time}>Price per kg</Text>
-                    <Text style={vendorStyles.name}>
-                      ₦{Intl.NumberFormat().format(data.price)}
-                    </Text>
-                    <View
-                      style={[
-                        orderDetailsStyles.flexContainer,
-                        {width: 'auto', gap: 3},
-                      ]}>
-                      <Star width={12} height={12} fill="none" />
-                      <Text style={[vendorStyles.name, {fontSize: 12}]}>
-                        {data.rating}
-                      </Text>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              ))}
+                  </TouchableOpacity>
+                ),
+              )}
             </View>
           </View>
         </ScrollView>
