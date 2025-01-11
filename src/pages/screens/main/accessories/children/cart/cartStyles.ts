@@ -88,7 +88,7 @@ const cartStyles = StyleSheet.create({
         fontFamily: 'Plus Jakarta Sans',
         fontWeight: '500',
         color: '#919191',
-        lineHeight: 15
+        lineHeight: moderateScale(15)
     },
     priceText: {
         fontSize: moderateScale(16),

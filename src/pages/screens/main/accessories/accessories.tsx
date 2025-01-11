@@ -19,10 +19,21 @@ import Header from '../../../../components/Accessories/Header';
 import DropDown from '../../../../assets/images/home/dropdown.svg';
 import electricityProviderStyles from '../home/children/electricity/children/electricity-provider/electricityProviderStyles';
 import SearchIcon from '../../../../assets/images/accessories/tabler_search.svg';
-import {accessories_data} from '../../../../utils/sample-data/accessories';
+import {
+  accessories_data,
+  imageMap,
+} from '../../../../utils/sample-data/accessories';
 import ArrowRight from '../../../../assets/images/accessories/tabler_chevron-right.svg';
 import orderDetailsStyles from '../orders/children/order-details/orderDetailsStyles';
 import AddressModal from '../../../../components/AddressModal/AddressModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../utils/redux/store/store';
+import {
+  filterAccessoriesData,
+  setIsfavourite,
+  setSearchQuery,
+  setShowModal,
+} from '../../../../utils/redux/slice/accessories';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'accessories'>;
@@ -34,25 +45,15 @@ function Accessories({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
 
-  // State to track the favourite status of an item
-  const [isFavourite, setIsFavourite] = useState<boolean>(false);
-
-  // State to control the visibility of the address modal
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredData, setFilteredData] = useState(accessories_data);
+  const dispatch = useDispatch();
+  const {showModal, searchQuery, filteredData, isFavourite} = useSelector(
+    (state: RootState) => state.accessories,
+  );
 
   // Function to filter accessories
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    if (query.trim() === '') {
-      setFilteredData(accessories_data);
-    } else {
-      const filtered = accessories_data.filter(item =>
-        item.item.title.toLowerCase().includes(query.toLowerCase()),
-      );
-      setFilteredData(filtered);
-    }
+  const handleSearch = (text: string) => {
+    dispatch(setSearchQuery(text));
+    dispatch(filterAccessoriesData(text));
   };
 
   return (
@@ -66,7 +67,7 @@ function Accessories({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         title="Categories"
         isFavourite={isFavourite}
-        setIsFavourite={() => setIsFavourite(!isFavourite)}
+        setIsFavourite={() => dispatch(setIsfavourite(!isFavourite))}
         directory=""
         cartNav={() => navigation.navigate('cart')}
       />
@@ -89,7 +90,7 @@ function Accessories({navigation}: Props) {
               8-26 Ango Abdullahi St, Gwarinpa, 900108...
             </Text>
           </View>
-          <TouchableOpacity onPress={() => setShowModal(true)}>
+          <TouchableOpacity onPress={() => dispatch(setShowModal(true))}>
             <DropDown width={60} height={55} fill="none" />
           </TouchableOpacity>
         </View>
@@ -121,35 +122,40 @@ function Accessories({navigation}: Props) {
                 Find all you need to get your kitchen going
               </Text>
               <View style={accessoriesStyles.accessoriesItemsWrapper}>
-                {filteredData.map((data, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      orderDetailsStyles.flexContainer,
-                      accessoriesStyles.accessoriesItems,
-                    ]}
-                    onPress={() => navigation.navigate('items-page')}>
-                    <View
+                {filteredData.map((data, index) => {
+                  const ImgComponent = imageMap[data.img];
+                  return (
+                    <TouchableOpacity
+                      key={index}
                       style={[
                         orderDetailsStyles.flexContainer,
-                        {width: 'auto'},
-                      ]}>
-                      <data.img width={56} height={56} fill="none" />
-                      <View>
-                        <Text style={accessoriesStyles.topText}>
-                          {data.item.title}
-                        </Text>
-                        <Text style={accessoriesStyles.bottomText}>
-                          {data.item.number}
-                        </Text>
-                      </View>
-                    </View>
-                    <TouchableOpacity
+                        accessoriesStyles.accessoriesItems,
+                      ]}
                       onPress={() => navigation.navigate('items-page')}>
-                      <ArrowRight width={24} height={24} fill="none" />
+                      <View
+                        style={[
+                          orderDetailsStyles.flexContainer,
+                          {width: 'auto'},
+                        ]}>
+                        {ImgComponent && (
+                          <ImgComponent width={56} height={56} fill="none" />
+                        )}
+                        <View>
+                          <Text style={accessoriesStyles.topText}>
+                            {data.item.title}
+                          </Text>
+                          <Text style={accessoriesStyles.bottomText}>
+                            {data.item.number}
+                          </Text>
+                        </View>
+                      </View>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('items-page')}>
+                        <ArrowRight width={24} height={24} fill="none" />
+                      </TouchableOpacity>
                     </TouchableOpacity>
-                  </TouchableOpacity>
-                ))}
+                  );
+                })}
               </View>
             </>
           ) : (
@@ -162,9 +168,9 @@ function Accessories({navigation}: Props) {
       {/* Address modal */}
       {showModal && (
         <AddressModal
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigateTo={() => {
-            setShowModal(false);
+            dispatch(setShowModal(false));
             navigation.goBack();
           }}
           navigateToAddress={() => navigation.navigate('change-address')}

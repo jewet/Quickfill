@@ -14,7 +14,6 @@ import {
   isDarkMode,
 } from '../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../components/Electricity/Header/Header';
-import electricityHistoryStyles from '../electricityHistoryStyles';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../../utils/nav-routes/types';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -22,7 +21,6 @@ import {ElectricityTransactionProps} from '../../../../../../../../../utils/samp
 import historyDetailsStyles from './historyDetailsStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import paymentResultStyles from '../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
-import {primaryColor} from '../../../../../../../onboarding/splash/splashstyles';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -155,7 +153,9 @@ function HistoryDetails({navigation}: Props) {
             </Text>
           </View>
 
-          <TouchableOpacity style={historyDetailsStyles.transparentBtn} onPress={()=>navigation.goBack()}>
+          <TouchableOpacity
+            style={historyDetailsStyles.transparentBtn}
+            onPress={() => navigation.goBack()}>
             <Text style={historyDetailsStyles.btn}>Back</Text>
           </TouchableOpacity>
         </View>

@@ -16,7 +16,7 @@ import CloseIcon from '../../../../../../assets/images/gas/close-icon.svg';
 import Online from '../../../../../../assets/images/gas/online.svg';
 import homeStyles from '../../home-styles';
 import LinearGradient from 'react-native-linear-gradient';
-import Map from '../../../../../../assets/images/diesel/figmap.svg';
+import Map from '../../../../../../assets/images/gas/new-map.svg';
 import MapPointer from '../../../../../../assets/images/diesel/map-pointer.svg';
 import PricePin from '../../../../../../assets/images/diesel/price-pins.svg';
 import PopUp from '../../../../../../assets/images/diesel/popup_control.svg';
@@ -33,6 +33,9 @@ import {
 } from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../utils/redux/store/store';
+import { setMarginTop, setPrevScrollY, setShowModal } from '../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel'>;
@@ -46,19 +49,22 @@ function Diesel({navigation}: Props) {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
-  const [marginTop, setMarginTop] = useState<any>('100%');
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [prevScrollY, setPrevScrollY] = useState(0);
+  const dispatch = useDispatch()
+const {
+  showModal,
+  marginTop,
+  prevScrollY,
+} = useSelector((state: RootState) => state.gas);
 
-  const handleScroll = (event: any) => {
-    const currentScrollY = event.nativeEvent.contentOffset.y;
+const handleScroll = (event: any) => {
+  const currentScrollY = event.nativeEvent.contentOffset.y;
 
-    if (currentScrollY > prevScrollY && marginTop !== 0) {
-      setMarginTop(0);
-    }
+  if (currentScrollY > prevScrollY && marginTop !== 0) {
+    dispatch(setMarginTop(0));
+  }
 
-    setPrevScrollY(currentScrollY);
-  };
+  dispatch(setPrevScrollY(currentScrollY));
+};
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
   const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
   const border_radius = Platform.OS === 'ios' ? 80 : 50;
@@ -145,7 +151,7 @@ function Diesel({navigation}: Props) {
                   marginVertical: 20,
                   marginLeft: 16,
                 }}>
-                <TouchableOpacity onPress={() => setMarginTop(500)}>
+                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))}>
                   <CloseIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -155,7 +161,7 @@ function Diesel({navigation}: Props) {
               </TouchableOpacity>
             )}
             <View style={{width: '100%'}}>
-              {quick_action_data[2]?.details?.map(
+              {quick_action_data[2]?.details && quick_action_data[2]?.details?.map(
                 (data: any, index: number) => (
                   <TouchableOpacity
                     key={index}
@@ -163,11 +169,12 @@ function Diesel({navigation}: Props) {
                       orderDetailsStyles.flexContainer,
                       vendorStyles.vendorCont,
                     ]}
-                    onPress={() =>
-                      navigation.navigate('diesel-details', {
-                        diesielDetails: quick_action_data[2]?.details[index],
-                      })
-                    }>
+                    onPress={() => {
+                      const details = quick_action_data[2]?.details?.[index];
+                      if (details) {
+                        navigation.navigate('diesel-details', { diesielDetails: details });
+                      }
+                    }}>
                     <View
                       style={[
                         orderDetailsStyles.flexContainer,
@@ -221,9 +228,9 @@ function Diesel({navigation}: Props) {
       </View>
       {showModal && (
         <AddressModal
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigateTo={() => {
-            setShowModal(false);
+            dispatch(setShowModal(false));
             navigation.goBack();
           }}
           navigateToAddress={() => navigation.navigate('change-address')}

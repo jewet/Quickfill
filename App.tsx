@@ -11,13 +11,17 @@ import Navigation from './src/navigation';
 import Home from './src/pages/screens/main/home/home';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {Provider} from 'react-redux';  
+import { store } from './src/utils/redux/store/store';
 
 
 function App(): React.JSX.Element {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Navigation />
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
 
   )
 }

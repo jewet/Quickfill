@@ -52,6 +52,7 @@ const electricityProviderStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    paddingVertical: verticalScale(15)
   },
   electricityTextWrapper:{
     display: 'flex',

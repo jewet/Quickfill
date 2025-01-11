@@ -36,6 +36,7 @@ export type RootStackParamList = {
   referral: any;
   delivery: {orderDetails: OrdersProps};
   'user-wallet': any;
+  checkout: any;
   'user-details': any;
   favourite: any;
   'user-address': any;

@@ -25,7 +25,10 @@ import {order_data, OrdersProps} from '../../../../utils/sample-data/orders';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 import AddressModal from '../../../../components/AddressModal/AddressModal';
-import { profile_data } from '../../../../utils/sample-data/profile';
+import {profile_data} from '../../../../utils/sample-data/profile';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../utils/redux/store/store';
+import {setShowBalance, setShowModal} from '../../../../utils/redux/slice/home';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'home'>;
@@ -33,8 +36,10 @@ type Props = StackScreenProps<RootStackParamList, 'home'>;
 function Home({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const [showBalance, setShowBalance] = useState<boolean>(true);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const {showModal, showBalance} = useSelector(
+    (state: RootState) => state.home,
+  );
 
   // Navigate to a specific section based on the action name and data
   const navigateToProfileSection = (
@@ -62,9 +67,7 @@ function Home({navigation}: Props) {
     }
   };
 
-  const wallet = profile_data.find(
-    item => item.profile.type === 'My Wallet',
-  );
+  const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
   // Handle navigation to the order details page
   const handleNavigation = (orderDetails: OrdersProps) => {
@@ -83,7 +86,7 @@ function Home({navigation}: Props) {
                 8-26 Ango Abdullahi St, Gwarinpa, 900108...
               </Text>
             </View>
-            <TouchableOpacity onPress={() => setShowModal(true)}>
+            <TouchableOpacity onPress={() => dispatch(setShowModal(true))}>
               <DropDown width={60} height={55} fill="none" />
             </TouchableOpacity>
           </View>
@@ -105,18 +108,18 @@ function Home({navigation}: Props) {
                     homeStyles.details,
                     {fontSize: 22, paddingTop: 10, fontWeight: 700},
                   ]}>
-                  {showBalance ? `₦${Intl.NumberFormat().format(
-                                wallet?.profile?.bal
-                                  ? parseFloat(
-                                      wallet.profile.bal.toString(),
-                                    ) || 0
-                                  : 0,
-                              )}` : '******'}
+                  {showBalance
+                    ? `₦${Intl.NumberFormat().format(
+                        wallet?.profile?.bal
+                          ? parseFloat(wallet.profile.bal.toString()) || 0
+                          : 0,
+                      )}`
+                    : '******'}
                 </Text>
               </View>
               <TouchableOpacity
                 style={{marginTop: 25}}
-                onPress={() => setShowBalance(!showBalance)}>
+                onPress={() => dispatch(setShowBalance(!showBalance))}>
                 <Eyes width={24} height={24} fill="none" />
               </TouchableOpacity>
             </View>
@@ -133,7 +136,11 @@ function Home({navigation}: Props) {
                 <Text style={homeStyles.details}>10</Text>
                 <Text style={homeStyles.title}>Number of orders</Text>
               </View>
-              <TouchableOpacity style={homeStyles.plusWrapper} onPress={()=>navigation.navigate('user-wallet', {profileDetails: wallet})}>
+              <TouchableOpacity
+                style={homeStyles.plusWrapper}
+                onPress={() =>
+                  navigation.navigate('user-wallet', {profileDetails: wallet})
+                }>
                 <Plus width={35} height={35} fill="none" />
               </TouchableOpacity>
             </View>
@@ -243,9 +250,9 @@ function Home({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <AddressModal
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigateTo={() => {
-            setShowModal(false);
+            dispatch(setShowModal(false));
             navigation.goBack();
           }}
           navigateToAddress={() => navigation.navigate('change-address')}

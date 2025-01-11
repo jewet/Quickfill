@@ -15,7 +15,7 @@ import CloseIcon from '../../../../../../assets/images/gas/close-icon.svg';
 import Online from '../../../../../../assets/images/gas/online.svg';
 import homeStyles from '../../home-styles';
 import LinearGradient from 'react-native-linear-gradient';
-import Map from '../../../../../../assets/images/diesel/figmap.svg';
+import Map from '../../../../../../assets/images/gas/new-map.svg';
 import MapPointer from '../../../../../../assets/images/diesel/map-pointer.svg';
 import PricePin from '../../../../../../assets/images/diesel/price-pins.svg';
 import PopUp from '../../../../../../assets/images/diesel/popup_control.svg';
@@ -31,6 +31,9 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 import {isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import { RootState } from '../../../../../../utils/redux/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setMarginTop, setPrevScrollY, setShowModal } from '../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
@@ -39,18 +42,21 @@ function Gas({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
   const {actionDetails}: {actionDetails?: QuickActionProps} =
     route.params || {};
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [marginTop, setMarginTop] = useState<any>('100%');
-  const [prevScrollY, setPrevScrollY] = useState(0);
+    const dispatch = useDispatch()
+  const {
+    showModal,
+    marginTop,
+    prevScrollY,
+  } = useSelector((state: RootState) => state.gas);
 
   const handleScroll = (event: any) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
 
     if (currentScrollY > prevScrollY && marginTop !== 0) {
-      setMarginTop(0);
+      dispatch(setMarginTop(0));
     }
 
-    setPrevScrollY(currentScrollY);
+    dispatch(setPrevScrollY(currentScrollY));
   };
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
   const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
@@ -62,7 +68,7 @@ function Gas({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={'#FAFAFA'}
       />
-       <MapView
+      {/* <MapView
           // provider={PROVIDER_GOOGLE}
           style={{...StyleSheet.absoluteFillObject}}
           region={{
@@ -71,7 +77,61 @@ function Gas({navigation}: Props) {
             latitudeDelta: 0.015,
             longitudeDelta: 0.0121,
           }}
+        /> */}
+
+      <Map width={width} height={height} />
+      <View style={dieselStyles.mapTop}>
+        <View style={[homeStyles.detailsContent, dieselStyles.address]}>
+          <View style={{width: '90%'}}>
+            <Text style={homeStyles.title}>Deliver ASAP to</Text>
+            <Text style={homeStyles.details}>
+              8-26 Ango Abdullahi St, Gwarinpa, 900108...
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => setShowModal(true)}>
+            <DropDown width={60} height={55} fill="none" />
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity
+          style={{
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            zIndex: 2000,
+          }}
+          onPress={() => navigation.navigate('change-address')}>
+          <LinearGradient
+            colors={['#FFB600', '#FFD366']}
+            start={{x: 0, y: 1}}
+            end={{x: 1, y: 0}}
+            style={[
+              profileStyles.profileTopBtn,
+              {
+                width: '80%',
+                borderRadius: border_radius,
+                height: change_address_height,
+              },
+            ]}>
+            <Text
+              onPress={() => navigation.navigate('change-address')}
+              style={{marginTop: margin_top, marginLeft: margin_left}}>
+              Change delivery address
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <PricePin
+          width={322}
+          height={324}
+          fill="none"
+          style={{marginTop: 10}}
         />
+        <MapPointer
+          width={24}
+          height={24}
+          fill="none"
+          style={{marginTop: -120, marginLeft: 180}}
+        />
+      </View>
       {/* <View>
        
         <View style={dieselStyles.mapTop}>
@@ -126,7 +186,7 @@ function Gas({navigation}: Props) {
             style={{marginTop: '-40%', marginLeft: 180}}
           />
         </View>
-      </View>
+      </View> */}
       <View style={[dieselStyles.scrollviewWrapper, {height: height}]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -148,7 +208,7 @@ function Gas({navigation}: Props) {
                   marginVertical: 20,
                   marginLeft: 16,
                 }}>
-                <TouchableOpacity onPress={() => setMarginTop(500)}>
+                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))}>
                   <CloseIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -158,7 +218,7 @@ function Gas({navigation}: Props) {
               </TouchableOpacity>
             )}
             <View style={{width: '100%'}}>
-              {actionDetails?.details?.map((data: any, index: number) => (
+              {actionDetails?.details && actionDetails?.details?.map((data: any, index: number) => (
                 <TouchableOpacity
                   key={index}
                   style={[
@@ -167,7 +227,7 @@ function Gas({navigation}: Props) {
                   ]}
                   onPress={() =>
                     navigation.navigate('gas-details', {
-                      gasDetails: actionDetails?.details[index],
+                      gasDetails: actionDetails?.details && actionDetails?.details[index],
                     })
                   }>
                   <View
@@ -218,12 +278,12 @@ function Gas({navigation}: Props) {
             </View>
           </View>
         </ScrollView>
-      </View> */}
+      </View>
       {showModal && (
         <AddressModal
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigateTo={() => {
-            setShowModal(false);
+            dispatch(setShowModal(false));
             navigation.goBack();
           }}
           navigateToAddress={() => navigation.navigate('change-address')}

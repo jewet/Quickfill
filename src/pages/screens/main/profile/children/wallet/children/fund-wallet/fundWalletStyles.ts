@@ -50,6 +50,16 @@ const fundWalletStyles = StyleSheet.create({
     color: '#919191',
     lineHeight: moderateScale(24),
   },
+  walbal: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(12),
+    fontWeight: '400',
+    color: '#2C2C2C',
+  },
+  bold: {
+    fontSize: moderateScale(12),
+    fontWeight: '700',
+  },
   input: {
     fontFamily: 'Plus Jakarta Sans',
     fontSize: moderateScale(18),

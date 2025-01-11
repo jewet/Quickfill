@@ -32,6 +32,12 @@ import FundWallet from '../../../../../profile/children/wallet/children/fund-wal
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
 import Offline from '../../../../../../../../assets/images/orders/offline.svg';
+import Carousel from 'react-native-reanimated-carousel';
+import {width} from '../../../diesel/dieselStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {setIsSelected} from '../../../../../../../../utils/redux/slice/electricity';
+import {setShowModal} from '../../../../../../../../utils/redux/slice/gas';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -43,14 +49,13 @@ function GasDetails({navigation}: Props) {
   const {gasDetails}: {gasDetails?: DetailsProps} = route.params || {};
 
   const isDarkMode = useColorScheme() === 'dark';
-  const [showModal, setShowModal] = useState<boolean>(false);
-
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const dispatch = useDispatch();
+  const {isSelected, showModal} = useSelector((state: RootState) => state.gas);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
 
   const scrollToIndex = (index: number) => {
-    setSelectedIndex(index);
+    dispatch(setIsSelected(index));
     flatListRef.current?.scrollToIndex({
       index,
       animated: true,
@@ -61,11 +66,11 @@ function GasDetails({navigation}: Props) {
   const handleScroll = (event: any) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
     const index = Math.round(contentOffsetX / (screenWidth * 0.6));
-    setSelectedIndex(index);
+    dispatch(setIsSelected(index));
   };
 
   const handleButtonPress = (index: number) => {
-    setSelectedIndex(index);
+    dispatch(setIsSelected(index));
     scrollToIndex(index);
   };
 
@@ -80,17 +85,33 @@ function GasDetails({navigation}: Props) {
       return 200;
     }
   };
-  const getCurrentKgHeight = (index: number) => {
-    if (index === 3) {
-      return 220;
-    } else if (index === 6) {
-      return 230;
-    } else if (index === 12) {
-      return 240;
-    } else if (index === 25) {
-      return 250;
-    }
+  // const getCurrentKgMarginLeft = (index: number): number | `${number}%` => {
+  //   if (index === 0) {
+  //     return '20%' as const;
+  //   } else if (index === 1) {
+  //     return '0%' as const;
+  //   } else if (index === 2) {
+  //     return '0%' as const;
+  //   } else if (index === 3) {
+  //     return '-50%' as const;
+  //   }
+  // };
+
+  const getCurrentKgMarginLeft = (index: number): number | `${number}%` => {
+    if (index === 0) return '25%' as const;
+    if (index === 1) return '25%' as const;
+    if (index === 2) return '40%' as const;
+    if (index === 3) return 0;
+    return 0;  
   };
+  const getCurrentKgMarginRight = (index: number): number | `${number}%` => {
+    if (index === 0) return '25%' as const;
+    if (index === 1) return '25%' as const;
+    if (index === 2) return '40%' as const;
+    if (index === 3) return 0;
+    return 0; 
+  };
+  
 
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
@@ -174,7 +195,7 @@ function GasDetails({navigation}: Props) {
           style={{width: '100%', display: 'flex', alignItems: 'flex-start'}}>
           <View style={gasStyles.selectedKgWrapper}>
             <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
-              {gas_data[selectedIndex].kg}kg
+              {gas_data[isSelected].kg}kg
             </Text>
           </View>
           <View></View>
@@ -193,6 +214,13 @@ function GasDetails({navigation}: Props) {
             )}
             onMomentumScrollEnd={handleScroll}
             renderItem={({item, index}) => {
+              const selected = index === isSelected;
+              const isPrevious = index === isSelected - 1;
+              const isNext = index === isSelected + 1;
+
+              // Only show current, previous, and next items
+              if (!selected && !isPrevious && !isNext) return null;
+
               const scale = scrollX.interpolate({
                 inputRange: [
                   (index - 1) * (screenWidth * 0.6),
@@ -203,17 +231,27 @@ function GasDetails({navigation}: Props) {
                 extrapolate: 'clamp',
               });
 
+              const positionStyle = {
+                transform: [{scale}],
+                // zIndex: isSelected ? 2 : 1, // Ensure the selected item is on top
+                // opacity: isSelected ? 1 : 0.7,
+                marginLeft: isPrevious
+                  ? -50
+                  : selected
+                  ? getCurrentKgMarginLeft(index)
+                  : '-50%',
+                marginRight: isPrevious
+                  ? -50
+                  : selected
+                  ? 0
+                  : getCurrentKgMarginRight(index),
+              };
+
               return (
-                <Animated.View
-                  style={[
-                    styles.itemContainer,
-                    {
-                      transform: [{scale}],
-                    },
-                  ]}>
+                <Animated.View style={[styles.itemContainer, positionStyle]}>
                   <BiggestGas
-                    width={index === selectedIndex ? getCurrentKgWidth(index) : 115}
-                    height={index === selectedIndex ? 240 : 150}
+                    width={isSelected ? 180 : 120}
+                    height={isSelected ? 240 : 150}
                     fill="none"
                   />
                 </Animated.View>
@@ -240,9 +278,8 @@ function GasDetails({navigation}: Props) {
                   style={[
                     gasStyles.gasSelectionWrapper,
                     {
-                      borderColor:
-                        index === selectedIndex ? '#FFB600' : '#5E5E5E',
-                      borderWidth: index === selectedIndex ? 3 : 1,
+                      borderColor: index === isSelected ? '#FFB600' : '#5E5E5E',
+                      borderWidth: index === isSelected ? 3 : 1,
                     },
                   ]}
                   onPress={() => handleButtonPress(index)}>
@@ -264,7 +301,7 @@ function GasDetails({navigation}: Props) {
           <Text style={gasStyles.heading}>Enter refill size (optional)</Text>
           <TextInput
             style={gasStyles.input}
-            value={`${gasDetails?.available_gas_cylinders[selectedIndex].kg}kg`}
+            value={`${gasDetails?.available_gas_cylinders[isSelected].kg}kg`}
           />
           <View style={gasStyles.noteWrapper}>
             <View
@@ -286,13 +323,17 @@ function GasDetails({navigation}: Props) {
           </View>
           <TouchableOpacity
             style={primaryBtnStyles.btnContainer}
-            onPress={() =>
+            onPress={() => {
+              if (!gasDetails) {
+                console.error('gasDetails is undefined!');
+                return;
+              }
               navigation.navigate('gas-checkout', {
-                gasDetails: gasDetails,
+                gasDetails,
                 selectedCylinder:
-                  gasDetails?.available_gas_cylinders[selectedIndex],
-              })
-            }>
+                  gasDetails.available_gas_cylinders[isSelected],
+              });
+            }}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}
@@ -310,7 +351,7 @@ function GasDetails({navigation}: Props) {
                 <Text style={gasStyles.btnText}>
                   ₦
                   {Intl.NumberFormat().format(
-                    gasDetails?.available_gas_cylinders[selectedIndex].amount,
+                    gasDetails?.available_gas_cylinders[isSelected].amount,
                   )}
                 </Text>
               </View>
@@ -320,7 +361,7 @@ function GasDetails({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <FundWallet
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigation={navigation}
         />
       )}

@@ -95,7 +95,8 @@ const gasStyles = StyleSheet.create({
     padding: scale(7),
     marginLeft: scale(20),
     marginTop: verticalScale(20),
-    width: scale(80),
+    width: '25%',
+    alignItems: 'center'
   },
   selectedKg: {
     fontSize: moderateScale(24),

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../../assets/images/electricity/close_btn.svg';
@@ -15,6 +15,8 @@ import Button from '../../Button/Button';
 import gasStyles from '../../../pages/screens/main/home/children/gas/gasStyles';
 import homeStyles from '../../../pages/screens/main/home/home-styles';
 import authStyles from '../../../pages/screens/auth/styles/authStyles';
+import authTopStyles from '../../Auth/AuthTopStyles';
+import { primaryColor } from '../../../pages/screens/onboarding/splash/splashstyles';
 
 interface Props {
   navigateToConfirm: () => void;
@@ -25,6 +27,39 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<Array<TextInput | null>>([]);
+    const [countdown, setCountdown] = useState(60);
+    const [isResendEnabled, setIsResendEnabled] = useState(false);
+  
+    // Format countdown as MM:SS
+    const formatTime = (seconds: number): string => {
+      const mins = Math.floor(seconds / 60)
+        .toString()
+        .padStart(2, '0'); // Ensures two digits (e.g., "01")
+      const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
+      return `${mins}:${secs}`;
+    };
+  
+    // Start countdown timer
+    useEffect(() => {
+      if (countdown > 0) {
+        const timer = setInterval(() => {
+          setCountdown(prev => prev - 1);
+        }, 1000);
+        return () => clearInterval(timer);
+      } else {
+        setIsResendEnabled(true);
+      }
+    }, [countdown]);
+  
+    // Resend OTP
+    const handleResendOTP = () => {
+      if (isResendEnabled) {
+        setCountdown(60);
+        setIsResendEnabled(false);
+        // Call function to resend OTP (API request or mock logic)
+        console.log('Resending OTP...');
+      }
+    };
 
   // Handle OTP input change
   const handleOtpChange = (text: string, index: number) => {
@@ -107,7 +142,7 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
           </ScrollView>
         </View>
       ) : (
-        <View style={[electricityPaymentStyles.modalCont, {height: '40%'}]}>
+        <View style={[electricityPaymentStyles.modalCont, {height: '55%'}]}>
           <View style={electricityPaymentStyles.paymentTopWrapper}>
             <View style={{display: 'flex', alignItems: 'flex-end'}}>
               <TouchableOpacity onPress={closeModal}>
@@ -148,6 +183,27 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
             ))}
           </View>
             <Button text='Confirm OTP' action={navigateToConfirm} />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: '10%',
+              }}>
+              <Text style={authTopStyles.secondText}>
+                Did not receive any code?{' '}
+              </Text>
+              {isResendEnabled ? (
+                <TouchableOpacity onPress={handleResendOTP}>
+                  <Text style={{color: primaryColor}}>Resend OTP</Text>
+                </TouchableOpacity>
+              ) : (
+                <Text style={{color: primaryColor}}>
+                  Resend in {formatTime(countdown)}
+                </Text>
+              )}
+            </View>
         </View>
         </View>
       )}
