@@ -25,6 +25,9 @@ import {gas_data} from '../../../../../../../../utils/sample-data/gas';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../../../utils/redux/store/store';
+import { setShowModal } from '../../../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
@@ -34,8 +37,10 @@ function DieselDetails({navigation}: Props) {
   const {diesielDetails}: {diesielDetails?: DetailsProps} = route.params || {};
   console.log('desielDetails: ', diesielDetails);
   const isDarkMode = useColorScheme() === 'dark';
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedKg, setSelectedKg] = useState<number>(0);
+  const dispatch = useDispatch()
+const {
+  showModal,
+} = useSelector((state: RootState) => state.gas);
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
       <StatusBar
@@ -112,6 +117,11 @@ function DieselDetails({navigation}: Props) {
             </Text>
           </View>
         </View>
+        <View style={gasStyles.selectedKgWrapper}>
+            <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
+              1000L
+            </Text>
+          </View>
         <View style={{display: 'flex', alignItems: 'center', width: '100%'}}>
           <DieselPump width={273} height={350} fill="none" />
         </View>
@@ -138,7 +148,7 @@ function DieselDetails({navigation}: Props) {
           </View>
           <TouchableOpacity
             style={primaryBtnStyles.btnContainer}
-            onPress={() => setShowModal(true)}>
+            onPress={() => dispatch(setShowModal(true))}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}
@@ -163,7 +173,7 @@ function DieselDetails({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <FundWallet
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigation={navigation}
         />
       )}

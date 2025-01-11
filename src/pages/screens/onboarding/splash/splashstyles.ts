@@ -22,6 +22,14 @@ const splashStyles = StyleSheet.create({
         justifyContent: 'center',
         gap: 10
     },
+    indicatorWrapper: {
+        height: height,
+        width: width,
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: primaryColor
+    }
 })
 
 export default splashStyles;

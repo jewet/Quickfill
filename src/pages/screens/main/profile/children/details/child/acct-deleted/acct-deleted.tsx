@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
-    BackHandler,
+  BackHandler,
   FlatList,
   Modal,
   SafeAreaView,
@@ -32,6 +32,7 @@ import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-d
 import historyDetailsStyles from '../../../../../home/children/electricity/children/electricity-history/history-details/historyDetailsStyles';
 import authTopStyles from '../../../../../../../../components/Auth/AuthTopStyles';
 import acctDeletedStyles from './acctDeletedStyles';
+import {MMKV} from 'react-native-mmkv';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'acct-deleted'>;
@@ -40,10 +41,13 @@ function AcctDeleted({navigation}: Props) {
   // Retrieve route parameters, specifically `profileDetails` and `target`
   const route = useRoute<RouteProp<RootStackParamList, 'acct-deleted'>>();
   //   const {profileDetails, target} = route.params;
+  // Initialize MMKV storage
+  const storage = new MMKV();
   // Function to close the app and reset login status
   const handleCloseApp = async () => {
-    // await AsyncStorage.setItem('isLoggedIn', 'false'); // Set login status to false
-    BackHandler.exitApp(); // Close the app
+    storage.set('isLoggedIn', false);
+    BackHandler.exitApp(); 
+    navigation.navigate('login')
   };
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -72,19 +76,22 @@ function AcctDeleted({navigation}: Props) {
           <Text style={acctDeletedStyles.note}>
             We’re sad to see you leave and hope to welcome you back soon. If you
             change your mind, simply log in within the next{' '}
-            <Text style={acctDeletedStyles.boldText}>48 hours</Text> to cancel the deletion process. After that,
-            your account <Text style={acctDeletedStyles.redText}>will be permanently deleted.</Text>
+            <Text style={acctDeletedStyles.boldText}>48 hours</Text> to cancel
+            the deletion process. After that, your account{' '}
+            <Text style={acctDeletedStyles.redText}>
+              will be permanently deleted.
+            </Text>
           </Text>
         </View>
         <View
-            style={{
-              marginTop: '30%',
-              display: 'flex',
-              flexDirection: 'row',
-              alignSelf: 'flex-end',
-            }}>
-            <Button text="Close app" action={handleCloseApp} />
-          </View>
+          style={{
+            marginTop: '30%',
+            display: 'flex',
+            flexDirection: 'row',
+            alignSelf: 'flex-end',
+          }}>
+          <Button text="Close app" action={handleCloseApp} />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

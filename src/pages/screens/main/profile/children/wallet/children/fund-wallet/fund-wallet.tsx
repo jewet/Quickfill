@@ -13,6 +13,7 @@ import electricityPaymentStyles from '../../../../../home/children/electricity/c
 import {TextInput} from 'react-native-gesture-handler';
 import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
 import fundWalletStyles from './fundWalletStyles';
+import {profile_data} from '../../../../../../../../utils/sample-data/profile';
 
 interface Props {
   action: () => void;
@@ -65,6 +66,7 @@ function FundWallet({action, navigation}: Props) {
     const selectedPaymentType = payment_type[isSelected].type;
     navigateToPaymentResult(selectedPaymentType);
   };
+  const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
@@ -131,13 +133,35 @@ function FundWallet({action, navigation}: Props) {
               onPress={() => setIsSelected(index)}>
               <data.icon width={24} height={24} fill="none" />
               <View style={electricityProviderStyles.electricityTextWrapper}>
-                <Text
-                  style={[
-                    electricityProviderStyles.electricityText,
-                    {fontWeight: 600},
-                  ]}>
-                  Pay with {data.type}
-                </Text>
+                {isSelected === index &&
+                data.type.toLowerCase() === 'wallet' ? (
+                  <View>
+                    <Text
+                      style={[
+                        electricityProviderStyles.electricityText,
+                        {fontWeight: 600},
+                      ]}>
+                      Pay with {data.type}
+                    </Text>
+                    <Text style={fundWalletStyles.walbal}>
+                      Wallet balance:{' '}
+                      <Text style={fundWalletStyles.bold}>
+                        ₦
+                        {Intl.NumberFormat().format(
+                          Number(wallet?.profile?.bal),
+                        ) || 0}
+                      </Text>
+                    </Text>
+                  </View>
+                ) : (
+                  <Text
+                    style={[
+                      electricityProviderStyles.electricityText,
+                      {fontWeight: 600},
+                    ]}>
+                    Pay with {data.type}
+                  </Text>
+                )}
               </View>
               {isSelected === index ? (
                 <SelectedIcon width={24} height={24} fill="none" />

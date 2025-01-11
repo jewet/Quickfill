@@ -11,9 +11,9 @@ interface Props {
   goBackAction: () => void;
   title: string;
   directory: string;
-  isFavourite: boolean | null;
-  setIsFavourite: () => void;
-  cartNav: () => void;
+  isFavourite?: boolean | null;
+  setIsFavourite?: () => void;
+  cartNav?: () => void;
 }
 
 function Header({
@@ -33,42 +33,48 @@ function Header({
         <Text style={headerStyles.title}>{title}</Text>
       </View>
       <View>
-      {directory.toLowerCase() === 'item-details' ? (
-        <View style={headerStyles.headerContainer}>
-          <TouchableOpacity onPress={setIsFavourite}>
-            {isFavourite ? (
-              <LovedIcon width={18} height={16} fill="none" />
-            ) : (
-              <LoveIcon width={18} height={16} fill="none" />
-            )}
-          </TouchableOpacity>
+        {directory.toLowerCase() === 'item-details' ? (
+          <View style={headerStyles.headerContainer}>
+            <TouchableOpacity onPress={setIsFavourite}>
+              {isFavourite ? (
+                <LovedIcon width={18} height={16} fill="none" />
+              ) : (
+                <LoveIcon width={18} height={16} fill="none" />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={headerStyles.cartWrapper}
+              onPress={cartNav}>
+              <CartIcon width={24} height={24} fill="none" />
+              <View style={headerStyles.countWrapper}>
+                <Text style={headerStyles.countText}>4</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        ) : directory.toLowerCase() === 'checkout' ? (
           <TouchableOpacity style={headerStyles.cartWrapper} onPress={cartNav}>
             <CartIcon width={24} height={24} fill="none" />
             <View style={headerStyles.countWrapper}>
-                <Text style={headerStyles.countText}>4</Text>
+              <Text style={headerStyles.countText}>4</Text>
             </View>
           </TouchableOpacity>
-        </View>
-      ) : directory.toLowerCase() === 'checkout' ? (
-        <TouchableOpacity style={headerStyles.cartWrapper} onPress={cartNav}>
-            <CartIcon width={24} height={24} fill="none" />
-            <View style={headerStyles.countWrapper}>
+        ) : directory.toLowerCase() === 'complete-checkout' ? (
+          <View></View>
+        ) : (
+          <View style={headerStyles.headerContainer}>
+            <TouchableOpacity>
+              <Moreicon width={44} height={44} fill="none" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={headerStyles.cartWrapper}
+              onPress={cartNav}>
+              <CartIcon width={24} height={24} fill="none" />
+              <View style={headerStyles.countWrapper}>
                 <Text style={headerStyles.countText}>4</Text>
-            </View>
-          </TouchableOpacity>
-      ) : (
-        <View style={headerStyles.headerContainer}>
-          <TouchableOpacity>
-            <Moreicon width={44} height={44} fill="none" />
-          </TouchableOpacity>
-          <TouchableOpacity style={headerStyles.cartWrapper} onPress={cartNav}>
-            <CartIcon width={24} height={24} fill="none" />
-            <View style={headerStyles.countWrapper}>
-                <Text style={headerStyles.countText}>4</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
     </View>
   );

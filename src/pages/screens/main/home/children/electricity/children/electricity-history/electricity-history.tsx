@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -17,14 +17,13 @@ import Header from '../../../../../../../../components/Electricity/Header/Header
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import electricityPurchaseStyles from '../electricity-purchase-summary/electricityPurchaseSummaryStyles';
-import Button from '../../../../../../../../components/Button/Button';
-import paymentResultStyles from '../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import SearchIcon from '../../../../../../../../assets/images/accessories/tabler_search.svg';
 import electricityProviderStyles from '../electricity-provider/electricityProviderStyles';
-import {electricity_transaction_history} from '../../../../../../../../utils/sample-data/electricity';
 import electricityHistoryStyles from './electricityHistoryStyles';
 import {width} from '../../../diesel/dieselStyles';
+import { filterElectricityHistoryData, setSearchQuery } from '../../../../../../../../utils/redux/slice/electricity';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../../../utils/redux/store/store';
 
 // Type definition for navigation props
 type Props = StackScreenProps<RootStackParamList, 'electricity-history'>;
@@ -32,27 +31,15 @@ type Props = StackScreenProps<RootStackParamList, 'electricity-history'>;
 function ElectricityHistory({navigation}: Props) {
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-history'>>();
+    const dispatch = useDispatch();
 
-  const [showPaymentModal, setShowPaymentModal] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredData, setFilteredData] = useState(
-    electricity_transaction_history,
-  );
+    const { searchQuery, filteredElectricityHistoryData } = useSelector((state: RootState) => state.electricity);
 
-  // Function to filter accessories
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    if (query.trim() === '') {
-      setFilteredData(electricity_transaction_history);
-    } else {
-      const filtered = electricity_transaction_history.filter(item =>
-        Object.values(item).some(value =>
-          String(value).toLowerCase().includes(query.toLowerCase()),
-        ),
-      );
-      setFilteredData(filtered);
-    }
-  };
+    // Function to filter electricity transactions
+    const handleSearch = (query: string) => {
+      dispatch(setSearchQuery(query));
+      dispatch(filterElectricityHistoryData(query));
+    };
 
   const extractLastWord = (address: string): string => {
     const words = address.trim().split(' ');
@@ -93,15 +80,15 @@ function ElectricityHistory({navigation}: Props) {
         showsVerticalScrollIndicator={false}
         style={[electricityStyles.scrollview, {paddingHorizontal: 0}]}>
         <View style={electricityHistoryStyles.historyWrapper}>
-          {filteredData.length > 0 ? (
+          {filteredElectricityHistoryData.length > 0 ? (
             <>
-              {filteredData.map((data, index) => (
+              {filteredElectricityHistoryData.map((data, index) => (
                 <TouchableOpacity
                   key={index}
                   style={electricityHistoryStyles.historyCont}
                   onPress={() =>
                     navigation.navigate('electricity-history-details', {
-                      historyDetails: filteredData[index],
+                      historyDetails: filteredElectricityHistoryData[index],
                     })
                   }>
                   <Text style={electricityHistoryStyles.status}>

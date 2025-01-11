@@ -139,3 +139,4 @@ export const electricity_transaction_history: ElectricityTransactionProps[] = [
     status: 'Completed',
   },
 ];
+

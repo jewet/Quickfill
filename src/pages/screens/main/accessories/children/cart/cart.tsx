@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -15,7 +15,7 @@ import {
   isDarkMode,
 } from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Accessories/Header';
-import {items_data} from '../../../../../../utils/sample-data/accessories';
+import {cart_data} from '../../../../../../utils/sample-data/accessories';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import cartStyles from './cartStyles';
 import MinusIcon from '../../../../../../assets/images/accessories/minus.svg';
@@ -23,30 +23,46 @@ import AddIcon from '../../../../../../assets/images/accessories/add.svg';
 import itemsStyles from '../items/itemsStyles';
 import homeStyles from '../../../home/home-styles';
 import Button from '../../../../../../components/Button/Button';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {setItemCounts} from '../../../../../../utils/redux/slice/accessories';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'cart'>;
 
 function Cart({navigation}: Props) {
-  const [itemCounts, setItemCounts] = useState<number[]>(
-    items_data.slice(0, 4).map(() => 1),
-  );
+  const dispatch = useDispatch();
+  const {itemCounts} = useSelector((state: RootState) => state.accessories);
 
   // Increase the item count for a specific item in the cart
   const increaseCount = (index: number) => {
-    setItemCounts(prevCounts =>
-      prevCounts.map((count, i) => (i === index ? count + 1 : count)),
+    dispatch(
+      setItemCounts(
+        itemCounts.map((count, i) => (i === index ? count + 1 : count)),
+      ),
     );
   };
 
   // Decrease the item count for a specific item in the cart, ensuring it doesn't go below 1
   const decreaseCount = (index: number) => {
-    setItemCounts(prevCounts =>
-      prevCounts.map((count, i) =>
-        i === index && count > 1 ? count - 1 : count,
+    dispatch(
+      setItemCounts(
+        itemCounts.map((count, i) =>
+          i === index && count > 1 ? count - 1 : count,
+        ),
       ),
     );
   };
+
+  // Function to calculate total price dynamically
+  const subtotal = useMemo(() => {
+    return cart_data.reduce((total, item, index) => {
+      return total + item.item.price * itemCounts[index];
+    }, 0);
+  }, [itemCounts]);
+
+  const vat = subtotal * 0.05; // Assuming VAT is 5%
+  const totalAmount = subtotal + vat;
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -66,7 +82,7 @@ function Cart({navigation}: Props) {
         showsHorizontalScrollIndicator={false}
         style={cartStyles.scrollview}>
         <View>
-          {items_data.slice(0, 4).map((data, index) => (
+          {cart_data.map((data, index) => (
             <View
               key={index}
               style={[
@@ -114,7 +130,7 @@ function Cart({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(18000)}
+              ₦{Intl.NumberFormat().format(subtotal)}
             </Text>
           </View>
           <View
@@ -134,7 +150,7 @@ function Cart({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(1500)}
+              ₦{Intl.NumberFormat().format(vat)}
             </Text>
           </View>
           <View
@@ -144,11 +160,16 @@ function Cart({navigation}: Props) {
             ]}>
             <Text style={homeStyles.details}>Total amount due</Text>
             <Text style={homeStyles.details}>
-              ₦{Intl.NumberFormat().format(Number(19500))}
+              ₦{Intl.NumberFormat().format(Number(totalAmount))}
             </Text>
           </View>
           {/* Complete order button */}
-          <Button text="Complete order" action={() => console.log('pressed')} />
+          <Button
+            text="Complete order"
+            action={() =>
+              navigation.navigate('checkout', {itemCounts, totalAmount})
+            }
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

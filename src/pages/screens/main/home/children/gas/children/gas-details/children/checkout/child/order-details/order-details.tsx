@@ -33,6 +33,9 @@ import {profile_data} from '../../../../../../../../../../../../utils/sample-dat
 import FullProgressBar from '../../../../../../../../../../../../assets/images/orders/full_progress_bar.svg';
 import HalfProgressBar from '../../../../../../../../../../../../assets/images/orders/half_progress_bar.svg';
 import BlankProgressBar from '../../../../../../../../../../../../assets/images/orders/blank_progress_bar.svg';
+import { RootState } from '../../../../../../../../../../../../utils/redux/store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShowModal, setShowOrderDetails } from '../../../../../../../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
@@ -40,7 +43,8 @@ type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 function GasOrderDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
   const {gasDetails, selectedCylinder} = route.params;
-  const [showOrderDetails, setShowOrderDetails] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const {showOrderDetails, showModal} = useSelector((state: RootState) => state.gas);
 
   const item_amt = Number(selectedCylinder?.amount);
   const delivery_fee = Number(gasDetails?.delivery_fee);
@@ -50,7 +54,6 @@ function GasOrderDetails({navigation}: Props) {
     item => item.profile.type === 'Contact/support',
   );
 
-  const [showModal, setShowModal] = useState<boolean>(false);
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -139,7 +142,7 @@ function GasOrderDetails({navigation}: Props) {
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
-                onPress={() => setShowOrderDetails(!showOrderDetails)}>
+                onPress={() => dispatch(setShowOrderDetails(!showOrderDetails))}>
                 {showOrderDetails ? (
                   <ArrowUp width={10} height={10} fill="none" />
                 ) : (
@@ -225,7 +228,7 @@ function GasOrderDetails({navigation}: Props) {
                 <Text
                   style={[
                     homeStyles.title,
-                    {color: primaryColor, fontSize: 12, fontWeight: 600},
+                    {color: primaryColor, fontSize: 16, fontWeight: 700},
                   ]}>
                   {gasDetails?.delivery_code}
                 </Text>
@@ -288,17 +291,17 @@ function GasOrderDetails({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <TimelineModal
-          action={() => setShowModal(false)}
-          navigateTo={() => {
-            setShowModal(false);
-            navigation.goBack();
-          }}
+          action={() => dispatch(setShowModal(false))} 
           navigateToContact={() =>
             navigation.navigate('contact', {profileDetails: customerSupport})
           }
           subTotal={item_amt}
           deliveryFee={delivery_fee}
           timeline_data={gasDetails?.delivery_timeline}
+          navigateToDeliveryTracking={() => {
+            dispatch(setShowModal(false));
+            // navigation.navigate('delivery', {orderDetails: gasDetails});
+          }}
         />
       )}
     </SafeAreaView>

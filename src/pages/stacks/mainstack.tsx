@@ -40,6 +40,7 @@ import ElectricityPurchaseSummary from '../screens/main/home/children/electricit
 import ElectricityHistory from '../screens/main/home/children/electricity/children/electricity-history/electricity-history';
 import HistoryDetails from '../screens/main/home/children/electricity/children/electricity-history/history-details/history-details';
 import AcctDeleted from '../screens/main/profile/children/details/child/acct-deleted/acct-deleted';
+import Checkout from '../screens/main/accessories/children/cart/child/checkout/checkout';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -136,6 +137,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={Cart}
+      />
+      <Stack.Screen
+        name="checkout"
+        options={{
+          headerShown: false,
+        }}
+        component={Checkout}
       />
       <Stack.Screen
         name="favourite"

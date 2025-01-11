@@ -41,6 +41,10 @@ import {primaryColor} from '../../../../../../../../onboarding/splash/splashstyl
 import electricityProviderStyles from '../../../../../electricity/children/electricity-provider/electricityProviderStyles';
 import {payment_opt} from '../../../../../../../../../../utils/sample-data/payment';
 import homeStyles from '../../../../../../home-styles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../../utils/redux/store/store';
+import {setIsSelected} from '../../../../../../../../../../utils/redux/slice/gas';
+import fundWalletStyles from '../../../../../../../profile/children/wallet/children/fund-wallet/fundWalletStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
@@ -48,10 +52,9 @@ type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 function GasCheckout({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
   const {gasDetails, selectedCylinder} = route.params;
-  console.log('gasDetails:', gasDetails);
-  console.log('selectedCylinder:', selectedCylinder);
-  
-  const [isSelected, setIsSelected] = useState<number | null>(0);
+
+  const dispatch = useDispatch();
+  const {isSelected} = useSelector((state: RootState) => state.gas);
   const addressDetails = profile_data
     .filter(item => item.profile.type === 'Saved Addresses')
     .map(item => item.profile.location);
@@ -76,7 +79,10 @@ function GasCheckout({navigation}: Props) {
         navigation.navigate('payment-result', {result: 'successful'});
         break;
       case 'delivery':
-        navigation.navigate('gas-order-details', {gasDetails: gasDetails, selectedCylinder: selectedCylinder});
+        navigation.navigate('gas-order-details', {
+          gasDetails: gasDetails,
+          selectedCylinder: selectedCylinder,
+        });
         break;
       default:
         console.warn('Navigation route not defined for this item.');
@@ -93,9 +99,11 @@ function GasCheckout({navigation}: Props) {
     navigateToPaymentResult(selectedPaymentType);
   };
 
-  const item_amt = Number(selectedCylinder?.amount)
-  const delivery_fee = Number(gasDetails?.delivery_fee)
-  const total = item_amt + delivery_fee
+  const item_amt = Number(selectedCylinder?.amount);
+  const delivery_fee = Number(gasDetails?.delivery_fee);
+  const total = item_amt + delivery_fee;
+
+  const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -158,14 +166,16 @@ function GasCheckout({navigation}: Props) {
           ]}>
           <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
             <NoteIcon width={24} height={24} fill="none" />
-            <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('delivery-instructions')}>
               <Text style={[addressStyles.location, {color: primaryColor}]}>
                 Add extra delivery note e.g. estate pass
               </Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
-          <ArrowRight width={24} height={24} fill="none" />
+          <TouchableOpacity
+            onPress={() => navigation.navigate('delivery-instructions')}>
+            <ArrowRight width={24} height={24} fill="none" />
           </TouchableOpacity>
         </View>
         <Text style={checkoutStyles.paymentText}>Payment</Text>
@@ -213,17 +223,40 @@ function GasCheckout({navigation}: Props) {
                   paddingVertical: 10,
                 },
               ]}
-              onPress={() => setIsSelected(index)}>
+              onPress={() => dispatch(setIsSelected(index))}>
               <data.icon width={24} height={24} fill="none" />
               <View style={electricityProviderStyles.electricityTextWrapper}>
-                <Text
-                  style={[
-                    electricityProviderStyles.electricityText,
-                    {fontWeight: 600},
-                  ]}>
-                  {index !== 0 && 'Pay with '}
-                  {data.type}
-                </Text>
+                <View style={electricityProviderStyles.electricityTextWrapper}>
+                  {isSelected === index &&
+                  data.type.toLowerCase() === 'wallet' ? (
+                    <View>
+                      <Text
+                        style={[
+                          electricityProviderStyles.electricityText,
+                          {fontWeight: 600},
+                        ]}>
+                        Pay with {data.type}
+                      </Text>
+                      <Text style={fundWalletStyles.walbal}>
+                        Wallet balance:{' '}
+                        <Text style={fundWalletStyles.bold}>
+                          ₦
+                          {Intl.NumberFormat().format(
+                            Number(wallet?.profile?.bal),
+                          ) || 0}
+                        </Text>
+                      </Text>
+                    </View>
+                  ) : (
+                    <Text
+                      style={[
+                        electricityProviderStyles.electricityText,
+                        {fontWeight: 600},
+                      ]}>
+                      {index !== 0 && 'Pay with '} {data.type}
+                    </Text>
+                  )}
+                </View>
               </View>
               {isSelected === index ? (
                 <SelectedIcon width={24} height={24} fill="none" />
@@ -284,13 +317,10 @@ function GasCheckout({navigation}: Props) {
               ₦{Intl.NumberFormat().format(Number(total))}
             </Text>
           </View>
-        <View style={{marginTop: 10, paddingHorizontal: 16, width: '100%'}}>
-          <Button
-            text="Complete order"
-            action={handleContinue}
-          />
-        </View>
+          <View style={{marginTop: 10, paddingHorizontal: 16, width: '100%'}}>
+            <Button text="Complete order" action={handleContinue} />
           </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
