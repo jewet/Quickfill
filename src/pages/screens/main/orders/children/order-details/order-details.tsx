@@ -40,6 +40,9 @@ import FullProgressBar from '../../../../../../assets/images/orders/full_progres
 import HalfProgressBar from '../../../../../../assets/images/orders/half_progress_bar.svg';
 import BlankProgressBar from '../../../../../../assets/images/orders/blank_progress_bar.svg';
 import {profile_data} from '../../../../../../utils/sample-data/profile';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {setShowModal} from '../../../../../../utils/redux/slice/orders';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
@@ -64,7 +67,8 @@ function OrderDetails({navigation}: Props) {
   ) => {
     navigation.navigate('chat', {orderDetails, target});
   };
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const {showModal} = useSelector((state: RootState) => state.orders);
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
@@ -114,7 +118,7 @@ function OrderDetails({navigation}: Props) {
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
-                onPress={() => setShowModal(true)}>
+                onPress={() => dispatch(setShowModal(true))}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -237,13 +241,13 @@ function OrderDetails({navigation}: Props) {
                     backgroundColor: primaryColor,
                     paddingHorizontal: 15,
                     borderRadius: 30,
-                    paddingVertical: 5,
+                    paddingVertical: 10,
                   },
                 ]}>
                 <Text
                   style={[
                     homeStyles.title,
-                    {color: '#2C2C2C', fontSize: 12, fontWeight: 600},
+                    {color: '#2C2C2C', fontSize: 16, fontWeight: 600},
                   ]}>
                   {orderDetails?.delivery?.code}
                 </Text>
@@ -399,9 +403,9 @@ function OrderDetails({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <TimelineModal
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigateToDeliveryTracking={() => {
-            setShowModal(false);
+            dispatch(setShowModal(false));
             navigation.navigate('delivery', {orderDetails});
           }}
           navigateToContact={() =>

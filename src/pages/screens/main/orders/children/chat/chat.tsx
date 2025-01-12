@@ -26,6 +26,13 @@ import homeStyles from '../../../home/home-styles';
 import {chat_data} from '../../../../../../utils/sample-data/chat';
 import SendIcon from '../../../../../../assets/images/orders/send.svg';
 import inputStyles from '../../../../../../components/Input/InputStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {
+  sendMessage,
+  setCurrentMessage,
+  setShowMoreInfo,
+} from '../../../../../../utils/redux/slice/orders';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
@@ -42,10 +49,10 @@ function Chat({navigation}: Props) {
   // Profile picture of the chat participant
   const ProfilePic = chatPerson.pic;
 
-  // State to manage chat messages and input value
-  const [messages, setMessages] = useState(chat_data);
-  const [currentMessage, setCurrentMessage] = useState('');
-  const [showMoreInfo, setShowMoreInfo] = useState(false);
+  const dispatch = useDispatch();
+  const {messages, currentMessage, showMoreInfo} = useSelector(
+    (state: RootState) => state.orders,
+  );
 
   // Navigate to the profile details screen
   const handleNavigation = (
@@ -55,22 +62,6 @@ function Chat({navigation}: Props) {
     navigation.navigate('profile-details', {orderDetails, target});
   };
 
-  // Send a new message and update the chat state
-  const sendMessage = () => {
-    if (currentMessage.trim()) {
-      const newMessage = {
-        id: (messages.length + 1).toString(),
-        sender: 'sender',
-        message: currentMessage,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      };
-      setMessages([...messages, newMessage]);
-      setCurrentMessage('');
-    }
-  };
 
   const renderItem = ({item}: {item: (typeof chat_data)[0]}) => {
     const isSender = item.sender === 'sender';
@@ -125,7 +116,8 @@ function Chat({navigation}: Props) {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => setShowMoreInfo(!showMoreInfo)}>
+        <TouchableOpacity
+          onPress={() => dispatch(setShowMoreInfo(!showMoreInfo))}>
           <MoreIcon width={44} height={44} fill="none" />
         </TouchableOpacity>
       </View>
@@ -133,14 +125,14 @@ function Chat({navigation}: Props) {
         <View style={ChatStyles.hiddenCont}>
           <TouchableOpacity
             onPress={() => {
-              setShowMoreInfo(false);
+              dispatch(setShowMoreInfo(false));
               navigation.navigate('report', {orderDetails, target});
             }}>
             <Text style={ChatStyles.infoOptText}>Report</Text>
           </TouchableOpacity>
           <Text
             style={[ChatStyles.infoOptText, {color: '#DC5513'}]}
-            onPress={() => setShowMoreInfo(false)}>
+            onPress={() => dispatch(setShowMoreInfo(false))}>
             Block
           </Text>
         </View>
@@ -162,9 +154,9 @@ function Chat({navigation}: Props) {
                 keyboardType="default"
                 style={inputStyles.securedInput}
                 value={currentMessage}
-                onChangeText={setCurrentMessage}
+                onChangeText={text => dispatch(setCurrentMessage(text))}
               />
-              <TouchableOpacity onPress={sendMessage}>
+              <TouchableOpacity onPress={() => dispatch(sendMessage())}>
                 <SendIcon width={16} height={16} fill="none" />
               </TouchableOpacity>
             </View>

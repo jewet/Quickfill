@@ -1,12 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../assets/images/electricity/close_btn.svg';
 import SelectedIcon from '../../assets/images/electricity/selected-bill.svg';
-import UnSelectedIcon from '../../assets/images/electricity/unselected-bill.svg';
 import electricityPaymentStyles from '../../pages/screens/main/home/children/electricity/children/payment/paymentStyles';
-import electricityProviderStyles from '../../pages/screens/main/home/children/electricity/children/electricity-provider/electricityProviderStyles';
-import {payment_type} from '../../utils/sample-data/payment';
 import Button from '../Button/Button';
 import PlusIcon from '../../assets/images/profile/tabler_plus.svg';
 import orderDetailsStyles from '../../pages/screens/main/orders/children/order-details/orderDetailsStyles';
@@ -22,7 +19,6 @@ interface Props {
 }
 
 function AddressModal({action, navigateTo, navigateToAddress}: Props) {
-  const [isSelected, setIsSelected] = useState<number | null>();
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>

@@ -14,6 +14,12 @@ import {TextInput} from 'react-native-gesture-handler';
 import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
 import fundWalletStyles from './fundWalletStyles';
 import {profile_data} from '../../../../../../../../utils/sample-data/profile';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setAmount,
+  setIsSelected,
+} from '../../../../../../../../utils/redux/slice/profile';
 
 interface Props {
   action: () => void;
@@ -21,8 +27,8 @@ interface Props {
 }
 
 function FundWallet({action, navigation}: Props) {
-  const [isSelected, setIsSelected] = useState<number>(0);
-  const [amount, setAmount] = useState<string>('');
+  const dispatch = useDispatch();
+  const {amount, isSelected} = useSelector((state: RootState) => state.profile);
 
   //defined navigation links
   const navigateToPaymentResult = (paymentType: string) => {
@@ -47,7 +53,7 @@ function FundWallet({action, navigation}: Props) {
 
   const handleAmountChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
-    setAmount(numericValue);
+    dispatch(setAmount(numericValue));
   };
 
   const formattedAmount = amount
@@ -130,7 +136,7 @@ function FundWallet({action, navigation}: Props) {
             <TouchableOpacity
               key={index}
               style={electricityProviderStyles.electricityData}
-              onPress={() => setIsSelected(index)}>
+              onPress={() => dispatch(setIsSelected(index))}>
               <data.icon width={24} height={24} fill="none" />
               <View style={electricityProviderStyles.electricityTextWrapper}>
                 {isSelected === index &&

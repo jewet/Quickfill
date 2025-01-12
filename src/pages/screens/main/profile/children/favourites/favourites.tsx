@@ -25,6 +25,9 @@ import {
   items_data,
   ItemsProps,
 } from '../../../../../../utils/sample-data/accessories';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {setActiveNav} from '../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'favourite'>;
@@ -37,8 +40,8 @@ function Favourites({navigation}: Props) {
   // Navigation items
   const fav_nav = [{nav: 'Accessories'}, {nav: 'Vendors'}];
 
-  // State to manage active navigation tab
-  const [activeNav, setActiveNav] = useState<number>(0);
+  const dispatch = useDispatch();
+  const {activeNav} = useSelector((state: RootState) => state.profile);
 
   // Function to handle navigation to item details
   const handleNavigation = (itemDetails: ItemsProps) => {
@@ -83,7 +86,7 @@ function Favourites({navigation}: Props) {
                   orderStyles.orderNavCont,
                   index === activeNav && orderStyles.activeNav,
                 ]}
-                onPress={() => setActiveNav(index)}>
+                onPress={() => dispatch(setActiveNav(index))}>
                 <Text>{data.nav}</Text>
               </TouchableOpacity>
             ))}

@@ -16,6 +16,14 @@ import transferStyles from '../transfer/transferStyles';
 import Input from '../../../../../../../../../../components/Input/AuthInput';
 import Button from '../../../../../../../../../../components/Button/Button';
 import cardStyles from './cardStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../../utils/redux/store/store';
+import {
+  setCardName,
+  setCardNumber,
+  setCvv,
+  setExpiryDate,
+} from '../../../../../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'card'>;
@@ -23,6 +31,12 @@ type Props = StackScreenProps<RootStackParamList, 'card'>;
 function Card({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'card'>>();
   const {amount} = route.params;
+
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {cardName, cardNumber, expiryDate, cvv} = useSelector(
+    (state: RootState) => state.profile,
+  );
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -56,20 +70,22 @@ function Card({navigation}: Props) {
           <Input
             label="Name on Card"
             placeholder=""
-            value=""
+            value={cardName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
+            onChange={text => dispatch(setCardName(text))}
           />
           <Input
             label="Card Number"
             placeholder=""
-            value=""
+            value={cardNumber}
             secured={false}
             directory={null}
             keyboardType="numeric"
             action={null}
+            onChange={text => dispatch(setCardNumber(text))}
           />
           <View
             style={{
@@ -83,22 +99,24 @@ function Card({navigation}: Props) {
               <Input
                 label="Expiry Date"
                 placeholder="MM/YY"
-                value=""
+                value={expiryDate}
                 secured={false}
                 directory={null}
                 keyboardType="numeric"
                 action={null}
+                onChange={text => dispatch(setExpiryDate(text))}
               />
             </View>
             <View style={{width: '45%'}}>
               <Input
                 label="CVV"
                 placeholder="123"
-                value=""
+                value={cvv}
                 secured={false}
                 directory={null}
                 keyboardType="numeric"
                 action={null}
+                onChange={text => dispatch(setCvv(text))}
               />
             </View>
           </View>

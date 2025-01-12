@@ -30,6 +30,21 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
 import historyDetailsStyles from '../../../../../home/children/electricity/children/electricity-history/history-details/historyDetailsStyles';
 import authTopStyles from '../../../../../../../../components/Auth/AuthTopStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setCountdown,
+  setEmail,
+  setFirstname,
+  setIsResendEnabled,
+  setLastname,
+  setPhoneNumber,
+  setSelectedDay,
+  setSelectedMonth,
+  setShowDayPicker,
+  setShowMonthPicker,
+  setUsername,
+} from '../../../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'update-form'>;
@@ -39,17 +54,33 @@ function UpdateForm({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
 
-  const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  const [selectedDay, setSelectedDay] = useState<string | null>(null);
-  const [showMonthPicker, setShowMonthPicker] = useState(false);
-  const [showDayPicker, setShowDayPicker] = useState(false);
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [countdown, setCountdown] = useState(60);
-  const [isResendEnabled, setIsResendEnabled] = useState(false);
+  // const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
+  // const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  // const [showMonthPicker, setShowMonthPicker] = useState(false);
+  // const [showDayPicker, setShowDayPicker] = useState(false);
+  // const [firstname, setFirstname] = useState('');
+  // const [lastname, setLastname] = useState('');
+  // const [username, setUsername] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [phoneNumber, setPhoneNumber] = useState('');
+  // const [countdown, setCountdown] = useState(60);
+  // const [isResendEnabled, setIsResendEnabled] = useState(false);
+
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {
+    selectedMonth,
+    selectedDay,
+    firstname,
+    username,
+    showMonthPicker,
+    showDayPicker,
+    lastname,
+    email,
+    phoneNumber,
+    countdown,
+    isResendEnabled,
+  } = useSelector((state: RootState) => state.profile);
 
   // Format countdown as MM:SS
   const formatTime = (seconds: number): string => {
@@ -64,21 +95,19 @@ function UpdateForm({navigation}: Props) {
   useEffect(() => {
     if (countdown > 0) {
       const timer = setInterval(() => {
-        setCountdown(prev => prev - 1);
+        dispatch(setCountdown(countdown - 1));
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      setIsResendEnabled(true);
+      dispatch(setIsResendEnabled(true));
     }
   }, [countdown]);
 
   // Resend OTP
   const handleResendOTP = () => {
     if (isResendEnabled) {
-      setCountdown(60);
-      setIsResendEnabled(false);
-      // Call function to resend OTP (API request or mock logic)
-      console.log('Resending OTP...');
+      dispatch(setCountdown(60));
+      dispatch(setIsResendEnabled(false));
     }
   };
 
@@ -108,15 +137,15 @@ function UpdateForm({navigation}: Props) {
   const days = getDaysInMonth(selectedMonth);
 
   const handleMonthSelect = (month: string) => {
-    setSelectedMonth(month);
-    setSelectedDay(null); // Reset selected day when month changes
-    setShowMonthPicker(false);
+    dispatch(setSelectedMonth(month));
+    dispatch(setSelectedDay(null)); // Reset selected day when month changes
+    dispatch(setShowMonthPicker(false));
   };
 
   const handleDaySelect = (day: string) => {
     if (selectedMonth) {
-      setSelectedDay(day);
-      setShowDayPicker(false);
+      dispatch(setSelectedDay(day));
+      dispatch(setShowDayPicker(false));
     }
   };
 
@@ -138,7 +167,7 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={null}
               validate="firstname"
-              onChange={text => setFirstname(text)}
+              onChange={text => dispatch(setFirstname(text))}
             />
             <Input
               label="Enter your last name"
@@ -149,7 +178,7 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={null}
               validate="lastname"
-              onChange={text => setLastname(text)}
+              onChange={text => dispatch(setLastname(text))}
             />
           </>
         );
@@ -159,13 +188,13 @@ function UpdateForm({navigation}: Props) {
             <Input
               label="Enter your username"
               placeholder=""
-              value={lastname}
+              value={username}
               secured={false}
               directory={null}
               keyboardType="default"
               action={null}
               validate="username"
-              onChange={text => setUsername(text)}
+              onChange={text => dispatch(setUsername(text))}
             />
             <Text
               style={[
@@ -188,7 +217,7 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={() => console.log('Action triggered')}
               validate="email"
-              onChange={text => setEmail(text)}
+              onChange={text => dispatch(setEmail(text))}
             />
             <Text
               style={[
@@ -222,7 +251,7 @@ function UpdateForm({navigation}: Props) {
               keyboardType="default"
               action={() => console.log('Action triggered')}
               validate="phone"
-              onChange={text => setPhoneNumber(text)}
+              onChange={text => dispatch(setPhoneNumber(text))}
             />
             <Text
               style={[
@@ -284,14 +313,15 @@ function UpdateForm({navigation}: Props) {
                   {width: '100%', marginTop: 10},
                 ]}>
                 <TouchableOpacity
-                  onPress={() => setShowMonthPicker(true)}
+                  onPress={() => dispatch(setShowMonthPicker(true))}
                   style={inputStyles.passwordInput}>
                   <Text
                     style={inputStyles.securedInput}
-                    onPress={() => setShowMonthPicker(true)}>
+                    onPress={() => dispatch(setShowMonthPicker(true))}>
                     {selectedMonth || 'Select a month'}
                   </Text>
-                  <TouchableOpacity onPress={() => setShowMonthPicker(true)}>
+                  <TouchableOpacity
+                    onPress={() => dispatch(setShowMonthPicker(true))}>
                     <DropDown width={20} height={20} fill="none" />
                   </TouchableOpacity>
                 </TouchableOpacity>
@@ -313,7 +343,7 @@ function UpdateForm({navigation}: Props) {
                           )}
                         />
                         <TouchableOpacity
-                          onPress={() => setShowMonthPicker(false)}>
+                          onPress={() => dispatch(setShowMonthPicker(false))}>
                           <Text style={styles.closeButton}>Close</Text>
                         </TouchableOpacity>
                       </View>
@@ -330,7 +360,9 @@ function UpdateForm({navigation}: Props) {
                   {width: '100%', marginTop: 10},
                 ]}>
                 <TouchableOpacity
-                  onPress={() => selectedMonth && setShowDayPicker(true)}
+                  onPress={() =>
+                    selectedMonth && dispatch(setShowDayPicker(true))
+                  }
                   style={[
                     inputStyles.passwordInput,
                     {opacity: selectedMonth ? 1 : 0.5},
@@ -338,7 +370,7 @@ function UpdateForm({navigation}: Props) {
                   disabled={!selectedMonth}>
                   <Text
                     style={inputStyles.securedInput}
-                    onPress={() => setShowDayPicker(true)}>
+                    onPress={() => dispatch(setShowDayPicker(true))}>
                     {selectedDay || 'Select a day'}
                   </Text>
                 </TouchableOpacity>
@@ -365,7 +397,7 @@ function UpdateForm({navigation}: Props) {
                           </Text>
                         )}
                         <TouchableOpacity
-                          onPress={() => setShowDayPicker(false)}>
+                          onPress={() => dispatch(setShowDayPicker(false))}>
                           <Text style={styles.closeButton}>Close</Text>
                         </TouchableOpacity>
                       </View>
@@ -393,7 +425,7 @@ function UpdateForm({navigation}: Props) {
         title={`${target === 'phone number' ? 'Verify' : 'Update'} ${target}`}
         directory=""
       />
-          <ScrollView
+      <ScrollView
         showsVerticalScrollIndicator={false}
         style={[
           favouritesStyles.scrollview,

@@ -4,6 +4,7 @@ import gasReducer from '../slice/gas';
 import homeReducer from '../slice/home';
 import accessoriesReducer from '../slice/accessories';
 import ordersReducer from '../slice/orders';
+import profileReducer from '../slice/profile';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     gas: gasReducer,
     accessories: accessoriesReducer,
     orders: ordersReducer,
+    profile: profileReducer,
   },
 });
 

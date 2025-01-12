@@ -24,6 +24,9 @@ import EditIcon from '../../../../../../assets/images/profile/tabler_edit.svg';
 import DeleteIcon from '../../../../../../assets/images/profile/tabler_trash.svg';
 import addressStyles from '../address/addressStyles';
 import DeleteProfileModal from '../../../../../../components/Profile/Modal/Modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {setShowModal} from '../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-details'>;
@@ -32,7 +35,8 @@ function Details({navigation}: Props) {
   // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const {showModal} = useSelector((state: RootState) => state.profile);
 
   // Function to navigate to the update form screen with the target data (name, username, birthday, email)
   const handleNavigation = (
@@ -73,13 +77,14 @@ function Details({navigation}: Props) {
                   paddingVertical: 25,
                 },
               ]}
-              disabled={ !!data.gender}  
+              disabled={!!data.gender}
               onPress={() => {
                 if (data.name) handleNavigation(profileDetails!, 'name');
                 if (data.username)
                   handleNavigation(profileDetails!, 'username');
                 if (data.email) handleNavigation(profileDetails!, 'email');
-                if (data.phone_number) handleNavigation(profileDetails!, 'phone number');
+                if (data.phone_number)
+                  handleNavigation(profileDetails!, 'phone number');
                 if (data.dob) handleNavigation(profileDetails!, 'birthday');
               }}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
@@ -154,7 +159,7 @@ function Details({navigation}: Props) {
               marginTop: 50,
               backgroundColor: '#DC5513',
             }}
-            onPress={() => setShowModal(true)}>
+            onPress={() => dispatch(setShowModal(true))}>
             <Text style={{color: '#FFFFFF'}}>Delete profile</Text>
             <DeleteIcon width={20} height={20} fill="none" />
           </TouchableOpacity>
@@ -163,7 +168,7 @@ function Details({navigation}: Props) {
       {showModal && (
         <DeleteProfileModal
           navigateToConfirm={() => navigation.navigate('acct-deleted')}
-          closeModal={() => setShowModal(false)}
+          closeModal={() => dispatch(setShowModal(false))}
         />
       )}
     </SafeAreaView>

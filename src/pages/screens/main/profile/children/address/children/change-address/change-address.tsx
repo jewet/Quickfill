@@ -23,6 +23,16 @@ import Map from '../../../../../../../../assets/images/gas/mapp.svg';
 import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
 import changeAddressStyles from './changeAddressStyles';
 import inputStyles from '../../../../../../../../components/Input/InputStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setAddress,
+  setApartmentNumber,
+  setLandmark,
+  setPostalCode,
+  setSelectedType,
+  setShowAddressDropDown,
+} from '../../../../../../../../utils/redux/slice/profile';
 
 type Props = StackScreenProps<RootStackParamList, 'change-address'>;
 
@@ -30,13 +40,15 @@ function ChangeAddress({navigation}: Props) {
   // Retrieve route parameters if necessary
   const route = useRoute<RouteProp<RootStackParamList, 'change-address'>>();
 
-  // State for selected address type dropdown
-  const [selectedType, setSelectedType] = useState<string>('Home');
-  const [showAddressDropDown, setShowAddressDropDown] = useState(false);
-  const [address, setAddress] = useState('');
-  const [apartmentNumber, setApartmentNumber] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [landmark, setLandmark] = useState('');
+  const dispatch = useDispatch();
+  const {
+    selectedType,
+    showAddressDropDown,
+    address,
+    apartmentNumber,
+    postalCode,
+    landmark,
+  } = useSelector((state: RootState) => state.profile);
 
   // Predefined options for address types
   const addressTypeOptions = [{type: 'Home'}, {type: 'Work'}];
@@ -77,14 +89,15 @@ function ChangeAddress({navigation}: Props) {
             </Text>
             <View style={inputStyles.securedInputWrapper}>
               <TouchableOpacity
-                onPress={() => setShowAddressDropDown(true)}
+                onPress={() => dispatch(setShowAddressDropDown(true))}
                 style={inputStyles.passwordInput}>
                 <Text
                   style={inputStyles.securedInput}
-                  onPress={() => setShowAddressDropDown(true)}>
+                  onPress={() => dispatch(setShowAddressDropDown(true))}>
                   {selectedType}
                 </Text>
-                <TouchableOpacity onPress={() => setShowAddressDropDown(true)}>
+                <TouchableOpacity
+                  onPress={() => dispatch(setShowAddressDropDown(true))}>
                   <DropDown width={20} height={20} fill="none" />
                 </TouchableOpacity>
               </TouchableOpacity>
@@ -109,8 +122,8 @@ function ChangeAddress({navigation}: Props) {
                       key={index}
                       style={{paddingVertical: 10}}
                       onPress={() => {
-                        setSelectedType(data.type);
-                        setShowAddressDropDown(false);
+                        dispatch(setSelectedType(data.type));
+                        dispatch(setShowAddressDropDown(false));
                       }}>
                       <Text style={inputStyles.securedInput}>{data.type}</Text>
                     </TouchableOpacity>
@@ -127,7 +140,7 @@ function ChangeAddress({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => setAddress(text)}
+            onChange={text => dispatch(setAddress(text))}
           />
 
           <View
@@ -147,7 +160,7 @@ function ChangeAddress({navigation}: Props) {
                 directory={null}
                 keyboardType="numeric"
                 action={null}
-                onChange={text => setApartmentNumber(text)}
+                onChange={text => dispatch(setApartmentNumber(text))}
               />
             </View>
 
@@ -160,7 +173,7 @@ function ChangeAddress({navigation}: Props) {
                 directory={null}
                 keyboardType="numeric"
                 action={null}
-                onChange={text => setPostalCode(text)}
+                onChange={text => dispatch(setPostalCode(text))}
               />
             </View>
           </View>
@@ -173,7 +186,7 @@ function ChangeAddress({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => setLandmark(text)}
+            onChange={text => dispatch(setLandmark(text))}
           />
 
           {/* Save button to submit the address */}

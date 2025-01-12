@@ -1,7 +1,7 @@
 import React from 'react';
-import { ViewView, StatusBar, Text, useColorScheme, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {StatusBar, Text, useColorScheme, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import onboardingStyles from './OnboardingStyles';
 import Button from '../Button/Button';
 
@@ -13,7 +13,7 @@ interface Props {
   bgColor: string;
 }
 
-function Onboarding({ img, boldText, lightText, navigateTo, bgColor }: Props) {
+function Onboarding({img, boldText, lightText, navigateTo, bgColor}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
@@ -23,9 +23,8 @@ function Onboarding({ img, boldText, lightText, navigateTo, bgColor }: Props) {
     <SafeAreaView
       style={[
         onboardingStyles.onboardingContainer,
-        { backgroundColor: bgColor },
-      ]}
-    >
+        {backgroundColor: bgColor},
+      ]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}

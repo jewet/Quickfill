@@ -1,14 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
-  BackHandler,
-  FlatList,
-  Modal,
+  BackHandler, 
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';

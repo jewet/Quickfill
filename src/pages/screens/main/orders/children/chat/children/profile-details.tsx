@@ -16,6 +16,12 @@ import homeStyles from '../../../../home/home-styles';
 import {achievements_data} from '../../../../../../../utils/sample-data/orders';
 import {primaryColor} from '../../../../../onboarding/splash/splashstyles';
 import ChatStyles from '../chatStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../utils/redux/store/store';
+import {
+  setShowModal,
+  setShowMoreInfo,
+} from '../../../../../../../utils/redux/slice/orders';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'profile-details'>;
@@ -24,7 +30,8 @@ function ProfileDetails({navigation}: Props) {
   // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'profile-details'>>();
   const {orderDetails, target} = route.params;
-  const [showMoreInfo, setShowMoreInfo] = useState(false);
+  const dispatch = useDispatch();
+  const {showMoreInfo} = useSelector((state: RootState) => state.orders);
 
   // Determine the chat participant (either rider or vendor)
   const chatPerson =
@@ -63,26 +70,27 @@ function ProfileDetails({navigation}: Props) {
             <GoBackArrow width={44} height={44} fill="none" />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => setShowMoreInfo(!showMoreInfo)}>
+          <TouchableOpacity
+            onPress={() => dispatch(setShowMoreInfo(!showMoreInfo))}>
             <MoreIcon width={44} height={44} fill="none" />
           </TouchableOpacity>
         </View>
         {showMoreInfo && (
-        <View style={ChatStyles.hiddenCont}>
-          <TouchableOpacity
-            onPress={() => {
-              setShowMoreInfo(false);
-              navigation.navigate('report', {orderDetails, target});
-            }}>
-            <Text style={ChatStyles.infoOptText}>Report</Text>
-          </TouchableOpacity>
-          <Text
-            style={[ChatStyles.infoOptText, {color: '#DC5513'}]}
-            onPress={() => setShowMoreInfo(false)}>
-            Block
-          </Text>
-        </View>
-      )}
+          <View style={ChatStyles.hiddenCont}>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setShowMoreInfo(false));
+                navigation.navigate('report', {orderDetails, target});
+              }}>
+              <Text style={ChatStyles.infoOptText}>Report</Text>
+            </TouchableOpacity>
+            <Text
+              style={[ChatStyles.infoOptText, {color: '#DC5513'}]}
+              onPress={() => dispatch(setShowMoreInfo(false))}>
+              Block
+            </Text>
+          </View>
+        )}
 
         {/* Profile background image */}
         <ProfileBg
