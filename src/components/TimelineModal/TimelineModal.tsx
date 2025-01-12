@@ -1,20 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../assets/images/electricity/close_btn.svg';
 import TrackIcon from '../../assets/images/orders/tabler_navigation.svg';
-import SelectedIcon from '../../assets/images/electricity/selected-bill.svg';
-import UnSelectedIcon from '../../assets/images/electricity/unselected-bill.svg';
 import electricityPaymentStyles from '../../pages/screens/main/home/children/electricity/children/payment/paymentStyles';
-import electricityProviderStyles from '../../pages/screens/main/home/children/electricity/children/electricity-provider/electricityProviderStyles';
-import {payment_type} from '../../utils/sample-data/payment';
-import Button from '../Button/Button';
-import PlusIcon from '../../assets/images/profile/tabler_plus.svg';
 import orderDetailsStyles from '../../pages/screens/main/orders/children/order-details/orderDetailsStyles';
-import LocationIcon from '../../assets/images/profile/tabler_location-pin.svg';
 import addressStyles from '../../pages/screens/main/profile/children/address/addressStyles';
-import HomeIcon from '../../assets/images/profile/tabler_home.svg';
-import WorkIcon from '../../assets/images/profile/tabler_briefcase.svg';
 import FullProgressDot from '../../assets/images/gas/full_progress_dot.svg';
 import HalfProgressDot from '../../assets/images/gas/half_progress_dot.svg';
 import BlankProgressDot from '../../assets/images/gas/blank_progress_dot.svg';
@@ -40,7 +31,6 @@ function TimelineModal({
   deliveryFee,
   timeline_data,
 }: Props) {
- 
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
@@ -57,13 +47,22 @@ function TimelineModal({
             />
           </TouchableOpacity>
           <View>
-            <View style={[orderDetailsStyles.oderDetailsDeliveryStatus, {borderBottomWidth: 1, paddingBottom: 20, borderBottomColor: '#A8A8A3'}]}>
+            <View
+              style={[
+                orderDetailsStyles.oderDetailsDeliveryStatus,
+                {
+                  borderBottomWidth: 1,
+                  paddingBottom: 20,
+                  borderBottomColor: '#A8A8A3',
+                },
+              ]}>
               <View>
                 <Text style={homeStyles.title}>Order status</Text>
                 <Text style={homeStyles.details}>Waiting for Rider</Text>
               </View>
               <TouchableOpacity
-                style={orderDetailsStyles.viewTimeline} onPress={navigateToContact}>
+                style={orderDetailsStyles.viewTimeline}
+                onPress={navigateToContact}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -74,12 +73,15 @@ function TimelineModal({
               </TouchableOpacity>
             </View>
           </View>
-
         </View>
-        <ScrollView showsVerticalScrollIndicator={false} style={{height: 300, width: '100%'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{height: 300, width: '100%'}}>
           <View style={{width: '100%', paddingHorizontal: 16}}>
-          <TouchableOpacity onPress={navigateToDeliveryTracking} style={timelineModalStyles.trackWrapper}>
-            <TrackIcon width={18} height={18} />
+            <TouchableOpacity
+              onPress={navigateToDeliveryTracking}
+              style={timelineModalStyles.trackWrapper}>
+              <TrackIcon width={18} height={18} />
               <Text style={timelineModalStyles.trackText}>Track order</Text>
             </TouchableOpacity>
           </View>

@@ -65,7 +65,7 @@ function Splash({navigation}: Props) {
 
     // Navigate to Home after 3 seconds
     const timeout = setTimeout(() => {
-      navigation.replace(redirect);
+      navigation.replace('second-onboarding');
     }, 1500);
 
     return () => clearTimeout(timeout);

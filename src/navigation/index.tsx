@@ -27,20 +27,20 @@ function Navigation() {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? (
+      {/* {isLoggedIn ? ( */}
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="splash" component={Splash} />
           <Stack.Screen name="second-onboarding" component={OnboardingStack} />
           <Stack.Screen name="login" component={AuthStack} />
           <Stack.Screen name="home" component={MainStack} />
         </Stack.Navigator>
-      ) : (
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="splash" component={Splash} />
-          <Stack.Screen name="login" component={AuthStack} />
-          <Stack.Screen name="home" component={MainStack} />
-        </Stack.Navigator>
-      )}
+      {/* // ) : (
+      //   <Stack.Navigator screenOptions={{headerShown: false}}>
+      //     <Stack.Screen name="splash" component={Splash} />
+      //     <Stack.Screen name="login" component={AuthStack} />
+      //     <Stack.Screen name="home" component={MainStack} />
+      //   </Stack.Navigator>
+      // )} */}
     </NavigationContainer>
   );
 }

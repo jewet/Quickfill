@@ -45,7 +45,6 @@ function Input({
 }: Props) {
   const [showPassword, setShowPassword] = useState(!secured);
   const [error, setError] = useState<string | null>(null);
-  const navigation = useNavigation();
   const [selectedCountry, setSelectedCountry] = useState(countries[0]); // Default: Nigeria 🇳🇬 (+234)
   const [showDropdown, setShowDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');

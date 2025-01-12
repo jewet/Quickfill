@@ -30,6 +30,12 @@ import homeStyles from '../../../home/home-styles';
 import walletStyles from './walletStyles';
 import addressStyles from '../address/addressStyles';
 import FundWallet from './children/fund-wallet/fund-wallet';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setShowBalance,
+  setShowModal,
+} from '../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-wallet'>;
@@ -37,9 +43,10 @@ type Props = StackScreenProps<RootStackParamList, 'user-wallet'>;
 function Wallet({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'user-wallet'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
-  const [showBalance, setShowBalance] = useState<boolean>(true); // State to toggle wallet balance visibility
-  const [showreferText, setShowreferText] = useState<boolean>(true); // State to toggle referral text visibility
-  const [showModal, setShowModal] = useState<boolean>(false); // State to control the visibility of the fund wallet modal
+  const dispatch = useDispatch();
+  const {showBalance, showModal, showreferText} = useSelector(
+    (state: RootState) => state.profile,
+  );
 
   const linear_height = Platform.OS === 'ios' ? 110 : 'auto'; // Dynamic height for iOS
   const {width} = Dimensions.get('window'); // Get window dimensions
@@ -121,7 +128,7 @@ function Wallet({navigation}: Props) {
                       </View>
                       <TouchableOpacity
                         style={{marginTop: 25}}
-                        onPress={() => setShowBalance(!showBalance)}>
+                        onPress={() => dispatch(setShowBalance(!showBalance))}>
                         <Eyes width={24} height={24} fill="none" />
                       </TouchableOpacity>
                     </View>
@@ -141,7 +148,7 @@ function Wallet({navigation}: Props) {
               ]}>
               <TouchableOpacity
                 style={{display: 'flex', alignItems: 'center'}}
-                onPress={() => setShowModal(true)}>
+                onPress={() => dispatch(setShowModal(true))}>
                 <TopUp width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Top up</Text>
               </TouchableOpacity>
@@ -188,7 +195,7 @@ function Wallet({navigation}: Props) {
       </ScrollView>
       {showModal && (
         <FundWallet
-          action={() => setShowModal(false)}
+          action={() => dispatch(setShowModal(false))}
           navigation={navigation}
         />
       )}

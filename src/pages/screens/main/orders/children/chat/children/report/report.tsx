@@ -27,6 +27,13 @@ import orderDetailsStyles from '../../../order-details/orderDetailsStyles';
 import UploadIcon from '../../../../../../../../assets/images/orders/tabler_cloud-upload.svg';
 import DeleteIcon from '../../../../../../../../assets/images/orders/tabler_trash.svg';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setCustomReason,
+  setSelectedReason,
+  setUploadedImage,
+} from '../../../../../../../../utils/redux/slice/orders';
 
 type Props = StackScreenProps<RootStackParamList, 'report'>;
 
@@ -34,10 +41,10 @@ function Report({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'report'>>();
   const {orderDetails, target} = route.params;
 
-  const [selectedReason, setSelectedReason] = useState<string | null>(null);
-  const [customReason, setCustomReason] = useState<string>('');
-
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const {selectedReason, customReason, uploadedImage} = useSelector(
+    (state: RootState) => state.orders,
+  );
 
   const uploadImage = () => {
     launchImageLibrary(
@@ -48,7 +55,7 @@ function Report({navigation}: Props) {
       },
       response => {
         if (response.didCancel) {
-          return; // User canceled the picker
+          return;
         }
         if (response.assets) {
           const selectedAsset = response.assets[0];
@@ -60,7 +67,7 @@ function Report({navigation}: Props) {
             );
             return;
           }
-          setUploadedImage(selectedAsset.fileName || 'Unknown file');
+          dispatch(setUploadedImage(selectedAsset.fileName || 'Unknown file'));
         } else {
           Alert.alert('Error', 'Unable to select image. Please try again.');
         }
@@ -69,7 +76,7 @@ function Report({navigation}: Props) {
   };
 
   const removeUploadedImage = () => {
-    setUploadedImage(null);
+    dispatch(setUploadedImage(null));
   };
 
   return (
@@ -112,7 +119,7 @@ function Report({navigation}: Props) {
                   reportStyles.reasonWrapper,
                   selectedReason === data.reason && reportStyles.reasonSelected,
                 ]}
-                onPress={() => setSelectedReason(data.reason)}>
+                onPress={() => dispatch(setSelectedReason(data.reason))}>
                 <Text style={reportStyles.reasonText}>{data.reason}</Text>
               </TouchableOpacity>
             ))}
@@ -122,7 +129,7 @@ function Report({navigation}: Props) {
               style={reportStyles.textArea}
               placeholder="Provide details..."
               value={customReason}
-              onChangeText={setCustomReason}
+              onChangeText={text => dispatch(setCustomReason(text))}
               multiline
             />
           )}

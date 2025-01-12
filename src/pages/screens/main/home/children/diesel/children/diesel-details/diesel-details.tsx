@@ -9,7 +9,6 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {StackScreenProps} from '@react-navigation/stack';
 import CloseIcon from '../../../../../../../../assets/images/gas/close-icon.svg';
 import Online from '../../../../../../../../assets/images/gas/online.svg';
@@ -21,13 +20,15 @@ import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types
 import gasStyles from '../../../gas/gasStyles';
 import homeStyles from '../../../../home-styles';
 import primaryBtnStyles from '../../../../../../../../components/Button/ButtonStyles';
-import {gas_data} from '../../../../../../../../utils/sample-data/gas';
 import FundWallet from '../../../../../profile/children/wallet/children/fund-wallet/fund-wallet';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../../../utils/redux/store/store';
-import { setShowModal } from '../../../../../../../../utils/redux/slice/gas';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setLitres,
+  setShowModal,
+} from '../../../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
@@ -35,12 +36,10 @@ type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
 function DieselDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'diesel-details'>>();
   const {diesielDetails}: {diesielDetails?: DetailsProps} = route.params || {};
-  console.log('desielDetails: ', diesielDetails);
   const isDarkMode = useColorScheme() === 'dark';
-  const dispatch = useDispatch()
-const {
-  showModal,
-} = useSelector((state: RootState) => state.gas);
+  const dispatch = useDispatch();
+  const {showModal, litres} = useSelector((state: RootState) => state.gas);
+  const dieselPrice = litres === 0 ? 0 : diesielDetails?.price * litres;
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
       <StatusBar
@@ -118,16 +117,26 @@ const {
           </View>
         </View>
         <View style={gasStyles.selectedKgWrapper}>
-            <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
-              1000L
-            </Text>
-          </View>
+          <Text style={[homeStyles.orderType, gasStyles.selectedKg]}>
+            {`${Intl.NumberFormat().format(litres)}L`}
+          </Text>
+        </View>
         <View style={{display: 'flex', alignItems: 'center', width: '100%'}}>
           <DieselPump width={273} height={350} fill="none" />
         </View>
         <View style={gasStyles.gasBottom}>
-          <Text style={gasStyles.heading}>Enter amount</Text>
-          <TextInput style={gasStyles.input} />
+          <Text style={gasStyles.heading}>Enter number of litres</Text>
+          <TextInput
+            placeholder=""
+            value={litres > 0 ? litres.toString() : ''}
+            keyboardType="numeric"
+            style={gasStyles.input}
+            onChangeText={value => {
+              const numericValue = value.replace(/[^0-9]/g, '');
+              dispatch(setLitres(numericValue ? Number(numericValue) : 0));
+            }}
+          />
+
           <View style={gasStyles.noteWrapper}>
             <View
               style={{
@@ -164,7 +173,7 @@ const {
               <View style={gasStyles.btnContent}>
                 <Text style={gasStyles.btnText}>Continue</Text>
                 <Text style={gasStyles.btnText}>
-                  ₦{Intl.NumberFormat().format(Number(diesielDetails?.price))}
+                  ₦{Intl.NumberFormat().format(Number(dieselPrice))}
                 </Text>
               </View>
             </LinearGradient>
