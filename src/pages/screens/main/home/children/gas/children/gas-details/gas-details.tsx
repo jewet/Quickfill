@@ -80,13 +80,13 @@ function GasDetails({navigation}: Props) {
 
   const getCurrentKgWidth = (index: number) => {
     if (index === 0) {
-      return 90;
+      return '35%';
     } else if (index === 1) {
-      return 80;
+      return '40%';
     } else if (index === 2) {
-      return 115;
+      return '45%';
     } else if (index === 3) {
-      return 125;
+      return '50%';
     }
   };
   const getCurrentKgMarginLeft = (index: number) => {
@@ -250,7 +250,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
                     },
                   ]}>
                   <BiggestGas
-                    width={index === selectedIndex ? 200 : getCurrentKgWidth(index)}
+                    width={index === selectedIndex ? '90%' : getCurrentKgWidth(index)}
                     height={index === selectedIndex ? 240 : 150}
                     fill="none"
                     style={{display: 'flex', alignItems: 'center',  marginLeft: index === index ? prevIndexMarginLeft(index, selectedIndex) : index === selectedIndex ? '60%' : '0%', marginRight: index === selectedIndex ? getCurrentKgMarginRight(index) : '60%',}}
