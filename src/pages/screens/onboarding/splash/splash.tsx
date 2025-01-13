@@ -3,6 +3,8 @@ import {
   ActivityIndicator,
   Animated,
   StatusBar,
+  Text,
+  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
@@ -11,6 +13,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import splashStyles, {primaryColor} from './splashstyles';
 import LogoPic from '../../../../assets/images/splash/logo-pic.svg';
 import LogoText from '../../../../assets/images/splash/logo-text.svg';
+import Next from '../../../../assets/images/splash/next.svg';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 import {MMKV} from 'react-native-mmkv';
@@ -63,12 +66,12 @@ function Splash({navigation}: Props) {
       ]),
     ]).start();
 
-    // Navigate to Home after 3 seconds
-    const timeout = setTimeout(() => {
-      navigation.replace('second-onboarding');
-    }, 1500);
+    // // Navigate to Home after 3 seconds
+    // const timeout = setTimeout(() => {
+    //   navigation.replace('second-onboarding');
+    // }, 1500);
 
-    return () => clearTimeout(timeout);
+    // return () => clearTimeout(timeout);
   }, [logoOpacity, logoTranslateY, textOpacity, textTranslateY, navigation]);
 
   useEffect(() => {
@@ -108,9 +111,14 @@ function Splash({navigation}: Props) {
             style={{
               opacity: textOpacity,
               transform: [{translateY: textTranslateY}],
+              alignItems: 'center'
             }}>
             <LogoText width={144} height={32} fill="none" />
+            <Text style={splashStyles.text}>Everything energy in one place</Text>
           </Animated.View>
+            <TouchableOpacity style={splashStyles.nextContainer} onPress={()=>navigation.navigate('second-onboarding')}>
+            <Next width={28} height={28} fill="none" />
+            </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

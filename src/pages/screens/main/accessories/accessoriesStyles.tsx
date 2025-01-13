@@ -3,9 +3,9 @@ import { primaryColor } from "../../onboarding/splash/splashstyles";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
-const scale = (size: number) => (screenWidth / 375) * size; 
-const verticalScale = (size: number) => (screenHeight / 812) * size; 
-const moderateScale = (size: number, factor = 0.5) =>
+export const scale = (size: number) => (screenWidth / 375) * size; 
+export const verticalScale = (size: number) => (screenHeight / 812) * size; 
+export const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
 const height = Dimensions.get('window').height;
@@ -16,7 +16,7 @@ const accessoriesStyles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         display: 'flex',
         alignItems: 'center',
-        width: width,
+        width: '100%',
         height: height
     },
     scrollview: {

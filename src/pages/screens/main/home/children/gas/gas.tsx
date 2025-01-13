@@ -49,13 +49,22 @@ function Gas({navigation}: Props) {
     prevScrollY,
   } = useSelector((state: RootState) => state.gas);
 
+  // const handleScroll = (event: any) => {
+  //   const currentScrollY = event.nativeEvent.contentOffset.y;
+
+  //   if (currentScrollY > prevScrollY && marginTop !== 0) {
+  //     dispatch(setMarginTop(0));
+  //   }
+
+  //   dispatch(setPrevScrollY(currentScrollY));
+  // };
   const handleScroll = (event: any) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
-
+  
     if (currentScrollY > prevScrollY && marginTop !== 0) {
       dispatch(setMarginTop(0));
-    }
-
+    } 
+  
     dispatch(setPrevScrollY(currentScrollY));
   };
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
@@ -208,7 +217,7 @@ function Gas({navigation}: Props) {
                   marginVertical: 20,
                   marginLeft: 16,
                 }}>
-                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))}>
+                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))} style={{marginTop: '2%', marginLeft: '2%'}}>
                   <CloseIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -226,9 +235,11 @@ function Gas({navigation}: Props) {
                     vendorStyles.vendorCont,
                   ]}
                   onPress={() =>
-                    navigation.navigate('gas-details', {
+                    {navigation.navigate('gas-details', {
                       gasDetails: actionDetails?.details && actionDetails?.details[index],
                     })
+                    dispatch(setMarginTop(500))
+                  }
                   }>
                   <View
                     style={[
