@@ -143,8 +143,7 @@ const itemDetailsStyles = StyleSheet.create({
     lineHeight: moderateScale(22), 
   },
   otherIems: {
-    width: 151,
-    height: 250,
+    width: '28%',
     backgroundColor: '#FFFFFF',
     margin: 15,
     borderWidth: 0.5,
@@ -154,6 +153,7 @@ const itemDetailsStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 16,
+    gap: 15
   },
   addToCartBtn: {
     justifyContent: 'center',

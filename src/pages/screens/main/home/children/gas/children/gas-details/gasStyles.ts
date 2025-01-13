@@ -111,7 +111,7 @@ const gasStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     margin: scale(10),
-    width: scale(90),
+    width: '25%',
     padding: scale(10),
     borderRadius: moderateScale(15),
     height: verticalScale(110),

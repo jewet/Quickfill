@@ -7,6 +7,7 @@ interface GasState {
   prevScrollY: string;
   litres: number;
   isSelected: number;
+  selectedIndex: number;
 }
 const initialState: GasState = {
   showModal: false,
@@ -15,6 +16,7 @@ const initialState: GasState = {
   prevScrollY: '',
   litres: 0,
   isSelected: 0,
+  selectedIndex: 0,
 };
 
 const gasSlice = createSlice({
@@ -39,6 +41,9 @@ const gasSlice = createSlice({
     setIsSelected: (state, action: PayloadAction<number>) => {
       state.isSelected = action.payload;
     },
+    setSelectedIndex: (state, action: PayloadAction<number>) => {
+      state.selectedIndex = action.payload;
+    },
   },
 });
 
@@ -49,6 +54,7 @@ export const {
   setPrevScrollY,
   setIsSelected,
   setLitres,
+  setSelectedIndex
 } = gasSlice.actions;
 
 export default gasSlice.reducer;
