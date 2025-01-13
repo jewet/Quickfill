@@ -70,6 +70,7 @@ function ItemsDetails({navigation}: Props) {
           justifyContent: 'center',
           backgroundColor: '#FFFFFF',
           marginTop: 20,
+          paddingBottom: 20
         }}>
         <DisplayImg width={400} height={291} fill="none" />
       </View>

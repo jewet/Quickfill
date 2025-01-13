@@ -137,7 +137,7 @@ function Emailverification({navigation}: Props) {
           topText="Verified!"
           bottomText="Your email verification was successful."
           navigateTo={() => {
-            navigation.navigate('reset-password');
+            navigation.navigate('login');
             setShowModal(false);
           }}
           btnText="Login"

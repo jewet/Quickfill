@@ -186,6 +186,7 @@ const homeStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: scale(28),
     elevation: 10,
+    width: '30%'
   },
   bookmarkWrapper: {
     display: 'flex',
