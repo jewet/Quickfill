@@ -46,9 +46,8 @@ type Props = StackScreenProps<RootStackParamList, 'diesel'>;
 
 function Diesel({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'diesel'>>();
-  const {actionDetails}: {actionDetails?: QuickActionProps} =
-    route.params || {};
-  console.log('actiondetails: ', actionDetails);
+  // const {actionDetails}: {actionDetails?: QuickActionProps} =
+  //   route.params || {};
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
@@ -144,6 +143,7 @@ function Diesel({navigation}: Props) {
               alignItems: 'center',
               gap: 10,
               width: '100%',
+              paddingBottom: 50,
             }}>
             {marginTop === 0 ? (
               <View

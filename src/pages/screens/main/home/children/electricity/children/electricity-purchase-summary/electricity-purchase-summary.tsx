@@ -20,6 +20,7 @@ import electricityPurchaseStyles from './electricityPurchaseSummaryStyles';
 import Button from '../../../../../../../../components/Button/Button';
 import paymentResultStyles from '../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import ElectricityPayment from '../payment/payment';
+import { profile_data } from '../../../../../../../../utils/sample-data/profile';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -39,6 +40,9 @@ function ElectricityPurchaseSummary({navigation}: Props) {
       case 'transfer':
         navigation.navigate('transfer', {amount: Number(amount), directory: 'electricity'});
         break; 
+      case 'card':
+        navigation.navigate('card', {amount: Number(amount), directory: 'electricity'});
+        break;
       case 'wallet':
         navigation.navigate('payment-result', {result: 'successful', directory: 'electricity'});
         break;
@@ -50,6 +54,8 @@ function ElectricityPurchaseSummary({navigation}: Props) {
         break;
     }
   };
+    const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
+  
   return (
     <SafeAreaView
       style={[electricityStyles.electricityContainer, {position: 'relative'}]}>
@@ -110,6 +116,7 @@ function ElectricityPurchaseSummary({navigation}: Props) {
         <ElectricityPayment
           action={() => setShowPaymentModal(false)}
           navigateTo={navigateToPaymentResult}
+          wallet_bal={Number(wallet?.profile?.bal)}
         />
       )}
     </SafeAreaView>

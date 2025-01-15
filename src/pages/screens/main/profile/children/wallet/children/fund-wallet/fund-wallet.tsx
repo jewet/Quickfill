@@ -34,16 +34,16 @@ function FundWallet({action, navigation}: Props) {
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.navigate('transfer', {amount: amount});
+        navigation.replace('transfer', {amount: amount});
         break;
       case 'card':
-        navigation.navigate('card', {amount: amount});
+        navigation.replace('card', {amount: amount});
         break;
-      case 'wallet':
-        navigation.navigate('payment-result', {result: 'successful'});
-        break;
+      // case 'wallet':
+      //   navigation.replace('payment-result', {result: 'successful'});
+      //   break;
       case 'flutterwave':
-        navigation.navigate('payment-result', {result: 'unsuccessful'});
+        navigation.replace('payment-result', {result: 'unsuccessful'});
         break;
       default:
         console.warn('Navigation route not defined for this item.');
@@ -71,6 +71,7 @@ function FundWallet({action, navigation}: Props) {
     }
     const selectedPaymentType = payment_type[isSelected].type;
     navigateToPaymentResult(selectedPaymentType);
+    action()
   };
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
   return (
@@ -133,33 +134,14 @@ function FundWallet({action, navigation}: Props) {
             },
           ]}>
           {payment_type.map((data, index) => (
+            <View key={index}>
+            {data.type.toLowerCase() !== 'wallet' && (
             <TouchableOpacity
-              key={index}
               style={electricityProviderStyles.electricityData}
               onPress={() => dispatch(setIsSelected(index))}>
               <data.icon width={24} height={24} fill="none" />
               <View style={electricityProviderStyles.electricityTextWrapper}>
-                {isSelected === index &&
-                data.type.toLowerCase() === 'wallet' ? (
-                  <View>
-                    <Text
-                      style={[
-                        electricityProviderStyles.electricityText,
-                        {fontWeight: 600},
-                      ]}>
-                      Pay with {data.type}
-                    </Text>
-                    <Text style={fundWalletStyles.walbal}>
-                      Wallet balance:{' '}
-                      <Text style={fundWalletStyles.bold}>
-                        ₦
-                        {Intl.NumberFormat().format(
-                          Number(wallet?.profile?.bal),
-                        ) || 0}
-                      </Text>
-                    </Text>
-                  </View>
-                ) : (
+              
                   <Text
                     style={[
                       electricityProviderStyles.electricityText,
@@ -167,14 +149,14 @@ function FundWallet({action, navigation}: Props) {
                     ]}>
                     Pay with {data.type}
                   </Text>
-                )}
               </View>
               {isSelected === index ? (
                 <SelectedIcon width={24} height={24} fill="none" />
               ) : (
                 <UnSelectedIcon width={24} height={24} fill="none" />
               )}
-            </TouchableOpacity>
+            </TouchableOpacity>)}
+            </View>
           ))}
         </View>
         <View style={{width: '100%', paddingHorizontal: 20}}>

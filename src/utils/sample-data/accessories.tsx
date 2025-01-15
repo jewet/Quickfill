@@ -59,101 +59,118 @@ export const accessories_data: AccessoriesProps[] = [
 ];
 
 export interface ItemsProps {
-  img: any;
+  img: string;
   item: any;
-  addToCart: any;
+  addToCart: string;
   no_of_orders: number;
 }
 
+export const itemsImageMap: Record<string, React.ComponentType<any>> = {
+  ItemOne,
+  ItemTwo,
+  ItemThree,
+  ItemFour,
+  ItemFive,
+  ItemSix,
+  ItemSeven,
+  ItemEight,
+  ItemNine,
+  ItemTen,
+};
+export const addToCartImageMap: Record<string, React.ComponentType<any>> = {
+  AddToCartOne,
+  AddToCartTwo,
+};
+
 export const items_data: ItemsProps[] = [
   {
-    img: ItemOne,
+    img: 'ItemOne',
     item: {
       name: 'Bosch (Medium, All-Purpose Burner)',
       spec: 'Our handcrafted bouquets are perfect for any occasion. Choose from a variety of stunning arrangements featuring vibrant blooms expertly put together by our florists.',
       price: 45000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 300,
   },
   {
-    img: ItemTwo,
+    img: 'ItemTwo',
     item: {
       name: 'Whirlpool (Small, Simmer Burner)',
       spec: 'Durable gas burner with a sleek design and eas ...',
       price: 38000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 50,
   },
   {
-    img: ItemThree,
+    img: 'ItemThree',
     item: {
       name: 'LG (Large, Power Burner)',
       spec: 'Multi-purpose gas burner with rapid heating ....',
       price: 50000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 89,
   },
   {
-    img: ItemFour,
+    img: 'ItemFour',
     item: {
       name: 'Samsung (Medium, Dual-Ring Burner)',
       spec: 'Advanced gas burner with safety features and ...',
       price: 45000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 200,
   },
   {
-    img: ItemFive,
+    img: 'ItemFive',
     item: {
       name: 'Kenmore (Medium, All-Purpose Burner)',
       spec: 'Reliable gas burner with adjustable flame settings.',
-      price: '',
+      price: 50000,
     },
-    addToCart: AddToCartTwo,
+    addToCart: 'AddToCartTwo',
     no_of_orders: 437,
   },
   {
-    img: ItemSix,
+    img: 'ItemSix',
     item: {
       name: 'Electrolux (Medium, Oval Burner)',
       spec: 'Energy-efficient gas burner with a modern ...',
       price: 50000,
     },
-    addToCart: AddToCartTwo,
+    addToCart: 'AddToCartTwo',
     no_of_orders: 221,
   },
   {
-    img: ItemSeven,
+    img: 'ItemSeven',
     item: {
       name: 'Electrolux',
       spec: 'Advanced electric gas burner with safety features and ...',
       price: 48000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 234,
   },
   {
-    img: ItemNine,
+    img: 'ItemNine',
     item: {
       name: 'Regulator set',
       spec: 'Energy-efficient gas burner with a modern ...',
       price: 8000,
     },
-    addToCart: AddToCartOne,
+    addToCart: 'AddToCartOne',
     no_of_orders: 25,
   },
   {
-    img: ItemTen,
+    img: 'ItemTen',
     item: {
       name: 'Orchids',
       spec: 'Energy-efficient orchids with a modern ...',
       price: 16500,
     },
-    addToCart: AddToCartTwo,
+    addToCart: 'AddToCartTwo',
     no_of_orders: 15,
   },
 ];

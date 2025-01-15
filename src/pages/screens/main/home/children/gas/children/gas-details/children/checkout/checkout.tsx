@@ -1,6 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {useState} from 'react';
 import {
+  Alert,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -45,13 +46,19 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../../../utils/redux/store/store';
 import {setIsSelected} from '../../../../../../../../../../utils/redux/slice/gas';
 import fundWalletStyles from '../../../../../../../profile/children/wallet/children/fund-wallet/fundWalletStyles';
+import {
+  DetailsProps,
+  quick_action_data,
+  QuickActionProps,
+} from '../../../../../../../../../../utils/sample-data/home';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
-  const {gasDetails, selectedCylinder} = route.params;
+  const {gasDetails, selectedCylinder, directory, dieselPrice, litres} =
+    route.params;
 
   const dispatch = useDispatch();
   const {isSelected} = useSelector((state: RootState) => state.gas);
@@ -67,41 +74,63 @@ function GasCheckout({navigation}: Props) {
 
   const phoneNumber = personalDetails?.phone_number;
 
-  const navigateToPaymentResult = (paymentType: string) => {
+  const item_amt = litres
+    ? Number(Number(dieselPrice))
+    : Number(selectedCylinder?.amount);
+  const delivery_fee = Number(gasDetails?.delivery_fee);
+  const total = item_amt + delivery_fee;
+
+  const navigateToPaymentResult = (paymentType: string, data: DetailsProps) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.navigate('transfer', {amount: 20000});
-        break;
-      case '**** 4729':
-        navigation.navigate('card', {amount: 20000});
-        break;
-      case 'wallet':
-        navigation.navigate('payment-result', {result: 'successful'});
-        break;
-      case 'delivery':
-        navigation.navigate('gas-order-details', {
-          gasDetails: gasDetails,
+        navigation.replace('transfer', {
+          amount: total,
+          directory: 'gas-checkout',
+          orderDetails: data,
           selectedCylinder: selectedCylinder,
+          dieselPrice: dieselPrice,
+          litres: litres,
         });
         break;
+      case 'delivery':
+        navigation.replace('gas-order-details', {
+          gasDetails: data,
+          selectedCylinder: selectedCylinder,
+          dieselPrice: dieselPrice,
+          litres: litres,
+        });
+        break;
+      case 'wallet':
+        navigation.replace('payment-result', {
+          result: 'successful',
+          directory: 'gas-checkout',
+          orderDetails: data,
+          selectedCylinder: selectedCylinder,
+          dieselPrice: dieselPrice,
+          litres: litres,
+        });
+        break;
+      // case 'delivery':
+      //   navigation.navigate('gas-order-details', {
+      //     gasDetails: gasDetails,
+      //     selectedCylinder: selectedCylinder,
+      //   });
+      //   break;
       default:
         console.warn('Navigation route not defined for this item.');
         break;
     }
   };
 
-  const handleContinue = () => {
+  const handleContinue = (data: QuickActionProps) => {
     if (isSelected === null) {
-      console.log('No payment type selected');
+      Alert.alert('No payment type selected');
       return;
     }
     const selectedPaymentType = payment_opt[isSelected].type;
-    navigateToPaymentResult(selectedPaymentType);
+    navigateToPaymentResult(selectedPaymentType, gasDetails);
   };
 
-  const item_amt = Number(selectedCylinder?.amount);
-  const delivery_fee = Number(gasDetails?.delivery_fee);
-  const total = item_amt + delivery_fee;
 
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
@@ -127,7 +156,10 @@ function GasCheckout({navigation}: Props) {
               electricityPaymentStyles.topText,
               {color: '#919191', marginTop: -5},
             ]}>
-            {selectedCylinder?.kg}kg Gas Refill
+            {directory?.toLowerCase() === 'gas'
+              ? `${selectedCylinder?.kg}kg Gas `
+              : `${litres} Litres `}
+            Refill
           </Text>
         </View>
 
@@ -179,37 +211,13 @@ function GasCheckout({navigation}: Props) {
           </TouchableOpacity>
         </View>
         <Text style={checkoutStyles.paymentText}>Payment</Text>
-        <TouchableOpacity
-          style={[
-            orderDetailsStyles.flexContainer,
-            {
-              alignItems: 'center',
-              backgroundColor: '#FFFFFF',
-              borderBottomWidth: 0.5,
-              borderColor: '#2C2C2C',
-              padding: 16,
-              marginTop: 20,
-            },
-          ]}>
-          <TouchableOpacity>
-            <PlusIcon width={24} height={24} fill="none" />
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: '#2C2C2C',
-              fontWeight: 700,
-              fontSize: 14,
-            }}>
-            Add bank card
-          </Text>
-        </TouchableOpacity>
         <View
           style={[
             electricityProviderStyles.electricityDataWrapper,
             {
               backgroundColor: '#F7F6F2',
               borderRadius: 0,
-              paddingHorizontal: 16,
+              gap: 0,
             },
           ]}>
           {payment_opt.map((data, index) => (
@@ -219,8 +227,10 @@ function GasCheckout({navigation}: Props) {
                 electricityProviderStyles.electricityData,
                 {
                   borderBottomWidth: 1,
+                  borderTopWidth: 1,
                   borderColor: '#FFFFFF',
-                  paddingVertical: 10,
+                  paddingVertical: 15,
+                  paddingHorizontal: 10,
                 },
               ]}
               onPress={() => dispatch(setIsSelected(index))}>
@@ -253,7 +263,10 @@ function GasCheckout({navigation}: Props) {
                         electricityProviderStyles.electricityText,
                         {fontWeight: 600},
                       ]}>
-                      {index !== 0 && 'Pay with '} {data.type}
+                      {data.type.toLowerCase() !== 'delivery'
+                        ? 'Pay with '
+                        : 'Pay on'}{' '}
+                      {data.type}
                     </Text>
                   )}
                 </View>
@@ -284,7 +297,7 @@ function GasCheckout({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(Number(selectedCylinder?.amount))}
+              ₦{Intl.NumberFormat().format(Number(item_amt))}
             </Text>
           </View>
           <View
@@ -318,7 +331,10 @@ function GasCheckout({navigation}: Props) {
             </Text>
           </View>
           <View style={{marginTop: 10, paddingHorizontal: 16, width: '100%'}}>
-            <Button text="Complete order" action={handleContinue} />
+            <Button
+              text="Complete order"
+              action={() => handleContinue(quick_action_data[isSelected])}
+            />
           </View>
         </View>
       </ScrollView>

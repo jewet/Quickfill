@@ -32,10 +32,10 @@ export const payment_type: PaymentProps[] = [
 
 
 export const payment_opt: PaymentProps[] = [
-    {
-        icon: MasterCard,
-        type: '**** 4729'
-    },
+    // {
+    //     icon: MasterCard,
+    //     type: '**** 4729'
+    // },
     {
         icon: TransferIcon,
         type: 'transfer'

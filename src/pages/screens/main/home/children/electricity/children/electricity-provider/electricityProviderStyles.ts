@@ -40,11 +40,11 @@ const electricityProviderStyles = StyleSheet.create({
   electricityDataWrapper: {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: 20,
+    gap: 10,
     backgroundColor: '#FFFFFF',
     width: '100%',
     borderRadius: 20,
-    padding: 10
+    padding: 10,
   },
   electricityData:{
     display: 'flex',
@@ -52,7 +52,7 @@ const electricityProviderStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingVertical: verticalScale(15)
+    paddingVertical: verticalScale(10)
   },
   electricityTextWrapper:{
     display: 'flex',

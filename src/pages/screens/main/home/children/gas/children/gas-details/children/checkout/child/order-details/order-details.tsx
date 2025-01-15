@@ -36,23 +36,26 @@ import BlankProgressBar from '../../../../../../../../../../../../assets/images/
 import { RootState } from '../../../../../../../../../../../../utils/redux/store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowModal, setShowOrderDetails } from '../../../../../../../../../../../../utils/redux/slice/gas';
+import paymentResultStyles from '../../../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 
 function GasOrderDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
-  const {gasDetails, selectedCylinder} = route.params;
+  const {gasDetails, selectedCylinder, dieselPrice, litres} = route.params;
   const dispatch = useDispatch();
   const {showOrderDetails, showModal} = useSelector((state: RootState) => state.gas);
 
-  const item_amt = Number(selectedCylinder?.amount);
+  const item_amt = dieselPrice ? Number(dieselPrice): Number(selectedCylinder?.amount);
   const delivery_fee = Number(gasDetails?.delivery_fee);
   const total = item_amt + delivery_fee;
 
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
+
+  
 
 
   return (
@@ -70,7 +73,7 @@ function GasOrderDetails({navigation}: Props) {
             paddingHorizontal: 20,
           },
         ]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.replace('home')}>
           <BackArrow width={26} height={26} fill="none" />
         </TouchableOpacity>
         <Text style={electricityStyles.topText}>
@@ -102,7 +105,7 @@ function GasOrderDetails({navigation}: Props) {
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
-                onPress={() => setShowModal(true)}>
+                onPress={() => dispatch(setShowModal(true))}>
                 <Text
                   style={[
                     homeStyles.title,
@@ -157,15 +160,29 @@ function GasOrderDetails({navigation}: Props) {
                 </Text>
                 <View>
                   <View style={orderDetailsStyles.orderType}>
-                    <Text style={homeStyles.details}>
-                      {`${selectedCylinder?.kg}kg Gas Refill` || 'No item'}
-                    </Text>
-                    <Text style={homeStyles.details}>
-                      {' '}
-                      ₦
-                      {Intl.NumberFormat().format(selectedCylinder?.amount) ||
-                        'No price'}
-                    </Text>
+                    {litres ? (
+                      <>
+                      <Text style={homeStyles.details}>
+                        {`${litres} Litres Refill` || 'No item'}
+                      </Text>
+                      <Text style={homeStyles.details}>
+                        {' '}
+                        ₦
+                        {Intl.NumberFormat().format(Number(dieselPrice)) ||
+                          'No price'}
+                      </Text></>
+                    )
+                  :
+                  <>
+                  <Text style={homeStyles.details}>
+                    {`${selectedCylinder?.kg}kg Gas Refill` || 'No item'}
+                  </Text>
+                  <Text style={homeStyles.details}>
+                    {' '}
+                    ₦
+                    {Intl.NumberFormat().format(selectedCylinder?.amount) ||
+                      'No price'}
+                  </Text></>}
                   </View>
                 </View>
               </View>
@@ -286,6 +303,13 @@ function GasOrderDetails({navigation}: Props) {
                 ₦{Intl.NumberFormat().format(total)}
               </Text>
             </View>
+        <TouchableOpacity
+                  style={paymentResultStyles.btnWrapper}
+                  onPress={() =>
+                    navigation.replace('home')
+                  }>
+                  <Text style={paymentResultStyles.btnText}>Back to dashboard</Text>
+                </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -300,7 +324,7 @@ function GasOrderDetails({navigation}: Props) {
           timeline_data={gasDetails?.delivery_timeline}
           navigateToDeliveryTracking={() => {
             dispatch(setShowModal(false));
-            // navigation.navigate('delivery', {orderDetails: gasDetails});
+            navigation.navigate('delivery', {orderDetails: gasDetails});
           }}
         />
       )}

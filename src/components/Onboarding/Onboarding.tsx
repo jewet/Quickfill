@@ -1,5 +1,5 @@
 import React from 'react';
-import {StatusBar, Text, useColorScheme, View} from 'react-native';
+import {StatusBar, Text, TouchableOpacity, useColorScheme, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import onboardingStyles from './OnboardingStyles';
@@ -11,9 +11,10 @@ interface Props {
   lightText: string;
   navigateTo: () => void;
   bgColor: string;
+  last: boolean,
 }
 
-function Onboarding({img, boldText, lightText, navigateTo, bgColor}: Props) {
+function Onboarding({img, boldText, lightText, navigateTo, bgColor, last}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
@@ -30,6 +31,13 @@ function Onboarding({img, boldText, lightText, navigateTo, bgColor}: Props) {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <View style={onboardingStyles.onboardingContent}>
+        {last !== true && (
+          <View style={onboardingStyles.skipWrapper}>
+            <TouchableOpacity onPress={navigateTo}>
+              <Text style={onboardingStyles.skipText}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {img}
         <View style={onboardingStyles.textContainer}>
           <Text style={onboardingStyles.boldText}>{boldText}</Text>

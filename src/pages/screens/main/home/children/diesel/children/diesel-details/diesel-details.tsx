@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Alert,
   ScrollView,
   StatusBar,
   Text,
@@ -40,6 +41,18 @@ function DieselDetails({navigation}: Props) {
   const dispatch = useDispatch();
   const {showModal, litres} = useSelector((state: RootState) => state.gas);
   const dieselPrice = litres === 0 ? 0 : diesielDetails?.price * litres;
+  const navigateToCheckout = () => {
+    if (litres <= 0) {
+      Alert.alert('Please enter number of litres');
+    } else {
+      navigation.navigate('gas-checkout', {
+        gasDetails: diesielDetails,
+        directory: 'diesel',
+        dieselPrice: dieselPrice,
+        litres: litres,
+      });
+    }
+  };
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
       <StatusBar
@@ -157,7 +170,7 @@ function DieselDetails({navigation}: Props) {
           </View>
           <TouchableOpacity
             style={primaryBtnStyles.btnContainer}
-            onPress={() => dispatch(setShowModal(true))}>
+            onPress={navigateToCheckout}>
             <LinearGradient
               colors={['#FFB600', '#FFD366']}
               start={{x: 0, y: 0}}

@@ -9,6 +9,7 @@ type Props = StackScreenProps<RootStackParamList, 'sixth-onboarding'>;
 
 function SixthOnboarding({navigation}: Props) {
   const {width, height} = Dimensions.get('window');
+  const last = true;
   return (
     <Onboarding
       img={
@@ -16,8 +17,9 @@ function SixthOnboarding({navigation}: Props) {
       }
       boldText="Track Your Order"
       lightText="Keep track of your order every step of the way. We’ll provide real-time information so you can know exactly when your order will arrive, and if there are any changes along the way, we’ll keep you informed. Your convenience and peace of mind are our priority."
-      navigateTo={() => navigation.navigate('login')}
+      navigateTo={() => navigation.replace('login')}
       bgColor="#FFECBE"
+      last={true}
     />
   );
 }
