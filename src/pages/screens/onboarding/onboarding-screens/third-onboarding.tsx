@@ -16,8 +16,9 @@ function ThirdOnboarding({navigation}: Props) {
       }
       boldText="Your Source for All Things Energy"
       lightText="Quickrefil revolutionizes the way you access gas, petroleum, diesel, and electricity. With our user-friendly app, ensure a continuous supply of energy and experience unparalleled convenience. Never face an outage again."
-      navigateTo={() => navigation.navigate('fourth-onboarding')}
+      navigateTo={() => navigation.replace('fourth-onboarding')}
       bgColor="#F7F6F2"
+      last={false}
     />
   );
 }

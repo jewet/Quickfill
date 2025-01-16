@@ -17,6 +17,9 @@ import SendIcon from '../../assets/images/orders/send.svg';
 import {countries} from '../../utils/sample-data/input';
 import { ScrollView } from 'react-native-gesture-handler';
 import electricityHistoryStyles from '../../pages/screens/main/home/children/electricity/children/electricity-history/electricityHistoryStyles';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../utils/redux/store/store';
+import { setError, setSearchQuery, setSelectedCountry, setShowDropdown, setShowPassword } from '../../utils/redux/slice/auth';
 
 interface Props {
   label: string;
@@ -43,14 +46,21 @@ function Input({
   validate,
   password, // Optional: used for confirm-password validation
 }: Props) {
-  const [showPassword, setShowPassword] = useState(!secured);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState(
-    countries.find(c => c.country === 'Nigeria') || countries[0]
-  );
+  // const [showPassword, setShowPassword] = useState(!secured);
+  // const [error, setError] = useState<string | null>(null);
+  // const [selectedCountry, setSelectedCountry] = useState(
+  //   countries.find(c => c.country === 'Nigeria') || countries[0]
+  // );
   
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [showDropdown, setShowDropdown] = useState(false);
+  // const [searchQuery, setSearchQuery] = useState('');
+
+
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {error, selectedCountry, showDropdown, searchQuery, showPassword} = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   // Filtered countries based on search input
   const filteredCountries = countries.filter(country =>
@@ -65,28 +75,28 @@ function Input({
   const validateInput = (text: string) => {
     if (validate?.toLowerCase() === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      setError(!emailRegex.test(text) ? 'Invalid email address' : null);
+      dispatch(setError(!emailRegex.test(text) ? 'Invalid email address' : null));
     } else if (validate?.toLowerCase() === 'phone') {
       const phoneRegex = /^[0-9]{10,15}$/;
-      setError(!phoneRegex.test(text) ? 'Invalid phone number' : null);
+      dispatch(setError(!phoneRegex.test(text) ? 'Invalid phone number' : null));
     } else if (validate?.toLowerCase() === 'name') {
-      setError(text.length < 2 ? 'Name must be at least 2 characters' : null);
+      dispatch(setError(text.length < 2 ? 'Name must be at least 2 characters' : null));
     } else if (validate?.toLowerCase() === 'password') {
-      setError(
+      dispatch(setError(
         !passwordRegex.test(text)
           ? 'Password must be at least 8 characters, include a number, letter & special character'
           : null,
-      );
+      ));
     } else if (validate?.toLowerCase() === 'confirm-password') {
-      setError(password && text !== password ? 'Passwords do not match' : null);
+      dispatch(setError(password && text !== password ? 'Passwords do not match' : null));
     } else if (validate?.toLowerCase() === 'phone') {
       const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
-      setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null);
+      dispatch(setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null));
     } else if (validate?.toLowerCase() === 'meter-number') {
       const meterRegex = /^[0-9]{1,10}$/;
-      setError(
+      dispatch(setError(
         !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
-      );
+      ));
     }
   };
 
@@ -108,7 +118,7 @@ function Input({
                 validateInput(text);
               }}
             />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <TouchableOpacity onPress={() => dispatch(setShowPassword(!showPassword))}>
               {directory?.toLowerCase() === 'confirm' ? (
                 <ConfirmEye width={20} height={20} fill="none" />
               ) : (
@@ -168,7 +178,7 @@ function Input({
             {/* Country Code Selection */}
             <TouchableOpacity
               style={inputStyles.countryPicker}
-              onPress={() => setShowDropdown(!showDropdown)}>
+              onPress={() => dispatch(setShowDropdown(!showDropdown))}>
               <Text style={inputStyles.flag}>{selectedCountry.flag}</Text>
               <Dropdown width={12} height={12} fill="none" />
             </TouchableOpacity>
@@ -199,7 +209,7 @@ function Input({
                   placeholder="Search country code"
                   style={inputStyles.phoneInput}
                   value={searchQuery}
-                  onChangeText={setSearchQuery}
+                  onChangeText={text=>dispatch(setSearchQuery(text))}
                   autoFocus={true}
                 />
               </View>
@@ -213,8 +223,8 @@ function Input({
                     key={index}
                     style={inputStyles.countries}
                     onPress={() => {
-                      setSelectedCountry(country);
-                      setShowDropdown(false);
+                      dispatch(setSelectedCountry(country));
+                      dispatch(setShowDropdown(false));
                       Keyboard.dismiss();
                     }}>
                     <View style={inputStyles.countriesLeft}>

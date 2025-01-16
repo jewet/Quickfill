@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -15,13 +15,17 @@ import authStyles from './styles/authStyles';
 import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../utils/redux/store/store';
+import {setEmail, setPassword} from '../../../utils/redux/slice/auth';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {email, password} = useSelector((state: RootState) => state.auth);
 
   return (
     <SafeAreaView style={authStyles.authContainer}>
@@ -46,9 +50,9 @@ function Login({navigation}: Props) {
             secured={false}
             directory={null}
             keyboardType="default"
-            validate="email"
             action={() => console.log('Action triggered')}
-            onChange={text => setEmail(text)}
+            validate="email"
+            onChange={text => dispatch(setEmail(text))}
           />
           <Input
             label="Passsword"
@@ -58,7 +62,8 @@ function Login({navigation}: Props) {
             directory={'login-password'}
             keyboardType="default"
             action={() => navigation.navigate('forgot-password')}
-            onChange={text => setPassword(text)}
+            onChange={text => dispatch(setPassword(text))}
+            validate="password"
           />
           <View style={{marginTop: 10, width: '100%'}}>
             <Button text="Login" action={() => navigation.navigate('home')} />

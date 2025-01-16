@@ -22,13 +22,22 @@ import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment
 import {profile_data} from '../../../../../../../../../../utils/sample-data/profile';
 import Clipboard from '@react-native-clipboard/clipboard';
 import Header from '../../../../../../../../../../components/Electricity/Header/Header';
+import Button from '../../../../../../../../../../components/Button/Button';
+import Navigation from '../../../../../../../../../../navigation';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'payment-result'>;
 
 function PaymentResult({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'payment-result'>>();
-  const {result, directory} = route.params;
+  const {
+    result,
+    directory,
+    orderDetails,
+    selectedCylinder,
+    dieselPrice,
+    litres,
+  } = route.params;
 
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
@@ -88,13 +97,43 @@ function PaymentResult({navigation}: Props) {
                 </TouchableOpacity>
               </>
             )}
-            <TouchableOpacity
-              style={paymentResultStyles.btnWrapper}
-              onPress={() =>
-                navigation.navigate('user-wallet', {profileDetails: wallet})
-              }>
-              <Text style={paymentResultStyles.btnText}>Next</Text>
-            </TouchableOpacity>
+            {directory?.toLowerCase() === 'gas-checkout' ? (
+              <>
+                <Button
+                  text="Next"
+                  action={() =>
+                    navigation.replace('gas-order-details', {
+                      gasDetails: orderDetails,
+                      selectedCylinder: selectedCylinder,
+                      dieselPrice: dieselPrice,
+                      litres: litres,
+                      directory: directory,
+                    })
+                  }
+                />
+
+                <TouchableOpacity
+                  style={paymentResultStyles.btnWrapper}
+                  onPress={() => navigation.replace('home')}>
+                  <Text style={paymentResultStyles.btnText}>
+                    Go to dashboard
+                  </Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <TouchableOpacity
+                style={paymentResultStyles.btnWrapper}
+                onPress={() => {
+                  if (directory?.toLowerCase() === 'electricity' || 'cart') {
+                    navigation.replace('home');
+                  } else {
+                    // navigation.navigate('home')
+                    navigation.replace('user-wallet', {profileDetails: wallet});
+                  }
+                }}>
+                <Text style={paymentResultStyles.btnText}>Next</Text>
+              </TouchableOpacity>
+            )}
           </View>
         ) : (
           <View style={paymentResultStyles.paymentResultContainer}>

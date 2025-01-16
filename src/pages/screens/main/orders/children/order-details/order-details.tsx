@@ -241,7 +241,8 @@ function OrderDetails({navigation}: Props) {
                     backgroundColor: primaryColor,
                     paddingHorizontal: 15,
                     borderRadius: 30,
-                    paddingVertical: 10,
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   },
                 ]}>
                 <Text

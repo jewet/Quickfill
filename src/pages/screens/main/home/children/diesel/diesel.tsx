@@ -33,38 +33,39 @@ import {
 } from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../utils/redux/store/store';
-import { setMarginTop, setPrevScrollY, setShowModal } from '../../../../../../utils/redux/slice/gas';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {
+  setMarginTop,
+  setPrevScrollY,
+  setShowModal,
+} from '../../../../../../utils/redux/slice/gas';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel'>;
 
 function Diesel({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'diesel'>>();
-  const {actionDetails}: {actionDetails?: QuickActionProps} =
-    route.params || {};
-  console.log('actiondetails: ', actionDetails);
+  // const {actionDetails}: {actionDetails?: QuickActionProps} =
+  //   route.params || {};
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
-  const dispatch = useDispatch()
-const {
-  showModal,
-  marginTop,
-  prevScrollY,
-} = useSelector((state: RootState) => state.gas);
+  const dispatch = useDispatch();
+  const {showModal, marginTop, prevScrollY} = useSelector(
+    (state: RootState) => state.gas,
+  );
 
-const handleScroll = (event: any) => {
-  const currentScrollY = event.nativeEvent.contentOffset.y;
+  const handleScroll = (event: any) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
 
-  if (currentScrollY > prevScrollY && marginTop !== 0) {
-    dispatch(setMarginTop(0));
-  }
+    if (currentScrollY > prevScrollY && marginTop !== 0) {
+      dispatch(setMarginTop(0));
+    }
 
-  dispatch(setPrevScrollY(currentScrollY));
-};
+    dispatch(setPrevScrollY(currentScrollY));
+  };
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
   const margin_left = Platform.OS === 'ios' ? '-12%' : 0;
   const border_radius = Platform.OS === 'ios' ? 80 : 50;
@@ -76,7 +77,7 @@ const handleScroll = (event: any) => {
         backgroundColor={'#FAFAFA'}
       />
       <View>
-        <Map width={width} height={1022} />
+        <Map width={width} height={height} />
         <View style={dieselStyles.mapTop}>
           <View style={[homeStyles.detailsContent, dieselStyles.address]}>
             <View style={{width: '90%'}}>
@@ -142,6 +143,7 @@ const handleScroll = (event: any) => {
               alignItems: 'center',
               gap: 10,
               width: '100%',
+              paddingBottom: 50,
             }}>
             {marginTop === 0 ? (
               <View
@@ -151,7 +153,9 @@ const handleScroll = (event: any) => {
                   marginVertical: 20,
                   marginLeft: 16,
                 }}>
-                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))}>
+                <TouchableOpacity
+                  onPress={() => dispatch(setMarginTop(500))}
+                  style={{marginTop: '2%', marginLeft: '2%'}}>
                   <CloseIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -161,67 +165,71 @@ const handleScroll = (event: any) => {
               </TouchableOpacity>
             )}
             <View style={{width: '100%'}}>
-              {quick_action_data[2]?.details && quick_action_data[2]?.details?.map(
-                (data: any, index: number) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      orderDetailsStyles.flexContainer,
-                      vendorStyles.vendorCont,
-                    ]}
-                    onPress={() => {
-                      const details = quick_action_data[2]?.details?.[index];
-                      if (details) {
-                        navigation.navigate('diesel-details', { diesielDetails: details });
-                      }
-                    }}>
-                    <View
+              {quick_action_data[2]?.details &&
+                quick_action_data[2]?.details?.map(
+                  (data: any, index: number) => (
+                    <TouchableOpacity
+                      key={index}
                       style={[
                         orderDetailsStyles.flexContainer,
-                        {width: 'auto', alignItems: 'center'},
-                      ]}>
-                      <data.img width={64} height={64} fill="none" />
-                      <View>
+                        vendorStyles.vendorCont,
+                      ]}
+                      onPress={() => {
+                        const details = quick_action_data[2]?.details?.[index];
+                        if (details) {
+                          navigation.navigate('diesel-details', {
+                            diesielDetails: details,
+                          });
+                          dispatch(setMarginTop(500));
+                        }
+                      }}>
+                      <View
+                        style={[
+                          orderDetailsStyles.flexContainer,
+                          {width: 'auto', alignItems: 'center'},
+                        ]}>
+                        <data.img width={64} height={64} fill="none" />
+                        <View>
+                          <View
+                            style={[
+                              orderDetailsStyles.flexContainer,
+                              {width: 'auto', gap: 3},
+                            ]}>
+                            <Text style={vendorStyles.status}>
+                              Status - {data.status || 'Unknown'}
+                            </Text>
+                            {data.status?.toString().toLowerCase() ===
+                            'online' ? (
+                              <Online width={7} height={7} fill="none" />
+                            ) : (
+                              <Offline width={7} height={7} fill="none" />
+                            )}
+                          </View>
+                          <Text style={vendorStyles.name}>{data.name}</Text>
+                          <Text style={vendorStyles.time}>
+                            Estimated delivery time: {data.delivery_time}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Text style={vendorStyles.time}>Price per kg</Text>
+                        <Text style={vendorStyles.name}>
+                          ₦{Intl.NumberFormat().format(data.price)}
+                        </Text>
                         <View
                           style={[
                             orderDetailsStyles.flexContainer,
                             {width: 'auto', gap: 3},
                           ]}>
-                          <Text style={vendorStyles.status}>
-                            Status - {data.status || 'Unknown'}
+                          <Star width={12} height={12} fill="none" />
+                          <Text style={[vendorStyles.name, {fontSize: 12}]}>
+                            {data.rating}
                           </Text>
-                          {data.status?.toString().toLowerCase() ===
-                          'online' ? (
-                            <Online width={7} height={7} fill="none" />
-                          ) : (
-                            <Offline width={7} height={7} fill="none" />
-                          )}
                         </View>
-                        <Text style={vendorStyles.name}>{data.name}</Text>
-                        <Text style={vendorStyles.time}>
-                          Estimated delivery time: {data.delivery_time}
-                        </Text>
                       </View>
-                    </View>
-                    <View style={{display: 'flex', alignItems: 'flex-end'}}>
-                      <Text style={vendorStyles.time}>Price per kg</Text>
-                      <Text style={vendorStyles.name}>
-                        ₦{Intl.NumberFormat().format(data.price)}
-                      </Text>
-                      <View
-                        style={[
-                          orderDetailsStyles.flexContainer,
-                          {width: 'auto', gap: 3},
-                        ]}>
-                        <Star width={12} height={12} fill="none" />
-                        <Text style={[vendorStyles.name, {fontSize: 12}]}>
-                          {data.rating}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                ),
-              )}
+                    </TouchableOpacity>
+                  ),
+                )}
             </View>
           </View>
         </ScrollView>

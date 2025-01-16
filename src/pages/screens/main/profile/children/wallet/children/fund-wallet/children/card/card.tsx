@@ -30,7 +30,7 @@ type Props = StackScreenProps<RootStackParamList, 'card'>;
 
 function Card({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'card'>>();
-  const {amount} = route.params;
+  const {amount, directory} = route.params;
 
   // Redux state selectors
   const dispatch = useDispatch();
@@ -124,7 +124,7 @@ function Card({navigation}: Props) {
             <Button
               text="Next"
               action={() =>
-                navigation.navigate('payment-result', {result: 'unsuccessful'})
+                navigation.navigate('payment-result', {result: 'successful', directory: directory})
               }
             />
           </View>

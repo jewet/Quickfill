@@ -208,6 +208,7 @@ function Gas({navigation}: Props) {
               alignItems: 'center',
               gap: 10,
               width: '100%',
+              paddingBottom: 50,
             }}>
             {marginTop === 0 ? (
               <View

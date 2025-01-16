@@ -50,16 +50,16 @@ function Checkout({navigation}: Props) {
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.navigate('transfer', {amount: totalAmount});
+        navigation.replace('transfer', {amount: totalAmount, directory: 'cart'});
         break;
       case 'card':
-        navigation.navigate('card', {amount: totalAmount});
+        navigation.replace('card', {amount: totalAmount, directory: 'cart'});
         break;
       case 'wallet':
-        navigation.navigate('payment-result', {result: 'successful'});
+        navigation.replace('payment-result', {result: 'successful', directory: 'cart'});
         break;
       case 'flutterwave':
-        navigation.navigate('payment-result', {result: 'unsuccessful'});
+        navigation.replace('payment-result', {result: 'unsuccessful', directory: 'cart'});
         break;
       default:
         console.warn('Navigation route not defined for this item.');

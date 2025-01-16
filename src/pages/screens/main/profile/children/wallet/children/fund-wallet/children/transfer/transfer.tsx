@@ -29,7 +29,7 @@ type Props = StackScreenProps<RootStackParamList, 'transfer'>;
 
 function Transfer({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'transfer'>>();
-  const {amount, directory} = route.params;
+  const {amount, directory, orderDetails, selectedCylinder, dieselPrice} = route.params;
 
   const copyToClipboard = (value: string) => {
     Clipboard.setString(value);
@@ -123,9 +123,12 @@ function Transfer({navigation}: Props) {
           <TouchableOpacity
             style={paymentResultStyles.btnWrapper}
             onPress={() =>
-              navigation.navigate('payment-result', {
+              navigation.replace('payment-result', {
                 result: 'successful',
                 directory: directory,
+                orderDetails,
+                selectedCylinder,
+                dieselPrice
               })
             }>
             <Text style={paymentResultStyles.btnText}>I’ve sent the money</Text>

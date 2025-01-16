@@ -160,7 +160,7 @@ function Accessories({navigation}: Props) {
             </>
           ) : (
             <Text style={{textAlign: 'center', marginTop: 20, color: '#999'}}>
-              No results found
+              No result found
             </Text>
           )}
         </ScrollView>

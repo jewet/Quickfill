@@ -334,6 +334,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
                 gasDetails,
                 selectedCylinder:
                   gasDetails.available_gas_cylinders[selectedIndex],
+                  directory: 'gas'
               });
             }}>
             <LinearGradient

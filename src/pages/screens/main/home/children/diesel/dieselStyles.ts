@@ -60,6 +60,7 @@ const dieselStyles = StyleSheet.create({
     borderColor: '#5E5E5E',
     alignItems: 'center',
     height: 60,
+    paddingHorizontal: verticalScale(16)
   },
   heading: {
     fontFamily: 'Plus Jakarta Sans',

@@ -107,6 +107,7 @@ function ElectricityProvider({
             </View>
           )}
         </View>
+        <View style={{marginBottom: '20%', marginTop: '5%'}}>
         {isSelected !== null && (
           <Button
             text="Continue"
@@ -118,6 +119,7 @@ function ElectricityProvider({
             }}
           />
         )}
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

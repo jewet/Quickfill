@@ -1,6 +1,6 @@
 import {ElectricityProps} from '../sample-data/electricity';
 import {GasProps} from '../sample-data/gas';
-import {DetailsProps} from '../sample-data/home';
+import {DetailsProps, QuickActionProps} from '../sample-data/home';
 import {OrdersProps} from '../sample-data/orders';
 import {ProfileProps} from '../sample-data/profile';
 
@@ -19,7 +19,13 @@ export type RootStackParamList = {
   'electricity-provider': undefined;
   'order-details': {orderDetails: OrdersProps};
   'deliver-details': any;
-  'gas-order-details': {gasDetails: DetailsProps; selectedCylinder: GasProps};
+  'gas-order-details': {
+    gasDetails?: any;
+    selectedCylinder: any;
+    directory?: string;
+    dieselPrice?: number;
+    litres?: number;
+  };
   'items-page': any;
   'item-details': any;
   login: undefined;
@@ -42,10 +48,16 @@ export type RootStackParamList = {
   'user-address': any;
   'user-payment': any;
   'item-suggestion': any;
-  'gas-checkout': {gasDetails: DetailsProps; selectedCylinder: GasProps};
+  'gas-checkout': {
+    gasDetails: DetailsProps;
+    selectedCylinder?: GasProps;
+    directory?: string;
+    dieselPrice?: number;
+    litres?: number;
+  };
   help: any;
   contact: any;
-  'diesel-details': {diesielDetails: DetailsProps;};
+  'diesel-details': {diesielDetails: DetailsProps};
   'gas-details': any;
   'change-address': any;
   'delivery-instructions': any;
@@ -73,13 +85,27 @@ export type RootStackParamList = {
     profileDetails: ProfileProps;
     target: 'faq' | 'user-policy' | 'rating' | 'share';
   };
-  'payment-result': {result: 'successful' | 'unsuccessful'; directory?: string};
-  transfer: {amount: number; directory?: string};
-  card: {amount: number};
+  'payment-result': {
+    result: 'successful' | 'unsuccessful';
+    directory?: string;
+    orderDetails?: any;
+    selectedCylinder?: any;
+    dieselPrice?: number;
+    litres?: number;
+  };
+  transfer: {
+    amount: number;
+    directory?: string;
+    orderDetails?: DetailsProps;
+    selectedCylinder?: GasProps;
+    dieselPrice?: number;
+    litres?: number;
+  };
+  card: {amount: number, directory?: string;};
   electricity: any;
-  "acct-deleted": undefined;
-  "electricity-history": undefined;
-  "electricity-history-details": any;
+  'acct-deleted': undefined;
+  'electricity-history': undefined;
+  'electricity-history-details': any;
   Main: undefined;
   settings: undefined;
 };

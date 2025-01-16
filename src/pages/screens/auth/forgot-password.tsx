@@ -8,12 +8,18 @@ import {ScrollView, StatusBar, View} from 'react-native';
 import authStyles from './styles/authStyles';
 import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../utils/redux/store/store';
+import { setEmail } from '../../../utils/redux/slice/auth';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'forgot-password'>;
 
 function ForgotPassword({navigation}: Props) {
-  const [email, setEmail] = useState('');
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {email} = useSelector((state: RootState) => state.auth);
+
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -39,7 +45,7 @@ function ForgotPassword({navigation}: Props) {
             keyboardType="default"
             validate="email"
             action={() => console.log('Action triggered')}
-            onChange={text => setEmail(text)}
+            onChange={text => dispatch(setEmail(text))}
           />
           <Button
             text="Send Code"

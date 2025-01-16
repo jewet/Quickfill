@@ -20,6 +20,10 @@ const onboardingStyles = StyleSheet.create({
   textContainer: {
     width: '100%',
   },
+  skipWrapper: {
+    width: '100%',
+    alignItems: 'flex-end'
+  },
   boldText: {
     fontFamily: 'Plus Jakarta Sans',
     fontWeight: '700',
@@ -27,6 +31,11 @@ const onboardingStyles = StyleSheet.create({
     lineHeight: width * 0.055 * 1.3,
     textAlign: 'center',
     marginTop: 20,
+  },
+  skipText: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontWeight: '600',
+    fontSize: width * 0.045,
   },
   lightText: {
     fontFamily: 'Plus Jakarta Sans',

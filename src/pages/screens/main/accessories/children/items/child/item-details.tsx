@@ -19,6 +19,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {
   items_data,
+  itemsImageMap,
   ItemsProps,
 } from '../../../../../../../utils/sample-data/accessories';
 import itemDetailsStyles from './itemDetailsStyles';
@@ -38,14 +39,19 @@ function ItemsDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'item-details'>>();
   const {itemDetails}: {itemDetails?: ItemsProps} = route.params || {};
 
-  const DisplayImg = itemDetails?.img;
+  const DisplayImg = itemDetails?.img
+  ? itemsImageMap[itemDetails.img] // Map to the correct image component
+  : null;
+
   const btnMarginTop = Platform.OS === 'ios' ? -30 : 0;
 
   // Function to get a random subset of items from the items_data array
   const getRandomItems = (data: typeof items_data, count: number) => {
-    const shuffledItems = data.sort(() => Math.random() - 0.5);
+    const shuffledItems = [...data].sort(() => Math.random() - 0.5); // Copy before sorting
     return shuffledItems.slice(0, count);
   };
+  const ImgComponent = itemDetails?.img ? itemsImageMap[itemDetails.img] : null;
+  
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -72,8 +78,8 @@ function ItemsDetails({navigation}: Props) {
           marginTop: 20,
           paddingBottom: 20
         }}>
-        <DisplayImg width={400} height={291} fill="none" />
-      </View>
+        {ImgComponent && <ImgComponent width={400} height={291} fill="none" />}
+        </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={itemDetailsStyles.scrollview}>
@@ -135,9 +141,11 @@ function ItemsDetails({navigation}: Props) {
             horizontal
             showsHorizontalScrollIndicator={false}
             style={{paddingBottom: 50}}>
-            {getRandomItems(items_data, 3).map((data, index) => (
-              <View key={index} style={itemDetailsStyles.otherIems}>
-                <data.img width={117} height={117} fill="none" />
+            {getRandomItems(items_data, 3).map((data, index) => {
+              const DataImg = itemsImageMap[data.img]
+              return(
+                <View key={index} style={itemDetailsStyles.otherIems}>
+                {DataImg && <DataImg width={117} height={117} fill="none" />}
                 <TouchableOpacity>
                   <Text style={[itemsStyles.titleText, {textAlign: 'center'}]}>
                     {data.item.name.split(' ')[0]}
@@ -154,7 +162,8 @@ function ItemsDetails({navigation}: Props) {
                   </Text>
                 </TouchableOpacity>
               </View>
-            ))}
+              )
+            })}
           </ScrollView>
         </View>
       </ScrollView>
