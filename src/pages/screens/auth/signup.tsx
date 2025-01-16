@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -15,16 +15,26 @@ import authStyles from './styles/authStyles';
 import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../utils/redux/store/store';
+import {
+  setConfirmPassword,
+  setEmail,
+  setFullName,
+  setPassword,
+  setPhoneNumber,
+} from '../../../utils/redux/slice/auth';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {fullName, email, phoneNumber, password, confirmPassword} = useSelector(
+    (state: RootState) => state.auth,
+  );
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -50,7 +60,7 @@ function SignUp({navigation}: Props) {
             keyboardType="default"
             action={null}
             validate="fullname"
-            onChange={text => setFullName(text)}
+            onChange={text => dispatch(setFullName(text))}
           />
           <Input
             label="Email address"
@@ -61,7 +71,7 @@ function SignUp({navigation}: Props) {
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="email"
-            onChange={text => setEmail(text)}
+            onChange={text => dispatch(setEmail(text))}
           />
           <Input
             label="Phone number"
@@ -72,7 +82,7 @@ function SignUp({navigation}: Props) {
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="phone"
-            onChange={text => setPhoneNumber(text)}
+            onChange={text => dispatch(setPhoneNumber(text))}
           />
           <Input
             label="Passsword"
@@ -82,8 +92,8 @@ function SignUp({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => setPassword(text)}
-            validate='password'
+            onChange={text => dispatch(setPassword(text))}
+            validate="password"
           />
           <Input
             label="Confirm password"
@@ -93,8 +103,8 @@ function SignUp({navigation}: Props) {
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            onChange={text => setConfirmPassword(text)}
-            validate='confirm-password'
+            onChange={text => dispatch(setConfirmPassword(text))}
+            validate="confirm-password"
             password={password}
           />
           <Button

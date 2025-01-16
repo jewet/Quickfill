@@ -9,14 +9,23 @@ import authStyles from './styles/authStyles';
 import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Auth/Modal/Modal';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../utils/redux/store/store';
+import {
+  setConfirmPassword,
+  setPassword,
+  setShowModal,
+} from '../../../utils/redux/slice/auth';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {showModal, password, confirmPassword} = useSelector(
+    (state: RootState) => state.auth,
+  );
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
@@ -41,7 +50,7 @@ function ResetPassword({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => setPassword(text)}
+            onChange={text => dispatch(setPassword(text))}
             validate="password"
           />
           <Input
@@ -52,11 +61,14 @@ function ResetPassword({navigation}: Props) {
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            onChange={text => setConfirmPassword(text)}
+            onChange={text => dispatch(setConfirmPassword(text))}
             validate="confirm-password"
             password={password}
           />
-          <Button text="Reset password" action={() => setShowModal(true)} />
+          <Button
+            text="Reset password"
+            action={() => dispatch(setShowModal(true))}
+          />
         </View>
       </ScrollView>
       {showModal && (

@@ -101,12 +101,7 @@ function PaymentResult({navigation}: Props) {
               <>
                 <Button
                   text="Next"
-                  action={() => navigation.replace('home')}
-                />
-
-                <TouchableOpacity
-                  style={paymentResultStyles.btnWrapper}
-                  onPress={() =>
+                  action={() =>
                     navigation.replace('gas-order-details', {
                       gasDetails: orderDetails,
                       selectedCylinder: selectedCylinder,
@@ -114,22 +109,28 @@ function PaymentResult({navigation}: Props) {
                       litres: litres,
                       directory: directory,
                     })
-                  }>
-                  <Text style={paymentResultStyles.btnText}>View order</Text>
+                  }
+                />
+
+                <TouchableOpacity
+                  style={paymentResultStyles.btnWrapper}
+                  onPress={() => navigation.replace('home')}>
+                  <Text style={paymentResultStyles.btnText}>
+                    Go to dashboard
+                  </Text>
                 </TouchableOpacity>
               </>
             ) : (
               <TouchableOpacity
                 style={paymentResultStyles.btnWrapper}
-                onPress={() =>
-                 { if(directory?.toLowerCase()==='electricity' || 'cart'){
-                    navigation.replace('home')
-                  }else{
+                onPress={() => {
+                  if (directory?.toLowerCase() === 'electricity' || 'cart') {
+                    navigation.replace('home');
+                  } else {
                     // navigation.navigate('home')
-                    navigation.replace('user-wallet', {profileDetails: wallet})
+                    navigation.replace('user-wallet', {profileDetails: wallet});
                   }
-                }
-                }>
+                }}>
                 <Text style={paymentResultStyles.btnText}>Next</Text>
               </TouchableOpacity>
             )}

@@ -5,6 +5,7 @@ import homeReducer from '../slice/home';
 import accessoriesReducer from '../slice/accessories';
 import ordersReducer from '../slice/orders';
 import profileReducer from '../slice/profile';
+import authReducer from '../slice/auth';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     accessories: accessoriesReducer,
     orders: ordersReducer,
     profile: profileReducer,
+    auth: authReducer,
   },
 });
 

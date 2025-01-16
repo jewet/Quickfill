@@ -54,18 +54,6 @@ function UpdateForm({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'update-form'>>();
   const {profileDetails, target} = route.params;
 
-  // const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
-  // const [selectedDay, setSelectedDay] = useState<string | null>(null);
-  // const [showMonthPicker, setShowMonthPicker] = useState(false);
-  // const [showDayPicker, setShowDayPicker] = useState(false);
-  // const [firstname, setFirstname] = useState('');
-  // const [lastname, setLastname] = useState('');
-  // const [username, setUsername] = useState('');
-  // const [email, setEmail] = useState('');
-  // const [phoneNumber, setPhoneNumber] = useState('');
-  // const [countdown, setCountdown] = useState(60);
-  // const [isResendEnabled, setIsResendEnabled] = useState(false);
-
   // Redux state selectors
   const dispatch = useDispatch();
   const {
