@@ -20,7 +20,8 @@ import {RootState} from '../../../utils/redux/store/store';
 import {
   setConfirmPassword,
   setEmail,
-  setFullName,
+  setFirstName,
+  setLastName,
   setPassword,
   setPhoneNumber,
 } from '../../../utils/redux/slice/auth';
@@ -32,7 +33,7 @@ function SignUp({navigation}: Props) {
 
   // Redux state selectors
   const dispatch = useDispatch();
-  const {fullName, email, phoneNumber, password, confirmPassword} = useSelector(
+  const {firstName, lastName, email, phoneNumber, password, confirmPassword} = useSelector(
     (state: RootState) => state.auth,
   );
   return (
@@ -52,15 +53,26 @@ function SignUp({navigation}: Props) {
         />
         <View style={authStyles.inputCont}>
           <Input
-            label="Full name"
-            placeholder="E.g. John Doe"
-            value={fullName}
+            label="First name"
+            placeholder="E.g. John"
+            value={firstName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
             validate="fullname"
-            onChange={text => dispatch(setFullName(text))}
+            onChange={text => dispatch(setFirstName(text))}
+          />
+          <Input
+            label="Last name"
+            placeholder="E.g. Doe"
+            value={lastName}
+            secured={false}
+            directory={null}
+            keyboardType="default"
+            action={null}
+            validate="fullname"
+            onChange={text => dispatch(setLastName(text))}
           />
           <Input
             label="Email address"

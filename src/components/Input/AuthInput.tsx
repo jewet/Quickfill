@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {FocusEvent} from 'react';
 import {
   Keyboard,
   KeyboardTypeOptions,
@@ -6,6 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  NativeSyntheticEvent,
+  TextInputFocusEventData,
 } from 'react-native';
 import inputStyles from './InputStyles';
 import Eye from '../../assets/images/auth/tabler_eye-closed.svg';
@@ -15,11 +17,17 @@ import Dropdown from '../../assets/images/electricity/ic_round-arrow-back-ios-ne
 import {useNavigation} from '@react-navigation/native';
 import SendIcon from '../../assets/images/orders/send.svg';
 import {countries} from '../../utils/sample-data/input';
-import { ScrollView } from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import electricityHistoryStyles from '../../pages/screens/main/home/children/electricity/children/electricity-history/electricityHistoryStyles';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../utils/redux/store/store';
-import { setError, setSearchQuery, setSelectedCountry, setShowDropdown, setShowPassword } from '../../utils/redux/slice/auth';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../utils/redux/store/store';
+import {
+  setError,
+  setSearchQuery,
+  setSelectedCountry,
+  setShowDropdown,
+  setShowPassword,
+} from '../../utils/redux/slice/auth';
 
 interface Props {
   label: string;
@@ -31,7 +39,8 @@ interface Props {
   directory: string | null;
   action: any;
   onChange: (text: string) => void;
-  password?: string; // Required for confirm-password validation
+  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;  
+  password?: string;
 }
 
 function Input({
@@ -44,28 +53,28 @@ function Input({
   action,
   onChange,
   validate,
-  password, // Optional: used for confirm-password validation
+  password, 
+  onFocus
 }: Props) {
   // const [showPassword, setShowPassword] = useState(!secured);
   // const [error, setError] = useState<string | null>(null);
   // const [selectedCountry, setSelectedCountry] = useState(
   //   countries.find(c => c.country === 'Nigeria') || countries[0]
   // );
-  
+
   // const [showDropdown, setShowDropdown] = useState(false);
   // const [searchQuery, setSearchQuery] = useState('');
 
-
   // Redux state selectors
   const dispatch = useDispatch();
-  const {error, selectedCountry, showDropdown, searchQuery, showPassword} = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const {error, selectedCountry, showDropdown, searchQuery, showPassword} =
+    useSelector((state: RootState) => state.auth);
 
   // Filtered countries based on search input
-  const filteredCountries = countries.filter(country =>
-    country.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    country.dialCode.includes(searchQuery)
+  const filteredCountries = countries.filter(
+    country =>
+      country.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      country.dialCode.includes(searchQuery),
   );
   // Password Regex (at least one letter, one number, one special character, and min 8 characters)
   const passwordRegex =
@@ -75,28 +84,44 @@ function Input({
   const validateInput = (text: string) => {
     if (validate?.toLowerCase() === 'email') {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      dispatch(setError(!emailRegex.test(text) ? 'Invalid email address' : null));
+      dispatch(
+        setError(!emailRegex.test(text) ? 'Invalid email address' : null),
+      );
     } else if (validate?.toLowerCase() === 'phone') {
       const phoneRegex = /^[0-9]{10,15}$/;
-      dispatch(setError(!phoneRegex.test(text) ? 'Invalid phone number' : null));
+      dispatch(
+        setError(!phoneRegex.test(text) ? 'Invalid phone number' : null),
+      );
     } else if (validate?.toLowerCase() === 'name') {
-      dispatch(setError(text.length < 2 ? 'Name must be at least 2 characters' : null));
+      dispatch(
+        setError(text.length < 2 ? 'Name must be at least 2 characters' : null),
+      );
     } else if (validate?.toLowerCase() === 'password') {
-      dispatch(setError(
-        !passwordRegex.test(text)
-          ? 'Password must be at least 8 characters, include a number, letter & special character'
-          : null,
-      ));
+      dispatch(
+        setError(
+          !passwordRegex.test(text)
+            ? 'Password must be at least 8 characters, include a number, letter & special character'
+            : null,
+        ),
+      );
     } else if (validate?.toLowerCase() === 'confirm-password') {
-      dispatch(setError(password && text !== password ? 'Passwords do not match' : null));
+      dispatch(
+        setError(
+          password && text !== password ? 'Passwords do not match' : null,
+        ),
+      );
     } else if (validate?.toLowerCase() === 'phone') {
       const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
-      dispatch(setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null));
+      dispatch(
+        setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null),
+      );
     } else if (validate?.toLowerCase() === 'meter-number') {
       const meterRegex = /^[0-9]{1,10}$/;
-      dispatch(setError(
-        !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
-      ));
+      dispatch(
+        setError(
+          !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
+        ),
+      );
     }
   };
 
@@ -118,7 +143,8 @@ function Input({
                 validateInput(text);
               }}
             />
-            <TouchableOpacity onPress={() => dispatch(setShowPassword(!showPassword))}>
+            <TouchableOpacity
+              onPress={() => dispatch(setShowPassword(!showPassword))}>
               {directory?.toLowerCase() === 'confirm' ? (
                 <ConfirmEye width={20} height={20} fill="none" />
               ) : (
@@ -209,37 +235,45 @@ function Input({
                   placeholder="Search country code"
                   style={inputStyles.phoneInput}
                   value={searchQuery}
-                  onChangeText={text=>dispatch(setSearchQuery(text))}
+                  onChangeText={text => dispatch(setSearchQuery(text))}
                   autoFocus={true}
                 />
               </View>
 
               {/* Country List */}
               <ScrollView style={inputStyles.countriesWrapper}>
-               {filteredCountries.length > 0 ? (
-                <>
-                 {filteredCountries.map((country, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={inputStyles.countries}
-                    onPress={() => {
-                      dispatch(setSelectedCountry(country));
-                      dispatch(setShowDropdown(false));
-                      Keyboard.dismiss();
-                    }}>
-                    <View style={inputStyles.countriesLeft}>
-                      <Text style={inputStyles.flag}>{country.flag}</Text>
-                      <Text style={inputStyles.country}>{country.country}</Text>
-                    </View>
-                    <Text style={inputStyles.dialCode}>{country.dialCode}</Text>
-                  </TouchableOpacity>
-                ))}
-                </>
-               )
-              :
-              (
-                <Text style={[electricityHistoryStyles.notFound, {marginTop: '10%'}]}>Country not found</Text>
-              )}
+                {filteredCountries.length > 0 ? (
+                  <>
+                    {filteredCountries.map((country, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        style={inputStyles.countries}
+                        onPress={() => {
+                          dispatch(setSelectedCountry(country));
+                          dispatch(setShowDropdown(false));
+                          Keyboard.dismiss();
+                        }}>
+                        <View style={inputStyles.countriesLeft}>
+                          <Text style={inputStyles.flag}>{country.flag}</Text>
+                          <Text style={inputStyles.country}>
+                            {country.country}
+                          </Text>
+                        </View>
+                        <Text style={inputStyles.dialCode}>
+                          {country.dialCode}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </>
+                ) : (
+                  <Text
+                    style={[
+                      electricityHistoryStyles.notFound,
+                      {marginTop: '10%'},
+                    ]}>
+                    Country not found
+                  </Text>
+                )}
               </ScrollView>
             </View>
           )}
@@ -255,6 +289,7 @@ function Input({
             validateInput(text);
           }}
           maxLength={10}
+          onFocus={onFocus}
         />
       ) : (
         <TextInput

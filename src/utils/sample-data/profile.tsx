@@ -140,12 +140,12 @@ export const profile_data: ProfileProps[] = [
       location: '8-26 Ango Abdullahi St, Gwarinpa, Abuja..',
     },
   },
-  {
-    icon: PaymentIcon,
-    profile: {
-      type: 'Payment',
-    },
-  },
+  // {
+  //   icon: PaymentIcon,
+  //   profile: {
+  //     type: 'Payment',
+  //   },
+  // },
   {
     icon: HelpIcon,
     profile: {

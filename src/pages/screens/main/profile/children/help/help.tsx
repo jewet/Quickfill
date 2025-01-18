@@ -100,6 +100,11 @@ function Help({navigation}: Props) {
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
             <TouchableOpacity
               key={index}
+              onPress={() =>
+                data.name === 'Complaints & feedback'
+                  ? navigation.navigate('complaints')
+                  : navigateToHelpSection(data?.name, navigation, data)
+              }
               style={[
                 orderDetailsStyles.flexContainer,
                 {

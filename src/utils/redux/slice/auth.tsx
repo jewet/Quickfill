@@ -3,7 +3,8 @@ import {countries} from '../../sample-data/input';
 
 interface ProfileState {
   showModal: boolean;
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phoneNumber: string;
   password: string;
@@ -20,7 +21,8 @@ interface ProfileState {
 
 const initialState: ProfileState = {
   showModal: false,
-  fullName: '',
+  firstName: '',
+  lastName: '',
   email: '',
   phoneNumber: '',
   password: '',
@@ -42,8 +44,11 @@ const authSlice = createSlice({
     setShowModal: (state, action: PayloadAction<boolean>) => {
       state.showModal = action.payload;
     },
-    setFullName: (state, action: PayloadAction<string>) => {
-      state.fullName = action.payload;
+    setFirstName: (state, action: PayloadAction<string>) => {
+      state.firstName = action.payload;
+    },
+    setLastName: (state, action: PayloadAction<string>) => {
+      state.lastName = action.payload;
     },
     setEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
@@ -92,7 +97,8 @@ const authSlice = createSlice({
 
 export const {
   setShowModal,
-  setFullName,
+  setFirstName,
+  setLastName,
   setEmail,
   setPhoneNumber,
   setPassword,

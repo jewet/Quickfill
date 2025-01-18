@@ -1,5 +1,7 @@
 import React from 'react';
 import {
+  Alert,
+  Linking,
   ScrollView,
   StatusBar,
   Text,
@@ -32,6 +34,32 @@ function Contact({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'contact'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
+// Function to handle actions
+const handleContactOption = async (option: string) => {
+  try {
+    if (option === 'Email Us') {
+      const email = 'support@example.com'; 
+      const subject = 'Support Request';
+      const body = 'Please describe your issue here.';
+      const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      await Linking.openURL(url);
+    } else if (option === 'Chat on Whatsapp') {
+      const phoneNumber = '+2348069684739';  
+      const message = 'Hello, I need assistance.';
+      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+      await Linking.openURL(url);
+    } else if (option === 'Call us') {
+      const phoneNumber = '+2348069684739';  
+      const url = `tel:${phoneNumber}`;
+      await Linking.openURL(url);
+    } else {
+      Alert.alert('Error', 'Invalid option.');
+    }
+  } catch (error) {
+    Alert.alert('Error', 'Unable to perform this action.');
+  }
+};
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -55,9 +83,9 @@ function Contact({navigation}: Props) {
         </View>
 
         {/* Render list of contact support options dynamically */}
-        <View>
+        <View style={{width: '100%', paddingBottom: 150}}>
           {profileDetails?.profile?.details?.map((data: any, index: number) => (
-            <View
+            <TouchableOpacity
               key={index}
               style={[
                 orderDetailsStyles.flexContainer,
@@ -67,7 +95,8 @@ function Contact({navigation}: Props) {
                   borderColor: '#E5E5EA',
                   paddingVertical: 25,
                 },
-              ]}>
+              ]}
+              onPress={() => handleContactOption(data.title)}>
               <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
                 <data.icon width={40} height={40} fill="none" />
                 <View>
@@ -76,10 +105,10 @@ function Contact({navigation}: Props) {
                 </View>
               </View>
 
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => handleContactOption(data.title)}>
                 <ArrowRight width={24} height={24} fill="none" />
               </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
       </ScrollView>
