@@ -21,9 +21,12 @@ import SearchIcon from '../../../../../../../../assets/images/accessories/tabler
 import electricityProviderStyles from '../electricity-provider/electricityProviderStyles';
 import electricityHistoryStyles from './electricityHistoryStyles';
 import {width} from '../../../diesel/dieselStyles';
-import { filterElectricityHistoryData, setSearchQuery } from '../../../../../../../../utils/redux/slice/electricity';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../../../utils/redux/store/store';
+import {
+  filterElectricityHistoryData,
+  setSearchQuery,
+} from '../../../../../../../../utils/redux/slice/electricity';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
 
 // Type definition for navigation props
 type Props = StackScreenProps<RootStackParamList, 'electricity-history'>;
@@ -31,15 +34,17 @@ type Props = StackScreenProps<RootStackParamList, 'electricity-history'>;
 function ElectricityHistory({navigation}: Props) {
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-history'>>();
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const { searchQuery, filteredElectricityHistoryData } = useSelector((state: RootState) => state.electricity);
+  const {searchQuery, filteredElectricityHistoryData} = useSelector(
+    (state: RootState) => state.electricity,
+  );
 
-    // Function to filter electricity transactions
-    const handleSearch = (query: string) => {
-      dispatch(setSearchQuery(query));
-      dispatch(filterElectricityHistoryData(query));
-    };
+  // Function to filter electricity transactions
+  const handleSearch = (query: string) => {
+    dispatch(setSearchQuery(query));
+    dispatch(filterElectricityHistoryData(query));
+  };
 
   const extractLastWord = (address: string): string => {
     const words = address.trim().split(' ');
@@ -53,7 +58,7 @@ function ElectricityHistory({navigation}: Props) {
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <Header
-        handleGoBack={() => navigation.goBack()}
+        handleGoBack={() => navigation.popTo('electricity')}
         title="All electricity transactions"
         historyIconColor="yellow"
         historyNav={() => navigation.navigate('electricity-history')}
@@ -100,7 +105,7 @@ function ElectricityHistory({navigation}: Props) {
                   <View>
                     <View style={electricityHistoryStyles.addressWrapper}>
                       <Text style={electricityHistoryStyles.address}>
-                        {extractLastWord(data.address)} •  ₦
+                        {extractLastWord(data.address)} • ₦
                         {Intl.NumberFormat().format(Number(data.utility_cost))}
                       </Text>
                       <Text style={electricityHistoryStyles.address}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
+import {Alert, ScrollView, StatusBar, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -38,6 +38,15 @@ function Card({navigation}: Props) {
     (state: RootState) => state.profile,
   );
 
+  // Check if all required fields are filled
+  const isFormValid =
+    cardName.trim() !== '' &&
+    cardNumber.replace(/\s/g, '').length === 19 &&
+    expiryDate.length === 5 &&
+    cvv.length === 3;
+    console.log('direc: ', directory);
+    
+
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -69,7 +78,7 @@ function Card({navigation}: Props) {
         <View>
           <Input
             label="Name on Card"
-            placeholder=""
+            placeholder="Eg JOHN DOE"
             value={cardName}
             secured={false}
             directory={null}
@@ -79,14 +88,23 @@ function Card({navigation}: Props) {
           />
           <Input
             label="Card Number"
-            placeholder=""
+            placeholder="1234 5678 9012 3456"
             value={cardNumber}
             secured={false}
             directory={null}
             keyboardType="numeric"
             action={null}
-            onChange={text => dispatch(setCardNumber(text))}
+            onChange={text => {
+              let formattedText = text.replace(/\D/g, '');
+
+              formattedText = formattedText.slice(0, 19);
+
+              formattedText = formattedText.replace(/(\d{4})/g, '$1 ').trim();
+
+              dispatch(setCardNumber(formattedText));
+            }}
           />
+
           <View
             style={{
               display: 'flex',
@@ -104,9 +122,31 @@ function Card({navigation}: Props) {
                 directory={null}
                 keyboardType="numeric"
                 action={null}
-                onChange={text => dispatch(setExpiryDate(text))}
+                onChange={text => {
+                  let formattedText = text.replace(/\D/g, '');
+
+                  if (formattedText.length >= 2) {
+                    let month = formattedText.slice(0, 2);
+                    if (parseInt(month, 10) > 12) {
+                      month = '12';
+                    }
+                    formattedText = month + formattedText.slice(2);
+                  }
+
+                  if (formattedText.length > 2) {
+                    formattedText =
+                      formattedText.slice(0, 2) +
+                      '/' +
+                      formattedText.slice(2, 4);
+                  }
+
+                  formattedText = formattedText.slice(0, 5);
+
+                  dispatch(setExpiryDate(formattedText));
+                }}
               />
             </View>
+
             <View style={{width: '45%'}}>
               <Input
                 label="CVV"
@@ -116,16 +156,29 @@ function Card({navigation}: Props) {
                 directory={null}
                 keyboardType="numeric"
                 action={null}
-                onChange={text => dispatch(setCvv(text))}
+                onChange={text => {
+                  if (/^\d{0,3}$/.test(text)) {
+                    dispatch(setCvv(text));
+                  }
+                }}
               />
             </View>
           </View>
           <View style={{width: '100%', marginTop: 10}}>
             <Button
               text="Next"
-              action={() =>
-                navigation.navigate('payment-result', {result: 'successful', directory: directory})
-              }
+              action={() => {
+                if (!isFormValid) {
+                  Alert.alert(
+                    'Please ensure that all fields are correctly filled.',
+                  );
+                } else {
+                  navigation.replace('payment-result', {
+                    result: 'successful',
+                    directory: directory,
+                  });
+                }
+              }}
             />
           </View>
         </View>

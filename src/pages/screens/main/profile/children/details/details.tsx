@@ -77,7 +77,7 @@ function Details({navigation}: Props) {
                   paddingVertical: 25,
                 },
               ]}
-              disabled={!!data.gender}
+              disabled={!!data.gender || !!data.email}
               onPress={() => {
                 if (data.name) handleNavigation(profileDetails!, 'name');
                 if (data.username)
@@ -104,7 +104,7 @@ function Details({navigation}: Props) {
               </View>
 
               {/* Verification indicator for email */}
-              {data.email && (
+              {data.phone_number && (
                 <View
                   style={{
                     backgroundColor: '#DC5513',
@@ -132,7 +132,7 @@ function Details({navigation}: Props) {
                   <EditIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               )}
-              {data.email && (
+              {data.phone_number && (
                 <TouchableOpacity
                   onPress={() => handleNavigation(profileDetails!, 'email')}>
                   <ArrowRight width={24} height={24} fill="none" />

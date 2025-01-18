@@ -227,9 +227,9 @@ function Profile({navigation}: Props) {
                         style={{
                           color: '#FFFFFF',
                           fontWeight: 700,
-                          fontSize: 12,
+                          fontSize: 11,
                         }}>
-                        Verify email
+                        Verify phone number
                       </Text>
                     </View>
                   )}

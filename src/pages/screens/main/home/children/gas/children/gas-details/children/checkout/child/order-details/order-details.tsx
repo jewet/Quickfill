@@ -33,9 +33,12 @@ import {profile_data} from '../../../../../../../../../../../../utils/sample-dat
 import FullProgressBar from '../../../../../../../../../../../../assets/images/orders/full_progress_bar.svg';
 import HalfProgressBar from '../../../../../../../../../../../../assets/images/orders/half_progress_bar.svg';
 import BlankProgressBar from '../../../../../../../../../../../../assets/images/orders/blank_progress_bar.svg';
-import { RootState } from '../../../../../../../../../../../../utils/redux/store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setShowModal, setShowOrderDetails } from '../../../../../../../../../../../../utils/redux/slice/gas';
+import {RootState} from '../../../../../../../../../../../../utils/redux/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setShowModal,
+  setShowOrderDetails,
+} from '../../../../../../../../../../../../utils/redux/slice/gas';
 import paymentResultStyles from '../../../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 
 // Type definition for the navigation prop passed to the component
@@ -45,18 +48,20 @@ function GasOrderDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
   const {gasDetails, selectedCylinder, dieselPrice, litres} = route.params;
   const dispatch = useDispatch();
-  const {showOrderDetails, showModal} = useSelector((state: RootState) => state.gas);
+  const {showOrderDetails, showModal} = useSelector(
+    (state: RootState) => state.gas,
+  );
 
-  const item_amt = dieselPrice ? Number(dieselPrice): Number(selectedCylinder?.amount);
+  const item_amt = dieselPrice
+    ? Number(dieselPrice)
+    : Number(selectedCylinder?.amount);
   const delivery_fee = Number(gasDetails?.delivery_fee);
-  const total = item_amt + delivery_fee;
+  const service_charge = Number(200);
+  const total = item_amt + delivery_fee + service_charge;
 
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
-
-  
-
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -120,11 +125,11 @@ function GasOrderDetails({navigation}: Props) {
                 (data: any, index: number) => (
                   <View key={index}>
                     {data?.itsTurn === true && data?.pending === false ? (
-                      <FullProgressBar />
+                      <FullProgressBar width={100} height={8} />
                     ) : data?.itsTurn === true && data?.pending === true ? (
-                      <HalfProgressBar />
+                      <HalfProgressBar width={100} height={8} />
                     ) : (
-                      <BlankProgressBar />
+                      <BlankProgressBar width={100} height={8} />
                     )}
                   </View>
                 ),
@@ -145,7 +150,9 @@ function GasOrderDetails({navigation}: Props) {
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
-                onPress={() => dispatch(setShowOrderDetails(!showOrderDetails))}>
+                onPress={() =>
+                  dispatch(setShowOrderDetails(!showOrderDetails))
+                }>
                 {showOrderDetails ? (
                   <ArrowUp width={10} height={10} fill="none" />
                 ) : (
@@ -162,27 +169,30 @@ function GasOrderDetails({navigation}: Props) {
                   <View style={orderDetailsStyles.orderType}>
                     {litres ? (
                       <>
-                      <Text style={homeStyles.details}>
-                        {`${litres} Litres Refill` || 'No item'}
-                      </Text>
-                      <Text style={homeStyles.details}>
-                        {' '}
-                        ₦
-                        {Intl.NumberFormat().format(Number(dieselPrice)) ||
-                          'No price'}
-                      </Text></>
-                    )
-                  :
-                  <>
-                  <Text style={homeStyles.details}>
-                    {`${selectedCylinder?.kg}kg Gas Refill` || 'No item'}
-                  </Text>
-                  <Text style={homeStyles.details}>
-                    {' '}
-                    ₦
-                    {Intl.NumberFormat().format(selectedCylinder?.amount) ||
-                      'No price'}
-                  </Text></>}
+                        <Text style={homeStyles.details}>
+                          {`${litres} Litres Refill` || 'No item'}
+                        </Text>
+                        <Text style={homeStyles.details}>
+                          {' '}
+                          ₦
+                          {Intl.NumberFormat().format(Number(dieselPrice)) ||
+                            'No price'}
+                        </Text>
+                      </>
+                    ) : (
+                      <>
+                        <Text style={homeStyles.details}>
+                          {`${selectedCylinder?.kg}kg Gas Refill` || 'No item'}
+                        </Text>
+                        <Text style={homeStyles.details}>
+                          {' '}
+                          ₦
+                          {Intl.NumberFormat().format(
+                            selectedCylinder?.amount,
+                          ) || 'No price'}
+                        </Text>
+                      </>
+                    )}
                   </View>
                 </View>
               </View>
@@ -296,6 +306,26 @@ function GasOrderDetails({navigation}: Props) {
             <View
               style={[
                 orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%'},
+              ]}>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                Service charge
+              </Text>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+                ]}>
+                ₦{Intl.NumberFormat().format(Number(service_charge))}
+              </Text>
+            </View>
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
                 {justifyContent: 'space-between', width: '100%', marginTop: 5},
               ]}>
               <Text style={homeStyles.details}>Amount paid</Text>
@@ -303,19 +333,17 @@ function GasOrderDetails({navigation}: Props) {
                 ₦{Intl.NumberFormat().format(total)}
               </Text>
             </View>
-        <TouchableOpacity
-                  style={paymentResultStyles.btnWrapper}
-                  onPress={() =>
-                    navigation.replace('home')
-                  }>
-                  <Text style={paymentResultStyles.btnText}>Back to dashboard</Text>
-                </TouchableOpacity>
+            <TouchableOpacity
+              style={paymentResultStyles.btnWrapper}
+              onPress={() => navigation.replace('home')}>
+              <Text style={paymentResultStyles.btnText}>Back to dashboard</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
       {showModal && (
         <TimelineModal
-          action={() => dispatch(setShowModal(false))} 
+          action={() => dispatch(setShowModal(false))}
           navigateToContact={() =>
             navigation.navigate('contact', {profileDetails: customerSupport})
           }

@@ -63,12 +63,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -126,12 +126,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -574,12 +574,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -612,12 +612,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -650,12 +650,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -688,12 +688,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -727,12 +727,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -765,12 +765,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -803,12 +803,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -841,12 +841,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -885,12 +885,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -923,12 +923,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -961,12 +961,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -999,12 +999,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -1037,12 +1037,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -1075,12 +1075,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -1113,12 +1113,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',
@@ -1151,12 +1151,12 @@ export const quick_action_data: QuickActionProps[] = [
             pending: true,
             itsTurn: false,
           },
-          {
-            status: 'Refilling your cylinder',
-            des: 'Your  cylinder is being refilled',
-            pending: true,
-            itsTurn: false,
-          },
+          // {
+          //   status: 'Refilling your cylinder',
+          //   des: 'Your  cylinder is being refilled',
+          //   pending: true,
+          //   itsTurn: false,
+          // },
           {
             status: 'In transit',
             des: 'Your order it’s  on the way and will arrive soon.',

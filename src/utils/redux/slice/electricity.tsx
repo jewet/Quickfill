@@ -13,6 +13,7 @@ interface ElectricityState {
   meterNumber: string;
   meterName: string;
   searchQuery: string;
+  lastUsedMeterNumber: string;
   filteredData: ElectricityProps[];
   filteredElectricityHistoryData: ElectricityTransactionProps[];
   selectedProvider: ElectricityProps | null;
@@ -25,6 +26,7 @@ const initialState: ElectricityState = {
   meterNumber: '',
   meterName: '',
   searchQuery: '',
+  lastUsedMeterNumber: '',
   filteredData: electricity_data,
   filteredElectricityHistoryData: electricity_transaction_history,
   selectedProvider: null,
@@ -52,6 +54,9 @@ const electricitySlice = createSlice({
     },
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
+    },
+    setLastUsedMeterNumber: (state, action: PayloadAction<string>) => {
+      state.lastUsedMeterNumber = action.payload;
     },
     setSelectedProvider: (
       state,
@@ -99,7 +104,8 @@ export const {
   setIsSelected,
   toggleElectricityProviderModal,
   filterElectricityData,
-  filterElectricityHistoryData
+  filterElectricityHistoryData,
+  setLastUsedMeterNumber,
 } = electricitySlice.actions;
 
 export default electricitySlice.reducer;

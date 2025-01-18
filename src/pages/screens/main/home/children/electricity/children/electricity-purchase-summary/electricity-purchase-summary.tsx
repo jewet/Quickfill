@@ -38,16 +38,16 @@ function ElectricityPurchaseSummary({navigation}: Props) {
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.navigate('transfer', {amount: Number(amount), directory: 'electricity'});
+        navigation.replace('transfer', {amount: Number(amount), directory: 'electricity'});
         break; 
       case 'card':
-        navigation.navigate('card', {amount: Number(amount), directory: 'electricity'});
+        navigation.replace('card', {amount: Number(amount), directory: 'electricity'});
         break;
       case 'wallet':
-        navigation.navigate('payment-result', {result: 'successful', directory: 'electricity'});
+        navigation.replace('payment-result', {result: 'successful', directory: 'electricity'});
         break;
       case 'flutterwave':
-        navigation.navigate('payment-result', {result: 'successful', directory: 'electricity'});
+        navigation.replace('payment-result', {result: 'successful', directory: 'electricity'});
         break;
       default:
         console.warn('Navigation route not defined for this item.');

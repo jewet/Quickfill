@@ -78,7 +78,8 @@ function GasCheckout({navigation}: Props) {
     ? Number(Number(dieselPrice))
     : Number(selectedCylinder?.amount);
   const delivery_fee = Number(gasDetails?.delivery_fee);
-  const total = item_amt + delivery_fee;
+  const  service_charge = Number(200);
+  const total = item_amt + delivery_fee + service_charge;
 
   const navigateToPaymentResult = (paymentType: string, data: DetailsProps) => {
     switch (paymentType) {
@@ -318,6 +319,26 @@ function GasCheckout({navigation}: Props) {
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
               ₦{Intl.NumberFormat().format(Number(gasDetails?.delivery_fee))}
+            </Text>
+          </View>
+          <View
+            style={[
+              orderDetailsStyles.flexContainer,
+              {justifyContent: 'space-between', width: '100%'},
+            ]}>
+            <Text
+              style={[
+                homeStyles.title,
+                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+              ]}>
+               Service charge
+            </Text>
+            <Text
+              style={[
+                homeStyles.title,
+                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+              ]}>
+              ₦{Intl.NumberFormat().format(Number(service_charge))}
             </Text>
           </View>
           <View

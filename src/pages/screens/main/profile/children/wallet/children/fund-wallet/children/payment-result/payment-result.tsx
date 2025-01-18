@@ -120,15 +120,21 @@ function PaymentResult({navigation}: Props) {
                   </Text>
                 </TouchableOpacity>
               </>
+            ) : directory?.toLowerCase() === 'electricity' ? (
+              <TouchableOpacity
+                style={paymentResultStyles.btnWrapper}
+                onPress={() => navigation.replace('electricity-history')}>
+                <Text style={paymentResultStyles.btnText}>Next</Text>
+              </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 style={paymentResultStyles.btnWrapper}
                 onPress={() => {
-                  if (directory?.toLowerCase() === 'electricity' || 'cart') {
-                    navigation.replace('home');
+                  if (directory?.toLowerCase() !== 'cart') {
+                    navigation.replace('user-wallet', {profileDetails: wallet});
                   } else {
                     // navigation.navigate('home')
-                    navigation.replace('user-wallet', {profileDetails: wallet});
+                    navigation.replace('home');
                   }
                 }}>
                 <Text style={paymentResultStyles.btnText}>Next</Text>

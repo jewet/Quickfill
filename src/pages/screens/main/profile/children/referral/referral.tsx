@@ -39,17 +39,21 @@ function Referral({navigation}: Props) {
 
   const referralCode = 'Gkj378rG032i1';
 
-  // Function to copy referral code to clipboard
+  const appLink = 'https://quikrefil.com/download'; 
+
+  // Function to copy referral code and app link to clipboard
   const copyToClipboard = (code: string) => {
-    Clipboard.setString(code);
-    Alert.alert('Copied!', 'Referral code copied to clipboard.');
+    const fullMessage = `Use my referral code "${code}" to join! Download the app here: ${appLink}`;
+    Clipboard.setString(fullMessage);
+    Alert.alert('Copied!', 'Referral code and app link copied to clipboard.');
   };
 
-  // Function to share referral code
+  // Function to share referral code and app link
   const shareReferralCode = async (code: string) => {
     try {
+      const fullMessage = `Use my referral code "${code}" to join! Download the app here: ${appLink}`;
       await Share.share({
-        message: `Use my referral code "${code}" to join!`,
+        message: fullMessage,
       });
     } catch (error) {
       Alert.alert('Error', 'Unable to share the referral code.');
@@ -70,105 +74,118 @@ function Referral({navigation}: Props) {
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={[favouritesStyles.scrollview, {paddingHorizontal: 16}]}>
-        <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
-          Share your referral code with friends and earn points!
-        </Text>
-        <View style={referralStyles.firstBox}>
-          <BlurBox width={240} height={182} fill="none" />
-          <View style={referralStyles.blurBg}></View>
-          <View
-            style={{
-              width: '100%',
-              paddingHorizontal: 16,
-              position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              bottom: 20,
-            }}>
-            <View style={{width: '100%'}}>
-              <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 14}}>
-                Your invite code
-              </Text>
-            </View>
+        style={[
+          favouritesStyles.scrollview,
+          {paddingHorizontal: 16, paddingBottom: 100},
+        ]}>
+        <View style={{width: '100%', paddingBottom: 200}}>
+          <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
+            Share your referral code with friends and earn points!
+          </Text>
+          <View style={referralStyles.firstBox}>
+            <BlurBox width={240} height={182} fill="none" />
+            <View style={referralStyles.blurBg}></View>
             <View
-              style={[
-                orderDetailsStyles.flexContainer,
-                referralStyles.referralLink,
-              ]}>
-              <Text style={{color: '#5E5E5E', fontWeight: '600', fontSize: 14}}>
-                {referralCode}
-              </Text>
-              <View>
-                <View
-                  style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-                  <TouchableOpacity
-                    onPress={() => shareReferralCode(referralCode)}>
-                    <ShareIcon width={20} height={20} fill="none" />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => copyToClipboard(referralCode)}>
-                    <CopyIcon width={20} height={20} fill="none" />
-                  </TouchableOpacity>
+              style={{
+                width: '100%',
+                paddingHorizontal: 16,
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                bottom: 20,
+              }}>
+              <View style={{width: '100%'}}>
+                <Text
+                  style={{color: '#2C2C2C', fontWeight: '600', fontSize: 14}}>
+                  Your invite code
+                </Text>
+              </View>
+              <View
+                style={[
+                  orderDetailsStyles.flexContainer,
+                  referralStyles.referralLink,
+                ]}>
+                <Text
+                  style={{color: '#5E5E5E', fontWeight: '600', fontSize: 14}}>
+                  {referralCode}
+                </Text>
+                <View>
+                  <View
+                    style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+                    <TouchableOpacity
+                      onPress={() => shareReferralCode(referralCode)}>
+                      <ShareIcon width={20} height={20} fill="none" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => copyToClipboard(referralCode)}>
+                      <CopyIcon width={20} height={20} fill="none" />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
-        <View style={{width: '100%', marginTop: 30}}>
-          <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
-            How it works?
-          </Text>
-          <View style={referralStyles.secondBox}>
-            <View style={[orderDetailsStyles.flexContainer]}>
-              <Text style={referralStyles.number}>1. </Text>
-              <Text style={referralStyles.text}>
-                Share your code to invite your friends.
-              </Text>
-            </View>
-            <View style={[orderDetailsStyles.flexContainer]}>
-              <Text style={referralStyles.number}>2. </Text>
-              <Text style={referralStyles.text}>
-                They register using your code.
-              </Text>
-            </View>
-            <View style={[orderDetailsStyles.flexContainer]}>
-              <View
-                style={[
-                  orderDetailsStyles.flexContainer,
-                  {width: 'auto', gap: 0},
-                ]}>
-                <Text style={referralStyles.number}>3</Text>
-                <Badge width={8} height={8} fill="none" />
+          <View style={{width: '100%', marginTop: 30}}>
+            <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
+              How it works?
+            </Text>
+            <View style={referralStyles.secondBox}>
+              <View style={[orderDetailsStyles.flexContainer]}>
+                <Text style={referralStyles.number}>1. </Text>
+                <Text style={referralStyles.text}>
+                  Share your code to invite your friends.
+                </Text>
               </View>
-              <Text style={referralStyles.text}>
-                Share your code to invite your friends.
-              </Text>
+              <View style={[orderDetailsStyles.flexContainer]}>
+                <Text style={referralStyles.number}>2. </Text>
+                <Text style={referralStyles.text}>
+                  They register using your code.
+                </Text>
+              </View>
+              <View style={[orderDetailsStyles.flexContainer]}>
+                <View
+                  style={[
+                    orderDetailsStyles.flexContainer,
+                    {width: 'auto', gap: 0},
+                  ]}>
+                  <Text style={referralStyles.number}>3</Text>
+                  <Badge width={8} height={8} fill="none" />
+                </View>
+                <Text style={referralStyles.text}>
+                  Share your code to invite your friends.
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-        <View style={{width: '100%', marginTop: 30}}>
-          <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
-            Rewards
-          </Text>
-          <View
-            style={[orderDetailsStyles.flexContainer, referralStyles.thirdBox]}>
-            <Coin width={40} height={40} fill="none" />
-            <View>
-              <Text style={referralStyles.topText}>200 pts</Text>
-              <Text style={referralStyles.bottomText}>
-                You’ve earned till now
-              </Text>
+          <View style={{width: '100%', marginTop: 30}}>
+            <Text style={{color: '#2C2C2C', fontWeight: '600', fontSize: 16}}>
+              Rewards
+            </Text>
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                referralStyles.thirdBox,
+              ]}>
+              <Coin width={40} height={40} fill="none" />
+              <View>
+                <Text style={referralStyles.topText}>200 pts</Text>
+                <Text style={referralStyles.bottomText}>
+                  You’ve earned till now
+                </Text>
+              </View>
             </View>
-          </View>
-          <View
-            style={[orderDetailsStyles.flexContainer, referralStyles.thirdBox]}>
-            <Friends width={40} height={40} fill="none" />
-            <View>
-              <Text style={referralStyles.topText}>3 friends</Text>
-              <Text style={referralStyles.bottomText}>
-                Registered with your code
-              </Text>
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                referralStyles.thirdBox,
+              ]}>
+              <Friends width={40} height={40} fill="none" />
+              <View>
+                <Text style={referralStyles.topText}>3 friends</Text>
+                <Text style={referralStyles.bottomText}>
+                  Registered with your code
+                </Text>
+              </View>
             </View>
           </View>
         </View>

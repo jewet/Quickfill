@@ -43,7 +43,7 @@ function FundWallet({action, navigation}: Props) {
       //   navigation.replace('payment-result', {result: 'successful'});
       //   break;
       case 'flutterwave':
-        navigation.replace('payment-result', {result: 'unsuccessful'});
+        navigation.navigate('payment-result', {result: 'unsuccessful'});
         break;
       default:
         console.warn('Navigation route not defined for this item.');

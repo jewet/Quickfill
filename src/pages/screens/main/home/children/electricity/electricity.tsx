@@ -19,6 +19,7 @@ import {
   setIsSelected,
   toggleElectricityProviderModal,
   filterElectricityData,
+  setLastUsedMeterNumber
 } from '../../../../../../utils/redux/slice/electricity';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import electricityStyles from './electrictyStyles';
@@ -49,6 +50,7 @@ function Electricity({navigation}: Props) {
     filteredData,
     selectedProvider,
     isSelected,
+    lastUsedMeterNumber
   } = useSelector((state: RootState) => state.electricity);
 
   const isFormValid =
@@ -63,15 +65,33 @@ function Electricity({navigation}: Props) {
     dispatch(setAmount(value.replace(/[^0-9]/g, '')));
   };
 
+  // const handleMeterNumberChange = (value: string) => {
+  //   const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
+  //   dispatch(setMeterNumber(numericValue));
+  //   const randomIndex = Math.floor(Math.random() * meter_data.length);
+
+  //   if (numericValue.length === 10) {
+  //     dispatch(setMeterName(meter_data[randomIndex].name));
+  //   } else {
+  //     dispatch(setMeterName(''));
+  //   }
+  // };
   const handleMeterNumberChange = (value: string) => {
     const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
     dispatch(setMeterNumber(numericValue));
-    const randomIndex = Math.floor(Math.random() * meter_data.length);
 
     if (numericValue.length === 10) {
+      const randomIndex = Math.floor(Math.random() * meter_data.length);
       dispatch(setMeterName(meter_data[randomIndex].name));
+      setLastUsedMeterNumber(numericValue); // Store the last used meter number
     } else {
       dispatch(setMeterName(''));
+    }
+  };
+
+  const handleMeterNumberFocus = () => {
+    if (lastUsedMeterNumber) {
+      dispatch(setMeterNumber(lastUsedMeterNumber)); // Set the last used meter number when focused
     }
   };
 
@@ -148,8 +168,9 @@ function Electricity({navigation}: Props) {
           directory={null}
           keyboardType="numeric"
           action={null}
-          onChange={handleMeterNumberChange}
           validate="meter-number"
+          onChange={handleMeterNumberChange}
+          onFocus={handleMeterNumberFocus}
         />
 
         {meterNumber.trim() !== '' && (

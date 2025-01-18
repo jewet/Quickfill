@@ -31,6 +31,7 @@ function TimelineModal({
   deliveryFee,
   timeline_data,
 }: Props) {
+  const  service_charge = Number(200);
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>
@@ -166,11 +167,31 @@ function TimelineModal({
           <View
             style={[
               orderDetailsStyles.flexContainer,
+              {justifyContent: 'space-between', width: '100%'},
+            ]}>
+            <Text
+              style={[
+                homeStyles.title,
+                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+              ]}>
+               Service charge
+            </Text>
+            <Text
+              style={[
+                homeStyles.title,
+                {color: '#8E8E93', fontSize: 14, fontWeight: 600},
+              ]}>
+              ₦{Intl.NumberFormat().format(Number(service_charge))}
+            </Text>
+          </View>
+          <View
+            style={[
+              orderDetailsStyles.flexContainer,
               {justifyContent: 'space-between', width: '100%', marginTop: 5},
             ]}>
             <Text style={homeStyles.details}>Amount paid</Text>
             <Text style={homeStyles.details}>
-              ₦{Intl.NumberFormat().format(Number(subTotal + deliveryFee))}
+              ₦{Intl.NumberFormat().format(Number(subTotal + deliveryFee + service_charge))}
             </Text>
           </View>
         </View>
