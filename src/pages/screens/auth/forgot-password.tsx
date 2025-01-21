@@ -66,7 +66,7 @@ function ForgotPassword({navigation}: Props) {
           />
           <Button
             text="Send Code"
-            action={handleContinue}
+            action={()=>navigation.navigate('otp-verification')}
           />
         </View>
       </ScrollView>

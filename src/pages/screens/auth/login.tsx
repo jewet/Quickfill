@@ -28,6 +28,8 @@ import inputStyles from '../../../components/Input/InputStyles';
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   // Validation function
   const handleLogin = () => {
     const passwordRegex =
@@ -55,8 +57,8 @@ function Login({navigation}: Props) {
     navigation.navigate('home');
   };
 
-  const dispatch = useDispatch();
-  const {email, password} = useSelector((state: RootState) => state.auth);
+  // const dispatch = useDispatch();
+  // const {email, password} = useSelector((state: RootState) => state.auth);
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
@@ -76,27 +78,27 @@ function Login({navigation}: Props) {
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value={email}
+            // value={email}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="email"
-            onChange={text => dispatch(setEmail(text))}
+            // onChange={text => setEmail(text)}
           />
           <Input
             label="Passsword"
             placeholder="*********"
-            value={password}
+            // value={password}
             secured={true}
             directory={'login-password'}
             keyboardType="default"
             action={() => navigation.navigate('forgot-password')}
-            onChange={text => dispatch(setPassword(text))}
+            // onChange={text => setPassword(text)}
             validate="password"
           />
           <View style={{marginTop: 10, width: '100%'}}>
-            <Button text="Login" action={handleLogin} />
+            <Button text="Login" action={() => navigation.navigate('home')} />
           </View>
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>

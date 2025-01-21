@@ -52,7 +52,7 @@ function SignUp({navigation}: Props) {
       });
       return;
     }
-    if (lastName.length! <2) {
+    if (lastName.length! < 2) {
       Toast.show({
         type: 'error',
         text1: 'Incorrect Last Name',
@@ -115,74 +115,71 @@ function SignUp({navigation}: Props) {
           <Input
             label="First name"
             placeholder="E.g. John"
-            value={firstName}
+            // value={firstName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
             validate="firstNname"
-            onChange={text => dispatch(setFirstName(text))}
+            // onChange={text => dispatch(setFirstName(text))}
           />
           <Input
             label="Last name"
             placeholder="E.g. Doe"
-            value={lastName}
+            // value={lastName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
             validate="lastName"
-            onChange={text => dispatch(setLastName(text))}
+            // onChange={text => dispatch(setLastName(text))}
           />
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value={email}
+            // value={email}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="email"
-            onChange={text => dispatch(setEmail(text))}
+            // onChange={text => dispatch(setEmail(text))}
           />
           <Input
             label="Phone number"
             placeholder=""
-            value={phoneNumber}
+            // value={phoneNumber}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="phone"
-            onChange={text => dispatch(setPhoneNumber(text))}
+            // onChange={text => dispatch(setPhoneNumber(text))}
           />
           <Input
             label="Passsword"
             placeholder="*********"
-            value={password}
+            // value={password}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setPassword(text))}
+            // onChange={text => dispatch(setPassword(text))}
             validate="password"
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            value={confirmPassword}
+            // value={confirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setConfirmPassword(text))}
+            // onChange={text => dispatch(setConfirmPassword(text))}
             validate="confirm-password"
             password={password}
           />
-          <Button
-            text="Sign Up"
-            action={handleSignUp}
-          />
+          <Button text="Sign Up" action={()=>navigation.navigate('email-verification')} />
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
             <Text style={authStyles.orText}>Or</Text>
@@ -202,7 +199,7 @@ function SignUp({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
-         <Toast />
+      <Toast />
     </SafeAreaView>
   );
 }

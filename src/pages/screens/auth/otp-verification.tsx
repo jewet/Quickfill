@@ -30,12 +30,11 @@ import { backgroundStyle } from '../../../utils/status-bar-styles/status-bar-sty
 type Props = StackScreenProps<RootStackParamList, 'otp-verification'>;
 
 function Otpverification({navigation}: Props) {
+  const [showModal, setShowModal] = useState(false);
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
+  const [countdown, setCountdown] = useState(60);
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
   const inputRefs = useRef<Array<TextInput | null>>([]);
-  // Redux state selectors
-  const dispatch = useDispatch();
-  const {showModal, otp, countdown, isResendEnabled} = useSelector(
-    (state: RootState) => state.auth,
-  );
   // Format countdown as MM:SS
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60)
@@ -49,11 +48,11 @@ function Otpverification({navigation}: Props) {
   useEffect(() => {
     if (countdown > 0) {
       const timer = setInterval(() => {
-        dispatch(setCountdown(countdown - 1));
+        setCountdown(countdown - 1);
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      dispatch(setIsResendEnabled(true));
+     setIsResendEnabled(true);
     }
   }, [countdown]);
 
@@ -61,7 +60,7 @@ function Otpverification({navigation}: Props) {
   const handleOtpChange = (text: string, index: number) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = text;
-    dispatch(setOtp(updatedOtp));
+    setOtp(updatedOtp);
 
     // Automatically focus the next input
     if (text && index < otp.length - 1) {
@@ -79,8 +78,8 @@ function Otpverification({navigation}: Props) {
   // Resend OTP
   const handleResendOTP = () => {
     if (isResendEnabled) {
-      dispatch(setCountdown(60));
-      dispatch(setIsResendEnabled(false));
+      setCountdown(60);
+      setIsResendEnabled(false);
       // Call function to resend OTP (API request or mock logic)
       console.log('Resending OTP...');
     }
@@ -118,7 +117,7 @@ function Otpverification({navigation}: Props) {
               />
             ))}
           </View>
-          <Button text="Verify" action={() => dispatch(setShowModal(true))} />
+          <Button text="Verify" action={() => setShowModal(true)} />
           <View
             style={{
               flexDirection: 'row',
@@ -147,7 +146,7 @@ function Otpverification({navigation}: Props) {
           bottomText="Your otp verification was successful."
           navigateTo={() => {
             navigation.navigate('reset-password');
-            dispatch(setShowModal(false));
+            setShowModal(false);
           }}
           btnText="Proceed"
         />
