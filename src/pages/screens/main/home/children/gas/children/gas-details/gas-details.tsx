@@ -32,9 +32,14 @@ import FundWallet from '../../../../../profile/children/wallet/children/fund-wal
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {DetailsProps} from '../../../../../../../../utils/sample-data/home';
 import Offline from '../../../../../../../../assets/images/orders/offline.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../../../../utils/redux/store/store';
-import { setSelectedIndex, setShowModal } from '../../../../../../../../utils/redux/slice/gas';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {
+  setSelectedIndex,
+  setShowModal,
+} from '../../../../../../../../utils/redux/slice/gas';
+import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
+import {scale} from '../../../../../accessories/accessoriesStyles';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -43,15 +48,15 @@ type Props = StackScreenProps<RootStackParamList, 'gas-details'>;
 
 function GasDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-details'>>();
-  const {gasDetails}: {gasDetails?: DetailsProps} = route.params || {};
+  const {orderDetails} = route.params || {};
+  // const {orderDetails}: {orderDetails?: DetailsProps} = route.params || {};
 
   const isDarkMode = useColorScheme() === 'dark';
 
-  const dispatch = useDispatch()
-  const {
-    showModal,
-    selectedIndex,
-  } = useSelector((state: RootState) => state.gas);
+  const dispatch = useDispatch();
+  const {showModal, selectedIndex} = useSelector(
+    (state: RootState) => state.gas,
+  );
   // const [showModal, setShowModal] = useState<boolean>(false);
 
   // const [selectedIndex, setSelectedIndex] = useState(0);
@@ -112,23 +117,20 @@ function GasDetails({navigation}: Props) {
     }
   };
 
-const prevIndexMarginLeft = (index: number, currentIndex: number) => {
-  if (currentIndex === 0 && index === 0) {
-    return '60%';
-  }else if (currentIndex === 0 && index === 1) {
-    return '60%';
-  }else if (currentIndex === 1 && index == 0) {
-    return '120%';
-  } else if (currentIndex === 2 && index === 1) {
-    return '120%';
-  } else if (currentIndex === 3 && index === 2) {
-    return '60%';
-}
-}
-
-
-
-
+  const prevIndexMarginLeft = (index: number, currentIndex: number) => {
+    if (currentIndex === 0 && index === 0) {
+      return '60%';
+    } else if (currentIndex === 0 && index === 1) {
+      return '60%';
+    } else if (currentIndex === 1 && index == 0) {
+      return '120%';
+    } else if (currentIndex === 2 && index === 1) {
+      return '120%';
+    } else if (currentIndex === 3 && index === 2) {
+      return '60%';
+    }
+  };
+  console.log('Order details-gasdetails: ', orderDetails);
 
   return (
     <SafeAreaView style={gasStyles.gasContainer}>
@@ -161,51 +163,77 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
             <CloseIcon width={15} height={15} fill="none" />
           </TouchableOpacity>
           <View style={gasStyles.gasTop}>
-            <View style={homeStyles.orderContent}>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 5,
-                }}>
-                <Text style={homeStyles.idText}>
-                  Status - {gasDetails?.status}
-                </Text>
-                {gasDetails?.status.toLowerCase() === 'online' ? (
-                  <Online width={10} height={10} fill="none" />
-                ) : (
-                  <Offline width={10} height={10} fill="none" />
-                )}
+            <TouchableOpacity
+              style={{alignItems: 'flex-end'}}
+              onPress={() => {
+                navigation.navigate('profile-details', {
+                  orderDetails: orderDetails,
+                  target: 'rider',
+                });
+              }}>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {
+                    color: primaryColor,
+                    fontWeight: '700',
+                    marginBottom: 10,
+                    fontSize: scale(12),
+                  },
+                ]}>
+                View Profile
+              </Text>
+            </TouchableOpacity>
+            <View>
+              <View style={homeStyles.orderContent}>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 5,
+                  }}>
+                  <Text style={homeStyles.idText}>
+                    Status - {orderDetails?.status}
+                  </Text>
+                  {orderDetails?.status.toLowerCase() === 'online' ? (
+                    <Online width={10} height={10} fill="none" />
+                  ) : (
+                    <Offline width={10} height={10} fill="none" />
+                  )}
+                </View>
+                <Text style={homeStyles.idText}>Price per kg</Text>
               </View>
-              <Text style={homeStyles.idText}>Price per kg</Text>
-            </View>
-            <View style={[homeStyles.orderContent, {marginTop: 10}]}>
-              <Text style={homeStyles.orderType}>{gasDetails?.name}</Text>
-              <Text style={homeStyles.orderAmt}>
-                ₦{Intl.NumberFormat().format(Number(gasDetails?.delivery_fee))}
+              <View style={[homeStyles.orderContent, {marginTop: 10}]}>
+                <Text style={homeStyles.orderType}>{orderDetails?.name}</Text>
+                <Text style={homeStyles.orderAmt}>
+                  ₦
+                  {Intl.NumberFormat().format(
+                    Number(orderDetails?.delivery_fee),
+                  )}
+                </Text>
+              </View>
+              <View style={[homeStyles.orderContent, {marginVertical: 5}]}>
+                <Text style={[homeStyles.orderType, {fontSize: 16}]}>
+                  Estimated delivery time: {orderDetails?.delivery_time}
+                </Text>
+                <View
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 2,
+                  }}>
+                  <Rating width={20} height={20} fill="none" />
+                  <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>
+                    {orderDetails?.rating}
+                  </Text>
+                </View>
+              </View>
+              <Text style={homeStyles.idText}>
+                Proximity: 2.6km away • Orders completed: 2038
               </Text>
             </View>
-            <View style={[homeStyles.orderContent, {marginVertical: 5}]}>
-              <Text style={[homeStyles.orderType, {fontSize: 16}]}>
-                Estimated delivery time: {gasDetails?.delivery_time}
-              </Text>
-              <View
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 2,
-                }}>
-                <Rating width={20} height={20} fill="none" />
-                <Text style={[homeStyles.orderAmt, {fontSize: 16}]}>
-                  {gasDetails?.rating}
-                </Text>
-              </View>
-            </View>
-            <Text style={homeStyles.idText}>
-              Proximity: 2.6km away • Orders completed: 2038
-            </Text>
           </View>
         </View>
         <View
@@ -218,7 +246,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
           <View></View>
           <Animated.FlatList
             ref={flatListRef}
-            data={gasDetails?.available_gas_cylinders}
+            data={orderDetails?.available_gas_cylinders}
             horizontal
             keyExtractor={(item, index) => `${index}`}
             showsHorizontalScrollIndicator={false}
@@ -250,10 +278,25 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
                     },
                   ]}>
                   <BiggestGas
-                    width={index === selectedIndex ? '90%' : getCurrentKgWidth(index)}
+                    width={
+                      index === selectedIndex ? '90%' : getCurrentKgWidth(index)
+                    }
                     height={index === selectedIndex ? 240 : 150}
                     fill="none"
-                    style={{display: 'flex', alignItems: 'center',  marginLeft: index === index ? prevIndexMarginLeft(index, selectedIndex) : index === selectedIndex ? '60%' : '0%', marginRight: index === selectedIndex ? getCurrentKgMarginRight(index) : '60%',}}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      marginLeft:
+                        index === index
+                          ? prevIndexMarginLeft(index, selectedIndex)
+                          : index === selectedIndex
+                          ? '60%'
+                          : '0%',
+                      marginRight:
+                        index === selectedIndex
+                          ? getCurrentKgMarginRight(index)
+                          : '60%',
+                    }}
                   />
                 </Animated.View>
               );
@@ -272,7 +315,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
             horizontal
             showsHorizontalScrollIndicator={false}
             style={{marginTop: 20}}>
-            {gasDetails?.available_gas_cylinders?.map(
+            {orderDetails?.available_gas_cylinders?.map(
               (data: any, index: any) => (
                 <TouchableOpacity
                   key={index}
@@ -303,7 +346,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
           <Text style={gasStyles.heading}>Enter refill size (optional)</Text>
           <TextInput
             style={gasStyles.input}
-            value={`${gasDetails?.available_gas_cylinders[selectedIndex].kg}kg`}
+            value={`${orderDetails?.available_gas_cylinders[selectedIndex].kg}kg`}
           />
           <View style={gasStyles.noteWrapper}>
             <View
@@ -326,15 +369,15 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
           <TouchableOpacity
             style={primaryBtnStyles.btnContainer}
             onPress={() => {
-              if (!gasDetails) {
+              if (!orderDetails) {
                 console.error('gasDetails is undefined!');
                 return;
               }
-              navigation.navigate('gas-checkout', {
-                gasDetails,
+              navigation.replace('gas-checkout', {
+                orderDetails,
                 selectedCylinder:
-                  gasDetails.available_gas_cylinders[selectedIndex],
-                  directory: 'gas'
+                  orderDetails.available_gas_cylinders[selectedIndex],
+                directory: 'gas',
               });
             }}>
             <LinearGradient
@@ -354,7 +397,7 @@ const prevIndexMarginLeft = (index: number, currentIndex: number) => {
                 <Text style={gasStyles.btnText}>
                   ₦
                   {Intl.NumberFormat().format(
-                    gasDetails?.available_gas_cylinders[selectedIndex].amount,
+                    orderDetails?.available_gas_cylinders[selectedIndex].amount,
                   )}
                 </Text>
               </View>

@@ -9,11 +9,15 @@ import {
 
 interface ElectricityState {
   showElectricityProviderModal: boolean;
+  showAlert: boolean;
   amount: string;
   meterNumber: string;
   meterName: string;
   searchQuery: string;
-  lastUsedMeterNumber: string;
+  lastUsedProvider: string;
+  lastUsedMeterNo: string;
+  lastUsedMeterName: string;
+  lastUsedAddress: string;
   filteredData: ElectricityProps[];
   filteredElectricityHistoryData: ElectricityTransactionProps[];
   selectedProvider: ElectricityProps | null;
@@ -22,11 +26,15 @@ interface ElectricityState {
 
 const initialState: ElectricityState = {
   showElectricityProviderModal: false,
+  showAlert: false,
   amount: '',
   meterNumber: '',
   meterName: '',
   searchQuery: '',
-  lastUsedMeterNumber: '',
+  lastUsedProvider: '',
+  lastUsedMeterNo: '',
+  lastUsedMeterName: '',
+  lastUsedAddress: '',
   filteredData: electricity_data,
   filteredElectricityHistoryData: electricity_transaction_history,
   selectedProvider: null,
@@ -39,6 +47,9 @@ const electricitySlice = createSlice({
   reducers: {
     setAmount: (state, action: PayloadAction<string>) => {
       state.amount = action.payload;
+    },
+    setShowAlert: (state, action: PayloadAction<boolean>) => {
+      state.showAlert = action.payload;
     },
     setMeterNumber: (state, action: PayloadAction<string>) => {
       state.meterNumber = action.payload;
@@ -55,8 +66,17 @@ const electricitySlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
-    setLastUsedMeterNumber: (state, action: PayloadAction<string>) => {
-      state.lastUsedMeterNumber = action.payload;
+    setLastUsedProvider: (state, action: PayloadAction<string>) => {
+      state.lastUsedProvider = action.payload;
+    },
+    setLastUsedMeterNo: (state, action: PayloadAction<string>) => {
+      state.lastUsedMeterNo = action.payload;
+    },
+    setLastUsedMeterName: (state, action: PayloadAction<string>) => {
+      state.lastUsedMeterName = action.payload;
+    },
+    setLastUsedAddress: (state, action: PayloadAction<string>) => {
+      state.lastUsedAddress = action.payload;
     },
     setSelectedProvider: (
       state,
@@ -105,7 +125,11 @@ export const {
   toggleElectricityProviderModal,
   filterElectricityData,
   filterElectricityHistoryData,
-  setLastUsedMeterNumber,
+  setLastUsedProvider,
+  setShowAlert,
+  setLastUsedAddress,
+  setLastUsedMeterName,
+  setLastUsedMeterNo,
 } = electricitySlice.actions;
 
 export default electricitySlice.reducer;

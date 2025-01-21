@@ -28,7 +28,7 @@ function ReportResult({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'report-result'>>();
   const {orderDetails, result, target} = route.params;
 
-  // Determine the chat participant (either rider or vendor)
+  console.log('Order details-report-result: ', orderDetails);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

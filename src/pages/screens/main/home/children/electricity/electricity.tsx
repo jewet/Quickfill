@@ -19,7 +19,9 @@ import {
   setIsSelected,
   toggleElectricityProviderModal,
   filterElectricityData,
-  setLastUsedMeterNumber
+  setLastUsedProvider,
+  setShowAlert,
+  setLastUsedAddress,
 } from '../../../../../../utils/redux/slice/electricity';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import electricityStyles from './electrictyStyles';
@@ -31,7 +33,12 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import ElectricityProvider from './children/electricity-provider/electricity-providers';
 import Header from '../../../../../../components/Electricity/Header/Header';
 import {RootState} from '../../../../../../utils/redux/store/store';
-import {meter_data} from '../../../../../../utils/sample-data/electricity';
+import {
+  electricity_transaction_history,
+  meter_data,
+} from '../../../../../../utils/sample-data/electricity';
+import AlertModal from '../../../../../../components/Alert/Alert';
+import Toast from 'react-native-toast-message';
 
 // Type definition for navigation props
 type Props = StackScreenProps<RootStackParamList, 'electricity'>;
@@ -50,14 +57,24 @@ function Electricity({navigation}: Props) {
     filteredData,
     selectedProvider,
     isSelected,
-    lastUsedMeterNumber
+    lastUsedProvider,
+    showAlert,
+    lastUsedAddress,
+    lastUsedMeterName,
+    lastUsedMeterNo,
   } = useSelector((state: RootState) => state.electricity);
 
+  // const isFormValid =
+  //   selectedProvider &&
+  //   amount.trim() !== '' &&
+  //   meterNumber.trim() !== '' &&
+  //   meterNumber.length === 10;
+
   const isFormValid =
-    selectedProvider &&
-    amount.trim() !== '' &&
-    meterNumber.trim() !== '' &&
-    meterNumber.length === 10;
+    selectedProvider ||
+    (lastUsedProvider && amount.trim() !== '' && meterNumber.trim() !== '') ||
+    (lastUsedMeterNo && meterNumber.length === 10) ||
+    lastUsedMeterNo;
 
   const handleBack = () => navigation.goBack();
 
@@ -65,33 +82,15 @@ function Electricity({navigation}: Props) {
     dispatch(setAmount(value.replace(/[^0-9]/g, '')));
   };
 
-  // const handleMeterNumberChange = (value: string) => {
-  //   const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
-  //   dispatch(setMeterNumber(numericValue));
-  //   const randomIndex = Math.floor(Math.random() * meter_data.length);
-
-  //   if (numericValue.length === 10) {
-  //     dispatch(setMeterName(meter_data[randomIndex].name));
-  //   } else {
-  //     dispatch(setMeterName(''));
-  //   }
-  // };
   const handleMeterNumberChange = (value: string) => {
     const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
     dispatch(setMeterNumber(numericValue));
+    const randomIndex = Math.floor(Math.random() * meter_data.length);
 
     if (numericValue.length === 10) {
-      const randomIndex = Math.floor(Math.random() * meter_data.length);
       dispatch(setMeterName(meter_data[randomIndex].name));
-      setLastUsedMeterNumber(numericValue); // Store the last used meter number
     } else {
       dispatch(setMeterName(''));
-    }
-  };
-
-  const handleMeterNumberFocus = () => {
-    if (lastUsedMeterNumber) {
-      dispatch(setMeterNumber(lastUsedMeterNumber)); // Set the last used meter number when focused
     }
   };
 
@@ -107,13 +106,27 @@ function Electricity({navigation}: Props) {
 
   const handleContinue = () => {
     const address = selectedProvider?.electricity || '';
+    const meterRegex = /^[0-9]{1,10}$/;
+    if (!meterRegex.test(lastUsedMeterNo || meterNumber)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Meter number must be 10 digits',
+      });
+      return;
+    }
     if (isFormValid) {
       navigation.navigate('electricity-purchase-summary', {
-        selectedProvider,
+        selectedProvider: selectedProvider || lastUsedProvider,
         amount,
-        meterNumber,
-        meterName,
-        address: address,
+        meterNumber: lastUsedMeterNo || meterNumber,
+        meterName: lastUsedMeterName || meterName,
+        address: lastUsedAddress || address,
+      });
+    } else {
+      Toast.show({
+        type: 'error',
+        text1: 'Form Incomplete',
+        text2: 'Please fill in all required fields.',
       });
     }
   };
@@ -138,7 +151,9 @@ function Electricity({navigation}: Props) {
               style={inputStyles.passwordInput}
               onPress={() => dispatch(toggleElectricityProviderModal(true))}>
               <Text style={inputStyles.securedInput}>
-                {selectedProvider
+                {lastUsedProvider
+                  ? lastUsedProvider
+                  : selectedProvider
                   ? selectedProvider.electricity
                   : 'Select service provider'}
               </Text>
@@ -170,7 +185,7 @@ function Electricity({navigation}: Props) {
           action={null}
           validate="meter-number"
           onChange={handleMeterNumberChange}
-          onFocus={handleMeterNumberFocus}
+          // onFocus={handleMeterNumberFocus}
         />
 
         {meterNumber.trim() !== '' && (
@@ -193,8 +208,38 @@ function Electricity({navigation}: Props) {
         <View style={{width: '100%', marginTop: 20}}>
           <Button text="Continue" action={handleContinue} />
         </View>
+        <View
+          style={{
+            width: '100%',
+            marginTop: '10%',
+            display: 'flex',
+            gap: 10,
+            marginBottom: 200,
+          }}>
+          <Text style={electricityStyles.savedText}>
+            {' '}
+            Saved meters number(s)
+          </Text>
+          {electricity_transaction_history.slice(0, 3).map((data, index) => (
+            <TouchableOpacity
+              key={index}
+              style={electricityStyles.previousWrapper}
+              onPress={() => {
+                dispatch(setLastUsedProvider(data.provider));
+                dispatch(setMeterNumber(data.meter_no));
+                dispatch(setMeterName(data.customer_name));
+                dispatch(setLastUsedAddress(data.address));
+              }}>
+              <View style={electricityStyles.grayBox}></View>
+              <View>
+                <Text style={electricityStyles.meterNo}>{data.meter_no}</Text>
+                <Text style={electricityStyles.address}>{data.address}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
       </ScrollView>
-
+      <Toast />
       {showElectricityProviderModal && (
         <ElectricityProvider
           navigateBack={() => dispatch(toggleElectricityProviderModal(false))}
@@ -207,6 +252,13 @@ function Electricity({navigation}: Props) {
           setSelectedProvider={provider =>
             dispatch(setSelectedProvider(provider))
           }
+        />
+      )}
+      {showAlert && (
+        <AlertModal
+          topText="Notice"
+          bottomText="Please ensure all entries are filled"
+          closeModal={() => dispatch(setShowAlert(false))}
         />
       )}
     </SafeAreaView>

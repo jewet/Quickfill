@@ -33,6 +33,7 @@ import {
   setCurrentMessage,
   setShowMoreInfo,
 } from '../../../../../../utils/redux/slice/orders';
+import Dp from '../../../../../../assets/images/orders/profile_pic.svg'
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
@@ -47,7 +48,7 @@ function Chat({navigation}: Props) {
     target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
 
   // Profile picture of the chat participant
-  const ProfilePic = chatPerson.pic;
+  const ProfilePic = chatPerson?.pic || Dp;
 
   const dispatch = useDispatch();
   const {messages, currentMessage, showMoreInfo} = useSelector(
@@ -62,6 +63,7 @@ function Chat({navigation}: Props) {
     navigation.navigate('profile-details', {orderDetails, target});
   };
 
+  console.log('Order details-chat: ', orderDetails);
 
   const renderItem = ({item}: {item: (typeof chat_data)[0]}) => {
     const isSender = item.sender === 'sender';

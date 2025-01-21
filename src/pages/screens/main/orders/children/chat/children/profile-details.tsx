@@ -13,7 +13,7 @@ import AwardIcon from '../../../../../../../assets/images/orders/tabler_award.sv
 import UserCheck from '../../../../../../../assets/images/orders/tabler_user-check.svg';
 import Star from '../../../../../../../assets/images/orders/star.svg';
 import homeStyles from '../../../../home/home-styles';
-import {achievements_data} from '../../../../../../../utils/sample-data/orders';
+import {achievements_data, customer_review} from '../../../../../../../utils/sample-data/orders';
 import {primaryColor} from '../../../../../onboarding/splash/splashstyles';
 import ChatStyles from '../chatStyles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -48,10 +48,11 @@ function ProfileDetails({navigation}: Props) {
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   const reviewsToShow = showAllReviews
-    ? orderDetails?.customer_review
-    : orderDetails?.customer_review?.slice(0, 3);
+    ? customer_review
+    : customer_review.slice(0, 3);
 
   const toggleReviews = () => setShowAllReviews(!showAllReviews);
+  console.log('Order details-profile: ', orderDetails);
 
   return (
     <SafeAreaView style={profileDetailsStyles.profileDetailsContainer}>
@@ -211,7 +212,7 @@ function ProfileDetails({navigation}: Props) {
             ]}>
             Customer reviews{' '}
             <Text style={{color: primaryColor}}>
-              ({orderDetails?.customer_review?.length})
+              ({customer_review.length})
             </Text>
           </Text>
           <View

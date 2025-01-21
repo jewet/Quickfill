@@ -1,6 +1,6 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
 const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
 const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
@@ -15,7 +15,7 @@ const electricityStyles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     flex: 1,
-    position: 'relative'
+    position: 'relative',
   },
   scrollview: {
     width: '100%',
@@ -40,6 +40,41 @@ const electricityStyles = StyleSheet.create({
     lineHeight: moderateScale(17.64),
     fontWeight: '600',
     color: '#2C2C2C',
+  },
+  savedText: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(16),
+    fontWeight: '600',
+    color: '#000000',
+    marginBottom: verticalScale(10),
+  },
+  meterNo: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(14),
+    fontWeight: '600',
+    color: '#2C2C2C',
+  },
+  address: {
+    fontFamily: 'Plus Jakarta Sans',
+    fontSize: moderateScale(10),
+    fontWeight: '400',
+    color: '#A8A8A3',
+  },
+  grayBox: {
+    width: verticalScale(28),
+    height: verticalScale(28),
+    borderRadius: verticalScale(10),
+    backgroundColor: '#D9D9D9',
+  },
+  previousWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    gap: verticalScale(10),
+    borderRadius: verticalScale(8),
+    backgroundColor: '#EDEDED',
+    padding: verticalScale(10)
   },
 });
 

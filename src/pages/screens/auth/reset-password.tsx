@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Input from '../../../components/Input/AuthInput';
 import {ScrollView, StatusBar, View} from 'react-native';
 import authStyles from './styles/authStyles';
-import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
+import {backgroundStyle, isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Auth/Modal/Modal';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +16,7 @@ import {
   setPassword,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
+import Toast from 'react-native-toast-message';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
@@ -26,11 +27,36 @@ function ResetPassword({navigation}: Props) {
   const {showModal, password, confirmPassword} = useSelector(
     (state: RootState) => state.auth,
   );
+  // Validation function
+    const handleContinue = () => {
+      const passwordRegex =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  
+      if (!passwordRegex.test(password)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Password',
+          text2:
+            'Password must be at least 8 characters, include a number, letter & special character',
+        });
+        return;
+      }
+      if (confirmPassword !== password) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid confirm Password',
+          text2: 'Passwords do not match',
+        });
+        return;
+      }
+  
+      dispatch(setShowModal(true))
+    };
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FFFFFFF'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -67,10 +93,11 @@ function ResetPassword({navigation}: Props) {
           />
           <Button
             text="Reset password"
-            action={() => dispatch(setShowModal(true))}
+            action={handleContinue}
           />
         </View>
       </ScrollView>
+      <Toast />
       {showModal && (
         <Modal
           topText="Confirmed"

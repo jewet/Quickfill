@@ -46,7 +46,7 @@ type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 
 function GasOrderDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
-  const {gasDetails, selectedCylinder, dieselPrice, litres} = route.params;
+  const {orderDetails, selectedCylinder, dieselPrice, litres} = route.params;
   const dispatch = useDispatch();
   const {showOrderDetails, showModal} = useSelector(
     (state: RootState) => state.gas,
@@ -55,13 +55,14 @@ function GasOrderDetails({navigation}: Props) {
   const item_amt = dieselPrice
     ? Number(dieselPrice)
     : Number(selectedCylinder?.amount);
-  const delivery_fee = Number(gasDetails?.delivery_fee);
+  const delivery_fee = Number(orderDetails?.delivery_fee);
   const service_charge = Number(200);
   const total = item_amt + delivery_fee + service_charge;
 
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
+  console.log('Order details-orderdetails: ', orderDetails);
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -82,7 +83,7 @@ function GasOrderDetails({navigation}: Props) {
           <BackArrow width={26} height={26} fill="none" />
         </TouchableOpacity>
         <Text style={electricityStyles.topText}>
-          Order {gasDetails?.order_no}
+          Order {orderDetails?.order_no}
         </Text>
         <TouchableOpacity>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
@@ -105,7 +106,7 @@ function GasOrderDetails({navigation}: Props) {
           <View style={orderDetailsStyles.orderDetailsCont}>
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
-                <Text style={homeStyles.title}>Delivery status</Text>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>Delivery status</Text>
                 <Text style={homeStyles.details}>Delivery in 20-30mins</Text>
               </View>
               <TouchableOpacity
@@ -121,7 +122,7 @@ function GasOrderDetails({navigation}: Props) {
               </TouchableOpacity>
             </View>
             <View style={orderStyles.progressBarWrapper}>
-              {gasDetails?.delivery_timeline?.map(
+              {orderDetails?.delivery_timeline?.map(
                 (data: any, index: number) => (
                   <View key={index}>
                     {data?.itsTurn === true && data?.pending === false ? (
@@ -137,8 +138,8 @@ function GasOrderDetails({navigation}: Props) {
             </View>
             <View style={orderDetailsStyles.flexContainer}>
               <NoteIcon width={20} height={20} fill="none" />
-              <Text style={[homeStyles.title, {fontSize: 12, fontWeight: 600}]}>
-                Your change will be added to your wallet balance
+              <Text style={[homeStyles.title, {fontSize: 12, fontWeight: 600, color: '#2C2C2C'}]}>
+                Your charge will be added to your wallet balance
               </Text>
             </View>
           </View>
@@ -146,7 +147,7 @@ function GasOrderDetails({navigation}: Props) {
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
                 <Text style={homeStyles.details}>Order details</Text>
-                <Text style={homeStyles.title}>1 vendor, 1 item</Text>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>1 vendor, 1 item</Text>
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
@@ -163,7 +164,7 @@ function GasOrderDetails({navigation}: Props) {
             {showOrderDetails && (
               <View>
                 <Text style={homeStyles.details}>
-                  {gasDetails?.name || 'No Vendor'}
+                  {orderDetails?.name || 'No Vendor'}
                 </Text>
                 <View>
                   <View style={orderDetailsStyles.orderType}>
@@ -214,14 +215,14 @@ function GasOrderDetails({navigation}: Props) {
                 orderDetailsStyles.flexContainer,
                 {justifyContent: 'space-between', marginTop: 10},
               ]}>
-              <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+              <TouchableOpacity style={[orderDetailsStyles.flexContainer, {width: 'auto'}]} onPress={()=>navigation.navigate('delivery-instructions')}>
                 <MsgIcon width={20} height={20} fill="none" />
                 <Text
-                  style={[homeStyles.title, {fontSize: 12, fontWeight: 600}]}>
+                  style={[homeStyles.title, {fontSize: 12, fontWeight: 600, color: '#A8A8A3'}]}>
                   Add extra delivery note e.g. estate pass
                 </Text>
-              </View>
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
                 <ArrowRightIcon width={20} height={20} fill="none" />
               </TouchableOpacity>
             </View>
@@ -242,7 +243,7 @@ function GasOrderDetails({navigation}: Props) {
                   Delivery confirmation code:
                 </Text>
               </View>
-              <TouchableOpacity
+              <View
                 style={[
                   orderDetailsStyles.viewTimeline,
                   {
@@ -257,9 +258,9 @@ function GasOrderDetails({navigation}: Props) {
                     homeStyles.title,
                     {color: primaryColor, fontSize: 16, fontWeight: 700},
                   ]}>
-                  {gasDetails?.delivery_code}
+                  {orderDetails?.delivery_code}
                 </Text>
-              </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={orderDetailsStyles.totalWrapper}>
@@ -349,10 +350,10 @@ function GasOrderDetails({navigation}: Props) {
           }
           subTotal={item_amt}
           deliveryFee={delivery_fee}
-          timeline_data={gasDetails?.delivery_timeline}
+          timeline_data={orderDetails?.delivery_timeline}
           navigateToDeliveryTracking={() => {
             dispatch(setShowModal(false));
-            navigation.navigate('delivery', {orderDetails: gasDetails});
+            navigation.navigate('delivery', {orderDetails: orderDetails});
           }}
         />
       )}

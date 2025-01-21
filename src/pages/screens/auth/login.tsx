@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -8,30 +8,61 @@ import {
   ScrollView,
   StatusBar,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import authStyles from './styles/authStyles';
-import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
+import {
+  backgroundStyle,
+  isDarkMode,
+} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {setEmail, setPassword} from '../../../utils/redux/slice/auth';
+import Toast from 'react-native-toast-message';
+import inputStyles from '../../../components/Input/InputStyles';
 
-// Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
-  // Redux state selectors
   const dispatch = useDispatch();
   const {email, password} = useSelector((state: RootState) => state.auth);
+
+  // Validation function
+  const handleLogin = () => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Email',
+        text2: 'Please enter a valid email address.',
+      });
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2:
+          'Password must be at least 8 characters, include a number, letter & special character',
+      });
+      return;
+    }
+
+    navigation.navigate('home');
+  };
 
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FFFFFFF'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -66,7 +97,7 @@ function Login({navigation}: Props) {
             validate="password"
           />
           <View style={{marginTop: 10, width: '100%'}}>
-            <Button text="Login" action={() => navigation.navigate('home')} />
+            <Button text="Login" action={handleLogin} />
           </View>
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
@@ -89,6 +120,7 @@ function Login({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 }

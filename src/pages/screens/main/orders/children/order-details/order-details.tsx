@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  Linking,
   ScrollView,
   StatusBar,
   Text,
@@ -34,6 +35,7 @@ import ChatIcon from '../../../../../../assets/images/orders/msg.svg';
 import CallIcon from '../../../../../../assets/images/orders/call.svg';
 import Deliver from '../../../../../../assets/images/profile/Deliver.svg';
 import TransitIcon from '../../../../../../assets/images/orders/rider.svg';
+import Delivery from '../../../../../../assets/images/orders/delivery.svg';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 import TimelineModal from '../../../../../../components/TimelineModal/TimelineModal';
 import FullProgressBar from '../../../../../../assets/images/orders/full_progress_bar.svg';
@@ -42,7 +44,8 @@ import BlankProgressBar from '../../../../../../assets/images/orders/blank_progr
 import {profile_data} from '../../../../../../utils/sample-data/profile';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {setShowModal} from '../../../../../../utils/redux/slice/orders';
+import {setShowAlert, setShowModal} from '../../../../../../utils/redux/slice/orders';
+import AlertModal from '../../../../../../components/Alert/Alert';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
@@ -68,10 +71,19 @@ function OrderDetails({navigation}: Props) {
     navigation.navigate('chat', {orderDetails, target});
   };
   const dispatch = useDispatch();
-  const {showModal} = useSelector((state: RootState) => state.orders);
+  const {showModal, showAlert} = useSelector((state: RootState) => state.orders);
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
+  const handleCall = async (target: 'rider' | 'vendor') => {
+      const phoneNumber = target === 'rider' ? orderDetails?.rider?.phone_number : '+2348069684739';
+      const url = `tel:${phoneNumber}`;
+      try {
+        await Linking.openURL(url);
+      } catch (error) {
+        dispatch(setShowAlert(true));
+      }
+    };
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -113,7 +125,9 @@ function OrderDetails({navigation}: Props) {
           <View style={orderDetailsStyles.orderDetailsCont}>
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
-                <Text style={homeStyles.title}>Delivery status</Text>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
+                  Delivery status
+                </Text>
                 <Text style={homeStyles.details}>Delivery in 20-30mins</Text>
               </View>
               <TouchableOpacity
@@ -145,7 +159,11 @@ function OrderDetails({navigation}: Props) {
             </View>
             <View style={orderDetailsStyles.flexContainer}>
               <NoteIcon width={20} height={20} fill="none" />
-              <Text style={[homeStyles.title, {fontSize: 12, fontWeight: 600}]}>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {fontSize: 12, fontWeight: 600, color: '#2C2C2C'},
+                ]}>
                 Your change will be added to your wallet balance
               </Text>
             </View>
@@ -154,7 +172,7 @@ function OrderDetails({navigation}: Props) {
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
                 <Text style={homeStyles.details}>Order details</Text>
-                <Text style={homeStyles.title}>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
                   1 vendor, {orderDetails?.order_type.length} item
                   {orderDetails?.order_type.length > 1 && 's'}
                 </Text>
@@ -206,16 +224,118 @@ function OrderDetails({navigation}: Props) {
                 orderDetailsStyles.flexContainer,
                 {justifyContent: 'space-between', marginTop: 10},
               ]}>
-              <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+              <TouchableOpacity
+                style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}
+                onPress={() => navigation.navigate('delivery-instructions')}>
                 <MsgIcon width={20} height={20} fill="none" />
                 <Text
-                  style={[homeStyles.title, {fontSize: 12, fontWeight: 600}]}>
-                  8-26 Ango Abdullahi St, Gwarinpa, 900108,FCT
+                  style={[
+                    homeStyles.title,
+                    {fontSize: 12, fontWeight: 600, color: '#A8A8A3'},
+                  ]}>
+                  Add extra delivery note e.g. estate pass
                 </Text>
-              </View>
-              <TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('delivery-instructions')}>
                 <ArrowRightIcon width={20} height={20} fill="none" />
               </TouchableOpacity>
+            </View>
+          </View>
+          <View style={orderDetailsStyles.orderDetailsCont}>
+            <Text
+              style={[
+                homeStyles.details,
+                {color: '#2C2C2C', fontWeight: 400, fontSize: 12},
+              ]}>
+              Vendor details
+            </Text>
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%'},
+              ]}>
+              <View>
+                <Text style={homeStyles.details}>
+                  {orderDetails?.vendor?.name}
+                </Text>
+                <View
+                  style={[
+                    orderDetailsStyles.flexContainer,
+                    {gap: 1, marginTop: 5, width: 'auto'},
+                  ]}>
+                  <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
+                    Status -{orderDetails?.vendor?.status}
+                  </Text>
+                  {orderDetails?.vendor?.status.toLowerCase() === 'online' ? (
+                    <OnlineIcon width={7} height={7} fill="none" />
+                  ) : (
+                    <OfflineIcon width={7} height={7} fill="none" />
+                  )}
+                </View>
+              </View>
+              {/* <View
+                style={[
+                  orderDetailsStyles.flexContainer,
+                  {gap: 15, width: 'auto'},
+                ]}>
+                <TouchableOpacity onPress={()=>handleCall('vendor')}>
+                <CallIcon width={48} height={48} fill="none" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'vendor')}>
+                  <ChatIcon width={48} height={48} fill="none" />
+                </TouchableOpacity>
+              </View> */}
+            </View>
+          </View>
+          <View style={orderDetailsStyles.orderDetailsCont}>
+            <Text
+              style={[
+                homeStyles.details,
+                {color: '#2C2C2C', fontWeight: 400, fontSize: 12},
+              ]}>
+              Rider information
+            </Text>
+            <View
+              style={[
+                orderDetailsStyles.flexContainer,
+                {justifyContent: 'space-between', width: '100%'},
+              ]}>
+              <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+                <RiderPic width={43} height={43} fill="none" />
+                <View>
+                  <Text style={homeStyles.details}>
+                    {orderDetails?.rider?.name}
+                  </Text>
+                  <View
+                    style={[
+                      orderDetailsStyles.flexContainer,
+                      {gap: 2, marginTop: 5, width: 'auto'},
+                    ]}>
+                    <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
+                      Status -{orderDetails?.rider?.status}
+                    </Text>
+                    <TransitIcon width={15} height={15} fill="none" />
+                  </View>
+                </View>
+              </View>
+              <View
+                style={[
+                  orderDetailsStyles.flexContainer,
+                  {gap: 15, width: 'auto'},
+                ]}>
+                <TouchableOpacity onPress={()=>navigation.navigate('delivery', {orderDetails})}>
+                  <Delivery width={40} height={40} fill="none" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>handleCall('rider')}>
+                  <CallIcon width={40} height={40} fill="none" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
+                  <ChatIcon width={40} height={40} fill="none" />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={orderDetailsStyles.orderDetailsCont}>
@@ -242,7 +362,7 @@ function OrderDetails({navigation}: Props) {
                     paddingHorizontal: 15,
                     borderRadius: 30,
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
                   },
                 ]}>
                 <Text
@@ -253,99 +373,6 @@ function OrderDetails({navigation}: Props) {
                   {orderDetails?.delivery?.code}
                 </Text>
               </TouchableOpacity>
-            </View>
-          </View>
-          <View style={orderDetailsStyles.orderDetailsCont}>
-            <Text
-              style={[
-                homeStyles.details,
-                {color: '#2C2C2C', fontWeight: 400, fontSize: 12},
-              ]}>
-              Vendor details
-            </Text>
-            <View
-              style={[
-                orderDetailsStyles.flexContainer,
-                {justifyContent: 'space-between', width: '100%'},
-              ]}>
-              <View>
-                <Text style={homeStyles.details}>
-                  {orderDetails?.vendor?.name}
-                </Text>
-                <View
-                  style={[
-                    orderDetailsStyles.flexContainer,
-                    {gap: 1, marginTop: 5, width: 'auto'},
-                  ]}>
-                  <Text style={homeStyles.title}>
-                    Status -{orderDetails?.vendor?.status}
-                  </Text>
-                  {orderDetails?.vendor?.status.toLowerCase() === 'online' ? (
-                    <OnlineIcon width={7} height={7} fill="none" />
-                  ) : (
-                    <OfflineIcon width={7} height={7} fill="none" />
-                  )}
-                </View>
-              </View>
-              <View
-                style={[
-                  orderDetailsStyles.flexContainer,
-                  {gap: 15, width: 'auto'},
-                ]}>
-                <TouchableOpacity>
-                  <CallIcon width={48} height={48} fill="none" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleNavigation(orderDetails!, 'vendor')}>
-                  <ChatIcon width={48} height={48} fill="none" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-          <View style={orderDetailsStyles.orderDetailsCont}>
-            <Text
-              style={[
-                homeStyles.details,
-                {color: '#2C2C2C', fontWeight: 400, fontSize: 12},
-              ]}>
-              Rider information
-            </Text>
-            <View
-              style={[
-                orderDetailsStyles.flexContainer,
-                {justifyContent: 'space-between', width: '100%'},
-              ]}>
-              <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-                <RiderPic width={48} height={48} fill="none" />
-                <View>
-                  <Text style={homeStyles.details}>
-                    {orderDetails?.rider?.name}
-                  </Text>
-                  <View
-                    style={[
-                      orderDetailsStyles.flexContainer,
-                      {gap: 2, marginTop: 5, width: 'auto'},
-                    ]}>
-                    <Text style={homeStyles.title}>
-                      Status -{orderDetails?.rider?.status}
-                    </Text>
-                    <TransitIcon width={15} height={15} fill="none" />
-                  </View>
-                </View>
-              </View>
-              <View
-                style={[
-                  orderDetailsStyles.flexContainer,
-                  {gap: 15, width: 'auto'},
-                ]}>
-                <TouchableOpacity>
-                  <CallIcon width={48} height={48} fill="none" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
-                  <ChatIcon width={48} height={48} fill="none" />
-                </TouchableOpacity>
-              </View>
             </View>
           </View>
           <View style={orderDetailsStyles.totalWrapper}>
@@ -415,6 +442,13 @@ function OrderDetails({navigation}: Props) {
           subTotal={subtotal}
           deliveryFee={orderDetails?.delivery?.fee}
           timeline_data={orderDetails?.delivery_timeline}
+        />
+      )}
+      {showAlert && (
+        <AlertModal
+          topText="Error"
+          bottomText="Unable to perform this action."
+          closeModal={() => dispatch(setShowAlert(false))}
         />
       )}
     </SafeAreaView>

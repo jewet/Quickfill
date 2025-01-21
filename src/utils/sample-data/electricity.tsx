@@ -50,6 +50,21 @@ export const meter_data: MeterProps[] = [
     name: 'Nuella Pius',
   },
 ];
+interface PreviousMeterProps {
+  meter_no: string;
+}
+
+export const previous_meter_data: PreviousMeterProps[] = [
+  {
+    meter_no: '1234567891',
+  },
+  {
+    meter_no: '2364899936',
+  },
+  {
+    meter_no: '6452894463',
+  },
+];
 
 export interface ElectricityTransactionProps {
   token: string;
@@ -91,7 +106,7 @@ export const electricity_transaction_history: ElectricityTransactionProps[] = [
     token: '2345  4888  2222  9082  2859',
     customer_name: 'Abdul Ahmed',
     address: 'Abuja',
-    meter_no: '782398372',
+    meter_no: '4568298662',
     date: 'Thurs, 12th Nov, 2024',
     time: '3:00pm',
     value: '100kwh',
@@ -108,7 +123,7 @@ export const electricity_transaction_history: ElectricityTransactionProps[] = [
     token: '3434  4843  6523  7854  2233',
     customer_name: 'Lawal Paul',
     address: 'Lekki Phase 1, Lagos',
-    meter_no: '782398372',
+    meter_no: '3567778111',
     date: 'Mon, 12th Mar, 2023',
     time: '11:15pm',
     value: '10.3kwh',

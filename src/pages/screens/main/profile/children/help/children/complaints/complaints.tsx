@@ -17,11 +17,18 @@ import favouritesStyles from '../../../favourites/favouritesStyles';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import complaintsStyles from './complaintsStyles';
+import Button from '../../../../../../../../components/Button/Button';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {setDeliveryNote} from '../../../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'complaints'>;
 
+
 function Complaints({navigation}: Props) {
+  const dispatch = useDispatch();
+  const {deliveryNote} = useSelector((state: RootState) => state.profile);
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -51,12 +58,21 @@ function Complaints({navigation}: Props) {
         <TextInput
           placeholder="Leave a comment..."
           style={complaintsStyles.textArea}
+          value={deliveryNote}
+          onChange={event => dispatch(setDeliveryNote(event.nativeEvent.text))}
         />
-        <TouchableOpacity
-          style={complaintsStyles.btn}
-          onPress={() => navigation.navigate('item-suggestion')}>
-          <Text style={complaintsStyles.btnText}>Send</Text>
-        </TouchableOpacity>
+        {deliveryNote.length <= 0 ? (
+          <TouchableOpacity style={complaintsStyles.btn}>
+            <Text style={complaintsStyles.btnText} disabled={true}>
+              Send
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <Button
+            text="Send"
+            action={() => navigation.navigate('item-suggestion')}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

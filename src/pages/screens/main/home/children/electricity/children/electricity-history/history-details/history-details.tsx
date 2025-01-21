@@ -21,6 +21,10 @@ import {ElectricityTransactionProps} from '../../../../../../../../../utils/samp
 import historyDetailsStyles from './historyDetailsStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import paymentResultStyles from '../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
+import AlertModal from '../../../../../../../../../components/Alert/Alert';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../utils/redux/store/store';
+import {setShowAlert} from '../../../../../../../../../utils/redux/slice/electricity';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -33,9 +37,12 @@ function HistoryDetails({navigation}: Props) {
     useRoute<RouteProp<RootStackParamList, 'electricity-history-details'>>();
   const {historyDetails}: {historyDetails?: ElectricityTransactionProps} =
     route.params || {};
+  const dispatch = useDispatch();
+
+  const {showAlert} = useSelector((state: RootState) => state.electricity);
   const copyToClipboard = (value: string, token: string) => {
     Clipboard.setString(value);
-    Alert.alert('Copied!', `${token} copied to clipboard.`);
+    dispatch(setShowAlert(true));
   };
   const total =
     Number(historyDetails?.vat) +
@@ -160,6 +167,13 @@ function HistoryDetails({navigation}: Props) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Token copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {countries} from '../../sample-data/input';
 
-interface ProfileState {
+interface AuthState {
   showModal: boolean;
   firstName: string;
   lastName: string;
@@ -17,9 +17,9 @@ interface ProfileState {
   selectedCountry: (typeof countries)[number];
   showDropdown: boolean;
   searchQuery: string;
-}
+  errors: { [key: string]: string | null };}
 
-const initialState: ProfileState = {
+const initialState: AuthState = {
   showModal: false,
   firstName: '',
   lastName: '',
@@ -35,6 +35,7 @@ const initialState: ProfileState = {
   selectedCountry: countries.find(c => c.country === 'Nigeria') || countries[0],
   showDropdown: false,
   searchQuery: '',
+  errors: {},
 };
 
 const authSlice = createSlice({
@@ -77,6 +78,9 @@ const authSlice = createSlice({
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
+    // setError: (state, action: PayloadAction<{ field: string; error: string | null }>) => {
+    //   state.errors[action.payload.field] = action.payload.error;
+    // },
     setSelectedCountry: (
       state,
       action: PayloadAction<(typeof countries)[number]>,

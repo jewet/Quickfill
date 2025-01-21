@@ -152,7 +152,7 @@ function Wallet({navigation}: Props) {
                 <TopUp width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Top up</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}}>
+              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}} onPress={()=>navigation.navigate('wallet-history', {profileDetails})}>
                 <History width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>History</Text>
               </TouchableOpacity>

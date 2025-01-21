@@ -8,6 +8,7 @@ interface ProfileState {
   postalCode: string;
   landmark: string;
   showModal: boolean;
+  showAlert: boolean;
   showBalance: boolean;
   showreferText: boolean;
   showMonthPicker: boolean;
@@ -28,6 +29,7 @@ interface ProfileState {
   cardNumber: string;
   expiryDate: string;
   cvv: string;
+  deliveryNote: string;
 }
 
 const initialState: ProfileState = {
@@ -38,6 +40,7 @@ const initialState: ProfileState = {
   postalCode: '',
   landmark: '',
   showModal: false,
+  showAlert: false,
   showBalance: true,
   showreferText: true,
   showMonthPicker: false,
@@ -58,6 +61,7 @@ const initialState: ProfileState = {
   cardNumber: '',
   expiryDate: '',
   cvv: '',
+  deliveryNote: '',
 };
 
 const profileSlice = createSlice({
@@ -84,6 +88,9 @@ const profileSlice = createSlice({
     },
     setShowModal: (state, action: PayloadAction<boolean>) => {
       state.showModal = action.payload;
+    },
+    setShowAlert: (state, action: PayloadAction<boolean>) => {
+      state.showAlert = action.payload;
     },
     setShowBalance: (state, action: PayloadAction<boolean>) => {
       state.showBalance = action.payload;
@@ -146,6 +153,9 @@ const profileSlice = createSlice({
     setCvv: (state, action: PayloadAction<string>) => {
       state.cvv = action.payload;
     },
+    setDeliveryNote: (state, action: PayloadAction<string>) => {
+      state.deliveryNote = action.payload;
+    },
   },
 });
 
@@ -177,6 +187,8 @@ export const {
   setCardNumber,
   setExpiryDate,
   setCvv,
+  setShowAlert,
+  setDeliveryNote,
 } = profileSlice.actions;
 
 export default profileSlice.reducer;

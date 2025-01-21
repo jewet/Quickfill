@@ -28,8 +28,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../utils/redux/store/store';
 import {
   setLitres,
+  setShowAlert,
   setShowModal,
 } from '../../../../../../../../utils/redux/slice/gas';
+import AlertModal from '../../../../../../../../components/Alert/Alert';
+import { primaryColor } from '../../../../../../onboarding/splash/splashstyles';
+import { scale } from '../../../../../accessories/accessoriesStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
@@ -39,14 +43,14 @@ function DieselDetails({navigation}: Props) {
   const {diesielDetails}: {diesielDetails?: DetailsProps} = route.params || {};
   const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
-  const {showModal, litres} = useSelector((state: RootState) => state.gas);
+  const {showModal, litres, showAlert} = useSelector((state: RootState) => state.gas);
   const dieselPrice = litres === 0 ? 0 : diesielDetails?.price * litres;
   const navigateToCheckout = () => {
     if (litres <= 0) {
-      Alert.alert('Please enter number of litres');
+      dispatch(setShowAlert(true))
     } else {
-      navigation.navigate('gas-checkout', {
-        gasDetails: diesielDetails,
+      navigation.replace('gas-checkout', {
+        orderDetails: diesielDetails,
         directory: 'diesel',
         dieselPrice: dieselPrice,
         litres: litres,
@@ -84,6 +88,28 @@ function DieselDetails({navigation}: Props) {
             <CloseIcon width={15} height={15} fill="none" />
           </TouchableOpacity>
           <View style={gasStyles.gasTop}>
+            <TouchableOpacity
+              style={{alignItems: 'flex-end'}}
+              onPress={() => {
+                navigation.navigate('profile-details', {
+                  orderDetails: diesielDetails,
+                  target: 'rider',
+                });
+              }}>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {
+                    color: primaryColor,
+                    fontWeight: '700',
+                    marginBottom: 10,
+                    fontSize: scale(12),
+                  },
+                ]}>
+                View Profile
+              </Text>
+            </TouchableOpacity>
+            <View>
             <View style={homeStyles.orderContent}>
               <View
                 style={{
@@ -127,6 +153,7 @@ function DieselDetails({navigation}: Props) {
             <Text style={homeStyles.idText}>
               Proximity: 2.6km away • Orders completed: 2038
             </Text>
+          </View>
           </View>
         </View>
         <View style={gasStyles.selectedKgWrapper}>
@@ -197,6 +224,13 @@ function DieselDetails({navigation}: Props) {
         <FundWallet
           action={() => dispatch(setShowModal(false))}
           navigation={navigation}
+        />
+      )}
+      {showAlert && (
+        <AlertModal
+          topText="Notice"
+          bottomText="Please enter number of litres"
+          closeModal={() => dispatch(setShowAlert(false))}
         />
       )}
     </SafeAreaView>

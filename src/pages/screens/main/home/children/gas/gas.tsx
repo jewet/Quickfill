@@ -31,9 +31,15 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
 import {isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import { RootState } from '../../../../../../utils/redux/store/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { setMarginTop, setPrevScrollY, setShowModal } from '../../../../../../utils/redux/slice/gas';
+import {RootState} from '../../../../../../utils/redux/store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  setMarginTop,
+  setPrevScrollY,
+  setShowModal,
+} from '../../../../../../utils/redux/slice/gas';
+import {primaryColor} from '../../../../onboarding/splash/splashstyles';
+import {scale} from '../../../accessories/accessoriesStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
@@ -42,12 +48,10 @@ function Gas({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
   const {actionDetails}: {actionDetails?: QuickActionProps} =
     route.params || {};
-    const dispatch = useDispatch()
-  const {
-    showModal,
-    marginTop,
-    prevScrollY,
-  } = useSelector((state: RootState) => state.gas);
+  const dispatch = useDispatch();
+  const {showModal, marginTop, prevScrollY} = useSelector(
+    (state: RootState) => state.gas,
+  );
 
   // const handleScroll = (event: any) => {
   //   const currentScrollY = event.nativeEvent.contentOffset.y;
@@ -60,11 +64,11 @@ function Gas({navigation}: Props) {
   // };
   const handleScroll = (event: any) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
-  
+
     if (currentScrollY > prevScrollY && marginTop !== 0) {
       dispatch(setMarginTop(0));
-    } 
-  
+    }
+
     dispatch(setPrevScrollY(currentScrollY));
   };
   const margin_top = Platform.OS === 'ios' ? '-12%' : 0;
@@ -218,7 +222,9 @@ function Gas({navigation}: Props) {
                   marginVertical: 20,
                   marginLeft: 16,
                 }}>
-                <TouchableOpacity onPress={() => dispatch(setMarginTop(500))} style={{marginTop: '2%', marginLeft: '2%'}}>
+                <TouchableOpacity
+                  onPress={() => dispatch(setMarginTop(500))}
+                  style={{marginTop: '2%', marginLeft: '2%'}}>
                   <CloseIcon width={24} height={24} fill="none" />
                 </TouchableOpacity>
               </View>
@@ -228,65 +234,97 @@ function Gas({navigation}: Props) {
               </TouchableOpacity>
             )}
             <View style={{width: '100%'}}>
-              {actionDetails?.details && actionDetails?.details?.map((data: any, index: number) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    orderDetailsStyles.flexContainer,
-                    vendorStyles.vendorCont,
-                  ]}
-                  onPress={() =>
-                    {navigation.navigate('gas-details', {
-                      gasDetails: actionDetails?.details && actionDetails?.details[index],
-                    })
-                    dispatch(setMarginTop(500))
-                  }
-                  }>
-                  <View
+              {actionDetails?.details &&
+                actionDetails?.details?.map((data: any, index: number) => (
+                  <TouchableOpacity
+                    key={index}
                     style={[
-                      orderDetailsStyles.flexContainer,
-                      {width: 'auto', alignItems: 'center'},
-                    ]}>
-                    <data.img width={64} height={64} fill="none" />
-                    <View>
-                      <View
+                      // orderDetailsStyles.flexContainer,
+                      vendorStyles.vendorCont,
+                    ]}
+                    onPress={() => {
+                      navigation.navigate('gas-details', {
+                        orderDetails:
+                          actionDetails?.details &&
+                          actionDetails?.details[index],
+                      });
+                      dispatch(setMarginTop(500));
+                    }}>
+                    <TouchableOpacity
+                      style={{alignItems: 'flex-end'}}
+                      onPress={() => {
+                        navigation.navigate('profile-details', {
+                          orderDetails:
+                            actionDetails?.details &&
+                            actionDetails?.details[index],
+                          target: 'rider',
+                        });
+                        dispatch(setMarginTop(500));
+                      }}>
+                      <Text
                         style={[
-                          orderDetailsStyles.flexContainer,
-                          {width: 'auto', gap: 3},
+                          homeStyles.title,
+                          {
+                            color: primaryColor,
+                            fontWeight: '700',
+                            fontSize: scale(12),
+                          },
                         ]}>
-                        <Text style={vendorStyles.status}>
-                          Status - {data.status || 'Unknown'}
-                        </Text>
-                        {data.status?.toString().toLowerCase() === 'online' ? (
-                          <Online width={7} height={7} fill="none" />
-                        ) : (
-                          <Offline width={7} height={7} fill="none" />
-                        )}
-                      </View>
-                      <Text style={vendorStyles.name}>{data.name}</Text>
-                      <Text style={vendorStyles.time}>
-                        Estimated delivery time: {data.delivery_time}
+                        View Profile
                       </Text>
-                    </View>
-                  </View>
-                  <View style={{display: 'flex', alignItems: 'flex-end'}}>
-                    <Text style={vendorStyles.time}>Price per kg</Text>
-                    <Text style={vendorStyles.name}>
-                      ₦{Intl.NumberFormat().format(data.price)}
-                    </Text>
+                    </TouchableOpacity>
                     <View
                       style={[
                         orderDetailsStyles.flexContainer,
-                        {width: 'auto', gap: 3},
+                        {justifyContent: 'space-between'},
                       ]}>
-                      <Star width={12} height={12} fill="none" />
-                      <Text style={[vendorStyles.name, {fontSize: 12}]}>
-                        {data.rating}
-                      </Text>
+                      <View
+                        style={[
+                          orderDetailsStyles.flexContainer,
+                          {width: 'auto', alignItems: 'center'},
+                        ]}>
+                        <data.img width={64} height={64} fill="none" />
+                        <View>
+                          <View
+                            style={[
+                              orderDetailsStyles.flexContainer,
+                              {width: 'auto', gap: 3},
+                            ]}>
+                            <Text style={vendorStyles.status}>
+                              Status - {data.status || 'Unknown'}
+                            </Text>
+                            {data.status?.toString().toLowerCase() ===
+                            'online' ? (
+                              <Online width={7} height={7} fill="none" />
+                            ) : (
+                              <Offline width={7} height={7} fill="none" />
+                            )}
+                          </View>
+                          <Text style={vendorStyles.name}>{data.name}</Text>
+                          <Text style={vendorStyles.time}>
+                            Estimated delivery time: {data.delivery_time}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Text style={vendorStyles.time}>Price per kg</Text>
+                        <Text style={vendorStyles.name}>
+                          ₦{Intl.NumberFormat().format(data.price)}
+                        </Text>
+                        <View
+                          style={[
+                            orderDetailsStyles.flexContainer,
+                            {width: 'auto', gap: 3},
+                          ]}>
+                          <Star width={12} height={12} fill="none" />
+                          <Text style={[vendorStyles.name, {fontSize: 12}]}>
+                            {data.rating}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
-                  </View>
-                </TouchableOpacity>
-              ))}
+                  </TouchableOpacity>
+                ))}
             </View>
           </View>
         </ScrollView>

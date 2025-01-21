@@ -24,6 +24,7 @@ import {
   setOtp,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
+import { backgroundStyle } from '../../../utils/status-bar-styles/status-bar-styles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'otp-verification'>;
@@ -87,7 +88,7 @@ function Otpverification({navigation}: Props) {
 
   return (
     <SafeAreaView style={authStyles.authContainer}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={authStyles.scrollview}>

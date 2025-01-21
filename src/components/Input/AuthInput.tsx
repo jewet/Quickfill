@@ -81,49 +81,49 @@ function Input({
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   // Validation function
-  const validateInput = (text: string) => {
-    if (validate?.toLowerCase() === 'email') {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      dispatch(
-        setError(!emailRegex.test(text) ? 'Invalid email address' : null),
-      );
-    } else if (validate?.toLowerCase() === 'phone') {
-      const phoneRegex = /^[0-9]{10,15}$/;
-      dispatch(
-        setError(!phoneRegex.test(text) ? 'Invalid phone number' : null),
-      );
-    } else if (validate?.toLowerCase() === 'name') {
-      dispatch(
-        setError(text.length < 2 ? 'Name must be at least 2 characters' : null),
-      );
-    } else if (validate?.toLowerCase() === 'password') {
-      dispatch(
-        setError(
-          !passwordRegex.test(text)
-            ? 'Password must be at least 8 characters, include a number, letter & special character'
-            : null,
-        ),
-      );
-    } else if (validate?.toLowerCase() === 'confirm-password') {
-      dispatch(
-        setError(
-          password && text !== password ? 'Passwords do not match' : null,
-        ),
-      );
-    } else if (validate?.toLowerCase() === 'phone') {
-      const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
-      dispatch(
-        setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null),
-      );
-    } else if (validate?.toLowerCase() === 'meter-number') {
-      const meterRegex = /^[0-9]{1,10}$/;
-      dispatch(
-        setError(
-          !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
-        ),
-      );
-    }
-  };
+  // const validateInput = (text: string) => {
+  //   if (validate?.toLowerCase() === 'email') {
+  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //     dispatch(
+  //       setError(!emailRegex.test(text) ? 'Invalid email address' : null),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'phone') {
+  //     const phoneRegex = /^[0-9]{10,15}$/;
+  //     dispatch(
+  //       setError(!phoneRegex.test(text) ? 'Invalid phone number' : null),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'name') {
+  //     dispatch(
+  //       setError(text.length < 2 ? 'Name must be at least 2 characters' : null),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'password') {
+  //     dispatch(
+  //       setError(
+  //         !passwordRegex.test(text)
+  //           ? 'Password must be at least 8 characters, include a number, letter & special character'
+  //           : null,
+  //       ),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'confirm-password') {
+  //     dispatch(
+  //       setError(
+  //         password && text !== password ? 'Passwords do not match' : null,
+  //       ),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'phone') {
+  //     const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
+  //     dispatch(
+  //       setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null),
+  //     );
+  //   } else if (validate?.toLowerCase() === 'meter-number') {
+  //     const meterRegex = /^[0-9]{1,10}$/;
+  //     dispatch(
+  //       setError(
+  //         !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
+  //       ),
+  //     );
+  //   }
+  // };
 
   return (
     <View style={inputStyles.inputContainer}>
@@ -140,7 +140,7 @@ function Input({
               value={value}
               onChangeText={text => {
                 onChange(text);
-                validateInput(text);
+                // validateInput(text);
               }}
             />
             <TouchableOpacity
@@ -172,7 +172,7 @@ function Input({
               value={value}
               onChangeText={text => {
                 onChange(text);
-                validateInput(text);
+                // validateInput(text);
               }}
             />
             <TouchableOpacity>
@@ -190,7 +190,7 @@ function Input({
               value={value}
               onChangeText={text => {
                 onChange(text);
-                validateInput(text);
+                // validateInput(text);
               }}
             />
             <TouchableOpacity>
@@ -219,7 +219,7 @@ function Input({
               onChangeText={text => {
                 if (/^\d*$/.test(text)) {
                   onChange(text);
-                  validateInput(text);
+                  // validateInput(text);
                 }
               }}
               maxLength={11}
@@ -286,7 +286,7 @@ function Input({
           value={value}
           onChangeText={text => {
             onChange(text);
-            validateInput(text);
+            // validateInput(text);
           }}
           maxLength={10}
           onFocus={onFocus}
@@ -299,7 +299,7 @@ function Input({
           value={value}
           onChangeText={text => {
             onChange(text);
-            validateInput(text);
+            // validateInput(text);
           }}
         />
       )}

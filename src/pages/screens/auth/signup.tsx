@@ -12,7 +12,10 @@ import {
   View,
 } from 'react-native';
 import authStyles from './styles/authStyles';
-import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
+import {
+  backgroundStyle,
+  isDarkMode,
+} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 import {useDispatch, useSelector} from 'react-redux';
@@ -25,22 +28,79 @@ import {
   setPassword,
   setPhoneNumber,
 } from '../../../utils/redux/slice/auth';
+import Toast from 'react-native-toast-message';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
-
   // Redux state selectors
   const dispatch = useDispatch();
-  const {firstName, lastName, email, phoneNumber, password, confirmPassword} = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const {firstName, lastName, email, phoneNumber, password, confirmPassword} =
+    useSelector((state: RootState) => state.auth);
+  // Validation function
+  const handleSignUp = () => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{6,12}$/;
+    if (firstName.length! < 2) {
+      Toast.show({
+        type: 'error',
+        text1: 'Incorrect First Name',
+        text2: 'Name must be at least 2 characters',
+      });
+      return;
+    }
+    if (lastName.length! <2) {
+      Toast.show({
+        type: 'error',
+        text1: 'Incorrect Last Name',
+        text2: 'Name must be at least 2 characters',
+      });
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Email',
+        text2: 'Please enter a valid email address.',
+      });
+      return;
+    }
+    if (!phoneRegex.test(phoneNumber)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid phone number length',
+      });
+      return;
+    }
+
+    if (!passwordRegex.test(password)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2:
+          'Password must be at least 8 characters, include a number, letter & special character',
+      });
+      return;
+    }
+    if (confirmPassword !== password) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid confirm Password',
+        text2: 'Passwords do not match',
+      });
+      return;
+    }
+
+    navigation.navigate('email-verification');
+  };
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FFFFFFF'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -60,7 +120,7 @@ function SignUp({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            validate="fullname"
+            validate="firstNname"
             onChange={text => dispatch(setFirstName(text))}
           />
           <Input
@@ -71,7 +131,7 @@ function SignUp({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            validate="fullname"
+            validate="lastName"
             onChange={text => dispatch(setLastName(text))}
           />
           <Input
@@ -121,7 +181,7 @@ function SignUp({navigation}: Props) {
           />
           <Button
             text="Sign Up"
-            action={() => navigation.navigate('email-verification')}
+            action={handleSignUp}
           />
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
@@ -142,6 +202,7 @@ function SignUp({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+         <Toast />
     </SafeAreaView>
   );
 }

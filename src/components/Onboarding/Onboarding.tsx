@@ -31,13 +31,13 @@ function Onboarding({img, boldText, lightText, navigateTo, bgColor, last}: Props
         backgroundColor={backgroundStyle.backgroundColor}
       />
       <View style={onboardingStyles.onboardingContent}>
-        {last !== true && (
+        {/* {last !== true && (
           <View style={onboardingStyles.skipWrapper}>
             <TouchableOpacity onPress={navigateTo}>
               <Text style={onboardingStyles.skipText}>Skip</Text>
             </TouchableOpacity>
           </View>
-        )}
+        )} */}
         {img}
         <View style={onboardingStyles.textContainer}>
           <Text style={onboardingStyles.boldText}>{boldText}</Text>

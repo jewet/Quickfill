@@ -45,6 +45,8 @@ function Report({navigation}: Props) {
   const {selectedReason, customReason, uploadedImage} = useSelector(
     (state: RootState) => state.orders,
   );
+  console.log('Order details-report: ', orderDetails);
+
 
   const uploadImage = () => {
     launchImageLibrary(
@@ -204,7 +206,7 @@ function Report({navigation}: Props) {
                   Alert.alert('Please select or specify a reason.');
                   return;
                 }
-                navigation.navigate('report-result', {
+                navigation.replace('report-result', {
                   result: 'successful',
                   target: target,
                   orderDetails: orderDetails,
