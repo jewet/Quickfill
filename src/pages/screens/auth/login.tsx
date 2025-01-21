@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -28,9 +28,6 @@ import inputStyles from '../../../components/Input/InputStyles';
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
-  const dispatch = useDispatch();
-  const {email, password} = useSelector((state: RootState) => state.auth);
-
   // Validation function
   const handleLogin = () => {
     const passwordRegex =
@@ -58,6 +55,8 @@ function Login({navigation}: Props) {
     navigation.navigate('home');
   };
 
+  const dispatch = useDispatch();
+  const {email, password} = useSelector((state: RootState) => state.auth);
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar

@@ -33,13 +33,13 @@ interface Props {
   label: string;
   placeholder: string;
   keyboardType?: KeyboardTypeOptions;
-  value: string;
+  value?: string;
   validate?: string;
   secured?: boolean;
   directory: string | null;
   action: any;
   onChange: (text: string) => void;
-  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;  
+  onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   password?: string;
 }
 
@@ -53,8 +53,8 @@ function Input({
   action,
   onChange,
   validate,
-  password, 
-  onFocus
+  password,
+  onFocus,
 }: Props) {
   // const [showPassword, setShowPassword] = useState(!secured);
   // const [error, setError] = useState<string | null>(null);
@@ -77,8 +77,8 @@ function Input({
       country.dialCode.includes(searchQuery),
   );
   // Password Regex (at least one letter, one number, one special character, and min 8 characters)
-  const passwordRegex =
-    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // const passwordRegex =
+  //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   // Validation function
   // const validateInput = (text: string) => {
