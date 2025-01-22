@@ -26,24 +26,31 @@ import {
   setPhoneNumber,
 } from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   // Redux state selectors
   const dispatch = useDispatch();
-  const {firstName, lastName, signUpEmail, phoneNumber, signUpPassword, signUpConfirmPassword} =
-    useSelector((state: RootState) => state.auth);
+  const {
+    firstName,
+    lastName,
+    signUpEmail,
+    phoneNumber,
+    signUpPassword,
+    signUpConfirmPassword,
+  } = useSelector((state: RootState) => state.auth);
   // Validation function
   const handleSignUp = () => {
     const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d\W_]{8,}$/;
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]{6,12}$/;
     if (firstName.length! < 2) {
@@ -82,8 +89,7 @@ function SignUp({navigation}: Props) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Password',
-        text2:
-        'Use 8+ characters, with a number, letter, & symbol.',
+        text2: 'Use 8+ characters, with a number, letter, & symbol.',
       });
       return;
     }

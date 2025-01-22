@@ -69,6 +69,7 @@ function Input({
   const dispatch = useDispatch();
   const { showPassword, error, selectedCountry, showDropdown, searchQuery} =
     useSelector((state: RootState) => state.auth);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(!secured);
 
   // Filtered countries based on search input
   const filteredCountries = countries.filter(
@@ -136,15 +137,14 @@ function Input({
               placeholder={placeholder}
               keyboardType={keyboardType}
               style={inputStyles.securedInput}
-              secureTextEntry={!showPassword}
+              secureTextEntry={!isPasswordVisible}
               value={value}
               onChangeText={text => {
                 onChange(text);
                 // validateInput(text);
               }}
             />
-            <TouchableOpacity
-              onPress={() => dispatch(setShowPassword(!showPassword))}>
+            <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
               {directory?.toLowerCase() === 'confirm' ? (
                 <ConfirmEye width={20} height={20} fill="none" />
               ) : (
