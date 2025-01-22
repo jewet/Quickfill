@@ -12,6 +12,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import homeStyles from './home-styles';
 import DropDown from '../../../../assets/images/home/dropdown.svg';
 import Eyes from '../../../../assets/images/home/tabler_eye-closed.svg';
+import OpenEye from '../../../../assets/images/auth/tabler_eye.svg';
 import Plus from '../../../../assets/images/home/tabler_plus.svg';
 import Bookmark from '../../../../assets/images/home/bookmark.svg';
 import ArrowRight from '../../../../assets/images/home/yellow-right-arrow.svg';
@@ -123,7 +124,13 @@ function Home({navigation}: Props) {
               <TouchableOpacity
                 style={{marginTop: 25}}
                 onPress={() => dispatch(setShowBalance(!showBalance))}>
-                <Eyes width={24} height={24} fill="none" />
+                {showBalance ? (
+                  <Eyes width={24} height={24} fill="none" />
+                )
+              :
+              (
+                <OpenEye width={24} height={24} fill="none" />
+              )}
               </TouchableOpacity>
             </View>
             <View

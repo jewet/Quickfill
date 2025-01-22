@@ -107,16 +107,21 @@ function Delivery({navigation}: Props) {
                   </Text>
                 </View>
               </View>
-              <View
+              <TouchableOpacity
                 style={[
                   orderDetailsStyles.flexContainer,
                   {
                     justifyContent: 'flex-end',
                     gap: 20,
                     marginTop: 20,
-                    marginLeft: '-5%',
                   },
-                ]}>
+                ]}
+                onPress={() =>
+                  navigation.navigate('profile-details', {
+                    orderDetails: orderDetails,
+                    target: 'rider',
+                  })
+                }>
                 <Dp width={40} height={40} />
                 <View>
                   <Text style={deliveryStyles.riderDetails}>
@@ -144,7 +149,7 @@ function Delivery({navigation}: Props) {
                     <ChatIcon width={48} height={48} fill="none" />
                   </TouchableOpacity>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

@@ -89,7 +89,7 @@ export const electricity_transaction_history: ElectricityTransactionProps[] = [
     token: '1293  4843  4834  4930  9489',
     customer_name: 'Edith G. Minard',
     address: '12 Admiralty Wy, Eti-Osa, Lagos 106104, Lagos',
-    meter_no: '782398372',
+    meter_no: '7823983725',
     date: 'Wed, 12th Feb, 2022',
     time: '2:30pm',
     value: '45.5kwh',

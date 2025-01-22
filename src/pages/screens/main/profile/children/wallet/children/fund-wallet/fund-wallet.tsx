@@ -25,8 +25,10 @@ import {RootState} from '../../../../../../../../utils/redux/store/store';
 import {
   setAmount,
   setIsSelected,
+  setShowAlert,
 } from '../../../../../../../../utils/redux/slice/profile';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AlertModal from '../../../../../../../../components/Alert/Alert';
 
 interface Props {
   action: () => void;
@@ -39,16 +41,16 @@ function FundWallet({action, navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const dispatch = useDispatch();
-  const {amount, isSelected} = useSelector((state: RootState) => state.profile);
+  const {amount, isSelected, showAlert} = useSelector((state: RootState) => state.profile);
 
   //defined navigation links
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.replace('transfer', {amount: amount});
+        navigation.navigate('transfer', {amount: amount});
         break;
       case 'card':
-        navigation.replace('card', {amount: amount});
+        navigation.navigate('card', {amount: amount});
         break;
       // case 'wallet':
       //   navigation.replace('payment-result', {result: 'successful'});
@@ -73,11 +75,12 @@ function FundWallet({action, navigation}: Props) {
 
   const handleContinue = () => {
     if (isSelected === null) {
+      // dispatch(setShowAlert(true))
       Alert.alert('No payment type selected');
       return;
     }
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      Alert.alert('Please enter a valid amount');
+      dispatch(setShowAlert(true))
       return;
     }
     const selectedPaymentType = payment_type[isSelected].type;
@@ -175,6 +178,13 @@ function FundWallet({action, navigation}: Props) {
           <Button text="Continue" action={handleContinue} />
         </View>
       </View>
+      {showAlert && (
+        <AlertModal
+          topText="Notice"
+          bottomText="Please enter a valid amount"
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

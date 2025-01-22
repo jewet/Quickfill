@@ -140,7 +140,7 @@ function PaymentResult({navigation}: Props) {
                 style={paymentResultStyles.btnWrapper}
                 onPress={() => {
                   if (directory?.toLowerCase() !== 'cart') {
-                    navigation.replace('user-wallet', {profileDetails: wallet});
+                    navigation.replace('wallet-history', {profileDetails: wallet});
                   } else {
                     // navigation.navigate('home')
                     navigation.replace('home');

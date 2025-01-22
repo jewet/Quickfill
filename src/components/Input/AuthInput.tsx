@@ -67,9 +67,9 @@ function Input({
 
   // Redux state selectors
   const dispatch = useDispatch();
-  const { showPassword, error, selectedCountry, showDropdown, searchQuery} =
+  const {showPassword, error, selectedCountry, showDropdown, searchQuery} =
     useSelector((state: RootState) => state.auth);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(!secured);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(!secured);
 
   // Filtered countries based on search input
   const filteredCountries = countries.filter(
@@ -144,11 +144,12 @@ function Input({
                 // validateInput(text);
               }}
             />
-            <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
-              {directory?.toLowerCase() === 'confirm' ? (
-                <ConfirmEye width={20} height={20} fill="none" />
-              ) : (
+            <TouchableOpacity
+              onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
+              {isPasswordVisible ? (
                 <Eye width={20} height={20} fill="none" />
+              ) : (
+                <ConfirmEye width={20} height={20} fill="none" />
               )}
             </TouchableOpacity>
           </View>

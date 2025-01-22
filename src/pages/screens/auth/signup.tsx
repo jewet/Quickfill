@@ -27,6 +27,7 @@ import {
 } from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import { scale } from '../main/accessories/accessoriesStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
@@ -81,6 +82,7 @@ function SignUp({navigation}: Props) {
       Toast.show({
         type: 'error',
         text1: 'Invalid phone number length',
+        text2: 'Please enter a correct phone number',
       });
       return;
     }
@@ -89,7 +91,7 @@ function SignUp({navigation}: Props) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Password',
-        text2: 'Use 8+ characters, with a number, letter, & symbol.',
+        text2: 'Use 8+ characters, with a number, letter, & symbol',
       });
       return;
     }

@@ -26,8 +26,11 @@ import {
   setCardNumber,
   setCvv,
   setExpiryDate,
+  setShowAlert,
 } from '../../../../../../../../../../utils/redux/slice/profile';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AlertModal from '../../../../../../../../../../components/Alert/Alert';
+import Toast from 'react-native-toast-message';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'card'>;
@@ -42,7 +45,7 @@ function Card({navigation}: Props) {
 
   // Redux state selectors
   const dispatch = useDispatch();
-  const {cardName, cardNumber, expiryDate, cvv} = useSelector(
+  const {cardName, cardNumber, expiryDate, cvv, showAlert} = useSelector(
     (state: RootState) => state.profile,
   );
 
@@ -52,7 +55,78 @@ function Card({navigation}: Props) {
     cardNumber.replace(/\s/g, '').length === 19 &&
     expiryDate.length === 5 &&
     cvv.length === 3;
-  console.log('direc: ', directory);
+  const handleContinue = () => {
+    if (cardName.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid card name',
+        text2: 'Name must be at least 2 characters',
+      });
+      return;
+    }
+    if (cardNumber.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Empty card number',
+        text2: 'Please enter card number',
+      });
+      return;
+    }
+    if (cardNumber.replace(/\s/g, '').length !== 19) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid card number',
+        text2: 'Card number must be exactly 19 digits',
+      });
+      return;
+    }
+    if (expiryDate.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Empty expiry date',
+        text2: 'Please enter expiry date',
+      });
+      return;
+    }
+    if (expiryDate.length !== 5) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid expiry date',
+        text2: 'Please enter a correct expiry date',
+      });
+      return;
+    }
+    if (cvv.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Empty CVV',
+        text2: 'Please enter cvv',
+      });
+      return;
+    }
+    if (cvv.length !== 3) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid CVV',
+        text2: 'Cvv must be exactly 3 digits',
+      });
+      return;
+    }
+
+    if (!isFormValid) {
+      // dispatch(setShowAlert(true));
+      Toast.show({
+        type: 'error',
+        text1: 'Form incomplete',
+        text2: 'Please fill all entries',
+      });
+    } else {
+      navigation.replace('payment-result', {
+        result: 'successful',
+        directory: directory,
+      });
+    }
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -172,21 +246,7 @@ function Card({navigation}: Props) {
             </View>
           </View>
           <View style={{width: '100%', marginTop: 10}}>
-            <Button
-              text="Next"
-              action={() => {
-                if (!isFormValid) {
-                  Alert.alert(
-                    'Please ensure that all fields are correctly filled.',
-                  );
-                } else {
-                  navigation.replace('payment-result', {
-                    result: 'successful',
-                    directory: directory,
-                  });
-                }
-              }}
-            />
+            <Button text="Next" action={handleContinue} />
           </View>
         </View>
         <View style={cardStyles.moreCont}>
@@ -206,6 +266,14 @@ function Card({navigation}: Props) {
           </Text>
         </View>
       </ScrollView>
+      <Toast />
+      {showAlert && (
+        <AlertModal
+          topText="Notice"
+          bottomText="Please ensure that all fields are correctly filled."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }
