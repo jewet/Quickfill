@@ -6,9 +6,14 @@ interface AuthState {
   firstName: string;
   lastName: string;
   email: string;
+  signUpEmail: string;
+  forgotPasswordEmail: string;
   phoneNumber: string;
   password: string;
-  confirmPassword: string;
+  signUpPassword: string;
+  resetPassword: string;
+  signUpConfirmPassword: string;
+  resetConfirmPassword: string;
   otp: string[];
   countdown: number;
   isResendEnabled: boolean;
@@ -24,9 +29,14 @@ const initialState: AuthState = {
   firstName: '',
   lastName: '',
   email: '',
+  signUpEmail: '',
+  forgotPasswordEmail: '',
   phoneNumber: '',
   password: '',
-  confirmPassword: '',
+  signUpPassword: '',
+  resetPassword: '',
+  signUpConfirmPassword: '',
+  resetConfirmPassword: '',
   otp: ['', '', '', ''],
   countdown: 60,
   isResendEnabled: false,
@@ -54,14 +64,29 @@ const authSlice = createSlice({
     setEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
+    setSignUpEmail: (state, action: PayloadAction<string>) => {
+      state.signUpEmail = action.payload;
+    },
+    setForgotPasswordEmail: (state, action: PayloadAction<string>) => {
+      state.forgotPasswordEmail = action.payload;
+    },
     setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
     setPassword: (state, action: PayloadAction<string>) => {
       state.password = action.payload;
     },
-    setConfirmPassword: (state, action: PayloadAction<string>) => {
-      state.confirmPassword = action.payload;
+    setSignUpPassword: (state, action: PayloadAction<string>) => {
+      state.signUpPassword = action.payload;
+    },
+    setResetPassword: (state, action: PayloadAction<string>) => {
+      state.resetPassword = action.payload;
+    },
+    setSignUpConfirmPassword: (state, action: PayloadAction<string>) => {
+      state.signUpConfirmPassword = action.payload;
+    },
+    setResetConfirmPassword: (state, action: PayloadAction<string>) => {
+      state.resetConfirmPassword = action.payload;
     },
     setOtp: (state, action: PayloadAction<string[]>) => {
       state.otp = action.payload;
@@ -106,7 +131,7 @@ export const {
   setEmail,
   setPhoneNumber,
   setPassword,
-  setConfirmPassword,
+  setResetConfirmPassword,
   setOtp,
   setCountdown,
   setIsResendEnabled,
@@ -116,6 +141,11 @@ export const {
   setShowDropdown,
   setSearchQuery,
   setShowPassword,
+  setForgotPasswordEmail,
+  setResetPassword,
+  setSignUpConfirmPassword,
+  setSignUpEmail,
+  setSignUpPassword
 } = authSlice.actions;
 
 export default authSlice.reducer;

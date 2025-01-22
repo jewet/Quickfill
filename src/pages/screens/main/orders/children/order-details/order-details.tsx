@@ -5,6 +5,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -14,10 +15,6 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {OrdersProps} from '../../../../../../utils/sample-data/orders';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import orderStyles from '../../orderStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import electricityStyles from '../../../home/children/electricity/electrictyStyles';
 import electricityPaymentStyles from '../../../home/children/electricity/children/payment/paymentStyles';
 import BackArrow from '../../../../../../assets/images/auth/tabler_arrow-right.svg';
@@ -33,7 +30,6 @@ import OnlineIcon from '../../../../../../assets/images/orders/on_line.svg';
 import OfflineIcon from '../../../../../../assets/images/orders/offline.svg';
 import ChatIcon from '../../../../../../assets/images/orders/msg.svg';
 import CallIcon from '../../../../../../assets/images/orders/call.svg';
-import Deliver from '../../../../../../assets/images/profile/Deliver.svg';
 import TransitIcon from '../../../../../../assets/images/orders/rider.svg';
 import Delivery from '../../../../../../assets/images/orders/delivery.svg';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
@@ -44,12 +40,21 @@ import BlankProgressBar from '../../../../../../assets/images/orders/blank_progr
 import {profile_data} from '../../../../../../utils/sample-data/profile';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
-import {setShowAlert, setShowModal} from '../../../../../../utils/redux/slice/orders';
+import {
+  setShowAlert,
+  setShowModal,
+} from '../../../../../../utils/redux/slice/orders';
 import AlertModal from '../../../../../../components/Alert/Alert';
+import {moderateScale} from '../../../accessories/accessoriesStyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'order-details'>;
 
 function OrderDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'order-details'>>();
   const {orderDetails}: {orderDetails?: OrdersProps} = route.params || {};
   const [showOrderDetails, setShowOrderDetails] = useState<boolean>(false);
@@ -71,20 +76,23 @@ function OrderDetails({navigation}: Props) {
     navigation.navigate('chat', {orderDetails, target});
   };
   const dispatch = useDispatch();
-  const {showModal, showAlert} = useSelector((state: RootState) => state.orders);
+  const {showModal, showAlert} = useSelector(
+    (state: RootState) => state.orders,
+  );
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
   const handleCall = async (target: 'rider' | 'vendor') => {
-      const phoneNumber = target === 'rider' ? orderDetails?.rider?.phone_number : '+2348069684739';
-      const url = `tel:${phoneNumber}`;
-      try {
-        await Linking.openURL(url);
-      } catch (error) {
-        dispatch(setShowAlert(true));
-      }
-    };
-
+    const phoneNumber =
+      target === 'rider' ? orderDetails?.rider?.phone_number : '+2348069684739';
+    const url = `tel:${phoneNumber}`;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      dispatch(setShowAlert(true));
+    }
+  };
+  const help = profile_data.find(item => item.profile.type === 'Help/feedback');
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
       <StatusBar
@@ -104,7 +112,8 @@ function OrderDetails({navigation}: Props) {
           <BackArrow width={26} height={26} fill="none" />
         </TouchableOpacity>
         <Text style={electricityStyles.topText}>Order details</Text>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('help', {profileDetails: help})}>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
             Help
           </Text>
@@ -325,10 +334,13 @@ function OrderDetails({navigation}: Props) {
                   orderDetailsStyles.flexContainer,
                   {gap: 15, width: 'auto'},
                 ]}>
-                <TouchableOpacity onPress={()=>navigation.navigate('delivery', {orderDetails})}>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('delivery', {orderDetails})
+                  }>
                   <Delivery width={40} height={40} fill="none" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>handleCall('rider')}>
+                <TouchableOpacity onPress={() => handleCall('rider')}>
                   <CallIcon width={40} height={40} fill="none" />
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -368,7 +380,11 @@ function OrderDetails({navigation}: Props) {
                 <Text
                   style={[
                     homeStyles.title,
-                    {color: '#2C2C2C', fontSize: 16, fontWeight: 600},
+                    {
+                      color: '#2C2C2C',
+                      fontSize: moderateScale(14),
+                      fontWeight: 600,
+                    },
                   ]}>
                   {orderDetails?.delivery?.code}
                 </Text>

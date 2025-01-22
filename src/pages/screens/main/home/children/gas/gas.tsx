@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -29,7 +30,6 @@ import Star from '../../../../../../assets/images/accessories/tabler_star-filled
 import {QuickActionProps} from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
-import {isDarkMode} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
@@ -40,11 +40,16 @@ import {
 } from '../../../../../../utils/redux/slice/gas';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 import {scale} from '../../../accessories/accessoriesStyles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
 
 function Gas({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
   const {actionDetails}: {actionDetails?: QuickActionProps} =
     route.params || {};

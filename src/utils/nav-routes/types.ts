@@ -29,6 +29,7 @@ export type RootStackParamList = {
   'items-page': any;
   'item-details': any;
   login: undefined;
+  "auth-login": undefined;
   signup: undefined;
   home: undefined;
   accessories: undefined;

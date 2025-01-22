@@ -4,29 +4,30 @@ import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Input from '../../../components/Input/AuthInput';
-import {ScrollView, StatusBar, View} from 'react-native';
-import authStyles from './styles/authStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../utils/status-bar-styles/status-bar-styles';
+import {ScrollView, StatusBar, useColorScheme, View} from 'react-native';
+import authStyles from './styles/authStyles'; 
 import Button from '../../../components/Button/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
-import {setEmail} from '../../../utils/redux/slice/auth';
+import {setForgotPasswordEmail} from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'forgot-password'>;
 
 function ForgotPassword({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Redux state selectors
   const dispatch = useDispatch();
-  const {email} = useSelector((state: RootState) => state.auth);
+  const {forgotPasswordEmail} = useSelector((state: RootState) => state.auth);
   // Validation function
   const handleContinue = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(forgotPasswordEmail)) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Email',
@@ -56,17 +57,17 @@ function ForgotPassword({navigation}: Props) {
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value={email}
+            value={forgotPasswordEmail}
             secured={false}
             directory={null}
             keyboardType="default"
             validate="email"
             action={() => console.log('Action triggered')}
-            onChange={text => dispatch(setEmail(text))}
+            onChange={text => dispatch(setForgotPasswordEmail(text))}
           />
           <Button
             text="Send Code"
-            action={()=>navigation.navigate('otp-verification')}
+            action={handleContinue}
           />
         </View>
       </ScrollView>

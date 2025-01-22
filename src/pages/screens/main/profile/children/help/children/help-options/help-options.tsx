@@ -1,21 +1,27 @@
 import React from 'react';
-import {SafeAreaView, ScrollView, StatusBar} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  useColorScheme,
+} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../components/Profile/Header';
 import favouritesStyles from '../../../favourites/favouritesStyles';
 import {height} from '../../../../../home/children/diesel/dieselStyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'help-options'>;
 
 function HelpOptions({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Retrieve route parameters, specifically `profileDetails` and `target`
   const route = useRoute<RouteProp<RootStackParamList, 'help-options'>>();
   const {profileDetails, target} = route.params;
@@ -40,13 +46,13 @@ function HelpOptions({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={headerTitle}
-        directory="" 
+        directory=""
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={[
           favouritesStyles.scrollview,
-          {paddingHorizontal: 16, height: height}, 
+          {paddingHorizontal: 16, height: height},
         ]}>
         {/* Content goes here */}
       </ScrollView>

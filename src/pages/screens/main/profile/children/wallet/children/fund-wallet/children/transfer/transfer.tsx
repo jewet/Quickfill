@@ -5,6 +5,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -12,10 +13,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
 import Reload from '../../../../../../../../../../assets/images/payment/tabler_reload.svg';
@@ -23,13 +20,19 @@ import Copy from '../../../../../../../../../../assets/images/payment/copy.svg';
 import paymentResultStyles from '../payment-result/paymentResultStyles';
 import transferStyles from './transferStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'transfer'>;
 
 function Transfer({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'transfer'>>();
-  const {amount, directory, orderDetails, selectedCylinder, dieselPrice} = route.params;
+  const {amount, directory, orderDetails, selectedCylinder, dieselPrice} =
+    route.params;
 
   const copyToClipboard = (value: string) => {
     Clipboard.setString(value);
@@ -128,7 +131,7 @@ function Transfer({navigation}: Props) {
                 directory: directory,
                 orderDetails,
                 selectedCylinder,
-                dieselPrice
+                dieselPrice,
               })
             }>
             <Text style={paymentResultStyles.btnText}>I’ve sent the money</Text>

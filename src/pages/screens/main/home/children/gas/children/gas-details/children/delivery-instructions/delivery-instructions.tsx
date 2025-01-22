@@ -7,16 +7,13 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import {profile_data} from '../../../../../../../../../../utils/sample-data/profile';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import Button from '../../../../../../../../../../components/Button/Button';
 import GoBack from '../../../../../../../../../../assets/images/payment/tabler_arrow-right.svg';
@@ -26,11 +23,16 @@ import inputStyles from '../../../../../../../../../../components/Input/InputSty
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../../../utils/redux/store/store';
 import {setDeliveryNote} from '../../../../../../../../../../utils/redux/slice/gas';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'delivery-instructions'>;
 
 function DeliveryInstructions({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route =
     useRoute<RouteProp<RootStackParamList, 'delivery-instructions'>>();
   const dispatch = useDispatch();

@@ -6,16 +6,13 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {OrdersProps} from '../../../../../../../../utils/sample-data/orders';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import deliveryStyles from './deliveryStyles';
 import Maps from '../../../../../../../../assets/images/orders/delivery-map.svg';
 import Fav from '../../../../../../../../assets/images/profile/Favourite.svg';
@@ -31,10 +28,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../utils/redux/store/store';
 import {setShowAlert} from '../../../../../../../../utils/redux/slice/orders';
 import AlertModal from '../../../../../../../../components/Alert/Alert';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'delivery'>;
 
 function Delivery({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'delivery'>>();
   const {orderDetails}: {orderDetails?: OrdersProps} = route.params || {};
   const dispatch = useDispatch();
@@ -129,9 +131,9 @@ function Delivery({navigation}: Props) {
                     orderDetailsStyles.flexContainer,
                     {width: 'auto', gap: 20},
                   ]}>
-                    <TouchableOpacity onPress={handleCall}>
-                  <CallIcon width={48} height={48} fill="none" />
-                    </TouchableOpacity>
+                  <TouchableOpacity onPress={handleCall}>
+                    <CallIcon width={48} height={48} fill="none" />
+                  </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate('chat', {

@@ -5,12 +5,9 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import electricityStyles from '../../electrictyStyles';
 import Header from '../../../../../../../../components/Electricity/Header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -21,6 +18,7 @@ import Button from '../../../../../../../../components/Button/Button';
 import paymentResultStyles from '../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import ElectricityPayment from '../payment/payment';
 import {profile_data} from '../../../../../../../../utils/sample-data/profile';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -29,6 +27,10 @@ type Props = StackScreenProps<
 >;
 
 function ElectricityPurchaseSummary({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-purchase-summary'>>();
   const {selectedProvider, amount, meterNumber, meterName, address} =

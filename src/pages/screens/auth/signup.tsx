@@ -9,34 +9,36 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import authStyles from './styles/authStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {
-  setConfirmPassword,
-  setEmail,
+  setSignUpConfirmPassword,
+  setSignUpEmail,
   setFirstName,
   setLastName,
-  setPassword,
+  setSignUpPassword,
   setPhoneNumber,
 } from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Redux state selectors
   const dispatch = useDispatch();
-  const {firstName, lastName, email, phoneNumber, password, confirmPassword} =
+  const {firstName, lastName, signUpEmail, phoneNumber, signUpPassword, signUpConfirmPassword} =
     useSelector((state: RootState) => state.auth);
   // Validation function
   const handleSignUp = () => {
@@ -60,7 +62,7 @@ function SignUp({navigation}: Props) {
       });
       return;
     }
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(signUpEmail)) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Email',
@@ -76,16 +78,16 @@ function SignUp({navigation}: Props) {
       return;
     }
 
-    if (!passwordRegex.test(password)) {
+    if (!passwordRegex.test(signUpPassword)) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Password',
         text2:
-          'Password must be at least 8 characters, include a number, letter & special character',
+        'Use 8+ characters, with a number, letter, & symbol.',
       });
       return;
     }
-    if (confirmPassword !== password) {
+    if (signUpConfirmPassword !== signUpPassword) {
       Toast.show({
         type: 'error',
         text1: 'Invalid confirm Password',
@@ -107,7 +109,7 @@ function SignUp({navigation}: Props) {
         style={authStyles.scrollview}>
         <AuthTop
           firstText="Get started with Quickrefil!"
-          secondText="Sign up for free and r what we have to offer."
+          secondText="Sign up for free and see what we have to offer."
           enableBackArrow={false}
           hasEmail={false}
         />
@@ -115,71 +117,71 @@ function SignUp({navigation}: Props) {
           <Input
             label="First name"
             placeholder="E.g. John"
-            // value={firstName}
+            value={firstName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
             validate="firstNname"
-            // onChange={text => dispatch(setFirstName(text))}
+            onChange={text => dispatch(setFirstName(text))}
           />
           <Input
             label="Last name"
             placeholder="E.g. Doe"
-            // value={lastName}
+            value={lastName}
             secured={false}
             directory={null}
             keyboardType="default"
             action={null}
             validate="lastName"
-            // onChange={text => dispatch(setLastName(text))}
+            onChange={text => dispatch(setLastName(text))}
           />
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            // value={email}
+            value={signUpEmail}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="email"
-            // onChange={text => dispatch(setEmail(text))}
+            onChange={text => dispatch(setSignUpEmail(text))}
           />
           <Input
             label="Phone number"
             placeholder=""
-            // value={phoneNumber}
+            value={phoneNumber}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="phone"
-            // onChange={text => dispatch(setPhoneNumber(text))}
+            onChange={text => dispatch(setPhoneNumber(text))}
           />
           <Input
             label="Passsword"
             placeholder="*********"
-            // value={password}
+            value={signUpPassword}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
-            // onChange={text => dispatch(setPassword(text))}
+            onChange={text => dispatch(setSignUpPassword(text))}
             validate="password"
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            // value={confirmPassword}
+            value={signUpConfirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            // onChange={text => dispatch(setConfirmPassword(text))}
+            onChange={text => dispatch(setSignUpConfirmPassword(text))}
             validate="confirm-password"
-            password={password}
+            password={signUpPassword}
           />
-          <Button text="Sign Up" action={()=>navigation.navigate('email-verification')} />
+          <Button text="Sign Up" action={handleSignUp} />
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
             <Text style={authStyles.orText}>Or</Text>

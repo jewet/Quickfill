@@ -22,7 +22,7 @@ import electricityProviderStyles from './electricityProviderStyles';
 import {ElectricityProps} from '../../../../../../../../utils/sample-data/electricity';
 import {height} from '../../../diesel/dieselStyles';
 import Header from '../../../../../../../../components/Electricity/Header/Header';
-import { backgroundStyle } from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 interface ElectricityProviderProps {
@@ -47,6 +47,9 @@ function ElectricityProvider({
   setSelectedProvider,
 }: ElectricityProviderProps) {
   const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
 
   useEffect(() => {
     if (filteredData.length === 0) {

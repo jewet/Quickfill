@@ -35,6 +35,9 @@ type Props = StackScreenProps<RootStackParamList, 'home'>;
 
 function Home({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
 
   const dispatch = useDispatch();
   const {showModal, showBalance} = useSelector(
@@ -149,7 +152,7 @@ function Home({navigation}: Props) {
         <SafeAreaView style={homeStyles.homeContainer}>
           <StatusBar
             barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={'#F6F6F6'}
+            backgroundColor={backgroundStyle.backgroundColor}
           />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={homeStyles.mainContent}>

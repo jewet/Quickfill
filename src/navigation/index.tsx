@@ -8,6 +8,7 @@ import AuthStack from '../pages/stacks/authstack';
 import {MMKV} from 'react-native-mmkv';
 import {ActivityIndicator} from 'react-native';
 
+
 function Navigation() {
   const Stack = createStackNavigator();
   // const storage = new MMKV();

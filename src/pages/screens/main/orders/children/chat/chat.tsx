@@ -6,13 +6,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
+import {SafeAreaView} from 'react-native-safe-area-context'; 
 import orderStyles from '../../orderStyles';
 import BackArrow from '../../../../../../assets/images/auth/tabler_arrow-right.svg';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
@@ -34,11 +31,16 @@ import {
   setShowMoreInfo,
 } from '../../../../../../utils/redux/slice/orders';
 import Dp from '../../../../../../assets/images/orders/profile_pic.svg'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
 
 function Chat({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'chat'>>();
   const {orderDetails, target} = route.params;

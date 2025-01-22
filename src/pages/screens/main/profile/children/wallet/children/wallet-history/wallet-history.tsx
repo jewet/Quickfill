@@ -4,21 +4,22 @@ import {StackScreenProps} from '@react-navigation/stack';
 import Header from '../../../../../../../../components/Electricity/Header/Header';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import accessoriesStyles from '../../../../../accessories/accessoriesStyles';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
+import {ScrollView, StatusBar, Text, useColorScheme, View} from 'react-native';
 import walletStyles from '../../walletStyles';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../../../utils/sample-data/profile';
 import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
 import addressStyles from '../../../address/addressStyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'wallet-history'>;
 
 function WalletHistory({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'wallet-history'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
   return (

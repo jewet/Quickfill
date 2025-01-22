@@ -37,7 +37,7 @@ interface Props {
   validate?: string;
   secured?: boolean;
   directory: string | null;
-  action: any;
+  action?: any;
   onChange: (text: string) => void;
   onFocus?: (event: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   password?: string;
@@ -56,19 +56,19 @@ function Input({
   password,
   onFocus,
 }: Props) {
-  const [showPassword, setShowPassword] = useState(!secured);
-  const [error, setError] = useState<string | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState(
-    countries.find(c => c.country === 'Nigeria') || countries[0]
-  );
+  // const [showPassword, setShowPassword] = useState(!secured);
+  // const [error, setError] = useState<string | null>(null);
+  // const [selectedCountry, setSelectedCountry] = useState(
+  //   countries.find(c => c.country === 'Nigeria') || countries[0]
+  // );
 
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [showDropdown, setShowDropdown] = useState(false);
+  // const [searchQuery, setSearchQuery] = useState('');
 
   // Redux state selectors
-  // const dispatch = useDispatch();
-  // const { showPassword} =
-  //   useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
+  const { showPassword, error, selectedCountry, showDropdown, searchQuery} =
+    useSelector((state: RootState) => state.auth);
 
   // Filtered countries based on search input
   const filteredCountries = countries.filter(
@@ -137,14 +137,14 @@ function Input({
               keyboardType={keyboardType}
               style={inputStyles.securedInput}
               secureTextEntry={!showPassword}
-              // value={value}
-              // onChangeText={text => {
-              //   onChange(text);
-              //   // validateInput(text);
-              // }}
+              value={value}
+              onChangeText={text => {
+                onChange(text);
+                // validateInput(text);
+              }}
             />
             <TouchableOpacity
-              onPress={() => setShowPassword(!showPassword)}>
+              onPress={() => dispatch(setShowPassword(!showPassword))}>
               {directory?.toLowerCase() === 'confirm' ? (
                 <ConfirmEye width={20} height={20} fill="none" />
               ) : (
@@ -204,7 +204,7 @@ function Input({
             {/* Country Code Selection */}
             <TouchableOpacity
               style={inputStyles.countryPicker}
-              onPress={() => setShowDropdown(!showDropdown)}>
+              onPress={() => dispatch(setShowDropdown(!showDropdown))}>
               <Text style={inputStyles.flag}>{selectedCountry.flag}</Text>
               <Dropdown width={12} height={12} fill="none" />
             </TouchableOpacity>
@@ -215,13 +215,13 @@ function Input({
               placeholder={placeholder}
               keyboardType="phone-pad"
               style={inputStyles.phoneInput}
-              // value={value}
-              // onChangeText={text => {
-              //   if (/^\d*$/.test(text)) {
-              //     onChange(text);
-              //     // validateInput(text);
-              //   }
-              // }}
+              value={value}
+              onChangeText={text => {
+                if (/^\d*$/.test(text)) {
+                  onChange(text);
+                  // validateInput(text);
+                }
+              }}
               maxLength={11}
             />
           </View>
@@ -235,7 +235,7 @@ function Input({
                   placeholder="Search country code"
                   style={inputStyles.phoneInput}
                   value={searchQuery}
-                  onChangeText={text => setSearchQuery(text)}
+                  onChangeText={text => dispatch(setSearchQuery(text))}
                   autoFocus={true}
                 />
               </View>
@@ -249,8 +249,8 @@ function Input({
                         key={index}
                         style={inputStyles.countries}
                         onPress={() => {
-                          setSelectedCountry(country);
-                          setShowDropdown(false);
+                          dispatch(setSelectedCountry(country));
+                          dispatch(setShowDropdown(false));
                           Keyboard.dismiss();
                         }}>
                         <View style={inputStyles.countriesLeft}>
@@ -289,18 +289,18 @@ function Input({
             // validateInput(text);
           }}
           maxLength={10}
-          onFocus={onFocus}
+          // onFocus={onFocus}
         />
       ) : (
         <TextInput
           placeholder={placeholder}
           keyboardType={keyboardType}
           style={inputStyles.input}
-          // value={value}
-          // onChangeText={text => {
-          //   onChange(text);
-          //   // validateInput(text);
-          // }}
+          value={value}
+          onChangeText={text => {
+            onChange(text);
+            // validateInput(text);
+          }}
         />
       )}
 

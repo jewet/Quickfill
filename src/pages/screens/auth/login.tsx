@@ -1,40 +1,33 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Input from '../../../components/Input/AuthInput';
-import {
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StatusBar, Text, TouchableOpacity, useColorScheme, View} from 'react-native';
 import authStyles from './styles/authStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {setEmail, setPassword} from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
-import inputStyles from '../../../components/Input/InputStyles';
+import Input from '../../../components/Input/AuthInput';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'login'>;
 
 function Login({navigation}: Props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  // Validation function
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
+  const dispatch = useDispatch();
+  const {email, password} = useSelector((state: RootState) => state.auth);
+
   const handleLogin = () => {
-    const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
     if (!emailRegex.test(email)) {
       Toast.show({
         type: 'error',
@@ -49,7 +42,7 @@ function Login({navigation}: Props) {
         type: 'error',
         text1: 'Invalid Password',
         text2:
-          'Password must be at least 8 characters, include a number, letter & special character',
+        'Use 8+ characters, with a number, letter, & symbol.',
       });
       return;
     }
@@ -57,17 +50,13 @@ function Login({navigation}: Props) {
     navigation.navigate('home');
   };
 
-  // const dispatch = useDispatch();
-  // const {email, password} = useSelector((state: RootState) => state.auth);
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={authStyles.scrollview}>
+      <ScrollView showsVerticalScrollIndicator={false} style={authStyles.scrollview}>
         <AuthTop
           firstText="Welcome to Quikrefil"
           secondText="Log in to access your account and continue enjoying our services."
@@ -78,27 +67,26 @@ function Login({navigation}: Props) {
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            // value={email}
+            value={email}
             secured={false}
             directory={null}
-            keyboardType="default"
-            action={() => console.log('Action triggered')}
+            keyboardType="email-address"
             validate="email"
-            // onChange={text => setEmail(text)}
+            onChange={text => dispatch(setEmail(text))}
           />
           <Input
-            label="Passsword"
+            label="Password"
             placeholder="*********"
-            // value={password}
-            secured={true}
-            directory={'login-password'}
+            value={password}
+            secured
+            directory="login-password"
             keyboardType="default"
-            action={() => navigation.navigate('forgot-password')}
-            // onChange={text => setPassword(text)}
             validate="password"
+            action={()=>navigation.navigate('forgot-password')}
+            onChange={text => dispatch(setPassword(text))}
           />
           <View style={{marginTop: 10, width: '100%'}}>
-            <Button text="Login" action={() => navigation.navigate('home')} />
+            <Button text="Login" action={handleLogin} />
           </View>
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
@@ -114,9 +102,7 @@ function Login({navigation}: Props) {
           <View style={authStyles.question}>
             <Text style={authStyles.orText}>Don’t have an account? </Text>
             <TouchableOpacity onPress={() => navigation.navigate('signup')}>
-              <Text style={[authStyles.orText, {color: '#FFC533'}]}>
-                Register
-              </Text>
+              <Text style={[authStyles.orText, {color: '#FFC533'}]}>Register</Text>
             </TouchableOpacity>
           </View>
         </View>

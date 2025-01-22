@@ -4,6 +4,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -11,10 +12,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../components/Profile/Header';
 import transferStyles from '../../../wallet/children/fund-wallet/children/transfer/transferStyles';
 import Input from '../../../../../../../../components/Input/AuthInput';
@@ -33,10 +30,15 @@ import {
   setSelectedType,
   setShowAddressDropDown,
 } from '../../../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'change-address'>;
 
 function ChangeAddress({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Retrieve route parameters if necessary
   const route = useRoute<RouteProp<RootStackParamList, 'change-address'>>();
 

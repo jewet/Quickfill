@@ -5,16 +5,13 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../components/Accessories/Header';
 import cartStyles from '../../cartStyles';
 import orderDetailsStyles from '../../../../../orders/children/order-details/orderDetailsStyles';
@@ -37,11 +34,16 @@ import {payment_type} from '../../../../../../../../utils/sample-data/payment';
 import {RootState} from '../../../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {setIsSelected} from '../../../../../../../../utils/redux/slice/accessories';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'checkout'>;
 
 function Checkout({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'checkout'>>();
   const {itemCounts, totalAmount} = route.params || {};
   const dispatch = useDispatch();
@@ -50,16 +52,25 @@ function Checkout({navigation}: Props) {
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.replace('transfer', {amount: totalAmount, directory: 'cart'});
+        navigation.replace('transfer', {
+          amount: totalAmount,
+          directory: 'cart',
+        });
         break;
       case 'card':
         navigation.replace('card', {amount: totalAmount, directory: 'cart'});
         break;
       case 'wallet':
-        navigation.replace('payment-result', {result: 'successful', directory: 'cart'});
+        navigation.replace('payment-result', {
+          result: 'successful',
+          directory: 'cart',
+        });
         break;
       case 'flutterwave':
-        navigation.replace('payment-result', {result: 'unsuccessful', directory: 'cart'});
+        navigation.replace('payment-result', {
+          result: 'unsuccessful',
+          directory: 'cart',
+        });
         break;
       default:
         console.warn('Navigation route not defined for this item.');

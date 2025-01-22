@@ -4,6 +4,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -19,10 +20,6 @@ import ArrowUp from '../../../../../../../../../../../../assets/images/orders/ar
 import ArrowDown from '../../../../../../../../../../../../assets/images/orders/arrow0down.svg';
 import PasswordIcon from '../../../../../../../../../../../../assets/images/orders/tabler_lock-password.svg';
 import {RootStackParamList} from '../../../../../../../../../../../../utils/nav-routes/types';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import orderStyles from '../../../../../../../../../orders/orderStyles';
 import electricityStyles from '../../../../../../../electricity/electrictyStyles';
 import electricityPaymentStyles from '../../../../../../../electricity/children/payment/paymentStyles';
@@ -40,11 +37,17 @@ import {
   setShowOrderDetails,
 } from '../../../../../../../../../../../../utils/redux/slice/gas';
 import paymentResultStyles from '../../../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
+import { moderateScale } from '../../../../../../../../../accessories/accessoriesStyles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 
 function GasOrderDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
   const {orderDetails, selectedCylinder, dieselPrice, litres} = route.params;
   const dispatch = useDispatch();
@@ -62,7 +65,9 @@ function GasOrderDetails({navigation}: Props) {
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
-  console.log('Order details-orderdetails: ', orderDetails);
+  const help = profile_data.find(
+    item => item.profile.type === 'Help/feedback',
+  );
 
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
@@ -79,13 +84,13 @@ function GasOrderDetails({navigation}: Props) {
             paddingHorizontal: 20,
           },
         ]}>
-        <TouchableOpacity onPress={() => navigation.replace('home')}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <BackArrow width={26} height={26} fill="none" />
         </TouchableOpacity>
         <Text style={electricityStyles.topText}>
           Order {orderDetails?.order_no}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('help', {profileDetails: help})}>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
             Help
           </Text>
@@ -250,13 +255,13 @@ function GasOrderDetails({navigation}: Props) {
                     backgroundColor: '#F7F6F2',
                     paddingHorizontal: 15,
                     borderRadius: 30,
-                    paddingVertical: 5,
+                    paddingVertical: 10,
                   },
                 ]}>
                 <Text
                   style={[
                     homeStyles.title,
-                    {color: primaryColor, fontSize: 16, fontWeight: 700},
+                    {color: primaryColor, fontSize: moderateScale(14), fontWeight: 700},
                   ]}>
                   {orderDetails?.delivery_code}
                 </Text>

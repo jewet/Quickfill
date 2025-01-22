@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -24,36 +25,49 @@ import {
   setOtp,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
-import { backgroundStyle } from '../../../utils/status-bar-styles/status-bar-styles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'email-verification'>;
 
 function Emailverification({navigation}: Props) {
-  const [showModal, setShowModal] = useState(false);
-  const [otp, setOtp] = useState(['', '', '', '', '', '']);
-  const [countdown, setCountdown] = useState(60);
-  const [isResendEnabled, setIsResendEnabled] = useState(false);
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const inputRefs = useRef<Array<TextInput | null>>([]);
+  // Redux state selectors
+  const dispatch = useDispatch();
+  const {showModal, otp, countdown, isResendEnabled} = useSelector(
+    (state: RootState) => state.auth,
+  );
 
- 
+  // Format countdown as MM:SS
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, '0'); // Ensures two digits (e.g., "01")
+    const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
+    return `${mins}:${secs}`;
+  };
 
   // Start countdown timer
   useEffect(() => {
     if (countdown > 0) {
       const timer = setInterval(() => {
-        setCountdown(countdown - 1);
+        dispatch(setCountdown(countdown - 1));
       }, 1000);
       return () => clearInterval(timer);
     } else {
-      setIsResendEnabled(true);
+      dispatch(setIsResendEnabled(true));
     }
   }, [countdown]);
-   // Handle OTP input change
-   const handleOtpChange = (text: string, index: number) => {
+
+  // Handle OTP input change
+  const handleOtpChange = (text: string, index: number) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = text;
-    setOtp(updatedOtp);
+    dispatch(setOtp(updatedOtp));
 
     // Automatically focus the next input
     if (text && index < otp.length - 1) {
@@ -68,39 +82,11 @@ function Emailverification({navigation}: Props) {
     }
   };
 
-  // Format countdown as MM:SS
-  const formatTime = (seconds: number): string => {
-    const mins = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, '0'); // Ensures two digits (e.g., "01")
-    const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
-    return `${mins}:${secs}`;
-  };
-
-  // Handle OTP input change
-  // const handleOtpChange = (text: string, index: number) => {
-  //   const updatedOtp = [...otp];
-  //   updatedOtp[index] = text;
-  //   dispatch(setOtp(updatedOtp));
-
-  //   // Automatically focus the next input
-  //   if (text && index < otp.length - 1) {
-  //     inputRefs.current[index + 1]?.focus();
-  //   }
-  // };
-
-  // // Handle backspace to focus previous input
-  // const handleKeyPress = (event: any, index: number) => {
-  //   if (event.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
-  //     inputRefs.current[index - 1]?.focus();
-  //   }
-  // };
-
   // Resend OTP
   const handleResendOTP = () => {
     if (isResendEnabled) {
-      setCountdown(60);
-      setIsResendEnabled(false);
+      dispatch(setCountdown(60));
+      dispatch(setIsResendEnabled(false));
       // Call function to resend OTP (API request or mock logic)
       console.log('Resending OTP...');
     }
@@ -138,7 +124,7 @@ function Emailverification({navigation}: Props) {
               />
             ))}
           </View>
-          <Button text="Verify" action={() => setShowModal(true)} />
+          <Button text="Verify" action={() => dispatch(setShowModal(true))} />
           <View
             style={{
               flexDirection: 'row',
@@ -167,7 +153,7 @@ function Emailverification({navigation}: Props) {
           bottomText="Your email verification was successful."
           navigateTo={() => {
             navigation.navigate('login');
-            setShowModal(false);
+            dispatch(setShowModal(false));
           }}
           btnText="Login"
         />

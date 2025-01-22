@@ -34,14 +34,18 @@ import {
 import AlertModal from '../../../../../../../../components/Alert/Alert';
 import { primaryColor } from '../../../../../../onboarding/splash/splashstyles';
 import { scale } from '../../../../../accessories/accessoriesStyles';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel-details'>;
 
 function DieselDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'diesel-details'>>();
   const {diesielDetails}: {diesielDetails?: DetailsProps} = route.params || {};
-  const isDarkMode = useColorScheme() === 'dark';
   const dispatch = useDispatch();
   const {showModal, litres, showAlert} = useSelector((state: RootState) => state.gas);
   const dieselPrice = litres === 0 ? 0 : diesielDetails?.price * litres;
@@ -61,7 +65,7 @@ function DieselDetails({navigation}: Props) {
     <SafeAreaView style={gasStyles.gasContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FAFAFA'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}

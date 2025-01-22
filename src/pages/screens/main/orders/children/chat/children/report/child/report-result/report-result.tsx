@@ -8,23 +8,25 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import Header from '../../../../../../../../../../components/Profile/Header';
 import paymentResultStyles from '../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import SuccessImg from '../../../../../../../../../../assets/images/payment/successful.svg';
 import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'report-result'>;
 
 function ReportResult({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'report-result'>>();
   const {orderDetails, result, target} = route.params;
 

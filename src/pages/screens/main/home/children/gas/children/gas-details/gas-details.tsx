@@ -47,11 +47,13 @@ const screenWidth = Dimensions.get('window').width;
 type Props = StackScreenProps<RootStackParamList, 'gas-details'>;
 
 function GasDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-details'>>();
   const {orderDetails} = route.params || {};
   // const {orderDetails}: {orderDetails?: DetailsProps} = route.params || {};
-
-  const isDarkMode = useColorScheme() === 'dark';
 
   const dispatch = useDispatch();
   const {showModal, selectedIndex} = useSelector(

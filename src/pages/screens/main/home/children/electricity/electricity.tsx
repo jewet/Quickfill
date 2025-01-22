@@ -39,12 +39,16 @@ import {
 } from '../../../../../../utils/sample-data/electricity';
 import AlertModal from '../../../../../../components/Alert/Alert';
 import Toast from 'react-native-toast-message';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for navigation props
 type Props = StackScreenProps<RootStackParamList, 'electricity'>;
 
 function Electricity({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'electricity'>>();
   const dispatch = useDispatch();
 
@@ -60,21 +64,14 @@ function Electricity({navigation}: Props) {
     lastUsedProvider,
     showAlert,
     lastUsedAddress,
-    lastUsedMeterName,
-    lastUsedMeterNo,
   } = useSelector((state: RootState) => state.electricity);
-
-  // const isFormValid =
-  //   selectedProvider &&
-  //   amount.trim() !== '' &&
-  //   meterNumber.trim() !== '' &&
-  //   meterNumber.length === 10;
 
   const isFormValid =
     selectedProvider ||
-    (lastUsedProvider && amount.trim() !== '' && meterNumber.trim() !== '') ||
-    (lastUsedMeterNo && meterNumber.length === 10) ||
-    lastUsedMeterNo;
+    (lastUsedProvider.trim() !== '' &&
+      amount.trim() !== '' &&
+      meterNumber.trim() !== '' &&
+      meterNumber.length === 10);
 
   const handleBack = () => navigation.goBack();
 
@@ -93,6 +90,24 @@ function Electricity({navigation}: Props) {
       dispatch(setMeterName(''));
     }
   };
+  // const handleMeterNumberChange = (value: string) => {
+  //   const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
+  //   dispatch(setMeterNumber(numericValue));
+
+  //   if (numericValue.length === 10) {
+  //     const randomIndex = Math.floor(Math.random() * meter_data.length);
+  //     dispatch(setMeterName(meter_data[randomIndex].name));
+  //     setLastUsedMeterNumber(numericValue); // Store the last used meter number
+  //   } else {
+  //     dispatch(setMeterName(''));
+  //   }
+  // };
+
+  // const handleMeterNumberFocus = () => {
+  //   if (lastUsedMeterNumber) {
+  //     dispatch(setMeterNumber(lastUsedMeterNumber)); // Set the last used meter number when focused
+  //   }
+  // };
 
   const handleSearch = (text: string) => {
     dispatch(setSearchQuery(text));
@@ -105,28 +120,29 @@ function Electricity({navigation}: Props) {
   };
 
   const handleContinue = () => {
-    const address = selectedProvider?.electricity || '';
+    // const address = selectedProvider?.electricity || '';
     const meterRegex = /^[0-9]{1,10}$/;
-    if (!meterRegex.test(lastUsedMeterNo || meterNumber)) {
+    if (!meterRegex.test(meterNumber)) {
       Toast.show({
         type: 'error',
         text1: 'Meter number must be 10 digits',
       });
       return;
     }
-    if (isFormValid) {
-      navigation.navigate('electricity-purchase-summary', {
-        selectedProvider: selectedProvider || lastUsedProvider,
-        amount,
-        meterNumber: lastUsedMeterNo || meterNumber,
-        meterName: lastUsedMeterName || meterName,
-        address: lastUsedAddress || address,
-      });
-    } else {
+    if (!isFormValid) {
+      // dispatch(setShowAlert(true));
       Toast.show({
         type: 'error',
-        text1: 'Form Incomplete',
-        text2: 'Please fill in all required fields.',
+        text1: 'Form incomplete',
+        text2: 'Please fill all entries',
+      });
+    } else {
+      navigation.navigate('electricity-purchase-summary', {
+        selectedProvider: 'AEDC',
+        amount: '5000',
+        meterNumber: '2984756728',
+        meterName: 'Gabriel Ojo',
+        address: lastUsedAddress || 'address',
       });
     }
   };
@@ -134,7 +150,10 @@ function Electricity({navigation}: Props) {
   return (
     <SafeAreaView
       style={[electricityStyles.electricityContainer, {position: 'relative'}]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
       <Header
         handleGoBack={handleBack}
         title="Electricity"

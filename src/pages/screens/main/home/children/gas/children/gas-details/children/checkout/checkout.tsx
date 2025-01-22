@@ -7,6 +7,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -24,11 +25,7 @@ import {
   profile_data,
   ProfileProps,
 } from '../../../../../../../../../../utils/sample-data/profile';
-import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
+import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles'; 
 import Header from '../../../../../../../../../../components/Profile/Header';
 import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
@@ -52,11 +49,16 @@ import {
   quick_action_data,
   QuickActionProps,
 } from '../../../../../../../../../../utils/sample-data/home';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
   const {orderDetails, selectedCylinder, directory, dieselPrice, litres} =
     route.params;
