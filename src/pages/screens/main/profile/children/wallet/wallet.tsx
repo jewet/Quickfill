@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Dimensions,
   Platform,
@@ -18,6 +18,7 @@ import {ProfileProps} from '../../../../../../utils/sample-data/profile';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import Close from '../../../../../../assets/images/payment/tabler_square-rounded-chevron-down.svg';
 import Eyes from '../../../../../../assets/images/payment/tabler_eye-closed.svg';
+import OpenEye from '../../../../../../assets/images/auth/tabler_eye.svg';
 import TopUp from '../../../../../../assets/images/payment/top_up.svg';
 import History from '../../../../../../assets/images/payment/history.svg';
 import Voucher from '../../../../../../assets/images/payment/voucher.svg';
@@ -131,7 +132,11 @@ function Wallet({navigation}: Props) {
                       <TouchableOpacity
                         style={{marginTop: 25}}
                         onPress={() => dispatch(setShowBalance(!showBalance))}>
-                        <Eyes width={24} height={24} fill="none" />
+                        {showBalance ? (
+                          <Eyes width={24} height={24} fill="none" />
+                        ) : (
+                          <OpenEye width={24} height={24} fill="none" />
+                        )}
                       </TouchableOpacity>
                     </View>
                   </View>

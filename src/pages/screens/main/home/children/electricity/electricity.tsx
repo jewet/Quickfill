@@ -122,10 +122,32 @@ function Electricity({navigation}: Props) {
   const handleContinue = () => {
     // const address = selectedProvider?.electricity || '';
     const meterRegex = /^[0-9]{1,10}$/;
-    if (!meterRegex.test(meterNumber)) {
+    if (!selectedProvider && lastUsedProvider.trim() === '') {
       Toast.show({
         type: 'error',
-        text1: 'Meter number must be 10 digits',
+        text1: 'Select electricity provider',
+      });
+      return;
+    }
+    if (amount.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter amount',
+      });
+      return;
+    }
+    if (meterNumber.trim() === '') {
+      Toast.show({
+        type: 'error',
+        text1: 'Please enter meter number',
+      });
+      return;
+    }
+    if (meterNumber.length !== 10) {
+      Toast.show({
+        type: 'error',
+        text1: 'Check meter number',
+        text2: 'Meter number must be exactly 10 digits',
       });
       return;
     }

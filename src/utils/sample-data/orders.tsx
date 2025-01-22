@@ -54,14 +54,14 @@ export const order_data: OrdersProps[] = [
         itsTurn: true,
       },
       {
-        status: 'Refilling your cylinder',
-        des: 'Your  cylinder is being refilled',
+        status: 'In transit',
+        des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: true,
       },
       {
-        status: 'In transit',
-        des: 'Your order it’s  on the way and will arrive soon.',
+        status: 'Order completed',
+        des: 'Your  cylinder is being refilled',
         pending: true,
         itsTurn: false,
       },
@@ -148,14 +148,14 @@ export const order_data: OrdersProps[] = [
         itsTurn: true,
       },
       {
-        status: 'Refilling your cylinder',
-        des: 'Your  cylinder is being refilled',
+        status: 'In transit',
+        des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: true,
       },
       {
-        status: 'In transit',
-        des: 'Your order it’s  on the way and will arrive soon.',
+        status: 'Order completed',
+        des: 'Your  cylinder is being refilled',
         pending: true,
         itsTurn: false,
       },
@@ -242,14 +242,14 @@ export const order_data: OrdersProps[] = [
         itsTurn: true,
       },
       {
-        status: 'Refilling your cylinder',
-        des: 'Your  cylinder is being refilled',
+        status: 'In transit',
+        des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: true,
       },
       {
-        status: 'In transit',
-        des: 'Your order it’s  on the way and will arrive soon.',
+        status: 'Order completed',
+        des: 'Your  cylinder is being refilled',
         pending: true,
         itsTurn: false,
       },
@@ -333,14 +333,14 @@ export const order_data: OrdersProps[] = [
         itsTurn: true,
       },
       {
-        status: 'Refilling your cylinder',
-        des: 'Your  cylinder is being refilled',
+        status: 'In transit',
+        des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: true,
       },
       {
-        status: 'In transit',
-        des: 'Your order it’s  on the way and will arrive soon.',
+        status: 'Order completed',
+        des: 'Your  cylinder is being refilled',
         pending: true,
         itsTurn: false,
       },
@@ -427,14 +427,14 @@ export const order_data: OrdersProps[] = [
         itsTurn: true,
       },
       {
-        status: 'Refilling your cylinder',
-        des: 'Your  cylinder is being refilled',
+        status: 'In transit',
+        des: 'Your order it’s  on the way and will arrive soon.',
         pending: true,
         itsTurn: true,
       },
       {
-        status: 'In transit',
-        des: 'Your order it’s  on the way and will arrive soon.',
+        status: 'Order completed',
+        des: 'Your  cylinder is being refilled',
         pending: true,
         itsTurn: false,
       },
@@ -497,29 +497,32 @@ export const orders_nav: OrdersNavProps[] = [
 ];
 
 interface CustomerReviewProps {
-  name: string
-  timeStamp: string
-  review: string
-  rating: number
+  name: string;
+  timeStamp: string;
+  review: string;
+  rating: number;
 }
 
 export const customer_review: CustomerReviewProps[] = [
   {
     name: 'John Johnson',
     timeStamp: '5h',
-    review: 'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+    review:
+      'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
     rating: 5,
   },
   {
     name: 'Emeka Nnaemeka',
     timeStamp: '10h',
-    review: 'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+    review:
+      'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
     rating: 4,
   },
   {
     name: 'Yemi Adeyemi',
     timeStamp: '15h',
-    review: "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+    review:
+      "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
     rating: 4,
   },
   {

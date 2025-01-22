@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
@@ -12,19 +12,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {
   setResetConfirmPassword,
-  setPassword,
   setResetPassword,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   // Redux state selectors
@@ -33,30 +32,29 @@ function ResetPassword({navigation}: Props) {
     (state: RootState) => state.auth,
   );
   // Validation function
-    const handleContinue = () => {
-      const passwordRegex =
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  
-      if (!passwordRegex.test(resetPassword)) {
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid Password',
-          text2:
-          'Use 8+ characters, with a number, letter, & symbol.',
-        });
-        return;
-      }
-      if (resetConfirmPassword !== resetPassword) {
-        Toast.show({
-          type: 'error',
-          text1: 'Invalid confirm Password',
-          text2: 'Passwords do not match',
-        });
-        return;
-      }
-  
-      dispatch(setShowModal(true))
-    };
+  const handleContinue = () => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d\W_]{8,}$/;
+
+    if (!passwordRegex.test(resetPassword)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2: 'Use 8+ characters, with a number, letter, & symbol.',
+      });
+      return;
+    }
+    if (resetConfirmPassword !== resetPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid confirm Password',
+        text2: 'Passwords do not match',
+      });
+      return;
+    }
+
+    dispatch(setShowModal(true));
+  };
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
@@ -96,10 +94,7 @@ function ResetPassword({navigation}: Props) {
             validate="confirm-password"
             password={resetPassword}
           />
-          <Button
-            text="Reset password"
-            action={handleContinue}
-          />
+          <Button text="Reset password" action={handleContinue} />
         </View>
       </ScrollView>
       <Toast />
@@ -116,3 +111,4 @@ function ResetPassword({navigation}: Props) {
 }
 
 export default ResetPassword;
+
