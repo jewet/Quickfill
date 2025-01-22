@@ -496,6 +496,52 @@ export const orders_nav: OrdersNavProps[] = [
   },
 ];
 
+interface CustomerReviewProps {
+  name: string
+  timeStamp: string
+  review: string
+  rating: number
+}
+
+export const customer_review: CustomerReviewProps[] = [
+  {
+    name: 'John Johnson',
+    timeStamp: '5h',
+    review: 'Amazing service! The delivery was right on time, and the agent was super polite and professional.',
+    rating: 5,
+  },
+  {
+    name: 'Emeka Nnaemeka',
+    timeStamp: '10h',
+    review: 'Quick and reliable! My package arrived in perfect condition. Highly recommended!',
+    rating: 4,
+  },
+  {
+    name: 'Yemi Adeyemi',
+    timeStamp: '15h',
+    review: "Excellent communication and punctuality. Couldn't have asked for a better delivery experience.",
+    rating: 4,
+  },
+  {
+    name: 'Chibuzor Ekene',
+    timeStamp: '20h',
+    review: 'Great work',
+    rating: 2,
+  },
+  {
+    name: 'John Daniel',
+    timeStamp: '1 day',
+    review: 'Keep it up',
+    rating: 3,
+  },
+  {
+    name: 'Dinma Gabriel',
+    timeStamp: '3 days',
+    review: 'Excellent',
+    rating: 1,
+  },
+];
+
 interface AchievementsProps {
   img: any;
   reward: string;

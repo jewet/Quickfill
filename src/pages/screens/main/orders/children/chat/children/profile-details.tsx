@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {Platform, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -13,7 +21,10 @@ import AwardIcon from '../../../../../../../assets/images/orders/tabler_award.sv
 import UserCheck from '../../../../../../../assets/images/orders/tabler_user-check.svg';
 import Star from '../../../../../../../assets/images/orders/star.svg';
 import homeStyles from '../../../../home/home-styles';
-import {achievements_data} from '../../../../../../../utils/sample-data/orders';
+import {
+  achievements_data,
+  customer_review,
+} from '../../../../../../../utils/sample-data/orders';
 import {primaryColor} from '../../../../../onboarding/splash/splashstyles';
 import ChatStyles from '../chatStyles';
 import {useDispatch, useSelector} from 'react-redux';
@@ -22,11 +33,16 @@ import {
   setShowModal,
   setShowMoreInfo,
 } from '../../../../../../../utils/redux/slice/orders';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'profile-details'>;
 
 function ProfileDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'profile-details'>>();
   const {orderDetails, target} = route.params;
@@ -48,13 +64,17 @@ function ProfileDetails({navigation}: Props) {
   const [showAllReviews, setShowAllReviews] = useState(false);
 
   const reviewsToShow = showAllReviews
-    ? orderDetails?.customer_review
-    : orderDetails?.customer_review?.slice(0, 3);
+    ? customer_review
+    : customer_review.slice(0, 3);
 
   const toggleReviews = () => setShowAllReviews(!showAllReviews);
 
   return (
     <SafeAreaView style={profileDetailsStyles.profileDetailsContainer}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
+      />
       <View style={{width: '100%', height: 250}}>
         <View
           style={[
@@ -211,7 +231,7 @@ function ProfileDetails({navigation}: Props) {
             ]}>
             Customer reviews{' '}
             <Text style={{color: primaryColor}}>
-              ({orderDetails?.customer_review?.length})
+              ({customer_review.length})
             </Text>
           </Text>
           <View

@@ -1,11 +1,7 @@
 import React from 'react';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
+import {ScrollView, StatusBar, Text, useColorScheme, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Profile/Header';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -20,11 +16,16 @@ import WorkIcon from '../../../../../../assets/images/profile/tabler_briefcase.s
 import AddressIcon from '../../../../../../assets/images/profile/tabler_map-pin.svg';
 import addressStyles from './addressStyles';
 import Button from '../../../../../../components/Button/Button';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-address'>;
 
 function Address({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Access route parameters to fetch profile details if passed
   const route = useRoute<RouteProp<RootStackParamList, 'user-address'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};

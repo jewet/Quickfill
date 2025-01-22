@@ -4,33 +4,64 @@ import {RootStackParamList} from '../../../utils/nav-routes/types';
 import AuthTop from '../../../components/Auth/AuthTop';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Input from '../../../components/Input/AuthInput';
-import {ScrollView, StatusBar, View} from 'react-native';
+import {ScrollView, StatusBar, useColorScheme, View} from 'react-native';
 import authStyles from './styles/authStyles';
-import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import Modal from '../../../components/Auth/Modal/Modal';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {
-  setConfirmPassword,
+  setResetConfirmPassword,
   setPassword,
+  setResetPassword,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
+import Toast from 'react-native-toast-message';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'reset-password'>;
 
 function ResetPassword({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Redux state selectors
   const dispatch = useDispatch();
-  const {showModal, password, confirmPassword} = useSelector(
+  const {showModal, resetPassword, resetConfirmPassword} = useSelector(
     (state: RootState) => state.auth,
   );
+  // Validation function
+    const handleContinue = () => {
+      const passwordRegex =
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  
+      if (!passwordRegex.test(resetPassword)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid Password',
+          text2:
+          'Use 8+ characters, with a number, letter, & symbol.',
+        });
+        return;
+      }
+      if (resetConfirmPassword !== resetPassword) {
+        Toast.show({
+          type: 'error',
+          text1: 'Invalid confirm Password',
+          text2: 'Passwords do not match',
+        });
+        return;
+      }
+  
+      dispatch(setShowModal(true))
+    };
   return (
     <SafeAreaView style={[authStyles.authContainer, {position: 'relative'}]}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FFFFFFF'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -45,32 +76,33 @@ function ResetPassword({navigation}: Props) {
           <Input
             label="Passsword"
             placeholder="*********"
-            value={password}
+            value={resetPassword}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setPassword(text))}
+            onChange={text => dispatch(setResetPassword(text))}
             validate="password"
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            value={confirmPassword}
+            value={resetConfirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setConfirmPassword(text))}
+            onChange={text => dispatch(setResetConfirmPassword(text))}
             validate="confirm-password"
-            password={password}
+            password={resetPassword}
           />
           <Button
             text="Reset password"
-            action={() => dispatch(setShowModal(true))}
+            action={handleContinue}
           />
         </View>
       </ScrollView>
+      <Toast />
       {showModal && (
         <Modal
           topText="Confirmed"

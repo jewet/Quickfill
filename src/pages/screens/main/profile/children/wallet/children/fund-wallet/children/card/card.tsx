@@ -1,14 +1,17 @@
 import React from 'react';
-import {Alert, ScrollView, StatusBar, Text, View} from 'react-native';
+import {
+  Alert,
+  ScrollView,
+  StatusBar,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
 import Lock from '../../../../../../../../../../assets/images/payment/lucide_lock.svg';
@@ -24,11 +27,16 @@ import {
   setCvv,
   setExpiryDate,
 } from '../../../../../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'card'>;
 
 function Card({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'card'>>();
   const {amount, directory} = route.params;
 
@@ -44,8 +52,7 @@ function Card({navigation}: Props) {
     cardNumber.replace(/\s/g, '').length === 19 &&
     expiryDate.length === 5 &&
     cvv.length === 3;
-    console.log('direc: ', directory);
-    
+  console.log('direc: ', directory);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

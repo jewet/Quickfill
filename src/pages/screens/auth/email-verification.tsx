@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -24,11 +25,16 @@ import {
   setOtp,
   setShowModal,
 } from '../../../utils/redux/slice/auth';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'email-verification'>;
 
 function Emailverification({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const inputRefs = useRef<Array<TextInput | null>>([]);
   // Redux state selectors
   const dispatch = useDispatch();
@@ -88,7 +94,7 @@ function Emailverification({navigation}: Props) {
 
   return (
     <SafeAreaView style={authStyles.authContainer}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <StatusBar barStyle="dark-content" backgroundColor={backgroundStyle.backgroundColor} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={authStyles.scrollview}>

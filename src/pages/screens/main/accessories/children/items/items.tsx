@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -12,10 +13,6 @@ import accessoriesStyles from '../../accessoriesStyles';
 import homeStyles from '../../../home/home-styles';
 import DropDown from '../../../../../../assets/images/home/dropdown.svg';
 import CloseIcon from '../../../../../../assets/images/gas/close-icon.svg';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Accessories/Header';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -28,6 +25,7 @@ import {
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
 import itemsStyles from './itemsStyles';
 import SearchIcon from '../../../../../../assets/images/accessories/Search Buttton.svg';
+import Search from '../../../../../../assets/images/accessories/tabler_search.svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import electricityProviderStyles from '../../../home/children/electricity/children/electricity-provider/electricityProviderStyles';
@@ -38,11 +36,16 @@ import {
   setSelectedFilter,
 } from '../../../../../../utils/redux/slice/accessories';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'items-page'>;
 
 function Items({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Function to handle navigation to item details page with specific item data
   const handleNavigation = (itemDetails: ItemsProps) => {
     navigation.navigate('item-details', {itemDetails: itemDetails});
@@ -100,7 +103,7 @@ function Items({navigation}: Props) {
                 electricityProviderStyles.electricityTop,
                 {width: '100%', marginTop: 10},
               ]}>
-              <SearchIcon width={24} height={24} fill="none" />
+              <Search width={24} height={24} fill="none" />
               <TextInput
                 placeholder="Start typing to filter..."
                 placeholderTextColor="#999999"
@@ -223,7 +226,13 @@ function Items({navigation}: Props) {
             })}
           </ScrollView>
         ) : (
-          <Text style={{textAlign: 'center', marginTop: 20, color: '#999', marginBottom: 50}}>
+          <Text
+            style={{
+              textAlign: 'center',
+              marginTop: 20,
+              color: '#999',
+              marginBottom: 50,
+            }}>
             No result found
           </Text>
         )}

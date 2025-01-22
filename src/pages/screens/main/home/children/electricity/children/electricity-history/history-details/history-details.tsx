@@ -7,12 +7,9 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../components/Electricity/Header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../../utils/nav-routes/types';
@@ -21,6 +18,11 @@ import {ElectricityTransactionProps} from '../../../../../../../../../utils/samp
 import historyDetailsStyles from './historyDetailsStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import paymentResultStyles from '../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
+import AlertModal from '../../../../../../../../../components/Alert/Alert';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../utils/redux/store/store';
+import {setShowAlert} from '../../../../../../../../../utils/redux/slice/electricity';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -29,13 +31,20 @@ type Props = StackScreenProps<
 >;
 
 function HistoryDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-history-details'>>();
   const {historyDetails}: {historyDetails?: ElectricityTransactionProps} =
     route.params || {};
+  const dispatch = useDispatch();
+
+  const {showAlert} = useSelector((state: RootState) => state.electricity);
   const copyToClipboard = (value: string, token: string) => {
     Clipboard.setString(value);
-    Alert.alert('Copied!', `${token} copied to clipboard.`);
+    dispatch(setShowAlert(true));
   };
   const total =
     Number(historyDetails?.vat) +
@@ -160,6 +169,13 @@ function HistoryDetails({navigation}: Props) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Token copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

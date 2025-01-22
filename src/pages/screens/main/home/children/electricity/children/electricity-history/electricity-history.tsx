@@ -6,12 +6,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import electricityStyles from '../../electrictyStyles';
 import Header from '../../../../../../../../components/Electricity/Header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -27,11 +24,16 @@ import {
 } from '../../../../../../../../utils/redux/slice/electricity';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for navigation props
 type Props = StackScreenProps<RootStackParamList, 'electricity-history'>;
 
 function ElectricityHistory({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-history'>>();
   const dispatch = useDispatch();

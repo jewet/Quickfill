@@ -5,6 +5,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -12,10 +13,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import paymentResultStyles from './paymentResultStyles';
 import SuccessImg from '../../../../../../../../../../assets/images/payment/successful.svg';
 import UnsuccessfulImg from '../../../../../../../../../../assets/images/payment/unsuccessfull.svg';
@@ -24,11 +21,20 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import Header from '../../../../../../../../../../components/Electricity/Header/Header';
 import Button from '../../../../../../../../../../components/Button/Button';
 import Navigation from '../../../../../../../../../../navigation';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../../utils/redux/store/store';
+import {setShowAlert} from '../../../../../../../../../../utils/redux/slice/profile';
+import AlertModal from '../../../../../../../../../../components/Alert/Alert';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'payment-result'>;
 
 function PaymentResult({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'payment-result'>>();
   const {
     result,
@@ -41,9 +47,12 @@ function PaymentResult({navigation}: Props) {
 
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
+  const dispatch = useDispatch();
+  const {showAlert} = useSelector((state: RootState) => state.profile);
+
   const copyToClipboard = (value: string, token: string) => {
     Clipboard.setString(value);
-    Alert.alert('Copied!', `${token} copied to clipboard.`);
+    dispatch(setShowAlert(true));
   };
 
   return (
@@ -102,8 +111,8 @@ function PaymentResult({navigation}: Props) {
                 <Button
                   text="Next"
                   action={() =>
-                    navigation.replace('gas-order-details', {
-                      gasDetails: orderDetails,
+                    navigation.navigate('gas-order-details', {
+                      orderDetails: orderDetails,
                       selectedCylinder: selectedCylinder,
                       dieselPrice: dieselPrice,
                       litres: litres,
@@ -161,6 +170,13 @@ function PaymentResult({navigation}: Props) {
           </View>
         )}
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Token copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

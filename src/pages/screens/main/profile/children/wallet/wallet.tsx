@@ -8,14 +8,11 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
@@ -36,11 +33,16 @@ import {
   setShowBalance,
   setShowModal,
 } from '../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-wallet'>;
 
 function Wallet({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'user-wallet'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
   const dispatch = useDispatch();
@@ -152,7 +154,11 @@ function Wallet({navigation}: Props) {
                 <TopUp width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>Top up</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{display: 'flex', alignItems: 'center'}}>
+              <TouchableOpacity
+                style={{display: 'flex', alignItems: 'center'}}
+                onPress={() =>
+                  navigation.navigate('wallet-history', {profileDetails})
+                }>
                 <History width={44} height={44} fill="none" />
                 <Text style={walletStyles.opt}>History</Text>
               </TouchableOpacity>

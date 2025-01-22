@@ -40,6 +40,8 @@ import {
   setPrevScrollY,
   setShowModal,
 } from '../../../../../../utils/redux/slice/gas';
+import {primaryColor} from '../../../../onboarding/splash/splashstyles';
+import {scale} from '../../../accessories/accessoriesStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'diesel'>;
@@ -171,62 +173,101 @@ function Diesel({navigation}: Props) {
                     <TouchableOpacity
                       key={index}
                       style={[
-                        orderDetailsStyles.flexContainer,
+                        // orderDetailsStyles.flexContainer,
                         vendorStyles.vendorCont,
                       ]}
                       onPress={() => {
-                        const details = quick_action_data[2]?.details?.[index];
-                        if (details) {
-                          navigation.navigate('diesel-details', {
-                            diesielDetails: details,
+                        navigation.navigate('gas-details', {
+                          orderDetails:
+                            quick_action_data[2]?.details &&
+                            quick_action_data[2]?.details?.[index],
+                        });
+                        dispatch(setMarginTop(500));
+                      }}>
+                      <TouchableOpacity
+                        style={{alignItems: 'flex-end'}}
+                        onPress={() => {
+                          navigation.navigate('profile-details', {
+                            orderDetails:
+                              quick_action_data[2]?.details &&
+                              quick_action_data[2]?.details?.[index],
+                            target: 'rider',
                           });
                           dispatch(setMarginTop(500));
-                        }
-                      }}>
-                      <View
+                        }}>
+                        <Text
+                          style={[
+                            homeStyles.title,
+                            {
+                              color: primaryColor,
+                              fontWeight: '700',
+                              fontSize: scale(12),
+                            },
+                          ]}>
+                          View Profile
+                        </Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        key={index}
                         style={[
                           orderDetailsStyles.flexContainer,
-                          {width: 'auto', alignItems: 'center'},
-                        ]}>
-                        <data.img width={64} height={64} fill="none" />
-                        <View>
+                          {justifyContent: 'space-between'},
+                        ]}
+                        onPress={() => {
+                          const details =
+                            quick_action_data[2]?.details?.[index];
+                          if (details) {
+                            navigation.navigate('diesel-details', {
+                              diesielDetails: details,
+                            });
+                            dispatch(setMarginTop(500));
+                          }
+                        }}>
+                        <View
+                          style={[
+                            orderDetailsStyles.flexContainer,
+                            {width: 'auto', alignItems: 'center'},
+                          ]}>
+                          <data.img width={64} height={64} fill="none" />
+                          <View>
+                            <View
+                              style={[
+                                orderDetailsStyles.flexContainer,
+                                {width: 'auto', gap: 3},
+                              ]}>
+                              <Text style={vendorStyles.status}>
+                                Status - {data.status || 'Unknown'}
+                              </Text>
+                              {data.status?.toString().toLowerCase() ===
+                              'online' ? (
+                                <Online width={7} height={7} fill="none" />
+                              ) : (
+                                <Offline width={7} height={7} fill="none" />
+                              )}
+                            </View>
+                            <Text style={vendorStyles.name}>{data.name}</Text>
+                            <Text style={vendorStyles.time}>
+                              Estimated delivery time: {data.delivery_time}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={{display: 'flex', alignItems: 'flex-end'}}>
+                          <Text style={vendorStyles.time}>Price per kg</Text>
+                          <Text style={vendorStyles.name}>
+                            ₦{Intl.NumberFormat().format(data.price)}
+                          </Text>
                           <View
                             style={[
                               orderDetailsStyles.flexContainer,
                               {width: 'auto', gap: 3},
                             ]}>
-                            <Text style={vendorStyles.status}>
-                              Status - {data.status || 'Unknown'}
+                            <Star width={12} height={12} fill="none" />
+                            <Text style={[vendorStyles.name, {fontSize: 12}]}>
+                              {data.rating}
                             </Text>
-                            {data.status?.toString().toLowerCase() ===
-                            'online' ? (
-                              <Online width={7} height={7} fill="none" />
-                            ) : (
-                              <Offline width={7} height={7} fill="none" />
-                            )}
                           </View>
-                          <Text style={vendorStyles.name}>{data.name}</Text>
-                          <Text style={vendorStyles.time}>
-                            Estimated delivery time: {data.delivery_time}
-                          </Text>
                         </View>
-                      </View>
-                      <View style={{display: 'flex', alignItems: 'flex-end'}}>
-                        <Text style={vendorStyles.time}>Price per kg</Text>
-                        <Text style={vendorStyles.name}>
-                          ₦{Intl.NumberFormat().format(data.price)}
-                        </Text>
-                        <View
-                          style={[
-                            orderDetailsStyles.flexContainer,
-                            {width: 'auto', gap: 3},
-                          ]}>
-                          <Star width={12} height={12} fill="none" />
-                          <Text style={[vendorStyles.name, {fontSize: 12}]}>
-                            {data.rating}
-                          </Text>
-                        </View>
-                      </View>
+                      </TouchableOpacity>
                     </TouchableOpacity>
                   ),
                 )}

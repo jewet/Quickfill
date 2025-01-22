@@ -66,12 +66,12 @@ function Splash({navigation}: Props) {
       ]),
     ]).start();
 
-    // // Navigate to Home after 3 seconds
-    // const timeout = setTimeout(() => {
-    //   navigation.replace('second-onboarding');
-    // }, 1500);
+    // Navigate to Home after 3 seconds
+    const timeout = setTimeout(() => {
+      navigation.replace('second-onboarding');
+    }, 1500);
 
-    // return () => clearTimeout(timeout);
+    return () => clearTimeout(timeout);
   }, [logoOpacity, logoTranslateY, textOpacity, textTranslateY, navigation]);
 
   useEffect(() => {
@@ -116,9 +116,9 @@ function Splash({navigation}: Props) {
             <LogoText width={144} height={32} fill="none" />
             <Text style={splashStyles.text}>Everything energy in one place</Text>
           </Animated.View>
-            <TouchableOpacity style={splashStyles.nextContainer} onPress={()=>navigation.replace('second-onboarding')}>
+            {/* <TouchableOpacity style={splashStyles.nextContainer} onPress={()=>navigation.replace('second-onboarding')}>
             <Next width={28} height={28} fill="none" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
       </View>
     </SafeAreaView>

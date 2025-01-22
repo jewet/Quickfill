@@ -7,6 +7,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -24,16 +25,13 @@ import {
   profile_data,
   ProfileProps,
 } from '../../../../../../../../../../utils/sample-data/profile';
-import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
+import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles'; 
 import Header from '../../../../../../../../../../components/Profile/Header';
 import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
 import Button from '../../../../../../../../../../components/Button/Button';
 import GoBack from '../../../../../../../../../../assets/images/payment/tabler_arrow-right.svg';
+import Dp from '../../../../../../../../../../assets/images/orders/profile_pic.svg';
 import headerStyles from '../../../../../../../../../../components/Profile/HeaderStyles';
 import electricityPaymentStyles from '../../../../../electricity/children/payment/paymentStyles';
 import addressStyles from '../../../../../../../profile/children/address/addressStyles';
@@ -51,13 +49,18 @@ import {
   quick_action_data,
   QuickActionProps,
 } from '../../../../../../../../../../utils/sample-data/home';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
-  const {gasDetails, selectedCylinder, directory, dieselPrice, litres} =
+  const {orderDetails, selectedCylinder, directory, dieselPrice, litres} =
     route.params;
 
   const dispatch = useDispatch();
@@ -77,8 +80,8 @@ function GasCheckout({navigation}: Props) {
   const item_amt = litres
     ? Number(Number(dieselPrice))
     : Number(selectedCylinder?.amount);
-  const delivery_fee = Number(gasDetails?.delivery_fee);
-  const  service_charge = Number(200);
+  const delivery_fee = Number(orderDetails?.delivery_fee);
+  const service_charge = Number(200);
   const total = item_amt + delivery_fee + service_charge;
 
   const navigateToPaymentResult = (paymentType: string, data: DetailsProps) => {
@@ -95,7 +98,7 @@ function GasCheckout({navigation}: Props) {
         break;
       case 'delivery':
         navigation.replace('gas-order-details', {
-          gasDetails: data,
+          orderDetails: data,
           selectedCylinder: selectedCylinder,
           dieselPrice: dieselPrice,
           litres: litres,
@@ -129,11 +132,11 @@ function GasCheckout({navigation}: Props) {
       return;
     }
     const selectedPaymentType = payment_opt[isSelected].type;
-    navigateToPaymentResult(selectedPaymentType, gasDetails);
+    navigateToPaymentResult(selectedPaymentType, orderDetails);
   };
 
-
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
+  console.log('Order details-ordercheckout: ', orderDetails);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -210,6 +213,42 @@ function GasCheckout({navigation}: Props) {
             onPress={() => navigation.navigate('delivery-instructions')}>
             <ArrowRight width={24} height={24} fill="none" />
           </TouchableOpacity>
+        </View>
+        <View
+          style={{width: '100%', backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
+          <Text style={[addressStyles.locationBottom, {paddingHorizontal: 16}]}>Rider information</Text>
+          <View
+            style={[
+              orderDetailsStyles.flexContainer,
+              checkoutStyles.flexCont,
+              {
+                justifyContent: 'space-between',
+                borderTopWidth: 0,
+              },
+            ]}>
+            <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+              <Dp width={30} height={30} fill="none" />
+              <View>
+                <Text style={addressStyles.location}>
+                  {orderDetails?.rider?.name}
+                </Text>
+                <Text style={addressStyles.locationBottom}>
+                  {orderDetails?.rider?.phone_number}
+                </Text>
+              </View>
+            </View>
+            {/* <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('profile-details', {
+                  orderDetails,
+                  target: 'rider',
+                })
+              }>
+              <Text style={[addressStyles.location, {color: primaryColor}]}>
+                View profile
+              </Text>
+            </TouchableOpacity> */}
+          </View>
         </View>
         <Text style={checkoutStyles.paymentText}>Payment</Text>
         <View
@@ -318,7 +357,7 @@ function GasCheckout({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-              ₦{Intl.NumberFormat().format(Number(gasDetails?.delivery_fee))}
+              ₦{Intl.NumberFormat().format(Number(orderDetails?.delivery_fee))}
             </Text>
           </View>
           <View
@@ -331,7 +370,7 @@ function GasCheckout({navigation}: Props) {
                 homeStyles.title,
                 {color: '#8E8E93', fontSize: 14, fontWeight: 600},
               ]}>
-               Service charge
+              Service charge
             </Text>
             <Text
               style={[

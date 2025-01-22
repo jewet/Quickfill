@@ -4,6 +4,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -13,17 +14,18 @@ import SuccessImg from '../../../../../../../../assets/images/payment/successful
 import UnsuccessfulImg from '../../../../../../../../assets/images/payment/unsuccessfull.svg';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import paymentResultStyles from '../../../wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import Header from '../../../../../../../../components/Profile/Header';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'default-card'>;
 
 function DefaultCard({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'default-card'>>();
   const {result} = route.params;
 
@@ -37,8 +39,8 @@ function DefaultCard({navigation}: Props) {
         goBackAction={() => navigation.goBack()}
         isFirstPage={false}
         title={`Default ${
-            result === 'successful' ? 'successful' : 'unsuccessful'
-          }`}
+          result === 'successful' ? 'successful' : 'unsuccessful'
+        }`}
         directory="payment"
       />
       <ScrollView

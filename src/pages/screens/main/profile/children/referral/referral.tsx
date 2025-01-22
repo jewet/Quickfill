@@ -9,13 +9,10 @@ import {
   View,
   Share,
   Alert,
+  useColorScheme,
 } from 'react-native';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Profile/Header';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {ProfileProps} from '../../../../../../utils/sample-data/profile';
@@ -29,17 +26,22 @@ import Friends from '../../../../../../assets/images/profile/friends.svg';
 import Coin from '../../../../../../assets/images/profile/coin.svg';
 import referralStyles from './referralStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'referral'>;
 
 function Referral({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'referral'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
   const referralCode = 'Gkj378rG032i1';
 
-  const appLink = 'https://quikrefil.com/download'; 
+  const appLink = 'https://quikrefil.com/download';
 
   // Function to copy referral code and app link to clipboard
   const copyToClipboard = (code: string) => {

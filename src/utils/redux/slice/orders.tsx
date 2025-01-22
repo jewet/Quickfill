@@ -3,6 +3,7 @@ import {chat_data} from '../../sample-data/chat';
 
 interface OrdersState {
   showModal: boolean;
+  showAlert: boolean;
   isSelected: number;
   activeNav: number;
   messages: typeof chat_data;
@@ -15,6 +16,7 @@ interface OrdersState {
 
 const initialState: OrdersState = {
   showModal: false,
+  showAlert: false,
   isSelected: 0,
   activeNav: 0,
   messages: chat_data,
@@ -31,6 +33,9 @@ const ordersSlice = createSlice({
   reducers: {
     setShowModal: (state, action: PayloadAction<boolean>) => {
       state.showModal = action.payload;
+    },
+    setShowAlert: (state, action: PayloadAction<boolean>) => {
+      state.showAlert = action.payload;
     },
     setIsSelected: (state, action: PayloadAction<number>) => {
       state.isSelected = action.payload;
@@ -84,7 +89,8 @@ export const {
   sendMessage,
   setSelectedReason,
   setCustomReason,
-  setUploadedImage
+  setUploadedImage,
+  setShowAlert,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

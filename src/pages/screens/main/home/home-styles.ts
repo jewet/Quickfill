@@ -42,11 +42,11 @@ const homeStyles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   title: {
-    fontSize: moderateScale(10),
+    fontSize: moderateScale(11),
     fontFamily: 'Plus Jakarta Sans',
     lineHeight: moderateScale(15.12),
-    fontWeight: '500',
-    color: '#919191',
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
   details: {
     fontSize: moderateScale(12),

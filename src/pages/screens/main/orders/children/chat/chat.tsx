@@ -6,13 +6,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
+import {SafeAreaView} from 'react-native-safe-area-context'; 
 import orderStyles from '../../orderStyles';
 import BackArrow from '../../../../../../assets/images/auth/tabler_arrow-right.svg';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
@@ -33,11 +30,17 @@ import {
   setCurrentMessage,
   setShowMoreInfo,
 } from '../../../../../../utils/redux/slice/orders';
+import Dp from '../../../../../../assets/images/orders/profile_pic.svg'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
 
 function Chat({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Access route parameters to get order details and target (rider or vendor)
   const route = useRoute<RouteProp<RootStackParamList, 'chat'>>();
   const {orderDetails, target} = route.params;
@@ -47,7 +50,7 @@ function Chat({navigation}: Props) {
     target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
 
   // Profile picture of the chat participant
-  const ProfilePic = chatPerson.pic;
+  const ProfilePic = chatPerson?.pic || Dp;
 
   const dispatch = useDispatch();
   const {messages, currentMessage, showMoreInfo} = useSelector(
@@ -62,6 +65,7 @@ function Chat({navigation}: Props) {
     navigation.navigate('profile-details', {orderDetails, target});
   };
 
+  console.log('Order details-chat: ', orderDetails);
 
   const renderItem = ({item}: {item: (typeof chat_data)[0]}) => {
     const isSender = item.sender === 'sender';

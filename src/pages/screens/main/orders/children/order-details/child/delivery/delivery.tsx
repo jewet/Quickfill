@@ -1,20 +1,18 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
 import {
+  Linking,
   ScrollView,
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {OrdersProps} from '../../../../../../../../utils/sample-data/orders';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import deliveryStyles from './deliveryStyles';
 import Maps from '../../../../../../../../assets/images/orders/delivery-map.svg';
 import Fav from '../../../../../../../../assets/images/profile/Favourite.svg';
@@ -25,12 +23,35 @@ import {height, width} from '../../../../../home/children/diesel/dieselStyles';
 import orderDetailsStyles from '../../orderDetailsStyles';
 import ChatIcon from '../../../../../../../../assets/images/orders/msg.svg';
 import CallIcon from '../../../../../../../../assets/images/orders/call.svg';
+import Dp from '../../../../../../../../assets/images/orders/profile_pic.svg';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../utils/redux/store/store';
+import {setShowAlert} from '../../../../../../../../utils/redux/slice/orders';
+import AlertModal from '../../../../../../../../components/Alert/Alert';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'delivery'>;
 
 function Delivery({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'delivery'>>();
   const {orderDetails}: {orderDetails?: OrdersProps} = route.params || {};
+  const dispatch = useDispatch();
+  const {showAlert} = useSelector((state: RootState) => state.orders);
+
+  // Function to handle actions
+  const handleCall = async () => {
+    const phoneNumber = orderDetails?.rider?.phone_number || '+2348069684739';
+    const url = `tel:${phoneNumber}`;
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      dispatch(setShowAlert(true));
+    }
+  };
   return (
     <SafeAreaView style={deliveryStyles.orderDetailsContainer}>
       <StatusBar
@@ -89,12 +110,20 @@ function Delivery({navigation}: Props) {
               <View
                 style={[
                   orderDetailsStyles.flexContainer,
-                  {justifyContent: 'flex-end', gap: 20, marginTop: 20},
+                  {
+                    justifyContent: 'flex-end',
+                    gap: 20,
+                    marginTop: 20,
+                    marginLeft: '-5%',
+                  },
                 ]}>
+                <Dp width={40} height={40} />
                 <View>
-                  <Text style={deliveryStyles.riderDetails}>John Doe</Text>
                   <Text style={deliveryStyles.riderDetails}>
-                    +234 817 464 8379
+                    {orderDetails?.rider?.name}
+                  </Text>
+                  <Text style={deliveryStyles.riderDetails}>
+                    {orderDetails?.rider?.phone_number}
                   </Text>
                 </View>
                 <View
@@ -102,7 +131,9 @@ function Delivery({navigation}: Props) {
                     orderDetailsStyles.flexContainer,
                     {width: 'auto', gap: 20},
                   ]}>
-                  <CallIcon width={48} height={48} fill="none" />
+                  <TouchableOpacity onPress={handleCall}>
+                    <CallIcon width={48} height={48} fill="none" />
+                  </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
                       navigation.navigate('chat', {
@@ -118,6 +149,13 @@ function Delivery({navigation}: Props) {
           </ScrollView>
         </View>
       </View>
+      {showAlert && (
+        <AlertModal
+          topText="Error"
+          bottomText="Unable to perform this action."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

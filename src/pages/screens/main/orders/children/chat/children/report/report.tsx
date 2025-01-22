@@ -12,12 +12,9 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import favouritesStyles from '../../../../../profile/children/favourites/favouritesStyles';
 import Button from '../../../../../../../../components/Button/Button';
 import {report_data} from '../../../../../../../../utils/sample-data/orders';
@@ -34,10 +31,15 @@ import {
   setSelectedReason,
   setUploadedImage,
 } from '../../../../../../../../utils/redux/slice/orders';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 type Props = StackScreenProps<RootStackParamList, 'report'>;
 
 function Report({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route = useRoute<RouteProp<RootStackParamList, 'report'>>();
   const {orderDetails, target} = route.params;
 
@@ -45,6 +47,7 @@ function Report({navigation}: Props) {
   const {selectedReason, customReason, uploadedImage} = useSelector(
     (state: RootState) => state.orders,
   );
+  console.log('Order details-report: ', orderDetails);
 
   const uploadImage = () => {
     launchImageLibrary(
@@ -204,7 +207,7 @@ function Report({navigation}: Props) {
                   Alert.alert('Please select or specify a reason.');
                   return;
                 }
-                navigation.navigate('report-result', {
+                navigation.replace('report-result', {
                   result: 'successful',
                   target: target,
                   orderDetails: orderDetails,

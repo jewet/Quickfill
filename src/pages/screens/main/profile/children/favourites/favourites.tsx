@@ -4,6 +4,7 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -28,11 +29,16 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {setActiveNav} from '../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'favourite'>;
 
 function Favourites({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'favourite'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};

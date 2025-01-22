@@ -5,14 +5,11 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import accessoriesStyles from '../../../accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../components/Accessories/Header';
 import {RootStackParamList} from '../../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -30,18 +27,23 @@ import orderDetailsStyles from '../../../../orders/children/order-details/orderD
 import primaryBtnStyles from '../../../../../../../components/Button/ButtonStyles';
 import LinearGradient from 'react-native-linear-gradient';
 import AddToCart from '../../../../../../../assets/images/accessories/tabler_shopping-cart-plus.svg';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'item-details'>;
 
 function ItemsDetails({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const [isFavourite, setIsFavourite] = useState<boolean>(false);
   const route = useRoute<RouteProp<RootStackParamList, 'item-details'>>();
   const {itemDetails}: {itemDetails?: ItemsProps} = route.params || {};
 
   const DisplayImg = itemDetails?.img
-  ? itemsImageMap[itemDetails.img] // Map to the correct image component
-  : null;
+    ? itemsImageMap[itemDetails.img] // Map to the correct image component
+    : null;
 
   const btnMarginTop = Platform.OS === 'ios' ? -30 : 0;
 
@@ -51,7 +53,6 @@ function ItemsDetails({navigation}: Props) {
     return shuffledItems.slice(0, count);
   };
   const ImgComponent = itemDetails?.img ? itemsImageMap[itemDetails.img] : null;
-  
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -76,10 +77,10 @@ function ItemsDetails({navigation}: Props) {
           justifyContent: 'center',
           backgroundColor: '#FFFFFF',
           marginTop: 20,
-          paddingBottom: 20
+          paddingBottom: 20,
         }}>
         {ImgComponent && <ImgComponent width={400} height={291} fill="none" />}
-        </View>
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={itemDetailsStyles.scrollview}>
@@ -88,11 +89,11 @@ function ItemsDetails({navigation}: Props) {
             {itemDetails?.item?.name}
           </Text>
           <View style={{width: '100%'}}>
-          <View style={itemDetailsStyles.priceTextWrapper}>
-            <Text style={itemDetailsStyles.priceText}>
-              ₦{Intl.NumberFormat().format(itemDetails?.item?.price)}
-            </Text>
-          </View>
+            <View style={itemDetailsStyles.priceTextWrapper}>
+              <Text style={itemDetailsStyles.priceText}>
+                ₦{Intl.NumberFormat().format(itemDetails?.item?.price)}
+              </Text>
+            </View>
           </View>
           <Text style={itemDetailsStyles.specText}>
             {itemDetails?.item?.spec}
@@ -142,27 +143,28 @@ function ItemsDetails({navigation}: Props) {
             showsHorizontalScrollIndicator={false}
             style={{paddingBottom: 50}}>
             {getRandomItems(items_data, 3).map((data, index) => {
-              const DataImg = itemsImageMap[data.img]
-              return(
+              const DataImg = itemsImageMap[data.img];
+              return (
                 <View key={index} style={itemDetailsStyles.otherIems}>
-                {DataImg && <DataImg width={117} height={117} fill="none" />}
-                <TouchableOpacity>
-                  <Text style={[itemsStyles.titleText, {textAlign: 'center'}]}>
-                    {data.item.name.split(' ')[0]}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[
-                    orderDetailsStyles.flexContainer,
-                    itemDetailsStyles.addToCartBtn,
-                  ]}>
-                  <AddToCart width={24} height={24} fill="none" />
-                  <Text style={itemDetailsStyles.btnText}>
-                    ₦{Intl.NumberFormat().format(data.item.price)}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              )
+                  {DataImg && <DataImg width={117} height={117} fill="none" />}
+                  <TouchableOpacity>
+                    <Text
+                      style={[itemsStyles.titleText, {textAlign: 'center'}]}>
+                      {data.item.name.split(' ')[0]}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      orderDetailsStyles.flexContainer,
+                      itemDetailsStyles.addToCartBtn,
+                    ]}>
+                    <AddToCart width={24} height={24} fill="none" />
+                    <Text style={itemDetailsStyles.btnText}>
+                      ₦{Intl.NumberFormat().format(data.item.price)}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
             })}
           </ScrollView>
         </View>

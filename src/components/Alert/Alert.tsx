@@ -1,0 +1,29 @@
+import React from 'react';
+import {Text, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import SuccessImg from '../../../assets/images/auth/Done Check.svg'
+import modalStyles from '../Auth/Modal/ModalStyles';
+import Button from '../Button/Button';
+
+interface Props{
+    topText: string;
+    bottomText: string;
+    closeModal: ()=>void;
+}
+
+function AlertModal({topText, bottomText, closeModal}:Props) {
+    const navigation = useNavigation();
+  return (
+    <SafeAreaView style={modalStyles.modalContainer}>
+        <View style={modalStyles.modalBg}></View>
+      <View style={modalStyles.modalCont}>
+        <Text style={modalStyles.topText}>{topText}</Text>
+      <Text style={modalStyles.bottomText}>{bottomText}</Text>
+        <Button text={'Close'} action={closeModal} />
+      </View>
+    </SafeAreaView>
+  );
+}
+
+export default AlertModal;

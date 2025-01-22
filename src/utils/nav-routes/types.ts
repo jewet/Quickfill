@@ -20,7 +20,7 @@ export type RootStackParamList = {
   'order-details': {orderDetails: OrdersProps};
   'deliver-details': any;
   'gas-order-details': {
-    gasDetails?: any;
+    orderDetails?: any;
     selectedCylinder: any;
     directory?: string;
     dieselPrice?: number;
@@ -29,6 +29,7 @@ export type RootStackParamList = {
   'items-page': any;
   'item-details': any;
   login: undefined;
+  "auth-login": undefined;
   signup: undefined;
   home: undefined;
   accessories: undefined;
@@ -42,6 +43,7 @@ export type RootStackParamList = {
   referral: any;
   delivery: {orderDetails: OrdersProps};
   'user-wallet': any;
+  'wallet-history': any;
   checkout: any;
   'user-details': any;
   favourite: any;
@@ -49,7 +51,7 @@ export type RootStackParamList = {
   'user-payment': any;
   'item-suggestion': any;
   'gas-checkout': {
-    gasDetails: DetailsProps;
+    orderDetails: any;
     selectedCylinder?: GasProps;
     directory?: string;
     dieselPrice?: number;
@@ -58,24 +60,28 @@ export type RootStackParamList = {
   help: any;
   contact: any;
   'diesel-details': {diesielDetails: DetailsProps};
-  'gas-details': any;
+  'gas-details': {orderDetails: any};
   'change-address': any;
   'delivery-instructions': any;
   'electricity-purchase-summary': {
-    selectedProvider: ElectricityProps;
+    selectedProvider: any;
     amount: string;
     meterNumber: string;
     meterName: string;
     address: string;
   };
-  'default-card': {result: 'successful' | 'unsuccessful'};
+  ordersDetails?: OrdersProps;
+  'default-card': {
+    result: 'successful' | 'unsuccessful';
+    ordersDetails?: OrdersProps;
+  };
   'report-result': {
     orderDetails: OrdersProps;
     result: 'successful' | 'unsuccessful';
     target: 'rider' | 'vendor';
   };
   chat: {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
-  'profile-details': {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
+  'profile-details': {orderDetails: any; target: 'rider' | 'vendor'};
   report: {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
   'update-form': {
     profileDetails: ProfileProps;
@@ -92,6 +98,7 @@ export type RootStackParamList = {
     selectedCylinder?: any;
     dieselPrice?: number;
     litres?: number;
+    ordersDetails?: OrdersProps;
   };
   transfer: {
     amount: number;
@@ -100,8 +107,9 @@ export type RootStackParamList = {
     selectedCylinder?: GasProps;
     dieselPrice?: number;
     litres?: number;
+    ordersDetails?: OrdersProps;
   };
-  card: {amount: number, directory?: string;};
+  card: {amount: number; directory?: string};
   electricity: any;
   'acct-deleted': undefined;
   'electricity-history': undefined;

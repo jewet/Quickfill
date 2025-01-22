@@ -4,16 +4,13 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
 import accessoriesStyles from '../../accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Accessories/Header';
 import {cart_data} from '../../../../../../utils/sample-data/accessories';
 import orderDetailsStyles from '../../../orders/children/order-details/orderDetailsStyles';
@@ -26,11 +23,16 @@ import Button from '../../../../../../components/Button/Button';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {setItemCounts} from '../../../../../../utils/redux/slice/accessories';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'cart'>;
 
 function Cart({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const dispatch = useDispatch();
   const {itemCounts} = useSelector((state: RootState) => state.accessories);
 

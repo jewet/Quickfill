@@ -6,22 +6,30 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../../../../../components/Profile/Header';
 import favouritesStyles from '../../../../../favourites/favouritesStyles';
 import complaintsStyles from '../../complaintsStyles';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../../utils/redux/store/store';
+import {setDeliveryNote} from '../../../../../../../../../../utils/redux/slice/profile';
+import Button from '../../../../../../../../../../components/Button/Button';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'item-suggestion'>;
 
 function ItemSuggestion({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
+  const dispatch = useDispatch();
+  const {deliveryNote} = useSelector((state: RootState) => state.profile);
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -47,12 +55,21 @@ function ItemSuggestion({navigation}: Props) {
         <TextInput
           placeholder="Leave a comment..."
           style={complaintsStyles.textArea}
+          value={deliveryNote}
+          onChange={event => dispatch(setDeliveryNote(event.nativeEvent.text))}
         />
-        <TouchableOpacity
-          style={complaintsStyles.btn}
-          onPress={() => navigation.navigate('item-suggestion')}>
-          <Text style={complaintsStyles.btnText}>Send</Text>
-        </TouchableOpacity>
+        {deliveryNote.length <= 0 ? (
+          <TouchableOpacity style={complaintsStyles.btn}>
+            <Text style={complaintsStyles.btnText} disabled={true}>
+              Send
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <Button
+            text="Send"
+            action={() => navigation.navigate('item-suggestion')}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );

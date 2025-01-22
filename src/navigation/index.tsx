@@ -1,6 +1,6 @@
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import React, {useEffect, useState} from 'react';
 import OnboardingStack from '../pages/stacks/onboardingstack';
 import MainStack from '../pages/stacks/mainstack';
 import Splash from '../pages/screens/onboarding/splash/splash';
@@ -8,22 +8,23 @@ import AuthStack from '../pages/stacks/authstack';
 import {MMKV} from 'react-native-mmkv';
 import {ActivityIndicator} from 'react-native';
 
+
 function Navigation() {
   const Stack = createStackNavigator();
-  const storage = new MMKV();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const status = storage.getBoolean('isLoggedIn'); // Retrieve login status
-      setIsLoggedIn(status ?? false); // Default to false if undefined
-    };
+  // const storage = new MMKV();
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  // useEffect(() => {
+  //   const checkLoginStatus = () => {
+  //     const status = storage.getBoolean('isLoggedIn'); // Retrieve login status
+  //     setIsLoggedIn(status ?? false); // Default to false if undefined
+  //   };
 
-    checkLoginStatus();
-  }, []);
+  //   checkLoginStatus();
+  // }, []);
 
-  if (isLoggedIn === null) {
-    return <ActivityIndicator size="large" color="#0000ff" />; // Show a loader while checking
-  }
+  // if (isLoggedIn === null) {
+  //   return <ActivityIndicator size="large" color="#0000ff" />; // Show a loader while checking
+  // }
 
   return (
     <NavigationContainer>

@@ -4,14 +4,11 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Profile/Header';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -27,11 +24,16 @@ import DeleteProfileModal from '../../../../../../components/Profile/Modal/Modal
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {setShowModal} from '../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'user-details'>;
 
 function Details({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'user-details'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};

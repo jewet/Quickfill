@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Button from '../../../../../../../../components/Button/Button';
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +26,7 @@ import {
   setAmount,
   setIsSelected,
 } from '../../../../../../../../utils/redux/slice/profile';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 interface Props {
   action: () => void;
@@ -27,6 +34,10 @@ interface Props {
 }
 
 function FundWallet({action, navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const dispatch = useDispatch();
   const {amount, isSelected} = useSelector((state: RootState) => state.profile);
 
@@ -71,7 +82,7 @@ function FundWallet({action, navigation}: Props) {
     }
     const selectedPaymentType = payment_type[isSelected].type;
     navigateToPaymentResult(selectedPaymentType);
-    action()
+    action();
   };
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
   return (
@@ -135,27 +146,28 @@ function FundWallet({action, navigation}: Props) {
           ]}>
           {payment_type.map((data, index) => (
             <View key={index}>
-            {data.type.toLowerCase() !== 'wallet' && (
-            <TouchableOpacity
-              style={electricityProviderStyles.electricityData}
-              onPress={() => dispatch(setIsSelected(index))}>
-              <data.icon width={24} height={24} fill="none" />
-              <View style={electricityProviderStyles.electricityTextWrapper}>
-              
-                  <Text
-                    style={[
-                      electricityProviderStyles.electricityText,
-                      {fontWeight: 600},
-                    ]}>
-                    Pay with {data.type}
-                  </Text>
-              </View>
-              {isSelected === index ? (
-                <SelectedIcon width={24} height={24} fill="none" />
-              ) : (
-                <UnSelectedIcon width={24} height={24} fill="none" />
+              {data.type.toLowerCase() !== 'wallet' && (
+                <TouchableOpacity
+                  style={electricityProviderStyles.electricityData}
+                  onPress={() => dispatch(setIsSelected(index))}>
+                  <data.icon width={24} height={24} fill="none" />
+                  <View
+                    style={electricityProviderStyles.electricityTextWrapper}>
+                    <Text
+                      style={[
+                        electricityProviderStyles.electricityText,
+                        {fontWeight: 600},
+                      ]}>
+                      Pay with {data.type}
+                    </Text>
+                  </View>
+                  {isSelected === index ? (
+                    <SelectedIcon width={24} height={24} fill="none" />
+                  ) : (
+                    <UnSelectedIcon width={24} height={24} fill="none" />
+                  )}
+                </TouchableOpacity>
               )}
-            </TouchableOpacity>)}
             </View>
           ))}
         </View>

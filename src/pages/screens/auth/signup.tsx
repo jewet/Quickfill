@@ -9,45 +9,107 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import authStyles from './styles/authStyles';
-import {isDarkMode} from '../../../utils/status-bar-styles/status-bar-styles';
 import Button from '../../../components/Button/Button';
 import GoogleIcon from '../../../assets/images/auth/google_ic.svg';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
 import {
-  setConfirmPassword,
-  setEmail,
+  setSignUpConfirmPassword,
+  setSignUpEmail,
   setFirstName,
   setLastName,
-  setPassword,
+  setSignUpPassword,
   setPhoneNumber,
 } from '../../../utils/redux/slice/auth';
+import Toast from 'react-native-toast-message';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
 
 function SignUp({navigation}: Props) {
-
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Redux state selectors
   const dispatch = useDispatch();
-  const {firstName, lastName, email, phoneNumber, password, confirmPassword} = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const {firstName, lastName, signUpEmail, phoneNumber, signUpPassword, signUpConfirmPassword} =
+    useSelector((state: RootState) => state.auth);
+  // Validation function
+  const handleSignUp = () => {
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{6,12}$/;
+    if (firstName.length! < 2) {
+      Toast.show({
+        type: 'error',
+        text1: 'Incorrect First Name',
+        text2: 'Name must be at least 2 characters',
+      });
+      return;
+    }
+    if (lastName.length! < 2) {
+      Toast.show({
+        type: 'error',
+        text1: 'Incorrect Last Name',
+        text2: 'Name must be at least 2 characters',
+      });
+      return;
+    }
+    if (!emailRegex.test(signUpEmail)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Email',
+        text2: 'Please enter a valid email address.',
+      });
+      return;
+    }
+    if (!phoneRegex.test(phoneNumber)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid phone number length',
+      });
+      return;
+    }
+
+    if (!passwordRegex.test(signUpPassword)) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2:
+        'Use 8+ characters, with a number, letter, & symbol.',
+      });
+      return;
+    }
+    if (signUpConfirmPassword !== signUpPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid confirm Password',
+        text2: 'Passwords do not match',
+      });
+      return;
+    }
+
+    navigation.navigate('email-verification');
+  };
   return (
     <SafeAreaView style={authStyles.authContainer}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={'#FFFFFFF'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={authStyles.scrollview}>
         <AuthTop
           firstText="Get started with Quickrefil!"
-          secondText="Sign up for free and r what we have to offer."
+          secondText="Sign up for free and see what we have to offer."
           enableBackArrow={false}
           hasEmail={false}
         />
@@ -60,7 +122,7 @@ function SignUp({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            validate="fullname"
+            validate="firstNname"
             onChange={text => dispatch(setFirstName(text))}
           />
           <Input
@@ -71,19 +133,19 @@ function SignUp({navigation}: Props) {
             directory={null}
             keyboardType="default"
             action={null}
-            validate="fullname"
+            validate="lastName"
             onChange={text => dispatch(setLastName(text))}
           />
           <Input
             label="Email address"
             placeholder="E.g. johndoe@gmail.com"
-            value={email}
+            value={signUpEmail}
             secured={false}
             directory={null}
             keyboardType="default"
             action={() => console.log('Action triggered')}
             validate="email"
-            onChange={text => dispatch(setEmail(text))}
+            onChange={text => dispatch(setSignUpEmail(text))}
           />
           <Input
             label="Phone number"
@@ -99,30 +161,27 @@ function SignUp({navigation}: Props) {
           <Input
             label="Passsword"
             placeholder="*********"
-            value={password}
+            value={signUpPassword}
             secured={true}
             directory={null}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setPassword(text))}
+            onChange={text => dispatch(setSignUpPassword(text))}
             validate="password"
           />
           <Input
             label="Confirm password"
             placeholder="*********"
-            value={confirmPassword}
+            value={signUpConfirmPassword}
             secured={true}
             directory={'confirm'}
             keyboardType="default"
             action={null}
-            onChange={text => dispatch(setConfirmPassword(text))}
+            onChange={text => dispatch(setSignUpConfirmPassword(text))}
             validate="confirm-password"
-            password={password}
+            password={signUpPassword}
           />
-          <Button
-            text="Sign Up"
-            action={() => navigation.navigate('email-verification')}
-          />
+          <Button text="Sign Up" action={handleSignUp} />
           <View style={authStyles.orContainer}>
             <View style={authStyles.orLine}></View>
             <Text style={authStyles.orText}>Or</Text>
@@ -142,6 +201,7 @@ function SignUp({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 }

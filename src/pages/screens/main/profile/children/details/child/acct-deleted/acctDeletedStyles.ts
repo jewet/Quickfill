@@ -27,7 +27,7 @@ const acctDeletedStyles = StyleSheet.create({
     fontWeight: '600',
     color: '#FFFFFF',
     position: 'absolute',
-    marginTop: '10%',
+    left: 80,
   },
   noteWrapper: {
     alignItems: 'center',
@@ -70,6 +70,16 @@ const acctDeletedStyles = StyleSheet.create({
     fontWeight: '600',
     color: '#919191',
   },
+  sorryBg: {
+    backgroundColor: '#E66F6F',
+    width: '100%',
+    height: verticalScale(96),
+    borderRadius: 8,
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
+  }
 });
 
 export default acctDeletedStyles;

@@ -6,14 +6,11 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import accessoriesStyles from '../../../accessories/accessoriesStyles';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../utils/status-bar-styles/status-bar-styles';
 import Header from '../../../../../../components/Profile/Header';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -25,40 +22,49 @@ import TopImg from '../../../../../../assets/images/profile/top_img.svg';
 import ArrowRight from '../../../../../../assets/images/profile/tabler_chevron-right.svg';
 import addressStyles from '../address/addressStyles';
 import contactStyles from './contactStyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'contact'>;
 
 function Contact({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   // Retrieve route parameters, specifically `profileDetails`
   const route = useRoute<RouteProp<RootStackParamList, 'contact'>>();
   const {profileDetails}: {profileDetails?: ProfileProps} = route.params || {};
 
-// Function to handle actions
-const handleContactOption = async (option: string) => {
-  try {
-    if (option === 'Email Us') {
-      const email = 'support@example.com'; 
-      const subject = 'Support Request';
-      const body = 'Please describe your issue here.';
-      const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      await Linking.openURL(url);
-    } else if (option === 'Chat on Whatsapp') {
-      const phoneNumber = '+2348069684739';  
-      const message = 'Hello, I need assistance.';
-      const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
-      await Linking.openURL(url);
-    } else if (option === 'Call us') {
-      const phoneNumber = '+2348069684739';  
-      const url = `tel:${phoneNumber}`;
-      await Linking.openURL(url);
-    } else {
-      Alert.alert('Error', 'Invalid option.');
+  // Function to handle actions
+  const handleContactOption = async (option: string) => {
+    try {
+      if (option === 'Email Us') {
+        const email = 'support@example.com';
+        const subject = 'Support Request';
+        const body = 'Please describe your issue here.';
+        const url = `mailto:${email}?subject=${encodeURIComponent(
+          subject,
+        )}&body=${encodeURIComponent(body)}`;
+        await Linking.openURL(url);
+      } else if (option === 'Chat on Whatsapp') {
+        const phoneNumber = '+2348069684739';
+        const message = 'Hello, I need assistance.';
+        const url = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(
+          message,
+        )}`;
+        await Linking.openURL(url);
+      } else if (option === 'Call us') {
+        const phoneNumber = '+2348069684739';
+        const url = `tel:${phoneNumber}`;
+        await Linking.openURL(url);
+      } else {
+        Alert.alert('Error', 'Invalid option.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Unable to perform this action.');
     }
-  } catch (error) {
-    Alert.alert('Error', 'Unable to perform this action.');
-  }
-};
+  };
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

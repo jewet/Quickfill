@@ -41,6 +41,7 @@ import ElectricityHistory from '../screens/main/home/children/electricity/childr
 import HistoryDetails from '../screens/main/home/children/electricity/children/electricity-history/history-details/history-details';
 import AcctDeleted from '../screens/main/profile/children/details/child/acct-deleted/acct-deleted';
 import Checkout from '../screens/main/accessories/children/cart/child/checkout/checkout';
+import WalletHistory from '../screens/main/profile/children/wallet/children/wallet-history/wallet-history';
 
 function MainStack() {
   const Stack = createStackNavigator();
@@ -228,6 +229,13 @@ function MainStack() {
           headerShown: false,
         }}
         component={Wallet}
+      />
+      <Stack.Screen
+        name="wallet-history"
+        options={{
+          headerShown: false,
+        }}
+        component={WalletHistory}
       />
       <Stack.Screen
         name="payment-result"

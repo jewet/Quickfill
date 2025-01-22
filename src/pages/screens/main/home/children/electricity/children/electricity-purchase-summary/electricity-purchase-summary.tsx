@@ -5,12 +5,9 @@ import {
   StatusBar,
   Text,
   TouchableOpacity,
+  useColorScheme,
   View,
 } from 'react-native';
-import {
-  backgroundStyle,
-  isDarkMode,
-} from '../../../../../../../../utils/status-bar-styles/status-bar-styles';
 import electricityStyles from '../../electrictyStyles';
 import Header from '../../../../../../../../components/Electricity/Header/Header';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -20,7 +17,8 @@ import electricityPurchaseStyles from './electricityPurchaseSummaryStyles';
 import Button from '../../../../../../../../components/Button/Button';
 import paymentResultStyles from '../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
 import ElectricityPayment from '../payment/payment';
-import { profile_data } from '../../../../../../../../utils/sample-data/profile';
+import {profile_data} from '../../../../../../../../utils/sample-data/profile';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for navigation props
 type Props = StackScreenProps<
@@ -29,6 +27,10 @@ type Props = StackScreenProps<
 >;
 
 function ElectricityPurchaseSummary({navigation}: Props) {
+  const isDarkMode = useColorScheme() === 'dark';
+   const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.light,
+  };
   const route =
     useRoute<RouteProp<RootStackParamList, 'electricity-purchase-summary'>>();
   const {selectedProvider, amount, meterNumber, meterName, address} =
@@ -38,24 +40,36 @@ function ElectricityPurchaseSummary({navigation}: Props) {
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
-        navigation.replace('transfer', {amount: Number(amount), directory: 'electricity'});
-        break; 
+        navigation.replace('transfer', {
+          amount: Number(amount),
+          directory: 'electricity',
+        });
+        break;
       case 'card':
-        navigation.replace('card', {amount: Number(amount), directory: 'electricity'});
+        navigation.replace('card', {
+          amount: Number(amount),
+          directory: 'electricity',
+        });
         break;
       case 'wallet':
-        navigation.replace('payment-result', {result: 'successful', directory: 'electricity'});
+        navigation.replace('payment-result', {
+          result: 'successful',
+          directory: 'electricity',
+        });
         break;
       case 'flutterwave':
-        navigation.replace('payment-result', {result: 'successful', directory: 'electricity'});
+        navigation.replace('payment-result', {
+          result: 'successful',
+          directory: 'electricity',
+        });
         break;
       default:
         console.warn('Navigation route not defined for this item.');
         break;
     }
   };
-    const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
-  
+  const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
+
   return (
     <SafeAreaView
       style={[electricityStyles.electricityContainer, {position: 'relative'}]}>
@@ -71,14 +85,16 @@ function ElectricityPurchaseSummary({navigation}: Props) {
           <Text style={electricityPurchaseStyles.label}>Label</Text>
           <Text style={electricityPurchaseStyles.details}>
             {selectedProvider
-              ? selectedProvider.electricity
+              ? selectedProvider
+              : selectedProvider?.electricity
+              ? selectedProvider?.electricity
               : 'No provider selected'}
           </Text>
         </View>
         <View style={electricityPurchaseStyles.detailsWrapper}>
           <Text style={electricityPurchaseStyles.label}>Amount (NGN)</Text>
           <Text style={electricityPurchaseStyles.details}>
-          ₦{Intl.NumberFormat().format(Number(amount))}.00
+            ₦{Intl.NumberFormat().format(Number(amount))}.00
           </Text>
         </View>
         <View style={electricityPurchaseStyles.detailsWrapper}>
@@ -97,7 +113,11 @@ function ElectricityPurchaseSummary({navigation}: Props) {
           <TouchableOpacity
             style={[
               paymentResultStyles.btnWrapper,
-              {backgroundColor: '#D9D9D9', borderColor: 'transparent', height: 55},
+              {
+                backgroundColor: '#D9D9D9',
+                borderColor: 'transparent',
+                height: 55,
+              },
             ]}
             onPress={() => navigation.goBack()}>
             <Text style={[paymentResultStyles.btnText, {color: '#DC5513'}]}>
