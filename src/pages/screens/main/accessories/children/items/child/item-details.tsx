@@ -67,7 +67,7 @@ function ItemsDetails({navigation}: Props) {
         isFavourite={isFavourite}
         setIsFavourite={() => setIsFavourite(!isFavourite)}
         directory="item-details"
-        cartNav={() => console.log('pressed')}
+        cartNav={() => navigation.navigate('cart')}
       />
       <View
         style={{

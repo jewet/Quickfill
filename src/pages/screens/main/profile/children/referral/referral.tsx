@@ -27,6 +27,10 @@ import Coin from '../../../../../../assets/images/profile/coin.svg';
 import referralStyles from './referralStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AlertModal from '../../../../../../components/Alert/Alert';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../../../../utils/redux/store/store';
+import { setShowAlert } from '../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'referral'>;
@@ -47,7 +51,9 @@ function Referral({navigation}: Props) {
   const copyToClipboard = (code: string) => {
     const fullMessage = `Use my referral code "${code}" to join! Download the app here: ${appLink}`;
     Clipboard.setString(fullMessage);
-    Alert.alert('Copied!', 'Referral code and app link copied to clipboard.');
+        dispatch(setShowAlert(true));
+    
+    // Alert.alert('Copied!', 'Referral code and app link copied to clipboard.');
   };
 
   // Function to share referral code and app link
@@ -61,6 +67,8 @@ function Referral({navigation}: Props) {
       Alert.alert('Error', 'Unable to share the referral code.');
     }
   };
+  const dispatch = useDispatch();
+  const {showAlert} = useSelector((state: RootState) => state.profile);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
@@ -192,6 +200,13 @@ function Referral({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Referral code and app link copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+        />
+      )}
     </SafeAreaView>
   );
 }

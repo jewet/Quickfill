@@ -57,7 +57,7 @@ function ReportResult({navigation}: Props) {
             <TouchableOpacity
               style={paymentResultStyles.btnWrapper}
               onPress={() =>
-                navigation.navigate('chat', {
+                navigation.replace('chat', {
                   orderDetails: orderDetails,
                   target: target,
                 })

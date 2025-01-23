@@ -24,6 +24,16 @@ const walletStyles = StyleSheet.create({
     paddingVertical: 30,
     justifyContent: 'center',
   },
+  iosWalletTop: {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 16,
+    paddingVertical: 30,
+    justifyContent: 'center',
+    backgroundColor: 'rgb(116, 114, 114)'
+  },
+
   scrollview: {
     width: '100%',
     paddingBottom: verticalScale(100),
