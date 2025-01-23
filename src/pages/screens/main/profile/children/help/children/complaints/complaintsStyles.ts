@@ -8,7 +8,7 @@ const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 const btnRadius = Platform.OS === 'ios' ? 30 : 20;
-const btnHeight= Platform.OS === 'ios' ? 90 : 60
+const btnHeight= Platform.OS === 'ios' ? 60 : 60
 
 const complaintsStyles = StyleSheet.create({
   complaintsContainer: {

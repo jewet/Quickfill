@@ -29,6 +29,7 @@ import {
 } from '../../../../../../../../utils/redux/slice/profile';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import AlertModal from '../../../../../../../../components/Alert/Alert';
+import Toast from 'react-native-toast-message';
 
 interface Props {
   action: () => void;
@@ -76,11 +77,20 @@ function FundWallet({action, navigation}: Props) {
   const handleContinue = () => {
     if (isSelected === null) {
       // dispatch(setShowAlert(true))
-      Alert.alert('No payment type selected');
+       Toast.show({
+              type: 'error',
+              text1: 'Empty payment type',
+              text2: 'No payment type selected',
+            });
       return;
     }
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
-      dispatch(setShowAlert(true))
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid amount',
+        text2: 'Please enter a valid amount',
+      });
+      // dispatch(setShowAlert(true))
       return;
     }
     const selectedPaymentType = payment_type[isSelected].type;
@@ -178,6 +188,7 @@ function FundWallet({action, navigation}: Props) {
           <Button text="Continue" action={handleContinue} />
         </View>
       </View>
+      <Toast />
       {showAlert && (
         <AlertModal
           topText="Notice"

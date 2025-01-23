@@ -98,7 +98,7 @@ function Favourites({navigation}: Props) {
             ))}
           </View>
         </View>
-        <Text>{displayActiveComponent()}</Text>{' '}
+        <Text>{displayActiveComponent()}</Text>
         {/* Render the active component based on the current tab */}
       </ScrollView>
     </SafeAreaView>

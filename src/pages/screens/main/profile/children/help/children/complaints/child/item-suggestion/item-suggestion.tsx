@@ -56,6 +56,7 @@ function ItemSuggestion({navigation}: Props) {
           placeholder="Leave a comment..."
           style={complaintsStyles.textArea}
           value={deliveryNote}
+          multiline={true}
           onChange={event => dispatch(setDeliveryNote(event.nativeEvent.text))}
         />
         {deliveryNote.length <= 0 ? (
