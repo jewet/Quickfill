@@ -3,10 +3,14 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 interface GasState {
   showModal: boolean;
   showAlert: boolean;
+  showDeliveryInput: boolean;
+  showDeliveryFeedback: boolean;
   showOrderDetails: boolean;
   marginTop: number;
   prevScrollY: string;
   deliveryNote: string;
+  deliveryCode: string;
+  feedback: string;
   litres: number;
   isSelected: number;
   selectedIndex: number;
@@ -14,10 +18,14 @@ interface GasState {
 const initialState: GasState = {
   showModal: false,
   showAlert: false,
+  showDeliveryInput: false,
+  showDeliveryFeedback: false,
   showOrderDetails: false,
   marginTop: 500,
   prevScrollY: '',
   deliveryNote: '',
+  deliveryCode: '',
+  feedback: '',
   litres: 0,
   isSelected: 0,
   selectedIndex: 0,
@@ -33,6 +41,12 @@ const gasSlice = createSlice({
     setShowAlert: (state, action: PayloadAction<boolean>) => {
       state.showAlert = action.payload;
     },
+    setShowDeliveryInput: (state, action: PayloadAction<boolean>) => {
+      state.showDeliveryInput = action.payload;
+    },
+    setShowDeliveryFeedback: (state, action: PayloadAction<boolean>) => {
+      state.showDeliveryFeedback = action.payload;
+    },
     setShowOrderDetails: (state, action: PayloadAction<boolean>) => {
       state.showOrderDetails = action.payload;
     },
@@ -44,6 +58,12 @@ const gasSlice = createSlice({
     },
     setDeliveryNote: (state, action: PayloadAction<string>) => {
       state.deliveryNote = action.payload;
+    },
+    setDeliveryCode: (state, action: PayloadAction<string>) => {
+      state.deliveryCode = action.payload;
+    },
+    setFeedback: (state, action: PayloadAction<string>) => {
+      state.feedback = action.payload;
     },
     setLitres: (state, action: PayloadAction<number>) => {
       state.litres = action.payload;
@@ -67,6 +87,10 @@ export const {
   setSelectedIndex,
   setDeliveryNote,
   setShowAlert,
+  setFeedback,
+  setDeliveryCode,
+  setShowDeliveryInput,
+  setShowDeliveryFeedback,
 } = gasSlice.actions;
 
 export default gasSlice.reducer;
