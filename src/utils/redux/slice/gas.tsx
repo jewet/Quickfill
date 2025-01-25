@@ -3,6 +3,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 interface GasState {
   showModal: boolean;
   showAlert: boolean;
+  isFavourite: boolean;
   showDeliveryInput: boolean;
   showDeliveryFeedback: boolean;
   showOrderDetails: boolean;
@@ -18,6 +19,7 @@ interface GasState {
 const initialState: GasState = {
   showModal: false,
   showAlert: false,
+  isFavourite: false,
   showDeliveryInput: false,
   showDeliveryFeedback: false,
   showOrderDetails: false,
@@ -40,6 +42,9 @@ const gasSlice = createSlice({
     },
     setShowAlert: (state, action: PayloadAction<boolean>) => {
       state.showAlert = action.payload;
+    },
+    setIsFavourite: (state, action: PayloadAction<boolean>) => {
+      state.isFavourite = action.payload;
     },
     setShowDeliveryInput: (state, action: PayloadAction<boolean>) => {
       state.showDeliveryInput = action.payload;
@@ -91,6 +96,7 @@ export const {
   setDeliveryCode,
   setShowDeliveryInput,
   setShowDeliveryFeedback,
+  setIsFavourite,
 } = gasSlice.actions;
 
 export default gasSlice.reducer;

@@ -30,10 +30,13 @@ import ChatStyles from '../chatStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../utils/redux/store/store';
 import {
+  setIsFavourite,
   setShowModal,
   setShowMoreInfo,
 } from '../../../../../../../utils/redux/slice/orders';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import LoveIcon from '../../../../../../../assets/images/accessories/love.svg'
+import LovedIcon from '../../../../../../../assets/images/accessories/loved.svg'
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'profile-details'>;
@@ -47,7 +50,7 @@ function ProfileDetails({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'profile-details'>>();
   const {orderDetails, target} = route.params;
   const dispatch = useDispatch();
-  const {showMoreInfo} = useSelector((state: RootState) => state.orders);
+  const {showMoreInfo, isFavourite} = useSelector((state: RootState) => state.orders);
 
   // Determine the chat participant (either rider or vendor)
   const chatPerson =
@@ -90,10 +93,20 @@ function ProfileDetails({navigation}: Props) {
             <GoBackArrow width={44} height={44} fill="none" />
           </TouchableOpacity>
 
+         <View style={{display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+         <TouchableOpacity
+            onPress={() => dispatch(setIsFavourite(!isFavourite))}>
+            {isFavourite ? (
+                <LovedIcon width={30} height={30} fill="none" />
+              ) : (
+                <LoveIcon width={30} height={30} fill="none" />
+              )}
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => dispatch(setShowMoreInfo(!showMoreInfo))}>
             <MoreIcon width={44} height={44} fill="none" />
           </TouchableOpacity>
+         </View>
         </View>
         {showMoreInfo && (
           <View style={ChatStyles.hiddenCont}>

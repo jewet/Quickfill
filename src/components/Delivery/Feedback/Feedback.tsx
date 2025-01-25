@@ -17,15 +17,23 @@ import paymentResultStyles from '../../../pages/screens/main/profile/children/wa
 import feedbackStyles from './FeedbackStyles';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../utils/redux/store/store';
-import {setFeedback} from '../../../utils/redux/slice/gas';
+import {setFeedback, setIsFavourite} from '../../../utils/redux/slice/gas';
+import Dp from '../../../assets/images/orders/profile_pic.svg';
+import orderDetailsStyles from '../../../pages/screens/main/orders/children/order-details/orderDetailsStyles';
+import addressStyles from '../../../pages/screens/main/profile/children/address/addressStyles';
+import {
+  moderateScale,
+  verticalScale,
+} from '../../../pages/screens/main/accessories/accessoriesStyles';
+import LoveIcon from '../../../assets/images/accessories/love.svg';
+import LovedIcon from '../../../assets/images/accessories/loved.svg';
 
 interface Props {
   closeModal: () => void;
+  orderDetails: any;
 }
 
-function DeliveryFeedback({
-  closeModal,
-}: Props) {
+function DeliveryFeedback({closeModal, orderDetails}: Props) {
   const [rating, setRating] = useState(0); // State to track rating (0-5)
 
   const handleStarPress = (index: number) => {
@@ -37,22 +45,41 @@ function DeliveryFeedback({
     }
   };
   const dispatch = useDispatch();
-  const {feedback} = useSelector((state: RootState) => state.gas);
+  const {feedback, isFavourite} = useSelector((state: RootState) => state.gas);
   return (
     <SafeAreaView style={modalStyles.modalContainer}>
       <View style={modalStyles.modalBg}></View>
       <View style={modalStyles.modalCont}>
-        <Text style={modalStyles.topText}>
-          Order completed
-        </Text>
-        <Text style={inputStyles.label}>
+        <Text style={modalStyles.topText}>Order completed</Text>
+        <View
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Dp width={50} height={50} fill="none" />
+          <Text style={[addressStyles.location, {fontSize: moderateScale(16)}]}>
+            {orderDetails?.rider?.name}
+          </Text>
+        </View>
+        {/* <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
+          <Dp width={30} height={30} fill="none" />
+          <View>
+            <Text style={addressStyles.location}>
+              {orderDetails?.rider?.name}
+            </Text>
+            <Text style={addressStyles.locationBottom}>
+              {orderDetails?.rider?.phone_number}
+            </Text>
+          </View>
+        </View> */}
+        <Text style={[inputStyles.label, {marginTop: -10}]}>
           Rate your experience with the rider
         </Text>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
-            marginVertical: 10,
           }}>
           {/* Render stars dynamically */}
           {Array.from({length: 5}).map((_, index) => (
@@ -68,8 +95,27 @@ function DeliveryFeedback({
             </TouchableOpacity>
           ))}
         </View>
+        <View
+          style={[
+            orderDetailsStyles.flexContainer,
+            {justifyContent: 'space-between'},
+          ]}>
+          <Text style={[inputStyles.label, {marginTop: 0}]}>
+            Add{' '}
+            <Text style={{fontWeight: '700'}}>{orderDetails?.rider?.name}</Text>{' '}
+            as favourite
+          </Text>
+          <TouchableOpacity
+            onPress={() => dispatch(setIsFavourite(!isFavourite))}>
+            {isFavourite ? (
+              <LovedIcon width={24} height={24} fill="none" />
+            ) : (
+              <LoveIcon width={24} height={24} fill="none" />
+            )}
+          </TouchableOpacity>
+        </View>
         <View style={inputStyles.inputContainer}>
-          <Text style={inputStyles.label}>
+          <Text style={[inputStyles.label, {marginTop: verticalScale(5)}]}>
             Please give us your feedback{' '}
             <Text style={{fontWeight: '700'}}>(Optional)</Text>
           </Text>
@@ -84,7 +130,8 @@ function DeliveryFeedback({
             onChange={event => dispatch(setFeedback(event.nativeEvent.text))}
           />
         </View>
-        <View style={feedbackStyles.btnsWrapper}>
+        <View
+          style={[feedbackStyles.btnsWrapper, {marginTop: verticalScale(-10)}]}>
           <TouchableOpacity
             style={[paymentResultStyles.btnWrapper, {width: '43%', height: 60}]}
             onPress={closeModal}>

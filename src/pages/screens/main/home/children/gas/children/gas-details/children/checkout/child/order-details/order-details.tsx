@@ -455,8 +455,9 @@ function GasOrderDetails({navigation}: Props) {
         <DeliveryFeedback
           closeModal={() => {
             dispatch(setShowDeliveryFeedback(false));
-            // dispatch(setShowDeliveryInput(false));
+            dispatch(setShowDeliveryInput(false));
           }}
+          orderDetails={orderDetails}
         />
       )}
     </SafeAreaView>
