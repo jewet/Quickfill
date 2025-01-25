@@ -10,9 +10,10 @@ interface Props{
     topText: string;
     bottomText: string;
     closeModal: ()=>void;
+    ok?: boolean;
 }
 
-function AlertModal({topText, bottomText, closeModal}:Props) {
+function AlertModal({topText, bottomText, closeModal, ok}:Props) {
     const navigation = useNavigation();
   return (
     <SafeAreaView style={modalStyles.modalContainer}>
@@ -20,7 +21,7 @@ function AlertModal({topText, bottomText, closeModal}:Props) {
       <View style={modalStyles.modalCont}>
         <Text style={modalStyles.topText}>{topText}</Text>
       <Text style={modalStyles.bottomText}>{bottomText}</Text>
-        <Button text={'Close'} action={closeModal} />
+        <Button text={ok ? 'Ok' : 'Close'} action={closeModal} />
       </View>
     </SafeAreaView>
   );

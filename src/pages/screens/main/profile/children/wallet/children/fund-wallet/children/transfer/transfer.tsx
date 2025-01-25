@@ -21,6 +21,10 @@ import paymentResultStyles from '../payment-result/paymentResultStyles';
 import transferStyles from './transferStyles';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AlertModal from '../../../../../../../../../../components/Alert/Alert';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../../../../../../../../utils/redux/store/store';
+import {setShowAlert} from '../../../../../../../../../../utils/redux/slice/profile';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'transfer'>;
@@ -33,12 +37,14 @@ function Transfer({navigation}: Props) {
   const route = useRoute<RouteProp<RootStackParamList, 'transfer'>>();
   const {amount, directory, orderDetails, selectedCylinder, dieselPrice} =
     route.params;
+  const dispatch = useDispatch();
+  const {showAlert} = useSelector((state: RootState) => state.profile);
 
   const copyToClipboard = (value: string) => {
     Clipboard.setString(value);
-    Alert.alert('Copied!', `${value} copied to clipboard.`);
+    dispatch(setShowAlert(true));
+    // Alert.alert('Copied!', `${value} copied to clipboard.`);
   };
-
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>
       <StatusBar
@@ -148,6 +154,14 @@ function Transfer({navigation}: Props) {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Text copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+          ok={true}
+        />
+      )}
     </SafeAreaView>
   );
 }

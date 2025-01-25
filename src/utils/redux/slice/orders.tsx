@@ -4,6 +4,7 @@ import {chat_data} from '../../sample-data/chat';
 interface OrdersState {
   showModal: boolean;
   showAlert: boolean;
+  isFavourite: boolean;
   isSelected: number;
   activeNav: number;
   messages: typeof chat_data;
@@ -17,6 +18,7 @@ interface OrdersState {
 const initialState: OrdersState = {
   showModal: false,
   showAlert: false,
+  isFavourite: false,
   isSelected: 0,
   activeNav: 0,
   messages: chat_data,
@@ -36,6 +38,9 @@ const ordersSlice = createSlice({
     },
     setShowAlert: (state, action: PayloadAction<boolean>) => {
       state.showAlert = action.payload;
+    },
+    setIsFavourite: (state, action: PayloadAction<boolean>) => {
+      state.isFavourite = action.payload;
     },
     setIsSelected: (state, action: PayloadAction<number>) => {
       state.isSelected = action.payload;
@@ -64,7 +69,7 @@ const ordersSlice = createSlice({
           }),
         };
         state.messages.push(newMessage);
-        state.currentMessage = ''; 
+        state.currentMessage = '';
       }
     },
     setSelectedReason: (state, action: PayloadAction<string | null>) => {
@@ -91,6 +96,7 @@ export const {
   setCustomReason,
   setUploadedImage,
   setShowAlert,
+  setIsFavourite,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

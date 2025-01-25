@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -33,27 +33,41 @@ import BlankProgressBar from '../../../../../../../../../../../../assets/images/
 import {RootState} from '../../../../../../../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {
+  setDeliveryCode,
+  setShowAlert,
   setShowModal,
   setShowOrderDetails,
+  setShowDeliveryInput,
+  setShowDeliveryFeedback,
 } from '../../../../../../../../../../../../utils/redux/slice/gas';
 import paymentResultStyles from '../../../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
-import { moderateScale } from '../../../../../../../../../accessories/accessoriesStyles';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {moderateScale} from '../../../../../../../../../accessories/accessoriesStyles';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Clipboard from '@react-native-clipboard/clipboard';
+import AlertModal from '../../../../../../../../../../../../components/Alert/Alert';
+import DeliveryFeedback from '../../../../../../../../../../../../components/Delivery/Feedback/Feedback';
+import DeliveryInputModal from '../../../../../../../../../../../../components/Delivery/InputModal/InputModal';
+import Toast from 'react-native-toast-message';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-order-details'>;
 
 function GasOrderDetails({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-order-details'>>();
   const {orderDetails, selectedCylinder, dieselPrice, litres} = route.params;
   const dispatch = useDispatch();
-  const {showOrderDetails, showModal} = useSelector(
-    (state: RootState) => state.gas,
-  );
+  const {
+    showOrderDetails,
+    showModal,
+    showAlert,
+    deliveryCode,
+    showDeliveryInput,
+    showDeliveryFeedback,
+  } = useSelector((state: RootState) => state.gas);
 
   const item_amt = dieselPrice
     ? Number(dieselPrice)
@@ -65,10 +79,46 @@ function GasOrderDetails({navigation}: Props) {
   const customerSupport = profile_data.find(
     item => item.profile.type === 'Contact/support',
   );
-  const help = profile_data.find(
-    item => item.profile.type === 'Help/feedback',
-  );
+  const help = profile_data.find(item => item.profile.type === 'Help/feedback');
+  const copyToClipboard = (value: string | number) => {
+    Clipboard.setString(String(value)); // Ensure value is a string
+    dispatch(setShowAlert(true));
+  };
+  // Show Toast and Input Modal after 1 second
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     Toast.show({
+  //       type: 'success',
+  //       text1: 'Dear Customer',
+  //       text2: 'Your Order has arrived, copy your delivery code.',
+  //     });
+  //     dispatch(setShowDeliveryInput(true)); // Show Delivery Input Modal
+  //   }, 3000);
 
+  //   return () => clearTimeout(timer);
+  // }, [dispatch]);
+  useEffect(() => {
+    // Show the toast message first
+    Toast.show({
+      type: 'success',
+      text1: 'Dear Customer',
+      text2: `Your Order has arrived, Proceed with delivery code (${orderDetails?.delivery_code}).`,
+    });
+
+    // Delay showing the DeliveryInputModal until the toast disappears
+    const timer = setTimeout(() => {
+      dispatch(setShowDeliveryInput(true)); // Show Delivery Input Modal
+      dispatch(setShowAlert(false));
+    }, 3000); // Adjust the delay to match your toast duration (e.g., 4 seconds)
+
+    return () => clearTimeout(timer);
+  }, [dispatch]);
+
+  // Handle "Continue" button in Delivery Input Modal
+  const handleDeliveryCodeSubmit = () => {
+      dispatch(setShowDeliveryFeedback(true)); // Show Delivery Feedback Modal
+      dispatch(setShowDeliveryInput(false)); // Hide Delivery Input Modal
+  };
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>
       <StatusBar
@@ -84,13 +134,18 @@ function GasOrderDetails({navigation}: Props) {
             paddingHorizontal: 20,
           },
         ]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+            dispatch(setShowDeliveryInput(false));
+          }}>
           <BackArrow width={26} height={26} fill="none" />
         </TouchableOpacity>
         <Text style={electricityStyles.topText}>
           Order {orderDetails?.order_no}
         </Text>
-        <TouchableOpacity onPress={()=>navigation.navigate('help', {profileDetails: help})}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('help', {profileDetails: help})}>
           <Text style={[electricityPaymentStyles.topText, {color: '#919191'}]}>
             Help
           </Text>
@@ -111,7 +166,9 @@ function GasOrderDetails({navigation}: Props) {
           <View style={orderDetailsStyles.orderDetailsCont}>
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
-                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>Delivery status</Text>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
+                  Delivery status
+                </Text>
                 <Text style={homeStyles.details}>Delivery in 20-30mins</Text>
               </View>
               <TouchableOpacity
@@ -131,11 +188,11 @@ function GasOrderDetails({navigation}: Props) {
                 (data: any, index: number) => (
                   <View key={index}>
                     {data?.itsTurn === true && data?.pending === false ? (
-                      <FullProgressBar width={100} height={8} />
+                      <FullProgressBar width={90} height={8} />
                     ) : data?.itsTurn === true && data?.pending === true ? (
-                      <HalfProgressBar width={100} height={8} />
+                      <HalfProgressBar width={90} height={8} />
                     ) : (
-                      <BlankProgressBar width={100} height={8} />
+                      <BlankProgressBar width={90} height={8} />
                     )}
                   </View>
                 ),
@@ -143,7 +200,11 @@ function GasOrderDetails({navigation}: Props) {
             </View>
             <View style={orderDetailsStyles.flexContainer}>
               <NoteIcon width={20} height={20} fill="none" />
-              <Text style={[homeStyles.title, {fontSize: 12, fontWeight: 600, color: '#2C2C2C'}]}>
+              <Text
+                style={[
+                  homeStyles.title,
+                  {fontSize: 12, fontWeight: 600, color: '#2C2C2C'},
+                ]}>
                 Your charge will be added to your wallet balance
               </Text>
             </View>
@@ -152,7 +213,9 @@ function GasOrderDetails({navigation}: Props) {
             <View style={orderDetailsStyles.oderDetailsDeliveryStatus}>
               <View>
                 <Text style={homeStyles.details}>Order details</Text>
-                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>1 vendor, 1 item</Text>
+                <Text style={[homeStyles.title, {color: '#A8A8A3'}]}>
+                  1 vendor, 1 item
+                </Text>
               </View>
               <TouchableOpacity
                 style={orderDetailsStyles.viewTimeline}
@@ -220,14 +283,20 @@ function GasOrderDetails({navigation}: Props) {
                 orderDetailsStyles.flexContainer,
                 {justifyContent: 'space-between', marginTop: 10},
               ]}>
-              <TouchableOpacity style={[orderDetailsStyles.flexContainer, {width: 'auto'}]} onPress={()=>navigation.navigate('delivery-instructions')}>
+              <TouchableOpacity
+                style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}
+                onPress={() => navigation.navigate('delivery-instructions')}>
                 <MsgIcon width={20} height={20} fill="none" />
                 <Text
-                  style={[homeStyles.title, {fontSize: 12, fontWeight: 600, color: '#A8A8A3'}]}>
+                  style={[
+                    homeStyles.title,
+                    {fontSize: 12, fontWeight: 600, color: '#A8A8A3'},
+                  ]}>
                   Add extra delivery note e.g. estate pass
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={()=>navigation.navigate('delivery-instructions')}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('delivery-instructions')}>
                 <ArrowRightIcon width={20} height={20} fill="none" />
               </TouchableOpacity>
             </View>
@@ -248,7 +317,7 @@ function GasOrderDetails({navigation}: Props) {
                   Delivery confirmation code:
                 </Text>
               </View>
-              <View
+              <TouchableOpacity
                 style={[
                   orderDetailsStyles.viewTimeline,
                   {
@@ -257,15 +326,20 @@ function GasOrderDetails({navigation}: Props) {
                     borderRadius: 30,
                     paddingVertical: 10,
                   },
-                ]}>
+                ]}
+                onPress={() => copyToClipboard(orderDetails?.delivery_code)}>
                 <Text
                   style={[
                     homeStyles.title,
-                    {color: primaryColor, fontSize: moderateScale(14), fontWeight: 700},
+                    {
+                      color: primaryColor,
+                      fontSize: moderateScale(14),
+                      fontWeight: 700,
+                    },
                   ]}>
                   {orderDetails?.delivery_code}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={orderDetailsStyles.totalWrapper}>
@@ -347,6 +421,7 @@ function GasOrderDetails({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      <Toast />
       {showModal && (
         <TimelineModal
           action={() => dispatch(setShowModal(false))}
@@ -360,6 +435,29 @@ function GasOrderDetails({navigation}: Props) {
             dispatch(setShowModal(false));
             navigation.navigate('delivery', {orderDetails: orderDetails});
           }}
+        />
+      )}
+      {showAlert && (
+        <AlertModal
+          topText="Copied!"
+          bottomText="Delivery code copied to clipboard."
+          closeModal={() => dispatch(setShowAlert(false))}
+          ok={true}
+        />
+      )}
+      {showDeliveryInput && (
+        <DeliveryInputModal
+          closeModal={handleDeliveryCodeSubmit}
+          value={orderDetails?.delivery_code}
+        />
+      )}
+      {showDeliveryFeedback && (
+        <DeliveryFeedback
+          closeModal={() => {
+            dispatch(setShowDeliveryFeedback(false));
+            dispatch(setShowDeliveryInput(false));
+          }}
+          orderDetails={orderDetails}
         />
       )}
     </SafeAreaView>

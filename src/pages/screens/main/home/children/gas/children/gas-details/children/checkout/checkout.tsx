@@ -23,7 +23,6 @@ import ArrowRight from '../../../../../../../../../../assets/images/gas/tabler_c
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import {
   profile_data,
-  ProfileProps,
 } from '../../../../../../../../../../utils/sample-data/profile';
 import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles'; 
 import Header from '../../../../../../../../../../components/Profile/Header';
@@ -136,7 +135,6 @@ function GasCheckout({navigation}: Props) {
   };
 
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
-  console.log('Order details-ordercheckout: ', orderDetails);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

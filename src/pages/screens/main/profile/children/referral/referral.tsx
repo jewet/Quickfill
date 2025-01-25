@@ -205,6 +205,7 @@ function Referral({navigation}: Props) {
           topText="Copied!"
           bottomText="Referral code and app link copied to clipboard."
           closeModal={() => dispatch(setShowAlert(false))}
+          ok={true}
         />
       )}
     </SafeAreaView>
