@@ -71,7 +71,7 @@ function OrderDetails({navigation}: Props) {
 
   const handleNavigation = (
     orderDetails: OrdersProps,
-    target: 'rider' | 'vendor',
+    target: 'Delivery Rep' | 'vendor',
   ) => {
     navigation.navigate('chat', {orderDetails, target});
   };
@@ -304,7 +304,7 @@ function OrderDetails({navigation}: Props) {
                 homeStyles.details,
                 {color: '#2C2C2C', fontWeight: 400, fontSize: 12},
               ]}>
-              Rider information
+              Delivery Rep information
             </Text>
             <View
               style={[
@@ -344,7 +344,7 @@ function OrderDetails({navigation}: Props) {
                   <CallIcon width={40} height={40} fill="none" />
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => handleNavigation(orderDetails!, 'rider')}>
+                  onPress={() => handleNavigation(orderDetails!, 'Delivery Rep')}>
                   <ChatIcon width={40} height={40} fill="none" />
                 </TouchableOpacity>
               </View>

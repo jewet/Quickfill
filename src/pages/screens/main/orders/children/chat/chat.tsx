@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   FlatList,
   ScrollView,
@@ -9,7 +9,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context'; 
+import {SafeAreaView} from 'react-native-safe-area-context';
 import orderStyles from '../../orderStyles';
 import BackArrow from '../../../../../../assets/images/auth/tabler_arrow-right.svg';
 import {RootStackParamList} from '../../../../../../utils/nav-routes/types';
@@ -30,15 +30,15 @@ import {
   setCurrentMessage,
   setShowMoreInfo,
 } from '../../../../../../utils/redux/slice/orders';
-import Dp from '../../../../../../assets/images/orders/profile_pic.svg'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import Dp from '../../../../../../assets/images/orders/profile_pic.svg';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'chat'>;
 
 function Chat({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   // Access route parameters to get order details and target (rider or vendor)
@@ -47,7 +47,7 @@ function Chat({navigation}: Props) {
 
   // Determine the chat participant (either rider or vendor)
   const chatPerson =
-    target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
+    target === 'Delivery Rep' ? orderDetails?.rider : orderDetails?.vendor;
 
   // Profile picture of the chat participant
   const ProfilePic = chatPerson?.pic || Dp;
@@ -60,12 +60,10 @@ function Chat({navigation}: Props) {
   // Navigate to the profile details screen
   const handleNavigation = (
     orderDetails: OrdersProps,
-    target: 'rider' | 'vendor',
+    target: 'Delivery Rep' | 'vendor',
   ) => {
     navigation.navigate('profile-details', {orderDetails, target});
   };
-
-  console.log('Order details-chat: ', orderDetails);
 
   const renderItem = ({item}: {item: (typeof chat_data)[0]}) => {
     const isSender = item.sender === 'sender';
@@ -104,7 +102,11 @@ function Chat({navigation}: Props) {
           },
         ]}>
         <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+              dispatch(setShowMoreInfo(false));
+            }}>
             <BackArrow width={26} height={26} fill="none" />
           </TouchableOpacity>
           <TouchableOpacity
@@ -112,7 +114,10 @@ function Chat({navigation}: Props) {
               orderDetailsStyles.flexContainer,
               {width: 'auto', marginLeft: 10},
             ]}
-            onPress={() => handleNavigation(orderDetails!, target)}>
+            onPress={() => {
+              handleNavigation(orderDetails!, target);
+              dispatch(setShowMoreInfo(false));
+            }}>
             <ProfilePic width={44} height={44} fill="none" />
             <View>
               <Text style={homeStyles.details}>{chatPerson?.name}</Text>

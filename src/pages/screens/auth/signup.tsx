@@ -27,7 +27,6 @@ import {
 } from '../../../utils/redux/slice/auth';
 import Toast from 'react-native-toast-message';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import { scale } from '../main/accessories/accessoriesStyles';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'signup'>;
@@ -47,7 +46,6 @@ function SignUp({navigation}: Props) {
     signUpPassword,
     signUpConfirmPassword,
   } = useSelector((state: RootState) => state.auth);
-  // Validation function
   const handleSignUp = () => {
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d\W_]{8,}$/;

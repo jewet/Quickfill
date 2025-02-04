@@ -42,7 +42,6 @@ function Delivery({navigation}: Props) {
   const dispatch = useDispatch();
   const {showAlert} = useSelector((state: RootState) => state.orders);
 
-  // Function to handle actions
   const handleCall = async () => {
     const phoneNumber = orderDetails?.rider?.phone_number || '+2348069684739';
     const url = `tel:${phoneNumber}`;
@@ -119,7 +118,7 @@ function Delivery({navigation}: Props) {
                 onPress={() =>
                   navigation.navigate('profile-details', {
                     orderDetails: orderDetails,
-                    target: 'rider',
+                    target: 'Delivery Rep',
                   })
                 }>
                 <Dp width={40} height={40} />
@@ -143,7 +142,7 @@ function Delivery({navigation}: Props) {
                     onPress={() =>
                       navigation.navigate('chat', {
                         orderDetails,
-                        target: 'rider',
+                        target: 'Delivery Rep',
                       })
                     }>
                     <ChatIcon width={48} height={48} fill="none" />

@@ -1,11 +1,9 @@
 import {Dimensions, StyleSheet} from 'react-native';
 
-// Get screen dimensions
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-// Scaling utility
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
@@ -104,7 +102,7 @@ const inputStyles = StyleSheet.create({
     width: '60%',
     paddingRight: verticalScale(10),
     height: '100%',
-    marginLeft: verticalScale(-5)
+    marginLeft: verticalScale(-5),
   },
   forgotPassword: {
     display: 'flex',
@@ -180,7 +178,7 @@ const inputStyles = StyleSheet.create({
   countriesWrapper: {
     width: '98%',
     height: verticalScale(200),
-    paddingHorizontal: verticalScale(16)
+    paddingHorizontal: verticalScale(16),
   },
   countries: {
     display: 'flex',
@@ -188,14 +186,14 @@ const inputStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: verticalScale(10)
+    marginTop: verticalScale(10),
   },
   countriesLeft: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: verticalScale(10),
-    gap: 5
+    gap: 5,
   },
 });
 

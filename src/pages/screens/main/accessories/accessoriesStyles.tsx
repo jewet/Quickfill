@@ -9,7 +9,6 @@ export const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
 const height = Dimensions.get('window').height;
-const width = Dimensions.get('window').width;
 
 const accessoriesStyles = StyleSheet.create({
     accessoriesContainer: {

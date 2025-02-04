@@ -1,5 +1,4 @@
 import {Dimensions, StyleSheet} from 'react-native';
-import Splash from './splash';
 import {moderateScale, verticalScale} from '../../main/accessories/accessoriesStyles';
 
 export const primaryColor = '#FFD366';

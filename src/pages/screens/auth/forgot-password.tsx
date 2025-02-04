@@ -21,10 +21,9 @@ function ForgotPassword({navigation}: Props) {
    const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
-  // Redux state selectors
   const dispatch = useDispatch();
   const {forgotPasswordEmail} = useSelector((state: RootState) => state.auth);
-  // Validation function
+
   const handleContinue = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(forgotPasswordEmail)) {

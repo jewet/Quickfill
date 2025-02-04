@@ -31,7 +31,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../utils/redux/store/store';
 import {
   setIsFavourite,
-  setShowModal,
   setShowMoreInfo,
 } from '../../../../../../../utils/redux/slice/orders';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -54,7 +53,7 @@ function ProfileDetails({navigation}: Props) {
 
   // Determine the chat participant (either rider or vendor)
   const chatPerson =
-    target === 'rider' ? orderDetails?.rider : orderDetails?.vendor;
+    target === 'Delivery Rep' ? orderDetails?.rider : orderDetails?.vendor;
 
   // Profile picture of the chat participant
   const ProfilePic = chatPerson.pic;
@@ -89,7 +88,10 @@ function ProfileDetails({navigation}: Props) {
               marginTop: header_top,
             },
           ]}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => {
+            navigation.goBack()
+            dispatch(setShowMoreInfo(false))
+          }}>
             <GoBackArrow width={44} height={44} fill="none" />
           </TouchableOpacity>
 

@@ -1,11 +1,9 @@
-import { Dimensions, StyleSheet } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
-// Get screen dimensions
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-// Scaling utility
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
@@ -15,7 +13,7 @@ const authTopStyles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: scale(20),
-    gap: 10
+    gap: 10,
   },
   homeTop: {
     display: 'flex',
@@ -34,7 +32,7 @@ const authTopStyles = StyleSheet.create({
     fontWeight: '600',
     color: '#2C2C2C',
     marginTop: 30,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   secondText: {
     fontSize: moderateScale(14),
@@ -43,7 +41,7 @@ const authTopStyles = StyleSheet.create({
     fontWeight: '400',
     color: '#2C2C2C',
     marginTop: verticalScale(2),
-    textAlign: 'center'
+    textAlign: 'center',
   },
   backArrow: {
     display: 'flex',
@@ -51,8 +49,8 @@ const authTopStyles = StyleSheet.create({
     width: '65%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginLeft: -20
-  }
+    marginLeft: -20,
+  },
 });
 
 export default authTopStyles;

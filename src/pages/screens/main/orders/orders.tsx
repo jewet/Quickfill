@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -52,7 +52,6 @@ function Orders({navigation}: Props) {
         <Text style={electricityStyles.topText}>Your orders</Text>
       </View>
 
-      {/* Scrollable view for navigation and content */}
       <ScrollView
         style={orderStyles.scrollview}
         showsVerticalScrollIndicator={false}>

@@ -20,20 +20,18 @@ interface Props {
   last: boolean;
 }
 
-function Onboarding({img, boldText, lightText, navigateTo, bgColor, last}: Props) {
+function Onboarding({img, boldText, lightText, navigateTo, bgColor}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
 
-  // Animation references
   const imgOpacity = useRef(new Animated.Value(0)).current;
   const imgTranslateY = useRef(new Animated.Value(50)).current;
   const textOpacity = useRef(new Animated.Value(0)).current;
   const textTranslateY = useRef(new Animated.Value(50)).current;
 
   useEffect(() => {
-    // Animate elements in sequence
     Animated.sequence([
       Animated.parallel([
         Animated.timing(imgOpacity, {

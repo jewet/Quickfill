@@ -1,16 +1,14 @@
-import { Dimensions, StyleSheet } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
-// Get screen dimensions
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-// Scaling utility
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
 const headerStyles = StyleSheet.create({
-    headerWrapper: {
+  headerWrapper: {
     width: '100%',
     paddingVertical: scale(20),
     paddingHorizontal: scale(16),
@@ -20,10 +18,10 @@ const headerStyles = StyleSheet.create({
     alignContent: 'center',
   },
   singleContent: {
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   multipleContent: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   headerContainer: {
     display: 'flex',
@@ -37,16 +35,16 @@ const headerStyles = StyleSheet.create({
     lineHeight: moderateScale(30),
     fontWeight: '500',
     color: '#2C2C2C',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  cartWrapper:{
+  cartWrapper: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'flex-start',
-    position: 'relative'
+    position: 'relative',
   },
-  countWrapper:{
+  countWrapper: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -56,7 +54,7 @@ const headerStyles = StyleSheet.create({
     height: 16,
     width: 16,
     right: -5,
-    top: -2
+    top: -2,
   },
   countText: {
     fontSize: moderateScale(11),
@@ -65,7 +63,7 @@ const headerStyles = StyleSheet.create({
     fontWeight: '500',
     color: '#2C2C2C',
     textAlign: 'center',
-    marginTop: -7
+    marginTop: -7,
   },
 });
 

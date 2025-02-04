@@ -51,8 +51,8 @@ function Wallet({navigation}: Props) {
     (state: RootState) => state.profile,
   );
 
-  const linear_height = Platform.OS === 'ios' ? 110 : 'auto'; // Dynamic height for iOS
-  const {width} = Dimensions.get('window'); // Get window dimensions
+  const linear_height = Platform.OS === 'ios' ? 110 : 'auto'; 
+  const {width} = Dimensions.get('window'); 
 
   const isIos = Platform.OS === 'ios'
 

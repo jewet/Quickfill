@@ -17,12 +17,10 @@ type OngoingOrdersProps = {
 };
 
 function OngoingOrders({navigation}: OngoingOrdersProps) {
-  // Filter orders to exclude those with 'Completed' or 'Cancelled' status
   const filteredOrders = order_data.filter(
     data => data.status !== 'Completed' && data.status !== 'Cancelled',
   );
 
-  // Function to navigate to the order-details screen with specific order data
   const handleNavigation = (orderDetails: OrdersProps) => {
     navigation.navigate('order-details', {orderDetails: orderDetails});
   };

@@ -18,7 +18,7 @@ interface Props {
   navigateToAddress: () => void;
 }
 
-function AddressModal({action, navigateTo, navigateToAddress}: Props) {
+function AddressModal({action, navigateToAddress}: Props) {
   return (
     <SafeAreaView style={electricityPaymentStyles.modalContainer}>
       <View style={electricityPaymentStyles.modalBg}></View>

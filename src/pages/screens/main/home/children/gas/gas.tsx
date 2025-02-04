@@ -30,7 +30,6 @@ import Star from '../../../../../../assets/images/accessories/tabler_star-filled
 import {QuickActionProps} from '../../../../../../utils/sample-data/home';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import AddressModal from '../../../../../../components/AddressModal/AddressModal';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {RootState} from '../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -40,14 +39,14 @@ import {
 } from '../../../../../../utils/redux/slice/gas';
 import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 import {scale} from '../../../accessories/accessoriesStyles';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas'>;
 
 function Gas({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const route = useRoute<RouteProp<RootStackParamList, 'gas'>>();
@@ -58,15 +57,6 @@ function Gas({navigation}: Props) {
     (state: RootState) => state.gas,
   );
 
-  // const handleScroll = (event: any) => {
-  //   const currentScrollY = event.nativeEvent.contentOffset.y;
-
-  //   if (currentScrollY > prevScrollY && marginTop !== 0) {
-  //     dispatch(setMarginTop(0));
-  //   }
-
-  //   dispatch(setPrevScrollY(currentScrollY));
-  // };
   const handleScroll = (event: any) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
 
@@ -86,17 +76,6 @@ function Gas({navigation}: Props) {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={'#FAFAFA'}
       />
-      {/* <MapView
-          // provider={PROVIDER_GOOGLE}
-          style={{...StyleSheet.absoluteFillObject}}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        /> */}
-
       <Map width={width} height={height} />
       <View style={dieselStyles.mapTop}>
         <View style={[homeStyles.detailsContent, dieselStyles.address]}>
@@ -150,61 +129,6 @@ function Gas({navigation}: Props) {
           style={{marginTop: -120, marginLeft: 180}}
         />
       </View>
-      {/* <View>
-       
-        <View style={dieselStyles.mapTop}>
-          <View style={[homeStyles.detailsContent, dieselStyles.address]}>
-            <View style={{width: '90%'}}>
-              <Text style={homeStyles.title}>Deliver ASAP to</Text>
-              <Text style={homeStyles.details}>
-                8-26 Ango Abdullahi St, Gwarinpa, 900108...
-              </Text>
-            </View>
-            <TouchableOpacity onPress={() => setShowModal(true)}>
-              <DropDown width={60} height={55} fill="none" />
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity
-            style={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              zIndex: 2000,
-            }}
-            onPress={() => navigation.navigate('change-address')}>
-            <LinearGradient
-              colors={['#FFB600', '#FFD366']}
-              start={{x: 0, y: 1}}
-              end={{x: 1, y: 0}}
-              style={[
-                profileStyles.profileTopBtn,
-                {
-                  width: '80%',
-                  borderRadius: border_radius,
-                  height: change_address_height,
-                },
-              ]}>
-              <Text
-                onPress={() => navigation.navigate('change-address')}
-                style={{marginTop: margin_top, marginLeft: margin_left}}>
-                Change delivery address
-              </Text>
-            </LinearGradient>
-          </TouchableOpacity>
-          <PricePin
-            width={322}
-            height={324}
-            fill="none"
-            style={{marginTop: '8%'}}
-          />
-          <MapPointer
-            width={24}
-            height={24}
-            fill="none"
-            style={{marginTop: '-40%', marginLeft: 180}}
-          />
-        </View>
-      </View> */}
       <View style={[dieselStyles.scrollviewWrapper, {height: height}]}>
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -262,7 +186,7 @@ function Gas({navigation}: Props) {
                           orderDetails:
                             actionDetails?.details &&
                             actionDetails?.details[index],
-                          target: 'rider',
+                          target: 'Delivery Rep',
                         });
                         dispatch(setMarginTop(500));
                       }}>

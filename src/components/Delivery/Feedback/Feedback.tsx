@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-  KeyboardTypeOptions,
   Text,
   TextInput,
   TouchableOpacity,
@@ -37,11 +36,10 @@ function DeliveryFeedback({closeModal, orderDetails}: Props) {
   const [rating, setRating] = useState(0); // State to track rating (0-5)
 
   const handleStarPress = (index: number) => {
-    // Toggle logic: If the clicked star is already selected, deselect all after it
     if (rating === index + 1) {
-      setRating(0); // Reset to zero
+      setRating(0); 
     } else {
-      setRating(index + 1); // Set rating to the clicked star index
+      setRating(index + 1);  
     }
   };
   const dispatch = useDispatch();
@@ -62,26 +60,14 @@ function DeliveryFeedback({closeModal, orderDetails}: Props) {
             {orderDetails?.rider?.name}
           </Text>
         </View>
-        {/* <View style={[orderDetailsStyles.flexContainer, {width: 'auto'}]}>
-          <Dp width={30} height={30} fill="none" />
-          <View>
-            <Text style={addressStyles.location}>
-              {orderDetails?.rider?.name}
-            </Text>
-            <Text style={addressStyles.locationBottom}>
-              {orderDetails?.rider?.phone_number}
-            </Text>
-          </View>
-        </View> */}
-        <Text style={[inputStyles.label, {marginTop: -10}]}>
-          Rate your experience with the rider
+        <Text style={[inputStyles.label, {marginTop: -10, fontSize: moderateScale(13)}]}>
+          Rate your experience with the delivery rep
         </Text>
         <View
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
           }}>
-          {/* Render stars dynamically */}
           {Array.from({length: 5}).map((_, index) => (
             <TouchableOpacity
               key={index}

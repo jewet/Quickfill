@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -33,7 +33,6 @@ import BlankProgressBar from '../../../../../../../../../../../../assets/images/
 import {RootState} from '../../../../../../../../../../../../utils/redux/store/store';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  setDeliveryCode,
   setShowAlert,
   setShowModal,
   setShowOrderDetails,
@@ -64,7 +63,6 @@ function GasOrderDetails({navigation}: Props) {
     showOrderDetails,
     showModal,
     showAlert,
-    deliveryCode,
     showDeliveryInput,
     showDeliveryFeedback,
   } = useSelector((state: RootState) => state.gas);
@@ -84,40 +82,24 @@ function GasOrderDetails({navigation}: Props) {
     Clipboard.setString(String(value)); // Ensure value is a string
     dispatch(setShowAlert(true));
   };
-  // Show Toast and Input Modal after 1 second
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     Toast.show({
-  //       type: 'success',
-  //       text1: 'Dear Customer',
-  //       text2: 'Your Order has arrived, copy your delivery code.',
-  //     });
-  //     dispatch(setShowDeliveryInput(true)); // Show Delivery Input Modal
-  //   }, 3000);
-
-  //   return () => clearTimeout(timer);
-  // }, [dispatch]);
   useEffect(() => {
-    // Show the toast message first
     Toast.show({
       type: 'success',
       text1: 'Dear Customer',
       text2: `Your Order has arrived, Proceed with delivery code (${orderDetails?.delivery_code}).`,
     });
 
-    // Delay showing the DeliveryInputModal until the toast disappears
     const timer = setTimeout(() => {
-      dispatch(setShowDeliveryInput(true)); // Show Delivery Input Modal
+      dispatch(setShowDeliveryInput(true));
       dispatch(setShowAlert(false));
-    }, 3000); // Adjust the delay to match your toast duration (e.g., 4 seconds)
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, [dispatch]);
 
-  // Handle "Continue" button in Delivery Input Modal
   const handleDeliveryCodeSubmit = () => {
-      dispatch(setShowDeliveryFeedback(true)); // Show Delivery Feedback Modal
-      dispatch(setShowDeliveryInput(false)); // Hide Delivery Input Modal
+    dispatch(setShowDeliveryFeedback(true));
+    dispatch(setShowDeliveryInput(false));
   };
   return (
     <SafeAreaView style={orderDetailsStyles.orderDetailsContainer}>

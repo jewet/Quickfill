@@ -1,15 +1,7 @@
-import React, {useState} from 'react';
-import {
-  Alert,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React from 'react';
+import {Text, TouchableOpacity, useColorScheme, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Button from '../../../../../../../../components/Button/Button';
-import {useNavigation} from '@react-navigation/native';
-import SuccessImg from '../../../assets/images/auth/Done Check.svg';
 import CloseIcon from '../../../../../../../../assets/images/electricity/close_btn.svg';
 import {payment_type} from '../../../../../../../../utils/sample-data/payment';
 import SelectedIcon from '../../../../../../../../assets/images/electricity/selected-bill.svg';
@@ -42,7 +34,9 @@ function FundWallet({action, navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const dispatch = useDispatch();
-  const {amount, isSelected, showAlert} = useSelector((state: RootState) => state.profile);
+  const {amount, isSelected, showAlert} = useSelector(
+    (state: RootState) => state.profile,
+  );
 
   //defined navigation links
   const navigateToPaymentResult = (paymentType: string) => {
@@ -77,11 +71,11 @@ function FundWallet({action, navigation}: Props) {
   const handleContinue = () => {
     if (isSelected === null) {
       // dispatch(setShowAlert(true))
-       Toast.show({
-              type: 'error',
-              text1: 'Empty payment type',
-              text2: 'No payment type selected',
-            });
+      Toast.show({
+        type: 'error',
+        text1: 'Empty payment type',
+        text2: 'No payment type selected',
+      });
       return;
     }
     if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {

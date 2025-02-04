@@ -1,4 +1,4 @@
-import React, {FocusEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Keyboard,
   KeyboardTypeOptions,
@@ -14,7 +14,6 @@ import Eye from '../../assets/images/auth/tabler_eye-closed.svg';
 import ConfirmEye from '../../assets/images/auth/tabler_eye.svg';
 import SearchIcon from '../../assets/images/auth/country-search.svg';
 import Dropdown from '../../assets/images/electricity/ic_round-arrow-back-ios-new.svg';
-import {useNavigation} from '@react-navigation/native';
 import SendIcon from '../../assets/images/orders/send.svg';
 import {countries} from '../../utils/sample-data/input';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -22,11 +21,9 @@ import electricityHistoryStyles from '../../pages/screens/main/home/children/ele
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../utils/redux/store/store';
 import {
-  setError,
   setSearchQuery,
   setSelectedCountry,
   setShowDropdown,
-  setShowPassword,
 } from '../../utils/redux/slice/auth';
 
 interface Props {
@@ -53,78 +50,18 @@ function Input({
   action,
   onChange,
   validate,
-  password,
-  onFocus,
 }: Props) {
-  // const [showPassword, setShowPassword] = useState(!secured);
-  // const [error, setError] = useState<string | null>(null);
-  // const [selectedCountry, setSelectedCountry] = useState(
-  //   countries.find(c => c.country === 'Nigeria') || countries[0]
-  // );
-
-  // const [showDropdown, setShowDropdown] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState('');
-
-  // Redux state selectors
   const dispatch = useDispatch();
-  const {showPassword, error, selectedCountry, showDropdown, searchQuery} =
-    useSelector((state: RootState) => state.auth);
+  const {error, selectedCountry, showDropdown, searchQuery} = useSelector(
+    (state: RootState) => state.auth,
+  );
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secured);
 
-  // Filtered countries based on search input
   const filteredCountries = countries.filter(
     country =>
       country.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
       country.dialCode.includes(searchQuery),
   );
-  // Password Regex (at least one letter, one number, one special character, and min 8 characters)
-  // const passwordRegex =
-  //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-  // Validation function
-  // const validateInput = (text: string) => {
-  //   if (validate?.toLowerCase() === 'email') {
-  //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //     dispatch(
-  //       setError(!emailRegex.test(text) ? 'Invalid email address' : null),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'phone') {
-  //     const phoneRegex = /^[0-9]{10,15}$/;
-  //     dispatch(
-  //       setError(!phoneRegex.test(text) ? 'Invalid phone number' : null),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'name') {
-  //     dispatch(
-  //       setError(text.length < 2 ? 'Name must be at least 2 characters' : null),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'password') {
-  //     dispatch(
-  //       setError(
-  //         !passwordRegex.test(text)
-  //           ? 'Password must be at least 8 characters, include a number, letter & special character'
-  //           : null,
-  //       ),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'confirm-password') {
-  //     dispatch(
-  //       setError(
-  //         password && text !== password ? 'Passwords do not match' : null,
-  //       ),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'phone') {
-  //     const phoneRegex = /^[0-9]{6,12}$/; // Allow 6-12 digits after country code
-  //     dispatch(
-  //       setError(!phoneRegex.test(text) ? 'Invalid phone number length' : null),
-  //     );
-  //   } else if (validate?.toLowerCase() === 'meter-number') {
-  //     const meterRegex = /^[0-9]{1,10}$/;
-  //     dispatch(
-  //       setError(
-  //         !meterRegex.test(text) ? 'Meter number must be 10 digits' : null,
-  //       ),
-  //     );
-  //   }
-  // };
 
   return (
     <View style={inputStyles.inputContainer}>
@@ -290,7 +227,6 @@ function Input({
             // validateInput(text);
           }}
           maxLength={10}
-          // onFocus={onFocus}
         />
       ) : (
         <TextInput
@@ -305,7 +241,6 @@ function Input({
         />
       )}
 
-      {/* Display error message */}
       {error && <Text style={inputStyles.errorText}>{error}</Text>}
     </View>
   );

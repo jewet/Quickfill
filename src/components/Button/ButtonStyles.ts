@@ -1,8 +1,6 @@
 import { Dimensions, StyleSheet, Platform } from "react-native";
-import { primaryColor } from "../../pages/screens/onboarding/splash/splashstyles";
 
 
-const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 const btnHeight= Platform.OS === 'ios' ? 90 : 60
 const btnRadius= Platform.OS === 'ios' ? 80 : 50

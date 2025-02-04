@@ -63,7 +63,7 @@ function Cart({navigation}: Props) {
     }, 0);
   }, [itemCounts]);
 
-  const vat = subtotal * 0.05; // Assuming VAT is 5%
+  const vat = subtotal * 0.05;  
   const totalAmount = subtotal + vat;
 
   return (

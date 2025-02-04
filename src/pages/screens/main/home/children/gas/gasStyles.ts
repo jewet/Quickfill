@@ -1,17 +1,17 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
-import { primaryColor } from "../../../../onboarding/splash/splashstyles";
+import {Dimensions, Platform, StyleSheet} from 'react-native';
+import {primaryColor} from '../../../../onboarding/splash/splashstyles';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
-const btnHeight= Platform.OS === 'ios' ? 100 : 70
-const btnWidth= Platform.OS === 'ios' ? '50%' : '60%'
-const btnMarginTop= Platform.OS === 'ios' ? -30 : 0
-const btnMarginLeft= Platform.OS === 'ios' ? -10 : 0
-const btnContMarginLeft= Platform.OS === 'ios' ? 40 : 0
+const btnHeight = Platform.OS === 'ios' ? 100 : 70;
+const btnWidth = Platform.OS === 'ios' ? '50%' : '60%';
+const btnMarginTop = Platform.OS === 'ios' ? -30 : 0;
+const btnMarginLeft = Platform.OS === 'ios' ? -10 : 0;
+const btnContMarginLeft = Platform.OS === 'ios' ? 40 : 0;
 
 const gasStyles = StyleSheet.create({
   gasContainer: {
@@ -50,7 +50,7 @@ const gasStyles = StyleSheet.create({
     borderRadius: moderateScale(50),
     marginTop: verticalScale(10),
     padding: scale(10),
-    color: '#2C2C2C'
+    color: '#2C2C2C',
   },
   noteWrapper: {
     borderColor: '#DC5513',
@@ -77,7 +77,7 @@ const gasStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginRight: btnContMarginLeft
+    marginRight: btnContMarginLeft,
   },
   btnText: {
     fontFamily: 'Plus Jakarta Sans',
@@ -86,7 +86,7 @@ const gasStyles = StyleSheet.create({
     fontSize: moderateScale(16),
     textAlign: 'center',
     marginTop: btnMarginTop,
-    marginLeft: btnMarginLeft
+    marginLeft: btnMarginLeft,
   },
   selectedKgWrapper: {
     borderColor: primaryColor,
@@ -96,7 +96,7 @@ const gasStyles = StyleSheet.create({
     marginLeft: scale(20),
     marginTop: verticalScale(20),
     width: '25%',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   selectedKg: {
     fontSize: moderateScale(24),

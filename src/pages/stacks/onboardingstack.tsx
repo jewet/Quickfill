@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import Splash from '../screens/onboarding/splash/splash';
 import FirstOnboarding from '../screens/onboarding/onboarding-screens/first-onboarding';
 import SecondOnboarding from '../screens/onboarding/onboarding-screens/second-onboarding';
 import ThirdOnboarding from '../screens/onboarding/onboarding-screens/third-onboarding';
@@ -13,13 +12,6 @@ function OnboardingStack() {
 
   return (
     <Stack.Navigator initialRouteName="second-onboarding">
-      {/* <Stack.Screen
-        name="splash"
-        options={{
-          headerShown: false,
-        }}
-        component={Splash}
-      /> */}
       <Stack.Screen
         name="first-onboarding"
         options={{

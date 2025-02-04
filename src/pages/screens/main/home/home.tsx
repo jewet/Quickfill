@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -73,7 +73,6 @@ function Home({navigation}: Props) {
 
   const wallet = profile_data.find(item => item.profile.type === 'My Wallet');
 
-  // Handle navigation to the order details page
   const handleNavigation = (orderDetails: OrdersProps) => {
     navigation.navigate('order-details', {orderDetails: orderDetails});
   };
