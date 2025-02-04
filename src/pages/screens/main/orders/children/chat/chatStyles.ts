@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { primaryColor } from "../../../../onboarding/splash/splashstyles";
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');

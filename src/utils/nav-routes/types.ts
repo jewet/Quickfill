@@ -29,7 +29,7 @@ export type RootStackParamList = {
   'items-page': any;
   'item-details': any;
   login: undefined;
-  "auth-login": undefined;
+  'auth-login': undefined;
   signup: undefined;
   home: undefined;
   accessories: undefined;
@@ -78,11 +78,11 @@ export type RootStackParamList = {
   'report-result': {
     orderDetails: OrdersProps;
     result: 'successful' | 'unsuccessful';
-    target: 'rider' | 'vendor';
+    target: 'Delivery Rep' | 'vendor';
   };
-  chat: {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
-  'profile-details': {orderDetails: any; target: 'rider' | 'vendor'};
-  report: {orderDetails: OrdersProps; target: 'rider' | 'vendor'};
+  chat: {orderDetails: OrdersProps; target: 'Delivery Rep' | 'vendor'};
+  'profile-details': {orderDetails: any; target: 'Delivery Rep' | 'vendor'};
+  report: {orderDetails: OrdersProps; target: 'Delivery Rep' | 'vendor'};
   'update-form': {
     profileDetails: ProfileProps;
     target: 'name' | 'username' | 'birthday' | 'email' | 'phone number';

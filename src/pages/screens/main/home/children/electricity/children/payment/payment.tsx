@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Button from '../../../../../../../../components/Button/Button';
-import {useNavigation} from '@react-navigation/native';
-import SuccessImg from '../../../assets/images/auth/Done Check.svg';
 import electricityPaymentStyles from './paymentStyles';
 import CloseIcon from '../../../../../../../../assets/images/electricity/close_btn.svg';
 import {payment_type} from '../../../../../../../../utils/sample-data/payment';

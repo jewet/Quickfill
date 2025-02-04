@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   Alert,
   ScrollView,
@@ -48,7 +48,7 @@ function Checkout({navigation}: Props) {
   const {itemCounts, totalAmount} = route.params || {};
   const dispatch = useDispatch();
   const {isSelected} = useSelector((state: RootState) => state.accessories);
-  //defined navigation links
+
   const navigateToPaymentResult = (paymentType: string) => {
     switch (paymentType) {
       case 'transfer':
@@ -78,7 +78,6 @@ function Checkout({navigation}: Props) {
     }
   };
 
-  // Extract user profile correctly
   const personalDetails = profile_data.find(
     item => item.profile.type === 'My Details',
   )?.profile.details;
@@ -96,7 +95,7 @@ function Checkout({navigation}: Props) {
   const details = [
     {
       info: {
-        title: 'Rider’s information',
+        title: 'Delivery Rep’s information',
         icon: DeliveryIcon,
         name: 'Johnson Chinedu',
         phone_number: '09123456789',

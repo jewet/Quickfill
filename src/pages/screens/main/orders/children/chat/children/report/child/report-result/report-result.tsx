@@ -11,7 +11,6 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
 import Header from '../../../../../../../../../../components/Profile/Header';
 import paymentResultStyles from '../../../../../../../profile/children/wallet/children/fund-wallet/children/payment-result/paymentResultStyles';
@@ -29,8 +28,6 @@ function ReportResult({navigation}: Props) {
   };
   const route = useRoute<RouteProp<RootStackParamList, 'report-result'>>();
   const {orderDetails, result, target} = route.params;
-
-  console.log('Order details-report-result: ', orderDetails);
 
   return (
     <SafeAreaView style={accessoriesStyles.accessoriesContainer}>

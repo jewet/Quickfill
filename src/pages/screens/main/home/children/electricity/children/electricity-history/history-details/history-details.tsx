@@ -2,7 +2,6 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import electricityStyles from '../../../electrictyStyles';
 import {
-  Alert,
   ScrollView,
   StatusBar,
   Text,

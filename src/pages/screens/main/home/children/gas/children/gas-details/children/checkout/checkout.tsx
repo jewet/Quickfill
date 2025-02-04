@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {useState} from 'react';
+import Reac from 'react';
 import {
   Alert,
   SafeAreaView,
@@ -11,8 +11,6 @@ import {
   View,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import PlusIcon from '../../../../../../../../../../assets/images/gas/tabler_plus.svg';
-import MasterCard from '../../../../../../../../../../assets/images/gas/logos_mastercard.svg';
 import SelectedIcon from '../../../../../../../../../../assets/images/gas/selected.svg';
 import UnSelectedIcon from '../../../../../../../../../../assets/images/gas/unselected.svg';
 import DeliveryIcon from '../../../../../../../../../../assets/images/gas/delivery.svg';
@@ -21,11 +19,8 @@ import CallIcon from '../../../../../../../../../../assets/images/gas/tabler_pho
 import NoteIcon from '../../../../../../../../../../assets/images/gas/tabler_message.svg';
 import ArrowRight from '../../../../../../../../../../assets/images/gas/tabler_chevron-right.svg';
 import {RootStackParamList} from '../../../../../../../../../../utils/nav-routes/types';
-import {
-  profile_data,
-} from '../../../../../../../../../../utils/sample-data/profile';
-import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles'; 
-import Header from '../../../../../../../../../../components/Profile/Header';
+import {profile_data} from '../../../../../../../../../../utils/sample-data/profile';
+import accessoriesStyles from '../../../../../../../accessories/accessoriesStyles';
 import favouritesStyles from '../../../../../../../profile/children/favourites/favouritesStyles';
 import orderDetailsStyles from '../../../../../../../orders/children/order-details/orderDetailsStyles';
 import Button from '../../../../../../../../../../components/Button/Button';
@@ -48,14 +43,14 @@ import {
   quick_action_data,
   QuickActionProps,
 } from '../../../../../../../../../../utils/sample-data/home';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 // Type definition for the navigation prop passed to the component
 type Props = StackScreenProps<RootStackParamList, 'gas-checkout'>;
 
 function GasCheckout({navigation}: Props) {
   const isDarkMode = useColorScheme() === 'dark';
-   const backgroundStyle = {
+  const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-checkout'>>();
@@ -113,12 +108,6 @@ function GasCheckout({navigation}: Props) {
           litres: litres,
         });
         break;
-      // case 'delivery':
-      //   navigation.navigate('gas-order-details', {
-      //     gasDetails: gasDetails,
-      //     selectedCylinder: selectedCylinder,
-      //   });
-      //   break;
       default:
         console.warn('Navigation route not defined for this item.');
         break;
@@ -213,8 +202,15 @@ function GasCheckout({navigation}: Props) {
           </TouchableOpacity>
         </View>
         <View
-          style={{width: '100%', backgroundColor: '#FFFFFF', marginTop: 10, paddingTop: 10}}>
-          <Text style={[addressStyles.locationBottom, {paddingHorizontal: 16}]}>Rider information</Text>
+          style={{
+            width: '100%',
+            backgroundColor: '#FFFFFF',
+            marginTop: 10,
+            paddingTop: 10,
+          }}>
+          <Text style={[addressStyles.locationBottom, {paddingHorizontal: 16}]}>
+            Delivery Rep’s information
+          </Text>
           <View
             style={[
               orderDetailsStyles.flexContainer,
@@ -234,18 +230,7 @@ function GasCheckout({navigation}: Props) {
                   {orderDetails?.rider?.phone_number}
                 </Text>
               </View>
-            </View>
-            {/* <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('profile-details', {
-                  orderDetails,
-                  target: 'rider',
-                })
-              }>
-              <Text style={[addressStyles.location, {color: primaryColor}]}>
-                View profile
-              </Text>
-            </TouchableOpacity> */}
+            </View> 
           </View>
         </View>
         <Text style={checkoutStyles.paymentText}>Payment</Text>

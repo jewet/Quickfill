@@ -90,24 +90,6 @@ function Electricity({navigation}: Props) {
       dispatch(setMeterName(''));
     }
   };
-  // const handleMeterNumberChange = (value: string) => {
-  //   const numericValue = value.replace(/[^0-9]/g, '').slice(0, 10);
-  //   dispatch(setMeterNumber(numericValue));
-
-  //   if (numericValue.length === 10) {
-  //     const randomIndex = Math.floor(Math.random() * meter_data.length);
-  //     dispatch(setMeterName(meter_data[randomIndex].name));
-  //     setLastUsedMeterNumber(numericValue); // Store the last used meter number
-  //   } else {
-  //     dispatch(setMeterName(''));
-  //   }
-  // };
-
-  // const handleMeterNumberFocus = () => {
-  //   if (lastUsedMeterNumber) {
-  //     dispatch(setMeterNumber(lastUsedMeterNumber)); // Set the last used meter number when focused
-  //   }
-  // };
 
   const handleSearch = (text: string) => {
     dispatch(setSearchQuery(text));
@@ -120,8 +102,6 @@ function Electricity({navigation}: Props) {
   };
 
   const handleContinue = () => {
-    // const address = selectedProvider?.electricity || '';
-    const meterRegex = /^[0-9]{1,10}$/;
     if (!selectedProvider && lastUsedProvider.trim() === '') {
       Toast.show({
         type: 'error',
@@ -152,7 +132,6 @@ function Electricity({navigation}: Props) {
       return;
     }
     if (!isFormValid) {
-      // dispatch(setShowAlert(true));
       Toast.show({
         type: 'error',
         text1: 'Form incomplete',

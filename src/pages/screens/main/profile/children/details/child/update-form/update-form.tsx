@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   FlatList,
   Modal,
@@ -23,7 +23,6 @@ import inputStyles from '../../../../../../../../components/Input/InputStyles';
 import SendIcon from '../../../../../../../../assets/images/profile/tabler_send.svg';
 import {primaryColor} from '../../../../../../onboarding/splash/splashstyles';
 import {height} from '../../../../../home/children/diesel/dieselStyles';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import DropDown from '../../../../../../../../assets/images/gas/tabler_chevron-down.svg';
 import historyDetailsStyles from '../../../../../home/children/electricity/children/electricity-history/history-details/historyDetailsStyles';
 import authTopStyles from '../../../../../../../../components/Auth/AuthTopStyles';

@@ -36,7 +36,6 @@ function Otpverification({navigation}: Props) {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
   const inputRefs = useRef<Array<TextInput | null>>([]);
-  // Redux state selectors
   const dispatch = useDispatch();
   const {showModal, otp, countdown, isResendEnabled} = useSelector(
     (state: RootState) => state.auth,
@@ -45,8 +44,8 @@ function Otpverification({navigation}: Props) {
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60)
       .toString()
-      .padStart(2, '0'); // Ensures two digits (e.g., "01")
-    const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
+      .padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
 
@@ -81,13 +80,10 @@ function Otpverification({navigation}: Props) {
     }
   };
 
-  // Resend OTP
   const handleResendOTP = () => {
     if (isResendEnabled) {
       dispatch(setCountdown(60));
       dispatch(setIsResendEnabled(false));
-      // Call function to resend OTP (API request or mock logic)
-      console.log('Resending OTP...');
     }
   };
 

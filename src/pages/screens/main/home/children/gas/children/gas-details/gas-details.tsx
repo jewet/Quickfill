@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {
   Animated,
   Dimensions,
@@ -19,8 +19,6 @@ import CloseIcon from '../../../../../../../../assets/images/gas/close-icon.svg'
 import Online from '../../../../../../../../assets/images/gas/online.svg';
 import Rating from '../../../../../../../../assets/images/gas/tabler_star-filled.svg';
 import Note from '../../../../../../../../assets/images/gas/note.svg';
-import BigGas from '../../../../../../../../assets/images/gas/big-gas.svg';
-import BiggerGas from '../../../../../../../../assets/images/gas/bigger-gas.svg';
 import BiggestGas from '../../../../../../../../assets/images/gas/biggest-gas.svg';
 import LinearGradient from 'react-native-linear-gradient';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
@@ -53,15 +51,12 @@ function GasDetails({navigation}: Props) {
   };
   const route = useRoute<RouteProp<RootStackParamList, 'gas-details'>>();
   const {orderDetails} = route.params || {};
-  // const {orderDetails}: {orderDetails?: DetailsProps} = route.params || {};
 
   const dispatch = useDispatch();
   const {showModal, selectedIndex} = useSelector(
     (state: RootState) => state.gas,
   );
-  // const [showModal, setShowModal] = useState<boolean>(false);
 
-  // const [selectedIndex, setSelectedIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef<FlatList>(null);
 
@@ -170,7 +165,7 @@ function GasDetails({navigation}: Props) {
               onPress={() => {
                 navigation.navigate('profile-details', {
                   orderDetails: orderDetails,
-                  target: 'rider',
+                  target: 'Delivery Rep',
                 });
               }}>
               <Text
@@ -375,7 +370,7 @@ function GasDetails({navigation}: Props) {
                 console.error('gasDetails is undefined!');
                 return;
               }
-              navigation.replace('gas-checkout', {
+              navigation.popTo('gas-checkout', {
                 orderDetails,
                 selectedCylinder:
                   orderDetails.available_gas_cylinders[selectedIndex],

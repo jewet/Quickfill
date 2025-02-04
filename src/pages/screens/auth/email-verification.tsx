@@ -46,8 +46,8 @@ function Emailverification({navigation}: Props) {
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60)
       .toString()
-      .padStart(2, '0'); // Ensures two digits (e.g., "01")
-    const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
+      .padStart(2, '0'); 
+    const secs = (seconds % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
 

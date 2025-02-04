@@ -1,9 +1,9 @@
-import { Dimensions, Platform, StyleSheet } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 
@@ -35,7 +35,6 @@ const electricityProviderStyles = StyleSheet.create({
     lineHeight: moderateScale(17.64),
     fontWeight: '700',
     color: '#2C2C2C',
-
   },
   electricityDataWrapper: {
     display: 'flex',
@@ -46,34 +45,33 @@ const electricityProviderStyles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
   },
-  electricityData:{
+  electricityData: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingVertical: verticalScale(10)
+    paddingVertical: verticalScale(10),
   },
-  electricityTextWrapper:{
+  electricityTextWrapper: {
     display: 'flex',
     alignItems: 'flex-start',
-    width: '75%'
+    width: '75%',
   },
   noResultWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 20,
-    width: '100%'
+    width: '100%',
   },
   noResultText: {
     fontSize: moderateScale(16),
     color: '#999999',
     fontFamily: 'Plus Jakarta Sans',
     fontStyle: 'italic',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  
 });
 
 export default electricityProviderStyles;

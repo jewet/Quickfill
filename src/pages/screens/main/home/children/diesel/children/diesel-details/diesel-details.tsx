@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Alert,
   ScrollView,
   StatusBar,
   Text,
@@ -97,7 +96,7 @@ function DieselDetails({navigation}: Props) {
               onPress={() => {
                 navigation.navigate('profile-details', {
                   orderDetails: diesielDetails,
-                  target: 'rider',
+                  target: 'Delivery Rep',
                 });
               }}>
               <Text

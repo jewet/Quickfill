@@ -9,10 +9,7 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import electricityStyles from '../../electrictyStyles';
-import BackArrow from '../../../../../../../../assets/images/auth/tabler_arrow-right.svg';
 import Button from '../../../../../../../../components/Button/Button';
 import SearchIcon from '../../../../../../../../assets/images/electricity/search-icn.svg';
 import ElectricIcon from '../../../../../../../../assets/images/electricity/mtn-icon.svg';

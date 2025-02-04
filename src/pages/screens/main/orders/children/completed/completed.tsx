@@ -14,12 +14,10 @@ import EmptyImg from '../../../../../../assets/images/orders/packing_7591789 1.s
 };
 
 function CompletedOrders({navigation}: CompletedOrdersProps) {
-  // Filter orders to include only 'Completed' or 'Cancelled' status
   const filteredOrders = order_data.filter(
     data => data.status === 'Completed' || data.status === 'Cancelled',
   );
 
-  // Function to navigate to the 'order-details' screen with the selected order data
   const handleNavigation = (orderDetails: OrdersProps) => {
     navigation.navigate('order-details', {orderDetails: orderDetails});
   };

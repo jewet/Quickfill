@@ -34,15 +34,12 @@ function ElectricityHistory({navigation}: Props) {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
-  const route =
-    useRoute<RouteProp<RootStackParamList, 'electricity-history'>>();
   const dispatch = useDispatch();
 
   const {searchQuery, filteredElectricityHistoryData} = useSelector(
     (state: RootState) => state.electricity,
   );
 
-  // Function to filter electricity transactions
   const handleSearch = (query: string) => {
     dispatch(setSearchQuery(query));
     dispatch(filterElectricityHistoryData(query));

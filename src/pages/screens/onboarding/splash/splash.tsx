@@ -4,7 +4,6 @@ import {
   Animated,
   StatusBar,
   Text,
-  TouchableOpacity,
   useColorScheme,
   View,
 } from 'react-native';
@@ -13,7 +12,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import splashStyles, {primaryColor} from './splashstyles';
 import LogoPic from '../../../../assets/images/splash/logo-pic.svg';
 import LogoText from '../../../../assets/images/splash/logo-text.svg';
-import Next from '../../../../assets/images/splash/next.svg';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../utils/nav-routes/types';
 import {MMKV} from 'react-native-mmkv';

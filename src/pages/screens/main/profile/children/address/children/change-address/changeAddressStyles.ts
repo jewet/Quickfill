@@ -4,10 +4,8 @@ import { primaryColor } from "../../../../../../onboarding/splash/splashstyles";
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 const scale = (size: number) => (screenWidth / 375) * size;
-const verticalScale = (size: number) => (screenHeight / 812) * size; 
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
-const btnRadius= Platform.OS === 'ios' ? 30 : 20
 
 const changeAddressStyles = StyleSheet.create({
    mapCont: {

@@ -2,8 +2,8 @@ import {Dimensions, Platform, StyleSheet} from 'react-native';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('window');
 
-const scale = (size: number) => (screenWidth / 375) * size; // 375 is the base width
-const verticalScale = (size: number) => (screenHeight / 812) * size; // 812 is the base height
+const scale = (size: number) => (screenWidth / 375) * size;
+const verticalScale = (size: number) => (screenHeight / 812) * size;
 const moderateScale = (size: number, factor = 0.5) =>
   size + (scale(size) - size) * factor;
 

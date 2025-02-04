@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   ScrollView,
   StatusBar,
   Text,
@@ -20,7 +19,6 @@ import {profile_data} from '../../../../../../../../../../utils/sample-data/prof
 import Clipboard from '@react-native-clipboard/clipboard';
 import Header from '../../../../../../../../../../components/Electricity/Header/Header';
 import Button from '../../../../../../../../../../components/Button/Button';
-import Navigation from '../../../../../../../../../../navigation';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../../../../../../../../utils/redux/store/store';
 import {setShowAlert} from '../../../../../../../../../../utils/redux/slice/profile';

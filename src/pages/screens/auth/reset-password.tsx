@@ -26,12 +26,10 @@ function ResetPassword({navigation}: Props) {
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,
   };
-  // Redux state selectors
   const dispatch = useDispatch();
   const {showModal, resetPassword, resetConfirmPassword} = useSelector(
     (state: RootState) => state.auth,
   );
-  // Validation function
   const handleContinue = () => {
     const passwordRegex =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d])[A-Za-z\d\W_]{8,}$/;

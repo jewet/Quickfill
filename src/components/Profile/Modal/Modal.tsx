@@ -1,22 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {ScrollView, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import CloseIcon from '../../../assets/images/electricity/close_btn.svg';
-import SelectedIcon from '../../../assets/images/electricity/selected-bill.svg';
-import PlusIcon from '../../../assets/images/profile/tabler_plus.svg';
-import LocationIcon from '../../../assets/images/profile/tabler_location-pin.svg';
-import HomeIcon from '../../../assets/images/profile/tabler_home.svg';
-import WorkIcon from '../../../assets/images/profile/tabler_briefcase.svg';
 import NoteIcon from '../../../assets/images/gas/note.svg';
 import electricityPaymentStyles from '../../../pages/screens/main/home/children/electricity/children/payment/paymentStyles';
-import orderDetailsStyles from '../../../pages/screens/main/orders/children/order-details/orderDetailsStyles';
-import addressStyles from '../../../pages/screens/main/profile/children/address/addressStyles';
 import Button from '../../Button/Button';
 import gasStyles from '../../../pages/screens/main/home/children/gas/gasStyles';
 import homeStyles from '../../../pages/screens/main/home/home-styles';
 import authStyles from '../../../pages/screens/auth/styles/authStyles';
 import authTopStyles from '../../Auth/AuthTopStyles';
-import { primaryColor } from '../../../pages/screens/onboarding/splash/splashstyles';
+import {primaryColor} from '../../../pages/screens/onboarding/splash/splashstyles';
 
 interface Props {
   navigateToConfirm: () => void;
@@ -27,53 +26,47 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const inputRefs = useRef<Array<TextInput | null>>([]);
-    const [countdown, setCountdown] = useState(60);
-    const [isResendEnabled, setIsResendEnabled] = useState(false);
-  
-    // Format countdown as MM:SS
-    const formatTime = (seconds: number): string => {
-      const mins = Math.floor(seconds / 60)
-        .toString()
-        .padStart(2, '0'); // Ensures two digits (e.g., "01")
-      const secs = (seconds % 60).toString().padStart(2, '0'); // Ensures two digits (e.g., "09")
-      return `${mins}:${secs}`;
-    };
-  
-    // Start countdown timer
-    useEffect(() => {
-      if (countdown > 0) {
-        const timer = setInterval(() => {
-          setCountdown(prev => prev - 1);
-        }, 1000);
-        return () => clearInterval(timer);
-      } else {
-        setIsResendEnabled(true);
-      }
-    }, [countdown]);
-  
-    // Resend OTP
-    const handleResendOTP = () => {
-      if (isResendEnabled) {
-        setCountdown(60);
-        setIsResendEnabled(false);
-        // Call function to resend OTP (API request or mock logic)
-        console.log('Resending OTP...');
-      }
-    };
+  const [countdown, setCountdown] = useState(60);
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
 
-  // Handle OTP input change
+  // Format countdown as MM:SS
+  const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  };
+
+  // Start countdown timer
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    } else {
+      setIsResendEnabled(true);
+    }
+  }, [countdown]);
+
+  const handleResendOTP = () => {
+    if (isResendEnabled) {
+      setCountdown(60);
+      setIsResendEnabled(false);
+    }
+  };
+
   const handleOtpChange = (text: string, index: number) => {
     const updatedOtp = [...otp];
     updatedOtp[index] = text;
     setOtp(updatedOtp);
 
-    // Automatically focus the next input
     if (text && index < otp.length - 1) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
-  // Handle backspace to focus previous input
   const handleKeyPress = (event: any, index: number) => {
     if (event.nativeEvent.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
@@ -163,26 +156,26 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
             </Text>
           </View>
           <View style={authStyles.inputCont}>
-          <View style={authStyles.otpContainer}>
-            {otp.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={ref => (inputRefs.current[index] = ref)}
-                style={[
-                  authStyles.otpInput,
-                  digit
-                    ? {borderColor: '#FFC533', backgroundColor: 'white'}
-                    : {borderColor: '#F7F6F2', backgroundColor: '#F7F6F2'},
-                ]}
-                value={digit}
-                onChangeText={text => handleOtpChange(text, index)}
-                onKeyPress={event => handleKeyPress(event, index)}
-                maxLength={1}
-                keyboardType="numeric"
-              />
-            ))}
-          </View>
-            <Button text='Confirm OTP' action={navigateToConfirm} />
+            <View style={authStyles.otpContainer}>
+              {otp.map((digit, index) => (
+                <TextInput
+                  key={index}
+                  ref={ref => (inputRefs.current[index] = ref)}
+                  style={[
+                    authStyles.otpInput,
+                    digit
+                      ? {borderColor: '#FFC533', backgroundColor: 'white'}
+                      : {borderColor: '#F7F6F2', backgroundColor: '#F7F6F2'},
+                  ]}
+                  value={digit}
+                  onChangeText={text => handleOtpChange(text, index)}
+                  onKeyPress={event => handleKeyPress(event, index)}
+                  maxLength={1}
+                  keyboardType="numeric"
+                />
+              ))}
+            </View>
+            <Button text="Confirm OTP" action={navigateToConfirm} />
 
             <View
               style={{
@@ -204,7 +197,7 @@ function DeleteProfileModal({navigateToConfirm, closeModal}: Props) {
                 </Text>
               )}
             </View>
-        </View>
+          </View>
         </View>
       )}
     </SafeAreaView>

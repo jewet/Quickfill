@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React from 'react';
 import {
-  Animated,
   ScrollView,
   StatusBar,
   Text,
@@ -19,10 +18,7 @@ import Header from '../../../../components/Accessories/Header';
 import DropDown from '../../../../assets/images/home/dropdown.svg';
 import electricityProviderStyles from '../home/children/electricity/children/electricity-provider/electricityProviderStyles';
 import SearchIcon from '../../../../assets/images/accessories/tabler_search.svg';
-import {
-  accessories_data,
-  imageMap,
-} from '../../../../utils/sample-data/accessories';
+import {imageMap} from '../../../../utils/sample-data/accessories';
 import ArrowRight from '../../../../assets/images/accessories/tabler_chevron-right.svg';
 import orderDetailsStyles from '../orders/children/order-details/orderDetailsStyles';
 import AddressModal from '../../../../components/AddressModal/AddressModal';
@@ -39,7 +35,6 @@ import {
 type Props = StackScreenProps<RootStackParamList, 'accessories'>;
 
 function Accessories({navigation}: Props) {
-  // Determine if the app is in dark mode
   const isDarkMode = useColorScheme() === 'dark';
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.light,

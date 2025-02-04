@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParamList} from '../../../../../../../../utils/nav-routes/types';
 import {RouteProp, useRoute} from '@react-navigation/native';
@@ -29,9 +29,11 @@ import {RootState} from '../../../../../../../../utils/redux/store/store';
 import {
   setCustomReason,
   setSelectedReason,
+  setShowAlert,
   setUploadedImage,
 } from '../../../../../../../../utils/redux/slice/orders';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AlertModal from '../../../../../../../../components/Alert/Alert';
 
 type Props = StackScreenProps<RootStackParamList, 'report'>;
 
@@ -44,10 +46,9 @@ function Report({navigation}: Props) {
   const {orderDetails, target} = route.params;
 
   const dispatch = useDispatch();
-  const {selectedReason, customReason, uploadedImage} = useSelector(
+  const {selectedReason, customReason, uploadedImage, showAlert} = useSelector(
     (state: RootState) => state.orders,
   );
-  console.log('Order details-report: ', orderDetails);
 
   const uploadImage = () => {
     launchImageLibrary(
@@ -204,7 +205,7 @@ function Report({navigation}: Props) {
                 const reportReason =
                   selectedReason === 'Other' ? customReason : selectedReason;
                 if (!reportReason) {
-                  Alert.alert('Please select or specify a reason.');
+                  dispatch(setShowAlert(true))
                   return;
                 }
                 navigation.replace('report-result', {
@@ -217,6 +218,14 @@ function Report({navigation}: Props) {
           </View>
         </View>
       </ScrollView>
+      {showAlert && (
+        <AlertModal
+          topText="Notice"
+          bottomText="Please select or specify a reason."
+          closeModal={() => dispatch(setShowAlert(false))}
+          ok={true}
+        />
+      )}
     </SafeAreaView>
   );
 }

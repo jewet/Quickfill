@@ -1,6 +1,5 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import electricityProviderStyles from '../../../pages/screens/main/home/children/electricity/children/electricity-provider/electricityProviderStyles';
 import electricityStyles from '../../../pages/screens/main/home/children/electricity/electrictyStyles';
 import BackArrow from '../../../assets/images/auth/tabler_arrow-right.svg';
 import BlackHistoryIcon from '../../../assets/images/electricity/tabler_history.svg';
