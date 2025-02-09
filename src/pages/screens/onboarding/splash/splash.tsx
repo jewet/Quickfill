@@ -114,9 +114,6 @@ function Splash({navigation}: Props) {
             <LogoText width={144} height={32} fill="none" />
             <Text style={splashStyles.text}>Everything energy in one place</Text>
           </Animated.View>
-            {/* <TouchableOpacity style={splashStyles.nextContainer} onPress={()=>navigation.replace('second-onboarding')}>
-            <Next width={28} height={28} fill="none" />
-            </TouchableOpacity> */}
         </View>
       </View>
     </SafeAreaView>
